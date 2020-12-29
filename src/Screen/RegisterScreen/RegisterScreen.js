@@ -6,7 +6,7 @@ import {
     heightPercentageToDP as hp,
     widthPercentageToDP as wp,
 } from 'react-native-responsive-screen'
-import { FontAwesome5, AntDesign, Fontisto } from '@expo/vector-icons';
+// import { FontAwesome5, AntDesign, Fontisto } from '@expo/vector-icons';
 
 
 
@@ -107,7 +107,7 @@ class RegisterScreen extends Component {
                     </View>
 
                     <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-                        <TouchableOpacity style={styles.sineBtn} onPress={() => { this.props.navigation.navigate('HomeScreen') }} >
+                        <TouchableOpacity style={styles.sineBtn} onPress={() => { this.props.navigation.navigate('TabNavigation') }} >
                             <Text style={styles.sineText}>Sign Up</Text>
 
                         </TouchableOpacity>
