@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TextInput, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, ScrollView, ImageBackground, TouchableOpacity } from 'react-native';
 
 import {
     heightPercentageToDP as hp,
@@ -29,50 +29,52 @@ class ForgotPassword extends Component {
                 {/* <View style={{ marginTop: hp('2%'), justifyContent: 'center', alignItems: 'center' }} >
                     <MaterialCommunityIcons name="shield-key-outline" size={60} color="#000000" style={{ paddingLeft: hp('3%') }} />
                 </View> */}
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={styles.inputview} >
+                <ScrollView
+                    Vertical={true}
+                    showsVerticalScrollIndicator={false}
+                >
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={styles.inputview} >
 
-                        <TextInput
-                            style={styles.TextInput}
-                            placeholder="Password"
-                            type='clear'
-                            placeholderTextColor="#ABAFB3"
-                            secureTextEntry={true}
-                            returnKeyType="done"
+                            <TextInput
+                                style={styles.TextInput}
+                                placeholder="Password"
+                                type='clear'
+                                placeholderTextColor="#ABAFB3"
+                                secureTextEntry={true}
+                                returnKeyType="done"
+                                keyboardType="numeric"
+                            // onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
+                            />
+                        </View>
+                        <View style={styles.inputview} >
 
-                        // keyboardType="numeric"
-                        // onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
-                        />
+                            <TextInput
+                                style={styles.TextInput}
+                                placeholder="Confrim Password"
+                                type='clear'
+                                placeholderTextColor="#ABAFB3"
+                                secureTextEntry={true}
+                                returnKeyType="done"
+                                keyboardType="numeric"
+                            // onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
+                            />
+                        </View>
+
                     </View>
-                    <View style={styles.inputview} >
+                    <View style={{ marginTop: hp('1%'), flexDirection: 'row', marginRight: hp('7%'), alignItems: 'flex-end', justifyContent: 'flex-end' }} >
+                        <Text style={styles.innerText}> Back to </Text>
+                        <TouchableOpacity onPress={() => { this.props.navigation.navigate('LoginScreen') }} >
+                            <Text style={styles.baseText}>Login</Text>
+                        </TouchableOpacity>
 
-                        <TextInput
-                            style={styles.TextInput}
-                            placeholder="Confrim Password"
-                            type='clear'
-                            placeholderTextColor="#ABAFB3"
-                            secureTextEntry={true}
-                            returnKeyType="done"
-
-                        // keyboardType="numeric"
-                        // onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
-                        />
                     </View>
-
-                </View>
-                <View style={{ marginTop: hp('1%'), flexDirection: 'row', marginRight: hp('7%'), alignItems: 'flex-end', justifyContent: 'flex-end' }} >
-                    <Text style={styles.innerText}> Back to </Text>
-                    <TouchableOpacity onPress={() => { this.props.navigation.navigate('LoginScreen') }} >
-                        <Text style={styles.baseText}>Login</Text>
-                    </TouchableOpacity>
-
-                </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity style={styles.forBtn} onPress={() => { }}>
-                        <Text style={styles.forText}>Save</Text>
-                    </TouchableOpacity>
-                </View>
-
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <TouchableOpacity style={styles.forBtn} onPress={() => { }}>
+                            <Text style={styles.forText}>Save</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
             </View>
             // </ImageBackground>
         );

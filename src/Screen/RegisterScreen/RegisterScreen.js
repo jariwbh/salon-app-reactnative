@@ -28,7 +28,10 @@ class RegisterScreen extends Component {
                 <View style={styles.sineupview}>
                     <Text style={{ fontSize: hp('4%'), }}>Create Account </Text>
                 </View>
-                <ScrollView>
+                <ScrollView
+                    Vertical={true}
+                    showsVerticalScrollIndicator={false}
+                >
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         <View style={styles.inputview}>
                             <TextInput
@@ -85,7 +88,7 @@ class RegisterScreen extends Component {
                                 placeholderTextColor="#ABAFB3"
                                 secureTextEntry={true}
                                 returnKeyType="done"
-
+                                keyboardType="numeric"
                             // keyboardType="numeric"
                             // onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
                             />
@@ -99,7 +102,7 @@ class RegisterScreen extends Component {
                                 placeholderTextColor="#ABAFB3"
                                 secureTextEntry={true}
                                 returnKeyType="done"
-
+                                keyboardType="numeric"
                             // keyboardType="numeric"
                             // onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
                             />
