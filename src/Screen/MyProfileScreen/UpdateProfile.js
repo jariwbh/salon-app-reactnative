@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: hp('4%'),
-        color: "#000000",
+        color: "#737373",
         fontWeight: 'bold',
         textTransform: 'capitalize'
     },
