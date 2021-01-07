@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, Image, ScrollView } from 'react-native';
-import {
-    heightPercentageToDP as hp,
-    widthPercentageToDP as wp,
-} from 'react-native-responsive-screen'
+import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 

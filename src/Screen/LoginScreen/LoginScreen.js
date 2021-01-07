@@ -2,10 +2,10 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, ImageBackground, TextInput, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import {
-    heightPercentageToDP as hp,
-    widthPercentageToDP as wp,
-} from 'react-native-responsive-screen'
+import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
+// import AsyncStorage from '@react-native-community/async-storage';
+// import appConfig from '../../Helpers/appConfig'
+//import { LoginService } from "../../Services/LoginService/LoginService"
 
 
 export default class LoginScreen extends Component {

@@ -2,10 +2,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, TextInput, } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import {
-    heightPercentageToDP as hp,
-    widthPercentageToDP as wp,
-} from 'react-native-responsive-screen'
+import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
+// import { RegisterService } from '../../Services/RegisterService/RegisterService';
 // import { FontAwesome5, AntDesign, Fontisto } from '@expo/vector-icons';
 
 
