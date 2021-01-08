@@ -1,20 +1,44 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import {
-    heightPercentageToDP as hp,
-    widthPercentageToDP as wp,
-} from 'react-native-responsive-screen'
+import { View, Text, TextInput, FlatList, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Rating } from 'react-native-elements';
+import { AppointmentListService } from '../../Services/CategoryService/CategoryService'
 
 export default class AppointmentScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            AppointmentList: []
         };
     }
+    getAppointmentList() {
+        AppointmentListService().then(response => {
+            //   console.log({ AppointmentList: response });
+            this.setState({ AppointmentList: response })
+
+        })
+    }
+    componentDidMount() {
+        this.getAppointmentList();
+    }
+
+    renderAppointmentList = ({ item }) => (
+        <View style={styles.listview}>
+            <TouchableOpacity style={{ marginTop: hp('2%'), marginLeft: hp('1%'), }} onPress={() => { this.props.navigation.navigate('AppointmentBooking') }}>
+                <Image source={{ uri: (item.gallery[0] ? item.gallery[0].attachment : 'https://www.icon0.com/static2/preview2/stock-photo-photo-icon-illustration-design-70325.jpg') }} style={{ borderRadius: hp('7%'), width: wp('27%'), height: hp('15%'), }}
+                />
+            </TouchableOpacity>
+            <TouchableOpacity style={{ marginTop: hp('6%'), marginLeft: hp('1%'), flex: 0.9 }}>
+                <Text style={{ fontSize: hp('3%'), color: '#212121' }}>{item.title}</Text>
+                <Text style={{ fontSize: hp('2%'), color: '#313131' }}>₹ {item.charges}</Text>
+
+            </TouchableOpacity>
+        </View>
+    )
 
     render() {
+        const { AppointmentList } = this.state
         return (
             <View style={styles.container}>
                 <View style={styles.statusbar}>
@@ -32,86 +56,11 @@ export default class AppointmentScreen extends Component {
                     showsVerticalScrollIndicator={false}
                 >
                     <View style={{ flexDirection: 'column', marginBottom: hp('5%'), flex: 1 }}>
-                        <View style={styles.listview}>
-                            <TouchableOpacity style={{ marginTop: hp('2%'), marginLeft: hp('1%'), }} onPress={() => { this.props.navigation.navigate('AppointmentBooking') }}>
-                                <Image source={require('../../../assets/image/Layer51.png')} style={{ borderRadius: hp('7%'), width: wp('27%'), height: hp('15%'), }}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{ marginTop: hp('6%'), marginLeft: hp('1%'), flex: 0.9 }}>
-                                <Text style={{ fontSize: hp('2%'), color: '#212121' }}>Body Massage</Text>
-                                <Text style={{ fontSize: hp('2%'), color: '#212121' }}>Jason Garcia</Text>
-                                <Rating
-                                    imageSize={20}
-                                    startingValue={3.5}
-                                    style={{}}
-                                />
-                            </TouchableOpacity>
-                            {/* <Image source={require('../../../assets/image/badges1.png')} style={{ marginTop: hp('8%'), }} /> */}
-                        </View>
-                        <View style={styles.listview}>
-                            <TouchableOpacity style={{ marginTop: hp('2%'), marginLeft: hp('1%'), }}>
-                                <Image source={require('../../../assets/image/Layer52.png')} style={{ borderRadius: hp('7%'), width: wp('27%'), height: hp('15%'), }}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{ marginTop: hp('6%'), marginLeft: hp('1%'), flex: 0.9 }}>
-                                <Text style={{ fontSize: hp('2%'), color: '#212121' }}>Prince hair cut</Text>
-                                <Text style={{ fontSize: hp('2%'), color: '#212121' }}>Jason Garcia</Text>
-                                <Rating
-                                    imageSize={20}
-                                    startingValue={3.5}
-                                    style={{}}
-                                />
-                            </TouchableOpacity>
-                            {/* <Image source={require('../../../assets/image/badges1.png')} style={{ marginTop: hp('8%'), }} /> */}
-                        </View>
-                        <View style={styles.listview}>
-                            <TouchableOpacity style={{ marginTop: hp('2%'), marginLeft: hp('1%'), }}>
-                                <Image source={require('../../../assets/image/Layer53.png')} style={{ borderRadius: hp('7%'), width: wp('27%'), height: hp('15%'), }}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{ marginTop: hp('6%'), marginLeft: hp('1%'), flex: 0.9 }}>
-                                <Text style={{ fontSize: hp('2%'), color: '#212121' }}>Week Gym</Text>
-                                <Text style={{ fontSize: hp('2%'), color: '#212121' }}>Jason Garcia</Text>
-                                <Rating
-                                    imageSize={20}
-                                    startingValue={3.5}
-                                    style={{}}
-                                />
-                            </TouchableOpacity>
-                            {/* <Image source={require('../../../assets/image/badges1.png')} style={{ marginTop: hp('8%'), }} /> */}
-                        </View>
-                        <View style={styles.listview}>
-                            <TouchableOpacity style={{ marginTop: hp('2%'), marginLeft: hp('1%'), }}>
-                                <Image source={require('../../../assets/image/Layer54.png')} style={{ borderRadius: hp('7%'), width: wp('27%'), height: hp('15%'), }}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{ marginTop: hp('6%'), marginLeft: hp('1%'), flex: 0.9 }}>
-                                <Text style={{ fontSize: hp('2%'), color: '#212121', }}>Hair and Makeup</Text>
-                                <Text style={{ fontSize: hp('2%'), color: '#212121' }}>Jason Garcia</Text>
-                                <Rating
-                                    imageSize={20}
-                                    startingValue={3.5}
-                                    style={{}}
-                                />
-                            </TouchableOpacity>
-                            {/* <Image source={require('../../../assets/image/badges1.png')} style={{ marginTop: hp('8%'), }} /> */}
-                        </View>
-                        <View style={styles.listview}>
-                            <TouchableOpacity style={{ marginTop: hp('2%'), marginLeft: hp('1%'), }}>
-                                <Image source={require('../../../assets/image/Layer55.png')} style={{ borderRadius: hp('7%'), width: wp('27%'), height: hp('15%'), }}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{ marginTop: hp('6%'), marginLeft: hp('1%'), flex: 0.9 }}>
-                                <Text style={{ fontSize: hp('2%'), color: '#212121' }}>Natural Facial</Text>
-                                <Text style={{ fontSize: hp('2%'), color: '#212121' }}>Jason Garcia</Text>
-                                <Rating
-                                    imageSize={20}
-                                    startingValue={3.5}
-                                    style={{}}
-                                />
-                            </TouchableOpacity>
-                            {/* <Image source={require('../../../assets/image/badges1.png')} style={{ marginTop: hp('8%'), }} /> */}
-                        </View>
+                        <FlatList
+                            data={AppointmentList}
+                            renderItem={this.renderAppointmentList}
+                            keyExtractor={item => `${item._id}`}
+                        />
                     </View>
                 </ScrollView>
             </View>
@@ -122,7 +71,7 @@ export default class AppointmentScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // backgroundColor: "#fff",
+        backgroundColor: "#fff",
     },
     statusbar: {
 
@@ -140,7 +89,8 @@ const styles = StyleSheet.create({
         height: hp('6.5%'),
         marginLeft: hp('2.5%'),
         alignItems: "center",
-        justifyContent: 'center'
+        justifyContent: 'center',
+
 
     },
     statInput: {
@@ -165,6 +115,7 @@ const styles = StyleSheet.create({
         height: hp('20%'),
         marginLeft: hp('2.5%'),
         justifyContent: 'space-around',
+
 
     },
 })

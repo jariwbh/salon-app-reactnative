@@ -28,71 +28,27 @@ export default class AppointmentBooking extends Component {
                     />
                     <FontAwesome5 name="search" size={24} color='#000000' style={{ alignItems: "flex-end", justifyContent: 'flex-end', marginRight: hp('2%') }} />
                 </View>
-                <View style={{ marginTop: hp('3%'), justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ marginTop: hp('3%'), justifyContent: 'center', alignItems: 'center', marginBottom: hp('7%'), }}>
                     <Image source={require('../../../assets/image/Layer51.png')} style={{ width: wp('90%'), height: hp('40%'), }}
                     />
                 </View>
-                <View style={{ flexDirection: 'row', }}>
-                    <ScrollView
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                    >
-                        <View style={{ flexDirection: 'column' }}>
-                            <TouchableOpacity style={styles.sliderview} >
-                                <Image source={require('../../../assets/image/Shape1.png')} style={{ alignItems: 'center', height: hp('7%'), width: wp('12%'), marginTop: hp('1%') }}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ fontSize: hp('2%'), color: '#43434C' }}>Massage</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={{ flexDirection: 'column' }}>
-                            <TouchableOpacity style={styles.sliderview} >
-                                <Image source={require('../../../assets/image/Shape2.png')} style={{ alignItems: 'center', height: hp('7%'), width: wp('12%'), marginTop: hp('1.5%') }}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ fontSize: hp('2%'), color: '#43434C' }}>Hair Cut</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={{ flexDirection: 'column' }}>
-                            <TouchableOpacity style={styles.sliderview} >
-                                <Image source={require('../../../assets/image/Shape3.png')} style={{ alignItems: 'center', height: hp('7%'), width: wp('12%'), marginTop: hp('2%') }}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ fontSize: hp('2%'), color: '#43434C' }}>Gym</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={{ flexDirection: 'column' }}>
-                            <TouchableOpacity style={styles.sliderview}>
-                                <Image source={require('../../../assets/image/Shape4.png')} style={{ alignItems: 'center', height: hp('7%'), width: wp('12%'), marginTop: hp('2%') }}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ fontSize: hp('2%'), color: '#43434C' }}>Tatoo</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={{ flexDirection: 'column' }}>
-                            <TouchableOpacity style={styles.sliderview} >
-                                <Image source={require('../../../assets/image/Shape5.png')} style={{ alignItems: 'center', height: hp('7%'), width: wp('12%'), marginTop: hp('2%') }}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ fontSize: hp('2%'), color: '#43434C' }}>Facial</Text>
-                            </TouchableOpacity>
-                        </View>
-
-                    </ScrollView>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: hp('-5%') }}>
+                    <Text style={{ fontSize: hp('3%'), }}>Body Massage</Text>
+                    <Text style={{ fontSize: hp('3%'), }}>₹ 79 </Text>
                 </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('2%'), }}>
+                    <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
+                    <View>
+                        <Text style={{ width: wp('25%'), textAlign: 'center', fontSize: hp('3%'), color: '#FEBC42' }}>Details</Text>
+                    </View>
+                    <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
+                </View>
+                <View style={{ justifyContent: 'center', alignItems: 'center', }}>
                     <TouchableOpacity style={styles.book} onPress={() => { this.props.navigation.navigate('AppointmentsBooked') }}>
                         <FontAwesome5 name="check-circle" size={24} color='#FFFFFF' style={{ margin: hp('1%'), }} />
                         <Text style={{ fontSize: hp('3%'), color: '#FFFFFF' }}>Book Now</Text>
                     </TouchableOpacity>
                 </View>
-
-
             </View>
         );
     }
@@ -101,10 +57,9 @@ export default class AppointmentBooking extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // backgroundColor: "#fff",
+        backgroundColor: "#fff",
     },
     statusbar: {
-
         flexDirection: 'row',
         backgroundColor: "#fff",
         shadowOpacity: 0.5,
@@ -128,20 +83,10 @@ const styles = StyleSheet.create({
         padding: hp('2%'),
         alignItems: "center",
     },
-    sliderview: {
-        borderRadius: hp('10'),
-        borderColor: '#43434C',
-        borderWidth: hp('0.1%'),
-        marginTop: hp('3%'),
-        width: wp('21%'),
-        height: hp('11%'),
-        margin: hp('1%'),
-        alignItems: "center",
-    },
     book: {
         flexDirection: 'row',
         backgroundColor: "#FEBC42",
-        marginTop: hp('10%'),
+        marginTop: hp('15%'),
         width: wp('60%'),
         height: hp('6.5%'),
         alignItems: "center",

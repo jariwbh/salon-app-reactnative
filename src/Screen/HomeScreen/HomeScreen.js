@@ -1,17 +1,43 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TextInput, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TextInput, Image, ScrollView } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { CategoryService } from '../../Services/CategoryService/CategoryService';
+
+
 
 class HomeScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            CategoryList: []
         };
     }
+    getCategoryList() {
+        CategoryService().then(response => {
+            this.setState({ CategoryList: response })
 
+        })
+    }
+    componentDidMount() {
+        this.getCategoryList();
+    }
+    renderCategoryList = ({ item }) => (
+
+        <View style={{ flexDirection: 'column' }}>
+            <TouchableOpacity style={styles.sliderview} onPress={() => { this.props.navigation.navigate('AppointmentScreen', { item }) }}>
+                <Image source={{ uri: (item.property.img[0] ? item.property.img[0].attachment : 'https://www.icon0.com/static2/preview2/stock-photo-photo-icon-illustration-design-70325.jpg') }} style={{ alignItems: 'center', height: hp('7%'), width: wp('12%'), marginTop: hp('1%') }}
+                />
+            </TouchableOpacity>
+            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ fontSize: hp('2%'), color: '#43434C' }}>{item.property.name}</Text>
+            </TouchableOpacity>
+        </View>
+
+    )
     render() {
+        const { CategoryList } = this.state
         return (
             <View style={styles.container}>
                 <View style={styles.statusbar}>
@@ -33,52 +59,13 @@ class HomeScreen extends Component {
                             horizontal={true}
                             showsHorizontalScrollIndicator={false}
                         >
-                            <View style={{ flexDirection: 'column' }}>
-                                <TouchableOpacity style={styles.slider} onPress={() => { this.props.navigation.navigate('AppointmentScreen') }}>
-                                    <Image source={require('../../../assets/image/Shape1.png')} style={{ alignItems: 'center', height: hp('7%'), width: wp('12%'), marginTop: hp('1%') }}
-                                    />
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                    <Text style={{ fontSize: hp('2%'), color: '#43434C' }}>Massage</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{ flexDirection: 'column' }}>
-                                <TouchableOpacity style={styles.sliderview} >
-                                    <Image source={require('../../../assets/image/Shape2.png')} style={{ alignItems: 'center', height: hp('7%'), width: wp('12%'), marginTop: hp('1.5%') }}
-                                    />
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                    <Text style={{ fontSize: hp('2%'), color: '#43434C' }}>Hair Cut</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{ flexDirection: 'column' }}>
-                                <TouchableOpacity style={styles.sliderview} >
-                                    <Image source={require('../../../assets/image/Shape3.png')} style={{ alignItems: 'center', height: hp('7%'), width: wp('12%'), marginTop: hp('2%') }}
-                                    />
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                    <Text style={{ fontSize: hp('2%'), color: '#43434C' }}>Gym</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{ flexDirection: 'column' }}>
-                                <TouchableOpacity style={styles.sliderview}>
-                                    <Image source={require('../../../assets/image/Shape4.png')} style={{ alignItems: 'center', height: hp('7%'), width: wp('12%'), marginTop: hp('2%') }}
-                                    />
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                    <Text style={{ fontSize: hp('2%'), color: '#43434C' }}>Tatoo</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{ flexDirection: 'column' }}>
-                                <TouchableOpacity style={styles.sliderview} >
-                                    <Image source={require('../../../assets/image/Shape5.png')} style={{ alignItems: 'center', height: hp('7%'), width: wp('12%'), marginTop: hp('2%') }}
-                                    />
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                    <Text style={{ fontSize: hp('2%'), color: '#43434C' }}>Facial</Text>
-                                </TouchableOpacity>
-                            </View>
-
+                            <FlatList
+                                style={{ flexDirection: 'column' }}
+                                numColumns={10000}
+                                data={CategoryList}
+                                renderItem={this.renderCategoryList}
+                                keyExtractor={item => `${item._id}`}
+                            />
                         </ScrollView>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('2%'), }}>
@@ -207,6 +194,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     sliderview: {
+
         borderRadius: hp('10'),
         borderColor: '#43434C',
         borderWidth: hp('0.1%'),
