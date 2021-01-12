@@ -3,7 +3,8 @@ import { View, Text, StyleSheet, FlatList, TextInput, Image, ScrollView } from '
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { CategoryService } from '../../Services/CategoryService/CategoryService';
+import { CategoryService, AppointmentListService, } from '../../Services/CategoryService/CategoryService';
+import { staffService } from '../../Services/UserService/UserService';
 
 
 
@@ -11,7 +12,10 @@ class HomeScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            CategoryList: []
+            CategoryList: [],
+            AppointmentList: [],
+            staffList: []
+
         };
     }
     getCategoryList() {
@@ -20,9 +24,26 @@ class HomeScreen extends Component {
 
         })
     }
+    getAppointmentList() {
+        AppointmentListService().then(response => {
+            this.setState({ AppointmentList: response })
+
+        })
+    }
+
+    getstaffList() {
+        staffService().then(response => {
+            this.setState({ staffList: response })
+
+        })
+    }
+
     componentDidMount() {
         this.getCategoryList();
+        this.getAppointmentList();
+        this.getstaffList();
     }
+
     renderCategoryList = ({ item }) => (
 
         <View style={{ flexDirection: 'column' }}>
@@ -34,10 +55,36 @@ class HomeScreen extends Component {
                 <Text style={{ fontSize: hp('2%'), color: '#43434C' }}>{item.property.name}</Text>
             </TouchableOpacity>
         </View>
-
     )
+
+    renderAppointmentList = ({ item }) => (
+        < View style={{ flexDirection: 'column', flex: 1 }}>
+            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => this.props.navigation.navigate('AppointmentBooking', { item })}>
+                <Image source={{ uri: (item.gallery[0] ? item.gallery[0].attachment : 'https://www.icon0.com/static2/preview2/stock-photo-photo-icon-illustration-design-70325.jpg') }} style={{ alignItems: 'center', height: hp('25%'), width: wp('65%'), marginTop: hp('2%'), borderRadius: hp('2%') }}
+                />
+            </TouchableOpacity>
+            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
+                <Text style={{ fontSize: hp('3%'), color: '#313131' }}>{item.title}</Text>
+                <Text style={{ fontSize: hp('3%'), color: '#313131' }}>₹ {item.charges}</Text>
+            </View>
+        </View >
+    )
+
+    renderstaffList = ({ item }) => (
+        <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
+            <TouchableOpacity style={{ margin: hp('2%') }}>
+                <Image source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
+                    style={{ alignItems: 'center', height: hp('15%'), width: wp('30%'), marginTop: hp('2%'), borderRadius: hp('20%'), borderColor: '#FFFFFF', borderWidth: hp('1%') }}
+                />
+            </TouchableOpacity>
+            <View>
+                <Text style={{ flex: 1, fontSize: hp('3%'), color: '#FEBC42', textAlign: 'center' }}>{item.property.fullname}</Text>
+            </View>
+        </View>
+    )
+
     render() {
-        const { CategoryList } = this.state
+        const { CategoryList, AppointmentList, staffList } = this.state
         return (
             <View style={styles.container}>
                 <View style={styles.statusbar}>
@@ -80,32 +127,19 @@ class HomeScreen extends Component {
                             horizontal={true}
                             showsHorizontalScrollIndicator={false}
                         >
-                            <View style={{ flexDirection: 'column', flex: 1 }}>
-                                <TouchableOpacity style={{ margin: hp('2%') }}>
-                                    <Image source={require('../../../assets/image/Layer1.png')} style={{ alignItems: 'center', height: hp('25%'), width: wp('65%'), marginTop: hp('2%'), borderRadius: hp('2%') }}
-                                    />
-                                </TouchableOpacity>
-                                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
-                                    <Text style={{ fontSize: hp('3%'), color: '#313131' }}>Frankie Barber</Text>
-                                    <Text style={{ fontSize: hp('3%'), color: '#313131' }}>$ 20</Text>
-                                </View>
-                            </View>
-                            <View style={{ flexDirection: 'column' }}>
-                                <TouchableOpacity style={{ margin: hp('2%') }}>
-                                    <Image source={require('../../../assets/image/Layer2.png')} style={{ alignItems: 'center', height: hp('25%'), width: wp('65%'), marginTop: hp('2%'), borderRadius: hp('2%') }}
-                                    />
-                                </TouchableOpacity>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                                    <Text style={{ fontSize: hp('3%'), color: '#313131' }}>Frankie Barber</Text>
-                                    <Text style={{ fontSize: hp('3%'), color: '#313131' }}>$ 20</Text>
-                                </View>
-                            </View>
+                            <FlatList
+                                style={{ flexDirection: 'row' }}
+                                numColumns={10000}
+                                data={AppointmentList}
+                                renderItem={this.renderAppointmentList}
+                                keyExtractor={item => `${item._id}`}
+                            />
                         </ScrollView>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('2%'), }}>
                         <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
                         <View>
-                            <Text style={{ width: wp('34%'), textAlign: 'center', fontSize: hp('3%'), color: '#FEBC42' }}>Professiona</Text>
+                            <Text style={{ width: wp('34%'), textAlign: 'center', fontSize: hp('3%'), color: '#FEBC42' }}>Professionals</Text>
                         </View>
                         <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
                     </View>
@@ -114,36 +148,13 @@ class HomeScreen extends Component {
                             horizontal={true}
                             showsHorizontalScrollIndicator={false}
                         >
-                            <View style={{ flexDirection: 'column' }}>
-                                <TouchableOpacity style={{ margin: hp('2%') }}>
-                                    <Image source={require('../../../assets/image/Lay3.png')} style={{ alignItems: 'center', height: hp('15%'), width: wp('30%'), marginTop: hp('2%'), borderRadius: hp('20%'), borderColor: '#FFFFFF', borderWidth: hp('1%') }}
-                                    />
-                                </TouchableOpacity>
-                                <View style={{}}>
-                                    <Text style={{ flex: 1, fontSize: hp('3%'), color: '#FEBC42', textAlign: 'center' }}>Tony Lopez</Text>
-
-                                </View>
-                            </View>
-                            <View style={{ flexDirection: 'column' }}>
-                                <TouchableOpacity style={{ margin: hp('2%') }}>
-                                    <Image source={require('../../../assets/image/Lay1.png')} style={{ alignItems: 'center', height: hp('15%'), width: wp('30%'), marginTop: hp('2%'), borderRadius: hp('20%'), borderColor: '#FFFFFF', borderWidth: hp('1%') }}
-                                    />
-                                </TouchableOpacity>
-                                <View >
-                                    <Text style={{ flex: 1, fontSize: hp('3%'), color: '#FEBC42', textAlign: 'center' }}>Alonso Justin </Text>
-
-                                </View>
-                            </View>
-                            <View style={{ flexDirection: 'column' }}>
-                                <TouchableOpacity style={{ margin: hp('2%') }}>
-                                    <Image source={require('../../../assets/image/Lay2.png')} style={{ alignItems: 'center', height: hp('15%'), width: wp('30%'), marginTop: hp('2%'), borderRadius: hp('20%'), borderColor: '#FFFFFF', borderWidth: hp('1%') }}
-                                    />
-                                </TouchableOpacity>
-                                <View >
-                                    <Text style={{ flex: 1, fontSize: hp('3%'), color: '#FEBC42', textAlign: 'center' }}>Jason Garcia</Text>
-
-                                </View>
-                            </View>
+                            <FlatList
+                                style={{ flexDirection: 'row' }}
+                                numColumns={10000}
+                                data={staffList}
+                                renderItem={this.renderstaffList}
+                                keyExtractor={item => `${item._id}`}
+                            />
                         </ScrollView>
                     </View>
                 </ScrollView>
@@ -157,7 +168,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // backgroundColor: "#fff",
+        backgroundColor: "#fff",
     },
     statusbar: {
 

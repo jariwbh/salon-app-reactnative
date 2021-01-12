@@ -3,10 +3,8 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, TextInput, } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
-// import { RegisterService } from '../../Services/RegisterService/RegisterService';
-// import { FontAwesome5, AntDesign, Fontisto } from '@expo/vector-icons';
-
-
+import { RegisterService } from '../../Services/RegisterService/RegisterService';
+import Loader from '../../Components/Loader';
 
 
 
@@ -14,115 +12,148 @@ class RegisterScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: ''
-        };
+            fullname: null,
+            fullnameError: null,
+            username: null,
+            usernameError: null,
+            mobilenumber: null,
+            mobilenumberError: null,
+            loading: false,
+
+        }
+        this.setFullName = this.setFullName.bind(this);
+        this.setUserName = this.setUserName.bind(this);
+        this.setMobileNumber = this.setMobileNumber.bind(this);
+        this.onPressSubmit = this.onPressSubmit.bind(this);
+    }
+    setFullName(fullname) {
+        if (!fullname || fullname.length <= 0) {
+            return this.setState({ fullnameError: 'User Name cannot be empty' });
+        }
+        return this.setState({ fullname: fullname, fullnameError: null })
+    }
+
+    setUserName(email) {
+        const re = /\S+@\S+\.\S+/;
+        if (!email || email.length <= 0) {
+            return this.setState({ usernameError: 'Email Id can not be empty' });
+        }
+        if (!re.test(email)) {
+
+            return this.setState({ usernameError: 'Ooops! We need a valid email address' });
+        }
+        return this.setState({ username: email, usernameError: null })
+    }
+
+    setMobileNumber(mobilenumber) {
+        const reg = /^[0]?[789]\d{9}$/;
+        if (!mobilenumber || mobilenumber.length <= 0) {
+            return this.setState({ mobilenumberError: 'Mobile Number cannot be empty' });
+        }
+        if (!reg.test(mobilenumber)) {
+            return this.setState({ mobilenumberError: 'Ooops! We need a valid Mobile Number' });
+        }
+        return this.setState({ mobilenumber: mobilenumber, mobilenumberError: null })
+    }
+    onPressSubmit = async () => {
+        const { fullname, username, mobilenumber } = this.state;
+        if (!fullname || !username || !mobilenumber) {
+            this.setFullName(fullname)
+            this.setUserName(username)
+            this.setMobileNumber(mobilenumber)
+            return;
+        }
+        // const body = {
+        //     property: {
+        //         fullname: fullname,
+        //         email: username,
+        //         mobile_number: mobilenumber,
+        //     }
+        // }
+
+        // this.setState({ loading: true })
+        // await RegisterService(body).then(response => {
+        //     if (response != null) {
+        //         ToastAndroid.show("SignUp Success!", ToastAndroid.LONG);
+        this.props.navigation.navigate('LoginScreen')
+        //         this.resetScreen()
+        //     }
+        // })
     }
 
     render() {
         return (
-            //   <ImageBackground source={require('../../../assets/Images/BG.png')} style={styles.backgroundImage}>
             <View style={styles.container}>
-                <View style={styles.sineupview}>
-                    <Text style={{ fontSize: hp('4%'), }}>Create Account </Text>
-                </View>
-                <ScrollView
-                    Vertical={true}
-                    showsVerticalScrollIndicator={false}
-                >
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <View style={styles.inputview}>
-                            <TextInput
-                                style={styles.TextInput}
-                                placeholder="Fist Name"
-                                type='clear'
-                                placeholderTextColor="#ABAFB3"
-                                returnKeyType="next"
-
-                            // onChangeText={(fullname) => this.setFullName(fullname)}
-                            />
-                        </View>
-                        <View style={styles.inputview}>
-                            <TextInput
-                                style={styles.TextInput}
-                                placeholder="Last Name"
-                                type='clear'
-                                placeholderTextColor="#ABAFB3"
-                                returnKeyType="next"
-
-                            // onChangeText={(fullname) => this.setFullName(fullname)}
-                            />
-                        </View>
-                        <View style={styles.inputview}>
-                            <TextInput
-                                style={styles.TextInput}
-                                placeholder="User Name"
-                                type='clear'
-                                placeholderTextColor="#ABAFB3"
-                                returnKeyType="next"
-
-                            // onChangeText={(fullname) => this.setFullName(fullname)}
-                            />
-                        </View>
-                        <View style={styles.inputview}>
-
-                            <TextInput
-                                style={styles.TextInput}
-                                placeholder="Email"
-                                type='clear'
-                                placeholderTextColor="#ABAFB3"
-                                returnKeyType="next"
-
-                            // onChangeText={(email) => this.setEmail(email)}
-                            />
-
-                        </View>
-                        <View style={styles.inputview} >
-
-                            <TextInput
-                                style={styles.TextInput}
-                                placeholder="Password"
-                                type='clear'
-                                placeholderTextColor="#ABAFB3"
-                                secureTextEntry={true}
-                                returnKeyType="done"
-                                keyboardType="numeric"
-                            // keyboardType="numeric"
-                            // onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
-                            />
-                        </View>
-                        <View style={styles.inputview} >
-
-                            <TextInput
-                                style={styles.TextInput}
-                                placeholder="Confrim Password"
-                                type='clear'
-                                placeholderTextColor="#ABAFB3"
-                                secureTextEntry={true}
-                                returnKeyType="done"
-                                keyboardType="numeric"
-                            // keyboardType="numeric"
-                            // onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
-                            />
-                        </View>
+                <ImageBackground source={require('../../../assets/image/background.png')} style={styles.backgroundImage}>
+                    <View style={styles.sineupview}>
+                        <Text style={{ fontSize: hp('4%'), }}>Create Account </Text>
                     </View>
+                    <ScrollView
+                        Vertical={true}
+                        showsVerticalScrollIndicator={false}
+                    >
+                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={styles.inputview}>
+                                <TextInput
+                                    style={styles.TextInput}
+                                    defaultValue={this.state.fullname}
+                                    placeholder="Full Name"
+                                    type='clear'
+                                    placeholderTextColor="#ABAFB3"
+                                    returnKeyType="next"
+                                    onChangeText={(fullname) => this.setFullName(fullname)}
+                                />
+                            </View>
+                            <Text style={{ marginTop: hp('-2.5%'), marginLeft: wp('7%'), color: '#ff0000' }}>{this.state.fullnameError && this.state.fullnameError}</Text>
+                            <View style={styles.inputview}>
+                                <TextInput
+                                    style={styles.TextInput}
+                                    defaultValue={this.state.username}
+                                    placeholder="Email"
+                                    type='clear'
+                                    placeholderTextColor="#ABAFB3"
+                                    returnKeyType="next"
+                                    autoCapitalize="none"
+                                    autoCompleteType="email"
+                                    textContentType="emailAddress"
+                                    keyboardType="email-address"
+                                    onChangeText={(username) => this.setUserName(username)}
+                                />
 
-                    <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-                        <TouchableOpacity style={styles.sineBtn} onPress={() => { this.props.navigation.navigate('TabNavigation') }} >
-                            <Text style={styles.sineText}>Sign Up</Text>
+                            </View>
+                            <Text style={{ marginTop: hp('-2.5%'), marginLeft: wp('7%'), color: '#ff0000' }}>{this.state.usernameError && this.state.usernameError}</Text>
+                            <View style={styles.inputview} >
 
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{ marginTop: hp('5%'), justifyContent: 'center', flexDirection: 'row' }} >
-                        <Text style={styles.innerText}> Don't have an account? </Text>
-                        <TouchableOpacity onPress={() => { this.props.navigation.navigate('LoginScreen') }} >
-                            <Text style={styles.baseText}>Signin</Text>
-                        </TouchableOpacity>
+                                <TextInput
+                                    style={styles.TextInput}
+                                    placeholder="Mobile Number"
+                                    type='clear'
+                                    placeholderTextColor="#ABAFB3"
+                                    secureTextEntry={true}
+                                    returnKeyType="done"
+                                    keyboardType="numeric"
+                                    onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
+                                />
+                            </View>
+                            <Text style={{ marginTop: hp('-2.5%'), marginLeft: wp('7%'), color: '#ff0000' }}>{this.state.mobilenumberError && this.state.mobilenumberError}</Text>
+                        </View>
 
-                    </View>
-                </ScrollView>
+                        <View style={{ justifyContent: 'center', alignItems: 'center', }}>
+                            <TouchableOpacity style={styles.sineBtn} onPress={() => this.onPressSubmit()} >
+                                {this.state.loading === true ? <Loader /> : <Text style={styles.sineText}>Sign Up</Text>}
+
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ marginTop: hp('5%'), justifyContent: 'center', flexDirection: 'row' }} >
+                            <Text style={styles.innerText}> Don't have an account? </Text>
+                            <TouchableOpacity onPress={() => { this.props.navigation.navigate('LoginScreen') }} >
+                                <Text style={styles.baseText}>Signin</Text>
+                            </TouchableOpacity>
+
+                        </View>
+                    </ScrollView>
+                </ImageBackground>
             </View>
-            // </ImageBackground>
 
         );
     }
@@ -137,11 +168,14 @@ const styles = StyleSheet.create({
     },
     backgroundImage: {
         flex: 1,
-        resizeMode: 'cover'
+        resizeMode: 'cover',
+        width: wp('100%'),
+        height: hp('100 %')
     },
     sineupview: {
-        marginLeft: hp('5%'),
-        marginTop: hp('2%'),
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: hp('30%'),
     },
     inputview: {
         flexDirection: 'row',
@@ -174,6 +208,7 @@ const styles = StyleSheet.create({
         height: hp('6%'),
         alignItems: "center",
         justifyContent: "center",
+        marginTop: hp('4%'),
     },
     sineText: {
         color: '#FFFFFF',

@@ -18,65 +18,66 @@ class ForgotPassword extends Component {
 
     render() {
         return (
-            //  <ImageBackground source={require('../../../assets/Images/BG.png')} style={styles.backgroundImage}>
+
             <View style={styles.container}>
-                <View style={styles.forgotview}>
-                    <Text style={{ fontSize: hp('4%'), }}> Forgot Password </Text>
-                </View>
-                <View style={{ marginTop: hp('2%'), marginLeft: hp('7%'), flexDirection: 'row' }} >
-                    <Text style={{ fontSize: hp('2%'), }}>Enter new password below</Text>
-                </View>
-                {/* <View style={{ marginTop: hp('2%'), justifyContent: 'center', alignItems: 'center' }} >
+                <ImageBackground source={require('../../../assets/image/background.png')} style={styles.backgroundImage}>
+                    <View style={styles.forgotview}>
+                        <Text style={{ fontSize: hp('4%'), }}> Forgot Password </Text>
+                    </View>
+                    <View style={{ marginTop: hp('2%'), marginLeft: hp('7%'), flexDirection: 'row' }} >
+                        <Text style={{ fontSize: hp('2%'), }}>Enter new password below</Text>
+                    </View>
+                    {/* <View style={{ marginTop: hp('2%'), justifyContent: 'center', alignItems: 'center' }} >
                     <MaterialCommunityIcons name="shield-key-outline" size={60} color="#000000" style={{ paddingLeft: hp('3%') }} />
                 </View> */}
-                <ScrollView
-                    Vertical={true}
-                    showsVerticalScrollIndicator={false}
-                >
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <View style={styles.inputview} >
+                    <ScrollView
+                        Vertical={true}
+                        showsVerticalScrollIndicator={false}
+                    >
+                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={styles.inputview} >
 
-                            <TextInput
-                                style={styles.TextInput}
-                                placeholder="Password"
-                                type='clear'
-                                placeholderTextColor="#ABAFB3"
-                                secureTextEntry={true}
-                                returnKeyType="done"
-                                keyboardType="numeric"
-                            // onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
-                            />
+                                <TextInput
+                                    style={styles.TextInput}
+                                    placeholder="Password"
+                                    type='clear'
+                                    placeholderTextColor="#ABAFB3"
+                                    secureTextEntry={true}
+                                    returnKeyType="done"
+                                    keyboardType="numeric"
+                                // onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
+                                />
+                            </View>
+                            <View style={styles.inputview} >
+
+                                <TextInput
+                                    style={styles.TextInput}
+                                    placeholder="Confrim Password"
+                                    type='clear'
+                                    placeholderTextColor="#ABAFB3"
+                                    secureTextEntry={true}
+                                    returnKeyType="done"
+                                    keyboardType="numeric"
+                                // onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
+                                />
+                            </View>
+
                         </View>
-                        <View style={styles.inputview} >
+                        <View style={{ marginTop: hp('1%'), flexDirection: 'row', marginRight: hp('7%'), alignItems: 'flex-end', justifyContent: 'flex-end' }} >
+                            <Text style={styles.innerText}> Back to </Text>
+                            <TouchableOpacity onPress={() => { this.props.navigation.navigate('LoginScreen') }} >
+                                <Text style={styles.baseText}>Login</Text>
+                            </TouchableOpacity>
 
-                            <TextInput
-                                style={styles.TextInput}
-                                placeholder="Confrim Password"
-                                type='clear'
-                                placeholderTextColor="#ABAFB3"
-                                secureTextEntry={true}
-                                returnKeyType="done"
-                                keyboardType="numeric"
-                            // onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
-                            />
                         </View>
-
-                    </View>
-                    <View style={{ marginTop: hp('1%'), flexDirection: 'row', marginRight: hp('7%'), alignItems: 'flex-end', justifyContent: 'flex-end' }} >
-                        <Text style={styles.innerText}> Back to </Text>
-                        <TouchableOpacity onPress={() => { this.props.navigation.navigate('LoginScreen') }} >
-                            <Text style={styles.baseText}>Login</Text>
-                        </TouchableOpacity>
-
-                    </View>
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <TouchableOpacity style={styles.forBtn} onPress={() => { }}>
-                            <Text style={styles.forText}>Save</Text>
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
+                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <TouchableOpacity style={styles.forBtn} onPress={() => { }}>
+                                <Text style={styles.forText}>Save</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </ScrollView>
+                </ImageBackground>
             </View>
-            // </ImageBackground>
         );
     }
 }
@@ -89,13 +90,15 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#fff",
     },
-    // backgroundImage: {
-    //     flex: 1,
-    //     resizeMode: 'cover'
-    // },
+    backgroundImage: {
+        flex: 1,
+        resizeMode: 'cover',
+        width: wp('100%'),
+        height: hp('100 %')
+    },
     forgotview: {
         marginLeft: hp('5%'),
-        marginTop: hp('20%'),
+        marginTop: hp('30%'),
     },
     innerText: {
         color: '#605C5C',

@@ -27,7 +27,7 @@ function ProfileStackScreen() {
 const HomeStack = createStackNavigator();
 function HomeStackScreen() {
     return (
-        <HomeStack.Navigator initialRouteName="SelectType" headerMode='none'>
+        <HomeStack.Navigator initialRouteName="HomeScreen" headerMode='none'>
             <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
             <HomeStack.Screen name="AppointmentScreen" component={AppointmentScreen} />
             <HomeStack.Screen name="AppointmentBooking" component={AppointmentBooking} />
@@ -42,7 +42,7 @@ const Tab = createBottomTabNavigator();
 
 export default function TabNavigation() {
     return (
-        <Tab.Navigator
+        <Tab.Navigator initialRouteName="Home"
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
                     if (route.name === 'Home') {
@@ -53,7 +53,7 @@ export default function TabNavigation() {
                                 color={color}
                             />
                         );
-                    } else if (route.name === 'Appointment') {
+                    } else if (route.name === 'AppointmentScreen') {
                         return (
                             <Ionicons
                                 name={focused ? 'mail' : 'mail'}
@@ -94,7 +94,7 @@ export default function TabNavigation() {
             }}
         >
             <Tab.Screen name="Home" component={HomeStackScreen} />
-            <Tab.Screen name="Appointment" component={AppointmentScreen} />
+            <Tab.Screen name="AppointmentScreen" component={AppointmentScreen} />
             <Tab.Screen name="AppointmentBooking" component={AppointmentBooking} />
             <Tab.Screen name="Profile" component={ProfileStackScreen} />
         </Tab.Navigator>
