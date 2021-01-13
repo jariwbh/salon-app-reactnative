@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ToastAndroid, TextInput, TouchableOpacity, RefreshControl } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import AsyncStorage from '@react-native-community/async-storage';
 import { BookService } from '../../Services/BookService/BookService'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
+import Loader from '../../Components/Loader';
 import { ScrollView } from 'react-native-gesture-handler';
 
 export default class AppointmentsBooked extends Component {
     constructor(props) {
         super(props);
-        this.serviceDetails = this.props.route.params.serviceID;
+        this.serviceDetails = this.props.route.params.serviceDetails;
+        console.log(this.props.route.params);
         this.state = {
             userID: null,
             memberID: null,
@@ -27,9 +29,7 @@ export default class AppointmentsBooked extends Component {
             serviceTimeError: null,
             isDatePickerVisible: false,
             isTimePickerVisibility: false,
-            // serviceID: this.props.route.params.serviceID._id,
-            // charges: this.props.route.params.serviceID.charges,
-            // duration: this.props.route.params.serviceID.duration,
+            loading: false,
         }
         this.setFullName = this.setFullName.bind(this);
         this.setUserName = this.setUserName.bind(this);
@@ -37,6 +37,10 @@ export default class AppointmentsBooked extends Component {
         this.setServiceDate = this.setServiceDate.bind(this);
         this.setServiceTime = this.setServiceTime.bind(this);
         this.onPressSubmit = this.onPressSubmit.bind(this);
+        this.secondTextInputRef = React.createRef();
+        this.TeardTextInputRef = React.createRef();
+        this.FourthTextInputRef = React.createRef();
+        this.FiftethTextInputRef = React.createRef();
     }
 
     showDatePicker = () => {
@@ -64,18 +68,6 @@ export default class AppointmentsBooked extends Component {
         this.setState({ serviceTime: moment(time).format('HH:mm') });
         this.hideTimePicker();
     };
-
-    getdata = async () => {
-        var getUser = await AsyncStorage.getItem('@authuser')
-        const user = JSON.parse(getUser)
-        this.setState({
-            fullname: user.property.fullname,
-            username: user.property.username,
-            mobilenumber: user.property.mobile_number,
-            userID: user.addedby,
-            memberID: user._id
-        })
-    }
 
     componentDidMount() {
         this.getdata()
@@ -127,6 +119,8 @@ export default class AppointmentsBooked extends Component {
         this.setState({
             fullname: null,
             fullnameError: null,
+            username: null,
+            usernameError: null,
             mobilenumber: null,
             mobilenumberError: null,
             serviceDate: null,
@@ -136,9 +130,27 @@ export default class AppointmentsBooked extends Component {
 
         })
     }
+    getdata = async () => {
+        var getUser = await AsyncStorage.getItem('@authuser')
+        if (getUser == null || getUser && getUser.length == 0) {
+            setTimeout(() => {
+                this.props.navigation.replace('LoginScreen')
+            }, 5000);
+        } else {
+            const user = JSON.parse(getUser)
+            this.setState({
+                fullname: user.property.fullname,
+                username: user.property.email,
+                mobilenumber: user.property.mobile_number,
+                userID: user.addedby,
+                memberID: user._id
+            })
+        }
+
+    }
 
     onPressSubmit = () => {
-        const { fullname, username, mobilenumber, serviceDate, serviceTime, serviceID, userID, memberID, charges, duration } = this.state;
+        const { fullname, username, mobilenumber, serviceDate, serviceTime, userID, memberID, } = this.state;
         if (!fullname || !username || !mobilenumber || !serviceDate || !serviceTime) {
             this.setFullName(fullname)
             this.setUserName(username)
@@ -148,29 +160,40 @@ export default class AppointmentsBooked extends Component {
             return;
         }
         const body = {
-            // attendee: memberID,
+            attendee: memberID,
             appointmentdate: serviceDate,
             onModel: "Member",
-            refid: this.serviceDetails,
+            refid: this.serviceDetails._id,
             host: userID,
-            //  charges: charges,
-            //  duration: duration,
+            charges: this.serviceDetails.charges,
+            duration: this.serviceDetails.duration,
             timeslot: {
                 starttime: serviceTime
             },
         }
+        this.setState({ loading: true });
+        try {
+            BookService(body).then(response => {
 
-        console.log('body', body)
-        // BookService(body).then(response => {
-        //     console.log('response', response)
-        //     if (response != null) {
-        //         ToastAndroid.show("Book Your Service!", ToastAndroid.SHORT);
-        //         this.props.navigation.navigate('HomeScreen')
-        //         this.resetScreen()
-        //     }
-        // })
+                if (response.type === "Error") {
+                    this.setState({ loading: false })
+                    ToastAndroid.show("Booking Failed!", ToastAndroid.LONG)
+                    return
+                }
 
+                if (response != null) {
+                    this.setState({ loading: false });
+                    ToastAndroid.show("Booking Sucess!", ToastAndroid.LONG);
+                    this.props.navigation.navigate('LoginScreen')
+                }
+            })
+        }
+        catch (error) {
+            this.setState({ loading: false })
+            ToastAndroid.show("Booking Failed!", ToastAndroid.LONG)
+        }
     }
+
     render() {
         const { fullname, mobilenumber, serviceTime, serviceDate, username, } = this.state;
         return (
@@ -178,7 +201,7 @@ export default class AppointmentsBooked extends Component {
                 <View style={{ alignItems: 'center', marginTop: hp('5%') }}>
                     <Text style={{ fontSize: hp('3%'), fontWeight: 'bold' }}> Appointment Booked </Text>
                 </View>
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={{ alignItems: 'center', marginTop: hp('2%') }}>
                         <View style={styles.inputView}>
                             <TextInput
@@ -188,6 +211,8 @@ export default class AppointmentsBooked extends Component {
                                 type='clear'
                                 placeholderTextColor="#ABAFB3"
                                 returnKeyType="next"
+                                blurOnSubmit={false}
+                                onSubmitEditing={() => { this.secondTextInputRef.current.focus() }}
                                 onChangeText={(fullname) => this.setFullName(fullname)}
                             />
                         </View>
@@ -200,7 +225,10 @@ export default class AppointmentsBooked extends Component {
                                 placeholderTextColor="#ABAFB3"
                                 returnKeyType="next"
                                 defaultValue={username}
-                                onChangeText={(username) => this.setUserName(username)}
+                                blurOnSubmit={false}
+                                onSubmitEditing={() => { this.TeardTextInputRef.current.focus() }}
+                                ref={this.secondTextInputRef}
+                                onChangeText={(email) => this.setUserName(email)}
                             />
                         </View>
                         <Text style={{ marginTop: hp('-3%'), marginRight: hp('2%'), color: '#ff0000' }}>{this.state.usernameError && this.state.usernameError}</Text>
@@ -213,6 +241,9 @@ export default class AppointmentsBooked extends Component {
                                 placeholderTextColor="#ABAFB3"
                                 returnKeyType="next"
                                 keyboardType="numeric"
+                                blurOnSubmit={false}
+                                onSubmitEditing={() => { this.FourthTextInputRef.current.focus() }}
+                                ref={this.TeardTextInputRef}
                                 onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
                             />
                         </View>
@@ -226,6 +257,9 @@ export default class AppointmentsBooked extends Component {
                                 placeholderTextColor="#ABAFB3"
                                 returnKeyType="next"
                                 onTouchStart={this.showDatePicker}
+                                blurOnSubmit={false}
+                                onSubmitEditing={() => { this.FiftethTextInputRef.current.focus() }}
+                                ref={this.FourthTextInputRef}
                                 onChangeText={(serviceDate) => this.setServiceDate(serviceDate)}
                             />
                             <DateTimePickerModal
@@ -244,6 +278,7 @@ export default class AppointmentsBooked extends Component {
                                 type='clear'
                                 placeholderTextColor="#ABAFB3"
                                 returnKeyType="next"
+                                ref={this.FiftethTextInputRef}
                                 onTouchStart={this.showTimePicker}
                                 onChangeText={(serviceTime) => this.setServiceTime(serviceTime)}
                             />
@@ -258,7 +293,9 @@ export default class AppointmentsBooked extends Component {
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         <TouchableOpacity style={styles.book} onPress={() => this.onPressSubmit()} >
-                            <Text style={{ fontSize: hp('3%'), color: '#FFFFFF' }}>Book</Text>
+                            {this.state.loading === true ? <Loader /> :
+                                <Text style={{ fontSize: hp('3%'), color: '#FFFFFF' }}>Book </Text>
+                            }
                         </TouchableOpacity>
                     </View>
                 </ScrollView>

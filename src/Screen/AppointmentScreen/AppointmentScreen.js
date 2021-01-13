@@ -44,7 +44,8 @@ export default class AppointmentScreen extends Component {
         this.wait(1000).then(() => this.setState({ loader: false, AppointmentService: newData }));
     };
     renderAppointmentList = ({ item }) => (
-        <View style={styles.listview}>
+        // <View style={{ alignItems: 'center', marginBottom: hp('3%'), flex: 1 }}>
+        <View style={styles.listview} >
             <TouchableOpacity style={{ marginTop: hp('2%'), marginLeft: hp('1%'), }} onPress={() => { this.props.navigation.navigate('AppointmentBooking', { item }) }}>
                 <Image source={{ uri: (item.gallery[0] ? item.gallery[0].attachment : 'https://www.icon0.com/static2/preview2/stock-photo-photo-icon-illustration-design-70325.jpg') }} style={{ borderRadius: hp('7%'), width: wp('27%'), height: hp('15%'), }}
                 />
@@ -55,6 +56,8 @@ export default class AppointmentScreen extends Component {
 
             </TouchableOpacity>
         </View>
+        // </View>
+
     )
 
     render() {
@@ -80,11 +83,8 @@ export default class AppointmentScreen extends Component {
                         : <Loading />
                     )
                     :
-                    <ScrollView
-                        Vertical={true}
-                        showsVerticalScrollIndicator={false}
-                    >
-                        <View style={{ flexDirection: 'column', marginBottom: hp('5%'), flex: 1 }}>
+                    <ScrollView showsVerticalScrollIndicator={false}>
+                        <View style={{ flexDirection: 'column', flex: 1 }}>
                             <FlatList
                                 data={AppointmentService}
                                 renderItem={this.renderAppointmentList}
@@ -102,18 +102,20 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
+
     },
     statusbar: {
 
         flexDirection: 'row',
         backgroundColor: "#fff",
+        borderColor: '#FFFFFF',
         shadowOpacity: 0.5,
-        shadowRadius: 2,
+        shadowRadius: 3,
         shadowOffset: {
             height: 0,
             width: 0,
         },
-        elevation: 5,
+        elevation: 2,
         marginTop: hp('5%'),
         width: wp('90%'),
         height: hp('6.5%'),
@@ -140,7 +142,7 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
-        marginTop: hp('5%'),
+        marginTop: hp('2%'),
         width: wp('90%'),
         height: hp('20%'),
         marginLeft: hp('2.5%'),

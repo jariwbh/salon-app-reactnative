@@ -25,6 +25,8 @@ class RegisterScreen extends Component {
         this.setUserName = this.setUserName.bind(this);
         this.setMobileNumber = this.setMobileNumber.bind(this);
         this.onPressSubmit = this.onPressSubmit.bind(this);
+        this.secondTextInputRef = React.createRef();
+        this.TeardTextInputRef = React.createRef();
     }
     setFullName(fullname) {
         if (!fullname || fullname.length <= 0) {
@@ -63,22 +65,36 @@ class RegisterScreen extends Component {
             this.setMobileNumber(mobilenumber)
             return;
         }
-        // const body = {
-        //     property: {
-        //         fullname: fullname,
-        //         email: username,
-        //         mobile_number: mobilenumber,
-        //     }
-        // }
+        const body = {
+            property: {
+                fullname: fullname,
+                email: username,
+                mobile_number: mobilenumber,
+            }
+        }
 
-        // this.setState({ loading: true })
-        // await RegisterService(body).then(response => {
-        //     if (response != null) {
-        //         ToastAndroid.show("SignUp Success!", ToastAndroid.LONG);
-        this.props.navigation.navigate('LoginScreen')
-        //         this.resetScreen()
-        //     }
-        // })
+        this.setState({ loading: true })
+        try {
+            await RegisterService(body).then(response => {
+                if (response.error) {
+                    this.setState({ loading: false })
+                    ToastAndroid.show("SignUp Failed!", ToastAndroid.LONG);
+                    this.resetScreen()
+                    return
+                }
+                if (response != null) {
+                    ToastAndroid.show("SignUp Success!", ToastAndroid.LONG);
+                    this.props.navigation.navigate('LoginScreen')
+                    this.resetScreen()
+                }
+            })
+        }
+        catch (error) {
+            this.setState({ loading: false })
+            ToastAndroid.show("SignUp Failed!", ToastAndroid.LONG)
+        }
+
+
     }
 
     render() {
@@ -91,6 +107,7 @@ class RegisterScreen extends Component {
                     <ScrollView
                         Vertical={true}
                         showsVerticalScrollIndicator={false}
+                        keyboardShouldPersistTaps={'always'}
                     >
                         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                             <View style={styles.inputview}>
@@ -101,6 +118,8 @@ class RegisterScreen extends Component {
                                     type='clear'
                                     placeholderTextColor="#ABAFB3"
                                     returnKeyType="next"
+                                    blurOnSubmit={false}
+                                    onSubmitEditing={() => { this.secondTextInputRef.current.focus() }}
                                     onChangeText={(fullname) => this.setFullName(fullname)}
                                 />
                             </View>
@@ -117,6 +136,9 @@ class RegisterScreen extends Component {
                                     autoCompleteType="email"
                                     textContentType="emailAddress"
                                     keyboardType="email-address"
+                                    blurOnSubmit={false}
+                                    onSubmitEditing={() => { this.TeardTextInputRef.current.focus() }}
+                                    ref={this.secondTextInputRef}
                                     onChangeText={(username) => this.setUserName(username)}
                                 />
 
@@ -131,7 +153,8 @@ class RegisterScreen extends Component {
                                     placeholderTextColor="#ABAFB3"
                                     secureTextEntry={true}
                                     returnKeyType="done"
-                                    keyboardType="numeric"
+                                    keyboardType="number-pad"
+                                    ref={this.TeardTextInputRef}
                                     onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
                                 />
                             </View>

@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ImageBackground, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, ToastAndroid, Image, TextInput, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import AsyncStorage from '@react-native-community/async-storage';
@@ -21,6 +21,7 @@ export default class LoginScreen extends Component {
         this.setEmail = this.setEmail.bind(this);
         this.setPassword = this.setPassword.bind(this);
         this.onPressSubmit = this.onPressSubmit.bind(this);
+        this.secondTextInputRef = React.createRef();
 
     }
     setEmail(email) {
@@ -45,6 +46,7 @@ export default class LoginScreen extends Component {
             loading: false,
         })
     }
+
     authenticateUser = (user) => (
         AsyncStorage.setItem('@authuser', JSON.stringify(user))
     )
@@ -55,34 +57,34 @@ export default class LoginScreen extends Component {
             this.setPassword(password)
             return;
         }
-        // const body = {
-        //     username: username,
-        //     password: password
-        // }
-        // this.setState({ loading: true })
-        // try {
-        //     await LoginService(body)
-        //         .then(response => {
-        //             if (response.type === "Error") {
-        //                 this.setState({ loading: false })
-        //                 ToastAndroid.show("Username and Password Invalid!", ToastAndroid.LONG);
-        //                 this.resetScreen()
-        //                 return
-        //             }
+        const body = {
+            username: username,
+            password: password
+        }
+        this.setState({ loading: true })
+        try {
+            await LoginService(body)
+                .then(response => {
+                    if (response.type === "Error") {
+                        this.setState({ loading: false })
+                        ToastAndroid.show("Username and Password Invalid!", ToastAndroid.LONG);
+                        this.resetScreen()
+                        return
+                    }
 
-        //             if (response != null || response != 'undefind') {
-        //                 this.authenticateUser(response.user)
-        //                 ToastAndroid.show("SignIn Success!", ToastAndroid.LONG);
-        this.props.navigation.navigate('TabNavigation')
-        //                 this.resetScreen()
-        //                 return
-        //             }
-        //         })
-        // }
-        // catch (error) {
-        //     this.setState({ loading: false })
-        //     ToastAndroid.show("SignIn Failed!", ToastAndroid.LONG)
-        // };
+                    if (response != null || response != 'undefind') {
+                        this.authenticateUser(response.user)
+                        ToastAndroid.show("SignIn Success!", ToastAndroid.LONG);
+                        this.props.navigation.navigate('TabNavigation')
+                        this.resetScreen()
+                        return
+                    }
+                })
+        }
+        catch (error) {
+            this.setState({ loading: false })
+            ToastAndroid.show("SignIn Failed!", ToastAndroid.LONG)
+        };
 
 
     }
@@ -98,6 +100,7 @@ export default class LoginScreen extends Component {
                     <ScrollView
                         Vertical={true}
                         showsVerticalScrollIndicator={false}
+                        keyboardShouldPersistTaps={'always'}
                     >
                         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                             <View style={styles.inputView}>
@@ -108,6 +111,8 @@ export default class LoginScreen extends Component {
                                     type='clear'
                                     returnKeyType="next"
                                     placeholderTextColor="#ABAFB3"
+                                    blurOnSubmit={false}
+                                    onSubmitEditing={() => { this.secondTextInputRef.current.focus() }}
                                     onChangeText={(email) => this.setEmail(email)}
                                 />
                             </View>
@@ -121,18 +126,18 @@ export default class LoginScreen extends Component {
                                     placeholderTextColor="#ABAFB3"
                                     secureTextEntry={true}
                                     returnKeyType="done"
-                                    keyboardType="numeric"
+                                    ref={this.secondTextInputRef}
                                     onSubmitEditing={() => this.onPressSubmit()}
                                     onChangeText={(password) => this.setPassword(password)}
                                 />
                             </View>
                             <Text style={{ marginTop: hp('-3%'), marginLeft: hp('0%'), color: '#ff0000' }}>{this.state.passworderror && this.state.passworderror}</Text>
                         </View>
-                        <View style={{ alignItems: 'flex-end', marginRight: hp('7%') }}>
+                        {/* <View style={{ alignItems: 'flex-end', marginRight: hp('7%') }}>
                             <TouchableOpacity onPress={() => { this.props.navigation.navigate('ForgotPassword') }}>
                                 <Text style={{ fontSize: hp('2%'), color: '#ABAFB3', marginTop: hp('0.5%') }}>Forgot password?</Text>
                             </TouchableOpacity>
-                        </View>
+                        </View> */}
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('3%') }}>
                             <TouchableOpacity style={styles.loginBtn} onPress={() => this.onPressSubmit()} >
                                 {this.state.loading === true ? <Loader /> : <Text style={styles.loginText}>Sign In</Text>}

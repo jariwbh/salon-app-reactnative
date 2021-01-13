@@ -8,7 +8,7 @@ import HomeScreen from "../Screen/HomeScreen/HomeScreen";
 import AppointmentScreen from '../Screen/AppointmentScreen/AppointmentScreen'
 import AppointmentBooking from '../Screen/AppointmentBooking/AppointmentBooking'
 import AppointmentsBooked from "../Screen/AppointmentsBooked/AppointmentsBooked";
-
+import StaffDetails from "../Screen/StaffDetails/StaffDetails"
 //-------ProfileStackScreen
 import MyProfileScreen from '../Screen/MyProfileScreen/MyProfileScreen';
 import UpdateProfile from '../Screen/MyProfileScreen/UpdateProfile';
@@ -29,9 +29,10 @@ function HomeStackScreen() {
     return (
         <HomeStack.Navigator initialRouteName="HomeScreen" headerMode='none'>
             <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
+            <HomeStack.Screen name="AppointmentsBooked" component={AppointmentsBooked} />
             <HomeStack.Screen name="AppointmentScreen" component={AppointmentScreen} />
             <HomeStack.Screen name="AppointmentBooking" component={AppointmentBooking} />
-            <HomeStack.Screen name="AppointmentsBooked" component={AppointmentsBooked} />
+            <HomeStack.Screen name="StaffDetails" component={StaffDetails} />
         </HomeStack.Navigator>
     );
 }
@@ -53,15 +54,7 @@ export default function TabNavigation() {
                                 color={color}
                             />
                         );
-                    } else if (route.name === 'AppointmentScreen') {
-                        return (
-                            <Ionicons
-                                name={focused ? 'mail' : 'mail'}
-                                size={20}
-                                color={color}
-                            />
-                        );
-                    } else if (route.name === 'AppointmentBooking') {
+                    } else if (route.name === 'Appointments') {
                         return (
                             <FontAwesome5
                                 name={focused ? 'hands-helping' : 'hands-helping'}
@@ -94,8 +87,8 @@ export default function TabNavigation() {
             }}
         >
             <Tab.Screen name="Home" component={HomeStackScreen} />
-            <Tab.Screen name="AppointmentScreen" component={AppointmentScreen} />
-            <Tab.Screen name="AppointmentBooking" component={AppointmentBooking} />
+            {/* <Tab.Screen name="AppointmentScreen" component={AppointmentScreen} /> */}
+            <Tab.Screen name="Appointments" component={AppointmentBooking} />
             <Tab.Screen name="Profile" component={ProfileStackScreen} />
         </Tab.Navigator>
     );

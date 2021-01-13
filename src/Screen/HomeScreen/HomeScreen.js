@@ -58,7 +58,7 @@ class HomeScreen extends Component {
     )
 
     renderAppointmentList = ({ item }) => (
-        < View style={{ flexDirection: 'column', flex: 1 }}>
+        <View style={{ flexDirection: 'column', flex: 1 }}>
             <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => this.props.navigation.navigate('AppointmentBooking', { item })}>
                 <Image source={{ uri: (item.gallery[0] ? item.gallery[0].attachment : 'https://www.icon0.com/static2/preview2/stock-photo-photo-icon-illustration-design-70325.jpg') }} style={{ alignItems: 'center', height: hp('25%'), width: wp('65%'), marginTop: hp('2%'), borderRadius: hp('2%') }}
                 />
@@ -67,12 +67,12 @@ class HomeScreen extends Component {
                 <Text style={{ fontSize: hp('3%'), color: '#313131' }}>{item.title}</Text>
                 <Text style={{ fontSize: hp('3%'), color: '#313131' }}>₹ {item.charges}</Text>
             </View>
-        </View >
+        </View>
     )
 
     renderstaffList = ({ item }) => (
         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
-            <TouchableOpacity style={{ margin: hp('2%') }}>
+            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => this.props.navigation.navigate('StaffDetails', { item })}>
                 <Image source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
                     style={{ alignItems: 'center', height: hp('15%'), width: wp('30%'), marginTop: hp('2%'), borderRadius: hp('20%'), borderColor: '#FFFFFF', borderWidth: hp('1%') }}
                 />
@@ -139,7 +139,7 @@ class HomeScreen extends Component {
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('2%'), }}>
                         <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
                         <View>
-                            <Text style={{ width: wp('34%'), textAlign: 'center', fontSize: hp('3%'), color: '#FEBC42' }}>Professionals</Text>
+                            <Text style={{ width: wp('40%'), textAlign: 'center', fontSize: hp('3%'), color: '#FEBC42' }}>Professionals</Text>
                         </View>
                         <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
                     </View>

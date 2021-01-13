@@ -22,7 +22,7 @@ export default class AppointmentBooking extends Component {
         const { serviceID, serviceImage, servicetitle, servicecharges, servicedescription, serviceDetails } = this.state
         return (
             <View style={styles.container}>
-                <View style={styles.statusbar}>
+                {/* <View style={styles.statusbar}>
                     <TextInput
                         style={styles.statInput}
                         placeholder="Type here to search"
@@ -31,8 +31,8 @@ export default class AppointmentBooking extends Component {
                         returnKeyType="next"
                     />
                     <FontAwesome5 name="search" size={24} color='#000000' style={{ alignItems: "flex-end", justifyContent: 'flex-end', marginRight: hp('2%') }} />
-                </View>
-                <View style={{ marginTop: hp('3%'), justifyContent: 'center', alignItems: 'center', marginBottom: hp('7%'), }}>
+                </View> */}
+                <View style={{ marginTop: hp('10%'), justifyContent: 'center', alignItems: 'center', marginBottom: hp('7%'), }}>
                     <Image source={{ uri: serviceImage }} style={{ width: wp('90%'), height: hp('40%'), }}
                     />
                 </View>
@@ -53,7 +53,7 @@ export default class AppointmentBooking extends Component {
                     </View>
                 </ScrollView>
                 <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-                    <TouchableOpacity style={styles.book} onPress={() => { this.props.navigation.navigate('AppointmentsBooked', { serviceID }) }}>
+                    <TouchableOpacity style={styles.book} onPress={() => { this.props.navigation.navigate('AppointmentsBooked', { serviceDetails }) }}>
                         <FontAwesome5 name="check-circle" size={24} color='#FFFFFF' style={{ margin: hp('1%'), }} />
                         <Text style={{ fontSize: hp('3%'), color: '#FFFFFF' }}>Book Now</Text>
                     </TouchableOpacity>
@@ -68,34 +68,34 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#fff",
     },
-    statusbar: {
-        flexDirection: 'row',
-        backgroundColor: "#fff",
-        shadowOpacity: 0.5,
-        shadowRadius: 2,
-        shadowOffset: {
-            height: 0,
-            width: 0,
-        },
-        elevation: 2,
-        marginTop: hp('5%'),
-        width: wp('90%'),
-        height: hp('6.5%'),
-        marginLeft: hp('2.5%'),
-        alignItems: "center",
-        justifyContent: 'center'
+    // statusbar: {
+    //     flexDirection: 'row',
+    //     backgroundColor: "#fff",
+    //     shadowOpacity: 0.5,
+    //     shadowRadius: 2,
+    //     shadowOffset: {
+    //         height: 0,
+    //         width: 0,
+    //     },
+    //     elevation: 2,
+    //     marginTop: hp('5%'),
+    //     width: wp('90%'),
+    //     height: hp('6.5%'),
+    //     marginLeft: hp('2.5%'),
+    //     alignItems: "center",
+    //     justifyContent: 'center'
 
-    },
-    statInput: {
-        fontSize: hp('2.5%'),
-        flex: 1,
-        padding: hp('2%'),
-        alignItems: "center",
-    },
+    // },
+    // statInput: {
+    //     fontSize: hp('2.5%'),
+    //     flex: 1,
+    //     padding: hp('2%'),
+    //     alignItems: "center",
+    // },
     book: {
         flexDirection: 'row',
         backgroundColor: "#FEBC42",
-        marginTop: hp('-20%'),
+        marginTop: hp('-25%'),
         width: wp('60%'),
         height: hp('6.5%'),
         alignItems: "center",

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Image, ActivityIndicator, TouchableOpacity, ToastAndroid, Alert } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
-import { Entypo } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-community/async-storage'
 
 export default class MyProfileScreen extends Component {
@@ -9,7 +8,7 @@ export default class MyProfileScreen extends Component {
         super(props);
         this.state = {
             companyData: null,
-            companyProfile: '',
+            userProfile: null,
         }
     }
 
@@ -19,8 +18,20 @@ export default class MyProfileScreen extends Component {
 
     getdata = async () => {
         var getUser = await AsyncStorage.getItem('@authuser')
-        this.setState({ companyData: JSON.parse(getUser) })
+        if (getUser == null) {
+            setTimeout(() => {
+                this.props.navigation.replace('LoginScreen')
+            }, 5000);
+        } else {
+            var userData;
+            userData = JSON.parse(getUser)
+            this.setState({
+                companyData: userData,
+                userProfile: userData.profilepic
+            })
+        }
     }
+
 
     onPressUpdateProfile() {
         const { companyData } = this.state;
@@ -29,40 +40,55 @@ export default class MyProfileScreen extends Component {
         }
     }
 
-    // onPressLogout() {
-    //     AsyncStorage.removeItem('@authuser');
-    //     ToastAndroid.show("Log Out Success!", ToastAndroid.SHORT);
-    //     this.props.navigation.replace('LoginScreen')
-    // }
+    onPressLogout() {
+        Alert.alert(
+            "Confirmation required",
+            "Do you really want to logout?",
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel"
+                },
+                {
+                    text: "Yes", onPress: () => {
+                        ToastAndroid.show("Log Out Success!", ToastAndroid.SHORT),
+                            AsyncStorage.removeItem('@authuser');
+                        this.props.navigation.replace('LoginScreen')
+                    }
+                }
+            ],
+            { cancelable: false }
+        );
+    }
 
     render() {
-        const { companyData, companyProfile } = this.state;
+        const { companyData, userProfile } = this.state;
         return (
             <View style={styles.container}>
                 <View style={styles.header}></View>
-                {/* {companyData === null ?
+                {companyData === null ?
                     <ActivityIndicator size="large" color="#AAAAAA" style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }} />
-                    : <> */}
-                <Image style={styles.avatar} source={{ uri: (companyProfile ? companyProfile : 'https://bootdey.com/img/Content/avatar/avatar6.png') }} />
-                <View style={styles.body}>
-                    <View style={styles.bodyContent}>
-                        <Text style={styles.name}>{companyData && companyData.fullname}</Text>
-                    </View>
-                    <View style={{
-                        flex: 1, flexDirection: 'column', alignItems: 'center'
-                    }}>
-                        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.onPressUpdateProfile()}>
+                    : <>
+                        <Image style={styles.avatar} source={{ uri: userProfile && userProfile !== null ? userProfile : "https://res.cloudinary.com/dnogrvbs2/image/upload/v1610428971/userimage_qif8wv.jpg" }} />
+                        <View style={styles.body}>
+                            <View style={styles.bodyContent}>
+                                <Text style={styles.name}>{companyData && companyData.fullname}</Text>
+                            </View>
+                            <View style={{
+                                flex: 1, flexDirection: 'column', alignItems: 'center'
+                            }}>
+                                <TouchableOpacity style={styles.buttonContainer} onPress={() => this.onPressUpdateProfile()}>
 
-                            <Text style={styles.textContainer}> Update Profile</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.onPressLogout()}>
+                                    <Text style={styles.textContainer}> Update Profile</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.buttonContainer} onPress={() => this.onPressLogout()}>
 
-                            <Text style={styles.textContainer}> Log out</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                {/* </>
-                } */}
+                                    <Text style={styles.textContainer}> Log out</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </>
+                }
             </View>
         )
     }
