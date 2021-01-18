@@ -55,4 +55,6 @@ const staffService = () => {
         });
 }
 
-export { UserService, UpdateUserService, staffService };
+
+
+export { UserService, UpdateUserService, staffService, };

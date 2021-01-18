@@ -44,7 +44,6 @@ export default class AppointmentScreen extends Component {
         this.wait(1000).then(() => this.setState({ loader: false, AppointmentService: newData }));
     };
     renderAppointmentList = ({ item }) => (
-        // <View style={{ alignItems: 'center', marginBottom: hp('3%'), flex: 1 }}>
         <View style={styles.listview} >
             <TouchableOpacity style={{ marginTop: hp('2%'), marginLeft: hp('1%'), }} onPress={() => { this.props.navigation.navigate('AppointmentBooking', { item }) }}>
                 <Image source={{ uri: (item.gallery[0] ? item.gallery[0].attachment : 'https://www.icon0.com/static2/preview2/stock-photo-photo-icon-illustration-design-70325.jpg') }} style={{ borderRadius: hp('7%'), width: wp('27%'), height: hp('15%'), }}
@@ -56,7 +55,6 @@ export default class AppointmentScreen extends Component {
 
             </TouchableOpacity>
         </View>
-        // </View>
 
     )
 
@@ -79,7 +77,7 @@ export default class AppointmentScreen extends Component {
                 </View>
                 {(AppointmentService == null) || (AppointmentService && AppointmentService.length == 0) ?
                     (loader == false ?
-                        <Text style={{ textAlign: 'center', fontSize: hp('2%'), color: '#747474', marginTop: hp('10%') }}>No Resort Available</Text>
+                        <Text style={{ textAlign: 'center', fontSize: hp('2%'), color: '#747474', marginTop: hp('10%') }}>No Service Available</Text>
                         : <Loading />
                     )
                     :

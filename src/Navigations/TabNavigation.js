@@ -9,6 +9,7 @@ import AppointmentScreen from '../Screen/AppointmentScreen/AppointmentScreen'
 import AppointmentBooking from '../Screen/AppointmentBooking/AppointmentBooking'
 import AppointmentsBooked from "../Screen/AppointmentsBooked/AppointmentsBooked";
 import StaffDetails from "../Screen/StaffDetails/StaffDetails"
+import BookHistory from "../Screen/BookHistory/BookHistory"
 //-------ProfileStackScreen
 import MyProfileScreen from '../Screen/MyProfileScreen/MyProfileScreen';
 import UpdateProfile from '../Screen/MyProfileScreen/UpdateProfile';
@@ -54,7 +55,7 @@ export default function TabNavigation() {
                                 color={color}
                             />
                         );
-                    } else if (route.name === 'Appointments') {
+                    } else if (route.name === 'Book') {
                         return (
                             <FontAwesome5
                                 name={focused ? 'hands-helping' : 'hands-helping'}
@@ -88,7 +89,7 @@ export default function TabNavigation() {
         >
             <Tab.Screen name="Home" component={HomeStackScreen} />
             {/* <Tab.Screen name="AppointmentScreen" component={AppointmentScreen} /> */}
-            <Tab.Screen name="Appointments" component={AppointmentBooking} />
+            <Tab.Screen name="Book" component={BookHistory} />
             <Tab.Screen name="Profile" component={ProfileStackScreen} />
         </Tab.Navigator>
     );

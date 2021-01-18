@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, Image, ActivityIndicator, TouchableOpacity, ToastAndroid, Alert } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import AsyncStorage from '@react-native-community/async-storage'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default class MyProfileScreen extends Component {
     constructor(props) {
@@ -70,6 +71,11 @@ export default class MyProfileScreen extends Component {
                     <ActivityIndicator size="large" color="#AAAAAA" style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }} />
                     : <>
                         <Image style={styles.avatar} source={{ uri: userProfile && userProfile !== null ? userProfile : "https://res.cloudinary.com/dnogrvbs2/image/upload/v1610428971/userimage_qif8wv.jpg" }} />
+                        <View style={{ marginLeft: hp('30%'), marginTop: hp('-3%') }}>
+                            <TouchableOpacity>
+                                <MaterialCommunityIcons name='circle-edit-outline' size={27} color="#000000" />
+                            </TouchableOpacity>
+                        </View>
                         <View style={styles.body}>
                             <View style={styles.bodyContent}>
                                 <Text style={styles.name}>{companyData && companyData.fullname}</Text>

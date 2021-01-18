@@ -184,7 +184,7 @@ export default class AppointmentsBooked extends Component {
                 if (response != null) {
                     this.setState({ loading: false });
                     ToastAndroid.show("Booking Sucess!", ToastAndroid.LONG);
-                    this.props.navigation.navigate('LoginScreen')
+                    this.props.navigation.navigate('BookHistory', { response })
                 }
             })
         }

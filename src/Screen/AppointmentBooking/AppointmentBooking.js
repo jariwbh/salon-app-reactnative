@@ -22,16 +22,7 @@ export default class AppointmentBooking extends Component {
         const { serviceID, serviceImage, servicetitle, servicecharges, servicedescription, serviceDetails } = this.state
         return (
             <View style={styles.container}>
-                {/* <View style={styles.statusbar}>
-                    <TextInput
-                        style={styles.statInput}
-                        placeholder="Type here to search"
-                        type='clear'
-                        placeholderTextColor="#D3D4DA"
-                        returnKeyType="next"
-                    />
-                    <FontAwesome5 name="search" size={24} color='#000000' style={{ alignItems: "flex-end", justifyContent: 'flex-end', marginRight: hp('2%') }} />
-                </View> */}
+
                 <View style={{ marginTop: hp('10%'), justifyContent: 'center', alignItems: 'center', marginBottom: hp('7%'), }}>
                     <Image source={{ uri: serviceImage }} style={{ width: wp('90%'), height: hp('40%'), }}
                     />
