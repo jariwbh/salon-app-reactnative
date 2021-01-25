@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ToastAndroid, } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ToastAndroid, ScrollView } from 'react-native';
 import {
     heightPercentageToDP as hp,
     widthPercentageToDP as wp,
 } from 'react-native-responsive-screen'
-import { ScrollView } from 'react-native-gesture-handler';
 import { UpdateUserService } from '../../Services/UserService/UserService';
+import Loader from '../../Components/Loader/Loader';
+import Loading from '../../Components/Loader/Loading';
 
 class UpdateProfile extends Component {
     constructor(props) {
@@ -21,12 +22,15 @@ class UpdateProfile extends Component {
             mobilenumberError: null,
             userProfile: this.companyData.branchid.branchlogo,
             profileName: this.companyData.fullname,
-            userMemberName: this.companyData.username
+            memberName: this.companyData.username,
+            loading: false,
         }
         this.setFullName = this.setFullName.bind(this);
         this.setUserName = this.setUserName.bind(this);
         this.setMobileNumber = this.setMobileNumber.bind(this);
         this.onPressSubmit = this.onPressSubmit.bind(this);
+        this.secondTextInputRef = React.createRef();
+        this.TeardTextInputRef = React.createRef();
     }
 
     setFullName(fullname) {
@@ -60,7 +64,7 @@ class UpdateProfile extends Component {
     }
 
     onPressSubmit = async () => {
-        const { fullname, username, mobilenumber, _id, userMemberName } = this.state;
+        const { fullname, username, mobilenumber, _id, memberName } = this.state;
         if (!fullname || !username || !mobilenumber) {
             this.setFullName(fullname)
             this.setUserName(username)
@@ -71,7 +75,7 @@ class UpdateProfile extends Component {
         const body = {
             _id: _id,
             status: "active",
-            username: userMemberName,
+            username: memberName,
             property: {
                 fullname: fullname,
                 email: username,
@@ -79,36 +83,40 @@ class UpdateProfile extends Component {
             }
         }
 
-        await UpdateUserService(body).then(response => {
-            console.log('response', response)
-            if (response != null) {
-                ToastAndroid.show("Your Profile Update!", ToastAndroid.LONG);
-                this.props.navigation.navigate('MyProfile')
-            }
-        })
+        this.setState({ loading: true })
+
+        try {
+            await UpdateUserService(body).then(response => {
+                console.log('response', response)
+                if (response != null) {
+                    ToastAndroid.show("Your Profile Update!", ToastAndroid.LONG);
+                    this.props.navigation.navigate('MyProfile')
+                }
+            })
+        }
+        catch (error) {
+            this.setState({ loading: false })
+            ToastAndroid.show("Your Profile Not Update!", ToastAndroid.LONG)
+        }
     }
 
     render() {
-        const { fullname, username, mobilenumber, userProfile, profileName } = this.state;
+        const { fullname, username, mobilenumber, userProfile, profileName, loading } = this.state;
         return (
             <View style={styles.container}>
                 {this.userData === null ?
-                    <ActivityIndicator size="large" color="#AAAAAA" />
+                    <Loader />
                     : <>
                         <Image style={styles.avatar} source={{ uri: userProfile && userProfile !== null ? userProfile : "https://res.cloudinary.com/dnogrvbs2/image/upload/v1610428971/userimage_qif8wv.jpg" }} />
                         <View style={styles.body}>
                             <View style={styles.bodyContent}>
                                 <Text style={styles.name}>{profileName && profileName}</Text>
                             </View>
-                            <ScrollView
-                                Vertical={true}
-                                showsVerticalScrollIndicator={false}
-                            >
+                            <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                                 <View style={{
                                     flex: 1, flexDirection: 'column', alignItems: 'center'
                                 }}>
                                     <View style={styles.inputView}>
-
                                         <TextInput
                                             label="Name"
                                             defaultValue={fullname}
@@ -117,12 +125,13 @@ class UpdateProfile extends Component {
                                             type='clear'
                                             placeholderTextColor="#ABAFB3"
                                             returnKeyType="next"
+                                            blurOnSubmit={false}
+                                            onSubmitEditing={() => { this.secondTextInputRef.current.focus() }}
                                             onChangeText={(fullname) => this.setFullName(fullname)}
                                         />
                                     </View>
-                                    <Text style={{ marginTop: hp('-3%'), marginLeft: wp('-20%'), color: '#ff0000' }}>{this.state.fullnameError && this.state.fullnameError}</Text>
+                                    <Text style={{ marginTop: hp('-2%'), marginLeft: wp('-20%'), color: '#ff0000' }}>{this.state.fullnameError && this.state.fullnameError}</Text>
                                     <View style={styles.inputView}>
-
                                         <TextInput
                                             defaultValue={username}
                                             style={styles.TextInput}
@@ -134,12 +143,14 @@ class UpdateProfile extends Component {
                                             textContentType="emailAddress"
                                             keyboardType="email-address"
                                             returnKeyType="next"
+                                            blurOnSubmit={false}
+                                            onSubmitEditing={() => { this.TeardTextInputRef.current.focus() }}
+                                            ref={this.secondTextInputRef}
                                             onChangeText={(username) => this.setUserName(username)}
                                         />
                                     </View>
-                                    <Text style={{ marginTop: hp('-3%'), marginLeft: wp('-15%'), color: '#ff0000' }}>{this.state.usernameError && this.state.usernameError}</Text>
+                                    <Text style={{ marginTop: hp('-2%'), marginLeft: wp('-15%'), color: '#ff0000' }}>{this.state.usernameError && this.state.usernameError}</Text>
                                     <View style={styles.inputView} >
-
                                         <TextInput
                                             defaultValue={mobilenumber}
                                             style={styles.TextInput}
@@ -148,13 +159,14 @@ class UpdateProfile extends Component {
                                             placeholderTextColor="#ABAFB3"
                                             keyboardType="numeric"
                                             returnKeyType="done"
+                                            ref={this.TeardTextInputRef}
                                             onSubmitEditing={() => this.onPressSubmit()}
                                             onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
                                         />
                                     </View>
-                                    <Text style={{ marginTop: hp('-3%'), marginLeft: wp('-14%'), color: '#ff0000', }}>{this.state.mobilenumberError && this.state.mobilenumberError}</Text>
+                                    <Text style={{ marginTop: hp('-2%'), marginLeft: wp('-14%'), color: '#ff0000', }}>{this.state.mobilenumberError && this.state.mobilenumberError}</Text>
                                     <TouchableOpacity style={styles.update_Btn} onPress={() => this.onPressSubmit()}>
-                                        <Text style={styles.update_text} >Update Profile</Text>
+                                        {loading == true ? <Loading /> : <Text style={styles.update_text} >Update Profile</Text>}
                                     </TouchableOpacity>
                                 </View>
                             </ScrollView>
@@ -178,7 +190,7 @@ const styles = StyleSheet.create({
         height: hp('15%'),
         borderRadius: wp('20%'),
         alignSelf: 'center',
-        marginTop: hp('5%'),
+        marginTop: hp('10%'),
         marginBottom: hp('3%')
     },
     bodyContent: {
@@ -206,18 +218,18 @@ const styles = StyleSheet.create({
         borderColor: '#fff',
         width: wp('80%'),
         height: hp('8%'),
-        margin: hp('3%'),
+        marginBottom: hp('3%'),
         alignItems: "center",
     },
     TextInput: {
-        fontSize: hp('2%'),
+        fontSize: hp('2.5%'),
         flex: 1,
         padding: hp('2%'),
     },
     update_Btn: {
         flexDirection: 'row',
         backgroundColor: "#FEBC42",
-        marginTop: hp('10%'),
+        marginTop: hp('2%'),
         width: wp('60%'),
         height: hp('6.5%'),
         alignItems: "center",

@@ -1,12 +1,9 @@
-
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, TextInput, } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, TextInput, ToastAndroid } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import { RegisterService } from '../../Services/RegisterService/RegisterService';
-import Loader from '../../Components/Loader';
-
-
+import Loader from '../../Components/Loader/Loading';
 
 class RegisterScreen extends Component {
     constructor(props) {
@@ -57,6 +54,7 @@ class RegisterScreen extends Component {
         }
         return this.setState({ mobilenumber: mobilenumber, mobilenumberError: null })
     }
+
     onPressSubmit = async () => {
         const { fullname, username, mobilenumber } = this.state;
         if (!fullname || !username || !mobilenumber) {
@@ -74,6 +72,7 @@ class RegisterScreen extends Component {
         }
 
         this.setState({ loading: true })
+
         try {
             await RegisterService(body).then(response => {
                 if (response.error) {
@@ -93,8 +92,6 @@ class RegisterScreen extends Component {
             this.setState({ loading: false })
             ToastAndroid.show("SignUp Failed!", ToastAndroid.LONG)
         }
-
-
     }
 
     render() {
@@ -123,7 +120,7 @@ class RegisterScreen extends Component {
                                     onChangeText={(fullname) => this.setFullName(fullname)}
                                 />
                             </View>
-                            <Text style={{ marginTop: hp('-2.5%'), marginLeft: wp('7%'), color: '#ff0000' }}>{this.state.fullnameError && this.state.fullnameError}</Text>
+                            <Text style={{ marginTop: hp('-2.5%'), marginLeft: wp('-16%'), color: '#ff0000' }}>{this.state.fullnameError && this.state.fullnameError}</Text>
                             <View style={styles.inputview}>
                                 <TextInput
                                     style={styles.TextInput}
@@ -141,11 +138,9 @@ class RegisterScreen extends Component {
                                     ref={this.secondTextInputRef}
                                     onChangeText={(username) => this.setUserName(username)}
                                 />
-
                             </View>
-                            <Text style={{ marginTop: hp('-2.5%'), marginLeft: wp('7%'), color: '#ff0000' }}>{this.state.usernameError && this.state.usernameError}</Text>
+                            <Text style={{ marginTop: hp('-2.5%'), marginLeft: wp('-20%'), color: '#ff0000' }}>{this.state.usernameError && this.state.usernameError}</Text>
                             <View style={styles.inputview} >
-
                                 <TextInput
                                     style={styles.TextInput}
                                     placeholder="Mobile Number"
@@ -155,16 +150,15 @@ class RegisterScreen extends Component {
                                     returnKeyType="done"
                                     keyboardType="number-pad"
                                     ref={this.TeardTextInputRef}
+                                    onSubmitEditing={() => this.onPressSubmit()}
                                     onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
                                 />
                             </View>
-                            <Text style={{ marginTop: hp('-2.5%'), marginLeft: wp('7%'), color: '#ff0000' }}>{this.state.mobilenumberError && this.state.mobilenumberError}</Text>
+                            <Text style={{ marginTop: hp('-2.5%'), marginLeft: wp('-7%'), color: '#ff0000' }}>{this.state.mobilenumberError && this.state.mobilenumberError}</Text>
                         </View>
-
                         <View style={{ justifyContent: 'center', alignItems: 'center', }}>
                             <TouchableOpacity style={styles.sineBtn} onPress={() => this.onPressSubmit()} >
                                 {this.state.loading === true ? <Loader /> : <Text style={styles.sineText}>Sign Up</Text>}
-
                             </TouchableOpacity>
                         </View>
                         <View style={{ marginTop: hp('5%'), justifyContent: 'center', flexDirection: 'row' }} >
@@ -172,7 +166,6 @@ class RegisterScreen extends Component {
                             <TouchableOpacity onPress={() => { this.props.navigation.navigate('LoginScreen') }} >
                                 <Text style={styles.baseText}>Signin</Text>
                             </TouchableOpacity>
-
                         </View>
                     </ScrollView>
                 </ImageBackground>
@@ -216,19 +209,18 @@ const styles = StyleSheet.create({
         height: hp('8%'),
         margin: hp('2.5%'),
         alignItems: "center",
-
     },
     TextInput: {
-        fontSize: hp('2%'),
+        fontSize: hp('2.5%'),
         flex: 1,
-        padding: hp('2%'),
+        marginLeft: hp('3%'),
     },
     sineBtn: {
         flexDirection: 'row',
-        width: wp('30%'),
+        width: wp('35%'),
         backgroundColor: "#F6C455",
         borderRadius: wp('7%'),
-        height: hp('6%'),
+        height: hp('7%'),
         alignItems: "center",
         justifyContent: "center",
         marginTop: hp('4%'),
