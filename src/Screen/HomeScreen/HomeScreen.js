@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, FlatList, TextInput, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TextInput, Image, ScrollView, RefreshControl } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
-import { FontAwesome5 } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { CategoryService, AppointmentListService, } from '../../Services/CategoryService/CategoryService';
 import { staffService } from '../../Services/UserService/UserService';
-
-
+import Loader from '../../Components/Loader/Loader'
 
 class HomeScreen extends Component {
     constructor(props) {
@@ -14,27 +12,42 @@ class HomeScreen extends Component {
         this.state = {
             CategoryList: [],
             AppointmentList: [],
-            staffList: []
-
+            staffList: [],
+            loader: true,
+            refreshing: false,
         };
     }
+
+    wait = (timeout) => {
+        return new Promise(resolve => {
+            setTimeout(resolve, timeout);
+        });
+    }
+
+    onRefresh = () => {
+        this.setState({ refreshing: true })
+        this.getCategoryList();
+        this.getAppointmentList();
+        this.getstaffList();
+        this.wait(3000).then(() => this.setState({ refreshing: false }));
+    }
+
     getCategoryList() {
         CategoryService().then(response => {
             this.setState({ CategoryList: response })
-
         })
     }
+
     getAppointmentList() {
         AppointmentListService().then(response => {
-            this.setState({ AppointmentList: response })
-
+            const slice = response.slice(0, 3)
+            this.setState({ AppointmentList: slice })
         })
     }
 
     getstaffList() {
         staffService().then(response => {
             this.setState({ staffList: response })
-
         })
     }
 
@@ -45,14 +58,13 @@ class HomeScreen extends Component {
     }
 
     renderCategoryList = ({ item }) => (
-
         <View style={{ flexDirection: 'column' }}>
-            <TouchableOpacity style={styles.sliderview} onPress={() => { this.props.navigation.navigate('AppointmentScreen', { item }) }}>
-                <Image source={{ uri: (item.property.img[0] ? item.property.img[0].attachment : 'https://www.icon0.com/static2/preview2/stock-photo-photo-icon-illustration-design-70325.jpg') }} style={{ alignItems: 'center', height: hp('7%'), width: wp('12%'), marginTop: hp('1%') }}
+            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', margin: hp('1.5%') }} onPress={() => { this.props.navigation.navigate('AppointmentScreen', { item }) }}>
+                <Image source={{ uri: (item.property.img[0] ? item.property.img[0].attachment : '') }} style={{ alignItems: 'center', height: 100, width: 100, marginTop: hp('5%') }}
                 />
             </TouchableOpacity>
             <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ fontSize: hp('2%'), color: '#43434C' }}>{item.property.name}</Text>
+                <Text style={{ fontSize: hp('2%'), color: '#43434C', fontWeight: '400' }}>{item.property.name}</Text>
             </TouchableOpacity>
         </View>
     )
@@ -73,8 +85,8 @@ class HomeScreen extends Component {
     renderstaffList = ({ item }) => (
         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
             <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => this.props.navigation.navigate('StaffDetails', { item })}>
-                <Image source={{ uri: 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
-                    style={{ alignItems: 'center', height: hp('15%'), width: wp('30%'), marginTop: hp('2%'), borderRadius: hp('20%'), borderColor: '#FFFFFF', borderWidth: hp('1%') }}
+                <Image source={{ uri: item.property.profilepic ? item.property.profilepic : 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
+                    style={{ alignItems: 'center', height: hp('18%'), width: wp('30%'), marginTop: hp('2%'), borderRadius: hp('20%'), borderColor: '#FFFFFF', borderWidth: hp('1%') }}
                 />
             </TouchableOpacity>
             <View>
@@ -84,80 +96,71 @@ class HomeScreen extends Component {
     )
 
     render() {
-        const { CategoryList, AppointmentList, staffList } = this.state
+        const { CategoryList, AppointmentList, staffList, loader, refreshing } = this.state
         return (
             <View style={styles.container}>
-                <View style={styles.statusbar}>
-                    <TextInput
-                        style={styles.statInput}
-                        placeholder="Type here to search"
-                        type='clear'
-                        placeholderTextColor="#D3D4DA"
-                        returnKeyType="next"
-                    />
-                    <FontAwesome5 name="search" size={24} color='#000000' style={{ alignItems: "flex-end", justifyContent: 'flex-end', marginRight: hp('2%') }} />
-                </View>
-                <ScrollView
-                    Vertical={true}
-                    showsVerticalScrollIndicator={false}
-                >
-                    <View style={{ flexDirection: 'row', }}>
-                        <ScrollView
-                            horizontal={true}
-                            showsHorizontalScrollIndicator={false}
-                        >
-                            <FlatList
-                                style={{ flexDirection: 'column' }}
-                                numColumns={10000}
-                                data={CategoryList}
-                                renderItem={this.renderCategoryList}
-                                keyExtractor={item => `${item._id}`}
-                            />
-                        </ScrollView>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('2%'), }}>
-                        <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
-                        <View>
-                            <Text style={{ width: wp('25%'), textAlign: 'center', fontSize: hp('3%'), color: '#FEBC42' }}>featured</Text>
+                {CategoryList == null || CategoryList.length == 0 ? <Loader /> :
+                    <ScrollView
+                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />}
+                        showsVerticalScrollIndicator={false}>
+                        <View style={{ flexDirection: 'row', }}>
+                            <ScrollView
+                                horizontal={true}
+                                showsHorizontalScrollIndicator={false}
+                            >
+                                <FlatList
+                                    style={{ flexDirection: 'column' }}
+                                    numColumns={10000}
+                                    data={CategoryList}
+                                    renderItem={this.renderCategoryList}
+                                    keyExtractor={item => `${item._id}`}
+                                />
+                            </ScrollView>
                         </View>
-                        <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
-                    </View>
-                    <View style={{ flexDirection: 'row', }}>
-                        <ScrollView
-                            horizontal={true}
-                            showsHorizontalScrollIndicator={false}
-                        >
-                            <FlatList
-                                style={{ flexDirection: 'row' }}
-                                numColumns={10000}
-                                data={AppointmentList}
-                                renderItem={this.renderAppointmentList}
-                                keyExtractor={item => `${item._id}`}
-                            />
-                        </ScrollView>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('2%'), }}>
-                        <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
-                        <View>
-                            <Text style={{ width: wp('40%'), textAlign: 'center', fontSize: hp('3%'), color: '#FEBC42' }}>Professionals</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('2%'), }}>
+                            <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
+                            <View>
+                                <Text style={{ width: wp('25%'), textAlign: 'center', fontSize: hp('3%'), color: '#FEBC42' }}>featured</Text>
+                            </View>
+                            <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
                         </View>
-                        <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
-                    </View>
-                    <View style={{ flexDirection: 'row', marginBottom: hp('5%') }}>
-                        <ScrollView
-                            horizontal={true}
-                            showsHorizontalScrollIndicator={false}
-                        >
-                            <FlatList
-                                style={{ flexDirection: 'row' }}
-                                numColumns={10000}
-                                data={staffList}
-                                renderItem={this.renderstaffList}
-                                keyExtractor={item => `${item._id}`}
-                            />
-                        </ScrollView>
-                    </View>
-                </ScrollView>
+                        <View style={{ flexDirection: 'row', }}>
+                            <ScrollView
+                                horizontal={true}
+                                showsHorizontalScrollIndicator={false}
+                            >
+                                <FlatList
+                                    style={{ flexDirection: 'row' }}
+                                    numColumns={10000}
+                                    data={AppointmentList}
+                                    renderItem={this.renderAppointmentList}
+                                    keyExtractor={item => `${item._id}`}
+                                />
+                            </ScrollView>
+                        </View>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('2%'), }}>
+                            <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
+                            <View>
+                                <Text style={{ width: wp('40%'), textAlign: 'center', fontSize: hp('3%'), color: '#FEBC42' }}>Professionals</Text>
+                            </View>
+                            <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
+                        </View>
+                        <View style={{ flexDirection: 'row', marginBottom: hp('5%') }}>
+                            <ScrollView
+                                horizontal={true}
+                                showsHorizontalScrollIndicator={false}
+                            >
+                                <FlatList
+                                    style={{ flexDirection: 'row' }}
+                                    numColumns={10000}
+                                    data={staffList}
+                                    renderItem={this.renderstaffList}
+                                    keyExtractor={item => `${item._id}`}
+                                />
+                            </ScrollView>
+                        </View>
+                    </ScrollView>
+                }
             </View>
         );
     }
@@ -204,16 +207,4 @@ const styles = StyleSheet.create({
         margin: hp('2%'),
         alignItems: "center",
     },
-    sliderview: {
-
-        borderRadius: hp('10'),
-        borderColor: '#43434C',
-        borderWidth: hp('0.1%'),
-        marginTop: hp('3%'),
-        width: wp('21%'),
-        height: hp('11%'),
-        margin: hp('1%'),
-        alignItems: "center",
-    },
-
 })

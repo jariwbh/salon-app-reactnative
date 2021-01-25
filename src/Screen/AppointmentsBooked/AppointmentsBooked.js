@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ToastAndroid, TextInput, TouchableOpacity, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, ToastAndroid, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import AsyncStorage from '@react-native-community/async-storage';
 import { BookService } from '../../Services/BookService/BookService'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
-import Loader from '../../Components/Loader';
-import { ScrollView } from 'react-native-gesture-handler';
+import Loader from '../../Components/Loader/Loading';
 
 export default class AppointmentsBooked extends Component {
     constructor(props) {
@@ -127,9 +126,9 @@ export default class AppointmentsBooked extends Component {
             serviceDateError: null,
             serviceTime: null,
             serviceTimeError: null,
-
         })
     }
+
     getdata = async () => {
         var getUser = await AsyncStorage.getItem('@authuser')
         if (getUser == null || getUser && getUser.length == 0) {
@@ -173,20 +172,20 @@ export default class AppointmentsBooked extends Component {
         }
         this.setState({ loading: true });
         try {
-            BookService(body).then(response => {
+            // BookService(body).then(response => {
 
-                if (response.type === "Error") {
-                    this.setState({ loading: false })
-                    ToastAndroid.show("Booking Failed!", ToastAndroid.LONG)
-                    return
-                }
+            //     if (response.type === "Error") {
+            //         this.setState({ loading: false })
+            //         ToastAndroid.show("Booking Failed!", ToastAndroid.LONG)
+            //         return
+            //     }
 
-                if (response != null) {
-                    this.setState({ loading: false });
-                    ToastAndroid.show("Booking Sucess!", ToastAndroid.LONG);
-                    this.props.navigation.navigate('BookHistory', { response })
-                }
-            })
+            //     if (response != null) {
+            //         this.setState({ loading: false });
+            //         ToastAndroid.show("Booking Sucess!", ToastAndroid.LONG);
+            //         this.props.navigation.navigate('BookHistory', { response })
+            //     }
+            // })
         }
         catch (error) {
             this.setState({ loading: false })
@@ -201,8 +200,8 @@ export default class AppointmentsBooked extends Component {
                 <View style={{ alignItems: 'center', marginTop: hp('5%') }}>
                     <Text style={{ fontSize: hp('3%'), fontWeight: 'bold' }}> Appointment Booked </Text>
                 </View>
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <View style={{ alignItems: 'center', marginTop: hp('2%') }}>
+                <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
+                    <View style={{ alignItems: 'center', marginTop: hp('10%') }}>
                         <View style={styles.inputView}>
                             <TextInput
                                 style={styles.TextInput}
@@ -216,7 +215,7 @@ export default class AppointmentsBooked extends Component {
                                 onChangeText={(fullname) => this.setFullName(fullname)}
                             />
                         </View>
-                        <Text style={{ marginTop: hp('-3%'), marginRight: hp('2%'), color: '#ff0000' }}>{this.state.fullnameError && this.state.fullnameError}</Text>
+                        <Text style={{ marginTop: hp('-3%'), marginRight: hp('-10%'), color: '#ff0000' }}>{this.state.fullnameError && this.state.fullnameError}</Text>
                         <View style={styles.inputView}>
                             <TextInput
                                 style={styles.TextInput}
@@ -231,7 +230,7 @@ export default class AppointmentsBooked extends Component {
                                 onChangeText={(email) => this.setUserName(email)}
                             />
                         </View>
-                        <Text style={{ marginTop: hp('-3%'), marginRight: hp('2%'), color: '#ff0000' }}>{this.state.usernameError && this.state.usernameError}</Text>
+                        <Text style={{ marginTop: hp('-3%'), marginRight: hp('-10%'), color: '#ff0000' }}>{this.state.usernameError && this.state.usernameError}</Text>
                         <View style={styles.inputView}>
                             <TextInput
                                 style={styles.TextInput}
@@ -241,13 +240,11 @@ export default class AppointmentsBooked extends Component {
                                 placeholderTextColor="#ABAFB3"
                                 returnKeyType="next"
                                 keyboardType="numeric"
-                                blurOnSubmit={false}
-                                onSubmitEditing={() => { this.FourthTextInputRef.current.focus() }}
                                 ref={this.TeardTextInputRef}
                                 onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
                             />
                         </View>
-                        <Text style={{ marginTop: hp('-3%'), marginRight: hp('2%'), color: '#ff0000' }}>{this.state.mobilenumberError && this.state.mobilenumberError}</Text>
+                        <Text style={{ marginTop: hp('-3%'), marginRight: hp('-10%'), color: '#ff0000' }}>{this.state.mobilenumberError && this.state.mobilenumberError}</Text>
                         <View style={styles.inputView}>
                             <TextInput
                                 style={styles.TextInput}
@@ -257,9 +254,6 @@ export default class AppointmentsBooked extends Component {
                                 placeholderTextColor="#ABAFB3"
                                 returnKeyType="next"
                                 onTouchStart={this.showDatePicker}
-                                blurOnSubmit={false}
-                                onSubmitEditing={() => { this.FiftethTextInputRef.current.focus() }}
-                                ref={this.FourthTextInputRef}
                                 onChangeText={(serviceDate) => this.setServiceDate(serviceDate)}
                             />
                             <DateTimePickerModal
@@ -269,7 +263,7 @@ export default class AppointmentsBooked extends Component {
                                 onCancel={this.hideDatePicker}
                             />
                         </View>
-                        <Text style={{ marginLeft: hp('1%'), marginTop: hp('-3%'), color: '#ff0000' }}>{this.state.serviceDateError && this.state.serviceDateError}</Text>
+                        <Text style={{ marginLeft: hp('-10%'), marginTop: hp('-3%'), color: '#ff0000' }}>{this.state.serviceDateError && this.state.serviceDateError}</Text>
                         <View style={styles.inputView}>
                             <TextInput
                                 style={styles.TextInput}
@@ -278,7 +272,6 @@ export default class AppointmentsBooked extends Component {
                                 type='clear'
                                 placeholderTextColor="#ABAFB3"
                                 returnKeyType="next"
-                                ref={this.FiftethTextInputRef}
                                 onTouchStart={this.showTimePicker}
                                 onChangeText={(serviceTime) => this.setServiceTime(serviceTime)}
                             />
@@ -289,7 +282,7 @@ export default class AppointmentsBooked extends Component {
                                 onCancel={this.hideTimePicker}
                             />
                         </View>
-                        <Text style={{ marginLeft: hp('1%'), marginTop: hp('-3%'), color: '#ff0000' }}>{this.state.serviceTimeError && this.state.serviceTimeError}</Text>
+                        <Text style={{ marginLeft: hp('-10%'), marginTop: hp('-3%'), color: '#ff0000' }}>{this.state.serviceTimeError && this.state.serviceTimeError}</Text>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         <TouchableOpacity style={styles.book} onPress={() => this.onPressSubmit()} >
@@ -322,7 +315,7 @@ const styles = StyleSheet.create({
         borderColor: '#fff',
         width: wp('80%'),
         height: hp('8%'),
-        margin: hp('3%'),
+        margin: hp('2%'),
         alignItems: "center",
 
     },
