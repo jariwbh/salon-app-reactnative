@@ -4,6 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import { RegisterService } from '../../Services/RegisterService/RegisterService';
 import Loader from '../../Components/Loader/Loading';
+import BackButton from '../../Components/BackButton/BackButton'
 
 class RegisterScreen extends Component {
     constructor(props) {
@@ -98,6 +99,9 @@ class RegisterScreen extends Component {
         return (
             <View style={styles.container}>
                 <ImageBackground source={require('../../../assets/image/background.png')} style={styles.backgroundImage}>
+                    <View style={{ position: 'absolute', marginTop: hp('7%') }}>
+                        <BackButton onPress={() => this.props.navigation.goBack()} />
+                    </View>
                     <View style={styles.sineupview}>
                         <Text style={{ fontSize: hp('4%'), }}>Create Account </Text>
                     </View>
@@ -120,7 +124,7 @@ class RegisterScreen extends Component {
                                     onChangeText={(fullname) => this.setFullName(fullname)}
                                 />
                             </View>
-                            <Text style={{ marginTop: hp('-2.5%'), marginLeft: wp('-16%'), color: '#ff0000' }}>{this.state.fullnameError && this.state.fullnameError}</Text>
+                            <Text style={{ marginTop: hp('-2%'), marginLeft: hp('-20%'), color: '#ff0000' }}>{this.state.fullnameError && this.state.fullnameError}</Text>
                             <View style={styles.inputview}>
                                 <TextInput
                                     style={styles.TextInput}
@@ -139,7 +143,7 @@ class RegisterScreen extends Component {
                                     onChangeText={(username) => this.setUserName(username)}
                                 />
                             </View>
-                            <Text style={{ marginTop: hp('-2.5%'), marginLeft: wp('-20%'), color: '#ff0000' }}>{this.state.usernameError && this.state.usernameError}</Text>
+                            <Text style={{ marginTop: hp('-2%'), marginLeft: hp('-20%'), color: '#ff0000' }}>{this.state.usernameError && this.state.usernameError}</Text>
                             <View style={styles.inputview} >
                                 <TextInput
                                     style={styles.TextInput}
@@ -154,7 +158,7 @@ class RegisterScreen extends Component {
                                     onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
                                 />
                             </View>
-                            <Text style={{ marginTop: hp('-2.5%'), marginLeft: wp('-7%'), color: '#ff0000' }}>{this.state.mobilenumberError && this.state.mobilenumberError}</Text>
+                            <Text style={{ marginTop: hp('-2%'), marginLeft: hp('-16%'), color: '#ff0000' }}>{this.state.mobilenumberError && this.state.mobilenumberError}</Text>
                         </View>
                         <View style={{ justifyContent: 'center', alignItems: 'center', }}>
                             <TouchableOpacity style={styles.sineBtn} onPress={() => this.onPressSubmit()} >
@@ -207,7 +211,7 @@ const styles = StyleSheet.create({
         borderColor: '#fff',
         width: wp('80%'),
         height: hp('8%'),
-        margin: hp('2.5%'),
+        margin: hp('2%'),
         alignItems: "center",
     },
     TextInput: {

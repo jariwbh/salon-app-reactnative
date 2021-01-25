@@ -6,6 +6,7 @@ import { BookService } from '../../Services/BookService/BookService'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import Loader from '../../Components/Loader/Loading';
+import BackButton from '../../Components/BackButton/BackButton';
 
 export default class AppointmentsBooked extends Component {
     constructor(props) {
@@ -197,11 +198,12 @@ export default class AppointmentsBooked extends Component {
         const { fullname, mobilenumber, serviceTime, serviceDate, username, } = this.state;
         return (
             <View style={styles.container}>
-                <View style={{ alignItems: 'center', marginTop: hp('5%') }}>
+                <View style={{ alignItems: 'center', marginTop: hp('5%'), flexDirection: 'row' }}>
+                    <BackButton onPress={() => this.props.navigation.goBack()} />
                     <Text style={{ fontSize: hp('3%'), fontWeight: 'bold' }}> Appointment Booked </Text>
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-                    <View style={{ alignItems: 'center', marginTop: hp('10%') }}>
+                    <View style={{ alignItems: 'center', marginTop: hp('5%') }}>
                         <View style={styles.inputView}>
                             <TextInput
                                 style={styles.TextInput}
@@ -215,7 +217,7 @@ export default class AppointmentsBooked extends Component {
                                 onChangeText={(fullname) => this.setFullName(fullname)}
                             />
                         </View>
-                        <Text style={{ marginTop: hp('-3%'), marginRight: hp('-10%'), color: '#ff0000' }}>{this.state.fullnameError && this.state.fullnameError}</Text>
+                        <Text style={{ marginTop: hp('-2%'), marginLeft: hp('-20%'), color: '#ff0000' }}>{this.state.fullnameError && this.state.fullnameError}</Text>
                         <View style={styles.inputView}>
                             <TextInput
                                 style={styles.TextInput}
@@ -230,7 +232,7 @@ export default class AppointmentsBooked extends Component {
                                 onChangeText={(email) => this.setUserName(email)}
                             />
                         </View>
-                        <Text style={{ marginTop: hp('-3%'), marginRight: hp('-10%'), color: '#ff0000' }}>{this.state.usernameError && this.state.usernameError}</Text>
+                        <Text style={{ marginTop: hp('-2%'), marginLeft: hp('-20%'), color: '#ff0000' }}>{this.state.usernameError && this.state.usernameError}</Text>
                         <View style={styles.inputView}>
                             <TextInput
                                 style={styles.TextInput}
@@ -244,7 +246,7 @@ export default class AppointmentsBooked extends Component {
                                 onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
                             />
                         </View>
-                        <Text style={{ marginTop: hp('-3%'), marginRight: hp('-10%'), color: '#ff0000' }}>{this.state.mobilenumberError && this.state.mobilenumberError}</Text>
+                        <Text style={{ marginTop: hp('-2%'), marginLeft: hp('-18%'), color: '#ff0000' }}>{this.state.mobilenumberError && this.state.mobilenumberError}</Text>
                         <View style={styles.inputView}>
                             <TextInput
                                 style={styles.TextInput}
@@ -263,7 +265,7 @@ export default class AppointmentsBooked extends Component {
                                 onCancel={this.hideDatePicker}
                             />
                         </View>
-                        <Text style={{ marginLeft: hp('-10%'), marginTop: hp('-3%'), color: '#ff0000' }}>{this.state.serviceDateError && this.state.serviceDateError}</Text>
+                        <Text style={{ marginLeft: hp('-18%'), marginTop: hp('-2%'), color: '#ff0000' }}>{this.state.serviceDateError && this.state.serviceDateError}</Text>
                         <View style={styles.inputView}>
                             <TextInput
                                 style={styles.TextInput}
@@ -282,7 +284,7 @@ export default class AppointmentsBooked extends Component {
                                 onCancel={this.hideTimePicker}
                             />
                         </View>
-                        <Text style={{ marginLeft: hp('-10%'), marginTop: hp('-3%'), color: '#ff0000' }}>{this.state.serviceTimeError && this.state.serviceTimeError}</Text>
+                        <Text style={{ marginLeft: hp('-18%'), marginTop: hp('-2%'), color: '#ff0000' }}>{this.state.serviceTimeError && this.state.serviceTimeError}</Text>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         <TouchableOpacity style={styles.book} onPress={() => this.onPressSubmit()} >

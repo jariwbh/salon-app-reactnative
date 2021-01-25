@@ -47,8 +47,8 @@ export default class AppointmentScreen extends Component {
     };
 
     renderAppointmentList = ({ item }) => (
-        <TouchableOpacity style={styles.listview} onPress={() => this.props.navigation.navigate('AppointmentBooking', { item })}>
-            <TouchableOpacity style={{ marginTop: hp('2%'), marginLeft: hp('1%'), }} onPress={() => { this.props.navigation.navigate('AppointmentBooking', { item }) }}>
+        <TouchableOpacity style={styles.listview} onPress={() => this.props.navigation.navigate('ServiceDetails', { item })}>
+            <TouchableOpacity style={{ marginTop: hp('2%'), marginLeft: hp('1%'), }} onPress={() => { this.props.navigation.navigate('ServiceDetails', { item }) }}>
                 <Image source={{ uri: item.gallery[0] ? (item.gallery[0] ? item.gallery[0].attachment : serviceicon) : serviceicon }}
                     style={{ borderRadius: hp('15%'), width: 90, height: 90, }}
                 />

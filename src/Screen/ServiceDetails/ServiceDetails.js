@@ -3,9 +3,9 @@ import { View, Text, ScrollView, FlatList, StyleSheet, TextInput, TouchableOpaci
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import { FontAwesome5 } from '@expo/vector-icons';
 import HTML from 'react-native-render-html';
+import BackButton from '../../Components/BackButton/BackButton'
 
-
-export default class AppointmentBooking extends Component {
+export default class ServiceDetails extends Component {
     constructor(props) {
         super(props);
         this.serviceDetails = this.props.route.params.item;
@@ -22,7 +22,9 @@ export default class AppointmentBooking extends Component {
         const { serviceID, serviceImage, servicetitle, servicecharges, servicedescription, serviceDetails } = this.state
         return (
             <View style={styles.container}>
-
+                <View style={{ position: 'absolute', marginTop: hp('5%') }}>
+                    <BackButton onPress={() => this.props.navigation.goBack()} />
+                </View>
                 <View style={{ marginTop: hp('10%'), justifyContent: 'center', alignItems: 'center', marginBottom: hp('7%'), }}>
                     <Image source={{ uri: serviceImage }} style={{ width: wp('90%'), height: hp('40%'), }}
                     />

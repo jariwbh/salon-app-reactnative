@@ -112,7 +112,7 @@ export default class LoginScreen extends Component {
                                     onChangeText={(email) => this.setEmail(email)}
                                 />
                             </View>
-                            <Text style={{ marginTop: hp('-3%'), marginLeft: hp('-10%'), color: '#ff0000' }}>{this.state.usererror && this.state.usererror}</Text>
+                            <Text style={{ marginTop: hp('-2%'), marginLeft: hp('-20%'), color: '#ff0000' }}>{this.state.usererror && this.state.usererror}</Text>
                             <View style={styles.inputView}>
                                 <TextInput
                                     style={styles.TextInput}
@@ -127,7 +127,7 @@ export default class LoginScreen extends Component {
                                     onChangeText={(password) => this.setPassword(password)}
                                 />
                             </View>
-                            <Text style={{ marginTop: hp('-3%'), marginLeft: hp('-10%'), color: '#ff0000' }}>{this.state.passworderror && this.state.passworderror}</Text>
+                            <Text style={{ marginTop: hp('-2%'), marginLeft: hp('-20%'), color: '#ff0000' }}>{this.state.passworderror && this.state.passworderror}</Text>
                         </View>
                         {/* <View style={{ alignItems: 'flex-end', marginRight: hp('7%') }}>
                             <TouchableOpacity onPress={() => { this.props.navigation.navigate('ForgotPassword') }}>
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
         borderColor: '#fff',
         width: wp('80%'),
         height: hp('8%'),
-        margin: hp('3%'),
+        margin: hp('2%'),
         alignItems: "center",
 
     },

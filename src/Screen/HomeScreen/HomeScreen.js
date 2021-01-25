@@ -59,7 +59,7 @@ class HomeScreen extends Component {
 
     renderCategoryList = ({ item }) => (
         <View style={{ flexDirection: 'column' }}>
-            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', margin: hp('1.5%') }} onPress={() => { this.props.navigation.navigate('AppointmentScreen', { item }) }}>
+            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', margin: hp('1.5%') }} onPress={() => { this.props.navigation.navigate('ServiceListScreen', { item }) }}>
                 <Image source={{ uri: (item.property.img[0] ? item.property.img[0].attachment : '') }} style={{ alignItems: 'center', height: 100, width: 100, marginTop: hp('5%') }}
                 />
             </TouchableOpacity>
@@ -71,7 +71,7 @@ class HomeScreen extends Component {
 
     renderAppointmentList = ({ item }) => (
         <View style={{ flexDirection: 'column', flex: 1 }}>
-            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => this.props.navigation.navigate('AppointmentBooking', { item })}>
+            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => this.props.navigation.navigate('ServiceDetails', { item })}>
                 <Image source={{ uri: (item.gallery[0] ? item.gallery[0].attachment : 'https://www.icon0.com/static2/preview2/stock-photo-photo-icon-illustration-design-70325.jpg') }} style={{ alignItems: 'center', height: hp('25%'), width: wp('65%'), marginTop: hp('2%'), borderRadius: hp('2%') }}
                 />
             </TouchableOpacity>

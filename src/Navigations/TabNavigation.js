@@ -5,8 +5,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { MaterialCommunityIcons, FontAwesome5 } from 'react-native-vector-icons'
 //-------HomeStackScreen
 import HomeScreen from "../Screen/HomeScreen/HomeScreen";
-import AppointmentScreen from '../Screen/AppointmentScreen/AppointmentScreen'
-import AppointmentBooking from '../Screen/AppointmentBooking/AppointmentBooking'
+import ServiceDetails from "../Screen/ServiceDetails/ServiceDetails"
+import ServiceListScreen from '../Screen/ServiceListScreen/ServiceListScreen'
 import AppointmentsBooked from "../Screen/AppointmentsBooked/AppointmentsBooked";
 import StaffDetails from "../Screen/StaffDetails/StaffDetails"
 import BookHistory from "../Screen/BookHistory/BookHistory"
@@ -30,14 +30,32 @@ function HomeStackScreen() {
     return (
         <HomeStack.Navigator initialRouteName="HomeScreen" headerMode='none'>
             <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
+            <HomeStack.Screen name="ServiceDetails" component={ServiceDetails} />
             <HomeStack.Screen name="AppointmentsBooked" component={AppointmentsBooked} />
-            <HomeStack.Screen name="AppointmentScreen" component={AppointmentScreen} />
-            <HomeStack.Screen name="AppointmentBooking" component={AppointmentBooking} />
+            <HomeStack.Screen name="ServiceListScreen" component={ServiceListScreen} />
             <HomeStack.Screen name="StaffDetails" component={StaffDetails} />
         </HomeStack.Navigator>
     );
 }
 
+// const AppStack = createStackNavigator();
+// function AppStackScreen({ navigation }) {
+//     return (
+//         <AppStack.Navigator initialRouteName="AppScreen" headerMode='screen' >
+//             <AppStack.Screen name="AppScreen" options={{
+//                 title: 'BookeAppointments', headerStyle: {
+//                     backgroundColor: '#FFFFFF',
+//                     elevation: 0,
+//                     shadowOpacity: 0,
+//                     borderBottomWidth: 0,
+//                 }, headerLeft: () =>
+//                     <MenuIcon onPress={() => navigation.navigate("AppointmentsBooked")} />,
+
+//             }}
+//                 component={AppScreen} />
+//         </AppStack.Navigator>
+//     );
+// }
 
 
 const Tab = createBottomTabNavigator();
