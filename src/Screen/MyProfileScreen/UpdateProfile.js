@@ -87,7 +87,6 @@ class UpdateProfile extends Component {
 
         try {
             await UpdateUserService(body).then(response => {
-                console.log('response', response)
                 if (response != null) {
                     ToastAndroid.show("Your Profile Update!", ToastAndroid.LONG);
                     this.props.navigation.navigate('MyProfile')
@@ -190,7 +189,7 @@ const styles = StyleSheet.create({
         height: hp('15%'),
         borderRadius: wp('20%'),
         alignSelf: 'center',
-        marginTop: hp('10%'),
+        marginTop: hp('2%'),
         marginBottom: hp('3%')
     },
     bodyContent: {

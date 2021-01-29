@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
-        marginTop: hp('7%'),
+        marginTop: hp('1%'),
         width: wp('90%'),
         height: hp('6.5%'),
         marginLeft: hp('2.5%'),
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     statInput: {
         fontSize: hp('2.5%'),
         flex: 1,
-        padding: hp('2%'),
+        marginLeft: hp('2%'),
         alignItems: "center",
     },
     listview: {

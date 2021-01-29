@@ -1,7 +1,6 @@
 import appConfig from '../../Helpers/appConfig'
 
 const UserService = (id) => {
-    console.log('UserService', id)
     const requestOptions = {
         method: 'GET',
         headers: appConfig.headers,
@@ -41,7 +40,6 @@ const staffService = () => {
         },
         ]
     }
-
     const requestOptions = {
         method: 'POST',
         headers: appConfig.headers,

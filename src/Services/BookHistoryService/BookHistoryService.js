@@ -3,7 +3,7 @@ import appConfig from '../../Helpers/appConfig'
 const BookHistoryService = (id) => {
     const body =
     {
-        "search": [{ "searchfield": "customerid", "searchvalue": id, "criteria": "eq", "datatype": "ObjectID" }]
+        "search": [{ "searchfield": "attendee", "searchvalue": id, "criteria": "eq", "datatype": "ObjectID" }]
     }
 
     const requestOptions = {
@@ -12,7 +12,7 @@ const BookHistoryService = (id) => {
         body: JSON.stringify(body)
     };
 
-    return fetch(appConfig.baseUrl + 'facilitybookings/filter', requestOptions)
+    return fetch(appConfig.baseUrl + 'appointments/filter', requestOptions)
         .then(response => response.json()).catch(error => {
             console.error('There was an error!', error);
         });

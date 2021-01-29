@@ -1,31 +1,99 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, FlatList, RefreshControl } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
+import moment from 'moment'
+import Loading from '../../Components/Loader/Loader'
+import { BookHistoryService } from '../../Services/BookHistoryService/BookHistoryService'
+import AsyncStorage from '@react-native-community/async-storage'
 
 class BookHistory extends Component {
     constructor(props) {
         super(props);
         this.state = {
-        };
+            _id: null,
+            BookHistoryService: [],
+            refreshing: false,
+            loader: true,
+        }
     }
 
+    BookHistoryService(id) {
+        BookHistoryService(id).then(data => {
+            console.log('data.length', data.length)
+            this.setState({ BookHistoryService: data })
+            this.wait(1000).then(() => this.setState({ loader: false }));
+        })
+    }
+
+    getdata = async () => {
+        var getUser = await AsyncStorage.getItem('@authuser')
+        if (getUser == null) {
+            setTimeout(() => {
+                this.props.navigation.replace('LoginScreen')
+            }, 5000);
+        } else {
+            this.userid = JSON.parse(getUser)
+            this.BookHistoryService(this.userid._id)
+            this.setState({ _id: this.userid._id })
+        }
+    }
+
+    wait = (timeout) => {
+        return new Promise(resolve => {
+            setTimeout(resolve, timeout);
+        });
+    }
+
+    onRefresh = () => {
+        const { _id } = this.state;
+        this.setState({ refreshing: true })
+        this.BookHistoryService(_id)
+        this.wait(3000).then(() => this.setState({ refreshing: false }));
+    }
+
+    componentDidMount() {
+        this.getdata();
+    }
+
+    renderBookHistoryService = ({ item }) => (
+        <View style={styles.servicename}>
+            <View style={{ margin: hp('2%') }}>
+                <Image source={{ uri: item.refid.gallery[0].attachment }}
+                    style={{ alignItems: 'center', height: hp('16%'), width: wp('32%'), marginTop: hp('0%'), borderRadius: hp('2%') }} />
+            </View>
+            <View style={{ marginLeft: hp('2%') }}>
+                <Text style={{ fontSize: hp('1.5%') }}>Booking ID : #{item.prefix + '-' + item.number}</Text>
+                <Text style={{ fontSize: hp('2.5%') }}>{item.refid.title}</Text>
+                <Text style={{ fontSize: hp('2%') }}>{moment(item.appointmentdate).format('LL')}</Text>
+                <Text style={{ fontSize: hp('2%') }}>₹ {item.refid.charges}</Text>
+            </View>
+        </View>
+    );
+
     render() {
+        const { BookHistoryService, refreshing, loader } = this.state;
+        this.wait(3000).then(() => this.setState({ refreshing: false }));
         return (
             <View style={styles.container}>
-                <View style={{ alignItems: "center", marginTop: hp('5%') }}>
-                    <View style={styles.servicename}>
-                        <View style={{ margin: hp('2%') }}>
-                            <Image source={{ uri: ('https://www.icon0.com/static2/preview2/stock-photo-photo-icon-illustration-design-70325.jpg') }} style={{ alignItems: 'center', height: hp('15%'), width: wp('30%'), marginTop: hp('0%'), borderRadius: hp('2%') }}
+                {(BookHistoryService == null) || (BookHistoryService && BookHistoryService.length == 0)
+                    ?
+                    (loader == false ?
+                        <View style={{ alignItems: "center", justifyContent: 'center', marginTop: ('30%') }}>
+                            <Text style={{ alignItems: "center", justifyContent: 'center', fontSize: hp('2%'), color: '#595959' }}>Data Not Available</Text>
+                        </View>
+                        : <View style={{ marginTop: hp('15%') }}><Loading /></View>
+                    )
+                    :
+                    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />} showsVerticalScrollIndicator={false}>
+                        <View style={{ alignItems: "center", marginTop: hp('2%'), marginBottom: hp('7%') }}>
+                            <FlatList
+                                data={BookHistoryService}
+                                renderItem={this.renderBookHistoryService}
+                                keyExtractor={item => `${item._id}`}
                             />
                         </View>
-                        <View>
-                            <Text style={{ fontSize: hp('2%') }}>jon</Text>
-                            <Text style={{ fontSize: hp('2%') }}>surat</Text>
-                            <Text style={{ fontSize: hp('2%') }}>Appoiment service name</Text>
-                            <Text style={{ fontSize: hp('2%') }}>Date</Text>
-                        </View>
-                    </View>
-                </View>
+                    </ScrollView>
+                }
             </View>
         );
     }
@@ -36,27 +104,22 @@ export default BookHistory;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
-
     },
     servicename: {
         aspectRatio: 2.5,
-        paddingHorizontal: hp('2%'),
-        width: wp("90%"),
+        width: wp("100%"),
         flexDirection: 'row',
-        // justifyContent: 'space-between',
-        marginBottom: hp('2.5%'),
-        borderRadius: wp('6%'),
+        marginBottom: hp('2%'),
         alignItems: "center",
         position: 'relative',
         backgroundColor: "#fff",
         borderColor: '#fff',
-        shadowOpacity: 0.5,
+        shadowOpacity: 2,
         shadowRadius: 3,
         shadowOffset: {
             height: 0,
             width: 0,
         },
         elevation: 2,
-    },
+    }
 })

@@ -11,13 +11,12 @@ class StaffDetails extends Component {
         };
     }
 
-
     render() {
         const { staffDetails } = this.state
         return (
             <View style={styles.container}>
                 <ScrollView showsVerticalScrollIndicator={false} >
-                    <View style={{ marginTop: hp('3%') }}>
+                    <View>
                         <View style={{ margin: hp('2%'), justifyContent: 'center', alignItems: 'center' }} >
                             <Image source={{ uri: staffDetails.property.profilepic ? staffDetails.property.profilepic : 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
                                 style={{ alignItems: 'center', height: hp('16%'), width: wp('30%'), marginTop: hp('2%'), borderRadius: hp('20%'), borderColor: '#FFFFFF', borderWidth: hp('1%') }}
@@ -29,7 +28,7 @@ class StaffDetails extends Component {
                                 <Text style={{ fontSize: hp('3%'), color: '#000000', textAlign: 'center', marginTop: hp('2%'), }}>{staffDetails.property.mobile_number}</Text>
                                 <Text style={{ fontSize: hp('3%'), color: '#000000', textAlign: 'center', marginTop: hp('1%'), }}>{staffDetails.property.email}</Text>
                                 <View style={{ marginTop: hp('2%'), }}>
-                                    <Rating startingValue="{4.5}" />
+                                    <Rating readonly startingValue="{5}" ratingCount={5} />
                                 </View>
                                 <View style={{ marginTop: hp('2%'), marginLeft: hp('1%'), marginRight: hp('1%') }}>
                                     <Text style={{ fontSize: hp('2%'), color: '#000000', textAlign: 'center', }}>{staffDetails.property.description}</Text>
@@ -48,7 +47,7 @@ export default StaffDetails;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: "#FFFFFF",
     },
     listview: {
         flexDirection: 'column',
@@ -66,5 +65,5 @@ const styles = StyleSheet.create({
         height: hp('50%'),
         marginLeft: hp('2.5%'),
         marginBottom: hp('2%'),
-    },
+    }
 })

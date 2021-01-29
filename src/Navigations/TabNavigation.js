@@ -12,54 +12,131 @@ import StaffDetails from "../Screen/StaffDetails/StaffDetails"
 import BookHistory from "../Screen/BookHistory/BookHistory"
 //-------ProfileStackScreen
 import MyProfileScreen from '../Screen/MyProfileScreen/MyProfileScreen';
-import UpdateProfile from '../Screen/MyProfileScreen/UpdateProfile';
+import UpdateProfileScreen from '../Screen/MyProfileScreen/UpdateProfile';
+import BackButton from '../Components/BackButton/BackButton'
 
 const ProfileStack = createStackNavigator();
-function ProfileStackScreen() {
+function ProfileStackScreen({ navigation }) {
     return (
-        <ProfileStack.Navigator initialRouteName="MyProfile" headerMode='none'>
-            <ProfileStack.Screen name="MyProfile" component={MyProfileScreen} />
-            <ProfileStack.Screen name="UpdateProfile" component={UpdateProfile} />
+        <ProfileStack.Navigator initialRouteName="MyProfile" headerMode='screen'>
+            <ProfileStack.Screen name="MyProfile" options={{
+                title: 'Profile', headerStyle: {
+                    backgroundColor: '#FFFFFF',
+                    elevation: 0,
+                    shadowOpacity: 0,
+                    borderBottomWidth: 0,
+                }, headerLeft: () =>
+                    <BackButton onPress={() => navigation.navigate("HomeScreen")} />,
+                headerTintColor: '#000000',
+                headerTitleAlign: 'center',
+            }}
+                component={MyProfileScreen} />
+
+            <ProfileStack.Screen name="UpdateProfile" options={{
+                title: 'Profile', headerStyle: {
+                    backgroundColor: '#FFFFFF',
+                    elevation: 0,
+                    shadowOpacity: 0,
+                    borderBottomWidth: 0,
+                }, headerLeft: () =>
+                    <BackButton onPress={() => navigation.navigate("MyProfile")} />,
+                headerTintColor: '#000000',
+                headerTitleAlign: 'center',
+            }}
+                component={UpdateProfileScreen} />
         </ProfileStack.Navigator>
     );
 }
 
-
 const HomeStack = createStackNavigator();
-function HomeStackScreen() {
+function HomeStackScreen({ navigation }) {
     return (
-        <HomeStack.Navigator initialRouteName="HomeScreen" headerMode='none'>
-            <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
-            <HomeStack.Screen name="ServiceDetails" component={ServiceDetails} />
-            <HomeStack.Screen name="AppointmentsBooked" component={AppointmentsBooked} />
-            <HomeStack.Screen name="ServiceListScreen" component={ServiceListScreen} />
-            <HomeStack.Screen name="StaffDetails" component={StaffDetails} />
+        <HomeStack.Navigator initialRouteName="HomeScreen" headerMode='screen'>
+            <HomeStack.Screen name="HomeScreen" component={HomeScreen}
+                options={{
+                    title: '',
+                    headerShown: false
+                }} />
+
+            <HomeStack.Screen name="ServiceListScreen" options={{
+                title: 'Services', headerStyle: {
+                    backgroundColor: '#FFFFFF',
+                    elevation: 0,
+                    shadowOpacity: 0,
+                    borderBottomWidth: 0,
+                }, headerLeft: () => <BackButton onPress={() => navigation.navigate("HomeScreen")} />,
+                headerTintColor: '#000000',
+                headerTitleAlign: 'center',
+            }} component={ServiceListScreen} />
+
+            <HomeStack.Screen name="ServiceDetails" options={{
+                title: 'Service Details', headerStyle: {
+                    backgroundColor: '#FFFFFF',
+                    elevation: 0,
+                    shadowOpacity: 0,
+                    borderBottomWidth: 0,
+                }, headerLeft: () => <BackButton onPress={() => navigation.navigate("ServiceListScreen")} />,
+                headerTintColor: '#000000',
+                headerTitleAlign: 'center',
+            }} component={ServiceDetails} />
+
+            <HomeStack.Screen name="AppointmentsBooked" options={{
+                title: 'Appointments Booke', headerStyle: {
+                    backgroundColor: '#FFFFFF',
+                    elevation: 0,
+                    shadowOpacity: 0,
+                    borderBottomWidth: 0,
+                }, headerLeft: () => <BackButton onPress={() => navigation.navigate("ServiceDetails")} />,
+                headerTintColor: '#000000',
+                headerTitleAlign: 'center',
+            }} component={AppointmentsBooked} />
+
+            <HomeStack.Screen name="StaffDetails" options={{
+                title: 'StaffDetails', headerStyle: {
+                    backgroundColor: '#FFFFFF',
+                    elevation: 0,
+                    shadowOpacity: 0,
+                    borderBottomWidth: 0,
+                }, headerLeft: () => <BackButton onPress={() => navigation.navigate("HomeScreen")} />,
+                headerTintColor: '#000000',
+                headerTitleAlign: 'center',
+            }} component={StaffDetails} />
+
+            <HomeStack.Screen name="BookHistory" options={{
+                title: 'Book History', headerStyle: {
+                    backgroundColor: '#FFFFFF',
+                    elevation: 0,
+                    shadowOpacity: 0,
+                    borderBottomWidth: 0,
+                }, headerLeft: () => <BackButton onPress={() => navigation.navigate("HomeScreen")} />,
+                headerTintColor: '#000000',
+                headerTitleAlign: 'center',
+            }} component={BookHistory} />
         </HomeStack.Navigator>
     );
 }
 
-// const AppStack = createStackNavigator();
-// function AppStackScreen({ navigation }) {
-//     return (
-//         <AppStack.Navigator initialRouteName="AppScreen" headerMode='screen' >
-//             <AppStack.Screen name="AppScreen" options={{
-//                 title: 'BookeAppointments', headerStyle: {
-//                     backgroundColor: '#FFFFFF',
-//                     elevation: 0,
-//                     shadowOpacity: 0,
-//                     borderBottomWidth: 0,
-//                 }, headerLeft: () =>
-//                     <MenuIcon onPress={() => navigation.navigate("AppointmentsBooked")} />,
-
-//             }}
-//                 component={AppScreen} />
-//         </AppStack.Navigator>
-//     );
-// }
-
+const BookHistoryStack = createStackNavigator();
+function BookHistoryStackScreen({ navigation }) {
+    return (
+        <BookHistoryStack.Navigator initialRouteName="BookHistory" headerMode='screen' >
+            <BookHistoryStack.Screen name="BookHistory" options={{
+                title: 'Book history', headerStyle: {
+                    backgroundColor: '#FFFFFF',
+                    elevation: 0,
+                    shadowOpacity: 0,
+                    borderBottomWidth: 0,
+                }, headerLeft: () =>
+                    <BackButton onPress={() => navigation.navigate("HomeScreen")} />,
+                headerTintColor: '#000000',
+                headerTitleAlign: 'center',
+            }}
+                component={BookHistory} />
+        </BookHistoryStack.Navigator>
+    );
+}
 
 const Tab = createBottomTabNavigator();
-
 export default function TabNavigation() {
     return (
         <Tab.Navigator initialRouteName="Home"
@@ -106,8 +183,7 @@ export default function TabNavigation() {
             }}
         >
             <Tab.Screen name="Home" component={HomeStackScreen} />
-            {/* <Tab.Screen name="AppointmentScreen" component={AppointmentScreen} /> */}
-            <Tab.Screen name="Book" component={BookHistory} />
+            <Tab.Screen name="Book" options={{ unmountOnBlur: true }} component={BookHistoryStackScreen} />
             <Tab.Screen name="Profile" component={ProfileStackScreen} />
         </Tab.Navigator>
     );

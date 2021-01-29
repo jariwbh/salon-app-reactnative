@@ -60,7 +60,7 @@ class HomeScreen extends Component {
     renderCategoryList = ({ item }) => (
         <View style={{ flexDirection: 'column' }}>
             <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', margin: hp('1.5%') }} onPress={() => { this.props.navigation.navigate('ServiceListScreen', { item }) }}>
-                <Image source={{ uri: (item.property.img[0] ? item.property.img[0].attachment : '') }} style={{ alignItems: 'center', height: 100, width: 100, marginTop: hp('5%') }}
+                <Image source={{ uri: (item.property.img[0] ? item.property.img[0].attachment : '') }} style={{ alignItems: 'center', height: 100, width: 100, marginTop: hp('4%') }}
                 />
             </TouchableOpacity>
             <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -86,11 +86,11 @@ class HomeScreen extends Component {
         <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
             <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => this.props.navigation.navigate('StaffDetails', { item })}>
                 <Image source={{ uri: item.property.profilepic ? item.property.profilepic : 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
-                    style={{ alignItems: 'center', height: hp('18%'), width: wp('30%'), marginTop: hp('2%'), borderRadius: hp('20%'), borderColor: '#FFFFFF', borderWidth: hp('1%') }}
+                    style={{ alignItems: 'center', height: 120, width: 120, marginTop: hp('2%'), borderRadius: hp('20%') }}
                 />
             </TouchableOpacity>
             <View>
-                <Text style={{ flex: 1, fontSize: hp('3%'), color: '#FEBC42', textAlign: 'center' }}>{item.property.fullname}</Text>
+                <Text style={{ flex: 1, fontSize: hp('2%'), color: '#000000', textAlign: 'center', marginTop: hp('-1%') }}>{item.property.fullname}</Text>
             </View>
         </View>
     )
@@ -172,25 +172,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
-    },
-    statusbar: {
-
-        flexDirection: 'row',
-        backgroundColor: "#fff",
-        shadowOpacity: 0.5,
-        shadowRadius: 2,
-        shadowOffset: {
-            height: 0,
-            width: 0,
-        },
-        elevation: 2,
-        marginTop: hp('5%'),
-        width: wp('90%'),
-        height: hp('6.5%'),
-        marginLeft: hp('2.5%'),
-        alignItems: "center",
-        justifyContent: 'center'
-
     },
     statInput: {
         fontSize: hp('2.5%'),

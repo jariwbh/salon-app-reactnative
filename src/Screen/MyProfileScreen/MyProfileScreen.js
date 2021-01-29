@@ -55,7 +55,6 @@ export default class MyProfileScreen extends Component {
         const { companyData, userProfile, loader } = this.state;
         return (
             <View style={styles.container}>
-                <View style={styles.header}></View>
                 {companyData === null ?
                     <Loader />
                     : <>
@@ -89,7 +88,6 @@ export default class MyProfileScreen extends Component {
     }
 }
 
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -101,7 +99,7 @@ const styles = StyleSheet.create({
         height: hp('20%'),
         borderRadius: wp('20%'),
         alignSelf: 'center',
-        marginTop: wp('20%')
+        marginTop: wp('10%')
     },
     body: {
         marginTop: hp('3%'),

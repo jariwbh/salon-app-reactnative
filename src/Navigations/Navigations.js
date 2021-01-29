@@ -5,12 +5,7 @@ import TabNavigation from './TabNavigation';
 import LoginScreen from "../Screen/LoginScreen/LoginScreen";
 import ForgotPassword from "../Screen/ForgotPassword/ForgotPassword";
 import RegisterScreen from "../Screen/RegisterScreen/RegisterScreen";
-// import HomeScreen from "../Screen/HomeScreen/HomeScreen";
-
-
 const Stack = createStackNavigator();
-
-
 
 export default NavigationsApp = () => {
     return (

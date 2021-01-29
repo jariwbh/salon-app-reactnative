@@ -22,35 +22,32 @@ export default class ServiceDetails extends Component {
         const { serviceID, serviceImage, servicetitle, servicecharges, servicedescription, serviceDetails } = this.state
         return (
             <View style={styles.container}>
-                <View style={{ position: 'absolute', marginTop: hp('5%') }}>
-                    <BackButton onPress={() => this.props.navigation.goBack()} />
-                </View>
-                <View style={{ marginTop: hp('10%'), justifyContent: 'center', alignItems: 'center', marginBottom: hp('7%'), }}>
-                    <Image source={{ uri: serviceImage }} style={{ width: wp('90%'), height: hp('40%'), }}
-                    />
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: hp('-5%') }}>
-                    <Text style={{ fontSize: hp('3%'), }}>{servicetitle}</Text>
-                    <Text style={{ fontSize: hp('3%'), }}>₹ {servicecharges} </Text>
-                </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('2%'), }}>
-                    <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
-                    <View>
-                        <Text style={{ width: wp('25%'), textAlign: 'center', fontSize: hp('3%'), color: '#FEBC42' }}>Details</Text>
-                    </View>
-                    <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
-                </View>
                 <ScrollView >
+                    <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: hp('7%'), }}>
+                        <Image source={{ uri: serviceImage }} style={{ width: wp('90%'), height: hp('40%') }}
+                        />
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: hp('-5%') }}>
+                        <Text style={{ fontSize: hp('3%'), }}>{servicetitle}</Text>
+                        <Text style={{ fontSize: hp('3%'), }}>₹ {servicecharges} </Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('2%'), }}>
+                        <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
+                        <View>
+                            <Text style={{ width: wp('25%'), textAlign: 'center', fontSize: hp('3%'), color: '#FEBC42' }}>Details</Text>
+                        </View>
+                        <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
+                    </View>
                     <View style={{ flex: 1, marginTop: hp('1%'), marginLeft: hp('2%'), marginRight: hp('2%'), marginBottom: hp('15%') }}>
                         <HTML source={{ html: servicedescription }} />
                     </View>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('5%') }}>
+                        <TouchableOpacity style={styles.book} onPress={() => { this.props.navigation.navigate('AppointmentsBooked', { serviceDetails }) }}>
+                            <FontAwesome5 name="check-circle" size={24} color='#FFFFFF' style={{ margin: hp('1%'), }} />
+                            <Text style={{ fontSize: hp('3%'), color: '#FFFFFF' }}>Book Now</Text>
+                        </TouchableOpacity>
+                    </View>
                 </ScrollView>
-                <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-                    <TouchableOpacity style={styles.book} onPress={() => { this.props.navigation.navigate('AppointmentsBooked', { serviceDetails }) }}>
-                        <FontAwesome5 name="check-circle" size={24} color='#FFFFFF' style={{ margin: hp('1%'), }} />
-                        <Text style={{ fontSize: hp('3%'), color: '#FFFFFF' }}>Book Now</Text>
-                    </TouchableOpacity>
-                </View>
             </View>
         );
     }
@@ -61,30 +58,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#fff",
     },
-    // statusbar: {
-    //     flexDirection: 'row',
-    //     backgroundColor: "#fff",
-    //     shadowOpacity: 0.5,
-    //     shadowRadius: 2,
-    //     shadowOffset: {
-    //         height: 0,
-    //         width: 0,
-    //     },
-    //     elevation: 2,
-    //     marginTop: hp('5%'),
-    //     width: wp('90%'),
-    //     height: hp('6.5%'),
-    //     marginLeft: hp('2.5%'),
-    //     alignItems: "center",
-    //     justifyContent: 'center'
-
-    // },
-    // statInput: {
-    //     fontSize: hp('2.5%'),
-    //     flex: 1,
-    //     padding: hp('2%'),
-    //     alignItems: "center",
-    // },
     book: {
         flexDirection: 'row',
         backgroundColor: "#FEBC42",

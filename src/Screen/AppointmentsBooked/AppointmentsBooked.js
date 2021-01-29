@@ -75,7 +75,7 @@ export default class AppointmentsBooked extends Component {
 
     setFullName(fullname) {
         if (!fullname || fullname.length <= 0) {
-            return this.setState({ fullnameError: 'User Name cannot be empty' });
+            return this.setState({ fullnameError: 'User Name cannot be empty', fullname: fullname });
         }
         return this.setState({ fullname: fullname, fullnameError: null })
     }
@@ -83,7 +83,7 @@ export default class AppointmentsBooked extends Component {
     setUserName(email) {
         const re = /\S+@\S+\.\S+/;
         if (!email || email.length <= 0) {
-            return this.setState({ usernameError: 'Email cannot be empty' });
+            return this.setState({ usernameError: 'Email cannot be empty', username: email });
         }
         if (!re.test(email)) {
             return this.setState({ usernameError: 'Ooops! We need a valid email address' });
@@ -94,7 +94,7 @@ export default class AppointmentsBooked extends Component {
     setMobileNumber(mobilenumber) {
         const reg = /^[0]?[789]\d{9}$/;
         if (!mobilenumber || mobilenumber.length <= 0) {
-            return this.setState({ mobilenumberError: 'Mobile Number cannot be empty' });
+            return this.setState({ mobilenumberError: 'Mobile Number cannot be empty', mobilenumber: mobilenumber });
         }
         if (!reg.test(mobilenumber)) {
             return this.setState({ mobilenumberError: 'Ooops! We need a valid Mobile Number' });
@@ -104,14 +104,14 @@ export default class AppointmentsBooked extends Component {
 
     setServiceDate(serviceDate) {
         if (!serviceDate || serviceDate.length <= 0) {
-            return this.setState({ serviceDateError: 'service Date cannot be empty' });
+            return this.setState({ serviceDateError: 'service Date cannot be empty', serviceDate: serviceDate });
         }
         return this.setState({ serviceDate: serviceDate, serviceDateError: null })
     }
 
     setServiceTime(serviceTime) {
         if (!serviceTime || serviceTime.length <= 0) {
-            return this.setState({ serviceTimeError: 'Service Time cannot be empty' });
+            return this.setState({ serviceTimeError: 'Service Time cannot be empty', serviceTime: serviceTime });
         }
         return this.setState({ serviceTime: serviceTime, serviceTimeError: null })
     }
@@ -173,20 +173,13 @@ export default class AppointmentsBooked extends Component {
         }
         this.setState({ loading: true });
         try {
-            // BookService(body).then(response => {
-
-            //     if (response.type === "Error") {
-            //         this.setState({ loading: false })
-            //         ToastAndroid.show("Booking Failed!", ToastAndroid.LONG)
-            //         return
-            //     }
-
-            //     if (response != null) {
-            //         this.setState({ loading: false });
-            //         ToastAndroid.show("Booking Sucess!", ToastAndroid.LONG);
-            //         this.props.navigation.navigate('BookHistory', { response })
-            //     }
-            // })
+            BookService(body).then(response => {
+                if (response != null) {
+                    this.setState({ loading: false });
+                    ToastAndroid.show("Booking Sucess!", ToastAndroid.LONG);
+                    this.props.navigation.navigate('BookHistory', { response })
+                }
+            })
         }
         catch (error) {
             this.setState({ loading: false })
@@ -198,12 +191,8 @@ export default class AppointmentsBooked extends Component {
         const { fullname, mobilenumber, serviceTime, serviceDate, username, } = this.state;
         return (
             <View style={styles.container}>
-                <View style={{ alignItems: 'center', marginTop: hp('5%'), flexDirection: 'row' }}>
-                    <BackButton onPress={() => this.props.navigation.goBack()} />
-                    <Text style={{ fontSize: hp('3%'), fontWeight: 'bold' }}> Appointment Booked </Text>
-                </View>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-                    <View style={{ alignItems: 'center', marginTop: hp('5%') }}>
+                    <View style={{ alignItems: 'center' }}>
                         <View style={styles.inputView}>
                             <TextInput
                                 style={styles.TextInput}
@@ -273,9 +262,10 @@ export default class AppointmentsBooked extends Component {
                                 placeholder="HH-MM"
                                 type='clear'
                                 placeholderTextColor="#ABAFB3"
-                                returnKeyType="next"
+                                returnKeyType="done"
                                 onTouchStart={this.showTimePicker}
                                 onChangeText={(serviceTime) => this.setServiceTime(serviceTime)}
+                                onSubmitEditing={() => this.onPressSubmit()}
                             />
                             <DateTimePickerModal
                                 isVisible={this.state.isTimePickerVisibility}
