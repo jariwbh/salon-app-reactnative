@@ -1,14 +1,13 @@
 {
   "expo": {
-    "name": "salon",
+    "name": "Membroz - salon App",
     "slug": "salon",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/image/drawable_xxxhdpi/splash.png",
+      "resizeMode": "cover"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -17,16 +16,31 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.app.salon",
+      "buildNumber": "1.0.0"
     },
     "android": {
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
+      "package": "com.app.salon",
+      "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "splash": {
+        "mdpi": "./assets/image/drawable_mdpi/splash.png",
+        "hdpi": "./assets/image/drawable_hdpi/splash.png",
+        "xhdpi": "./assets/image/drawable_xhdpi/splash.png",
+        "xxhdpi": "./assets/image/drawable_xxhdpi/splash.png",
+        "xxxhdpi": "./assets/image/drawable_xxxhdpi/splash.png",
+        "resizeMode": "cover"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/logo.png"
     }
   }
 }
