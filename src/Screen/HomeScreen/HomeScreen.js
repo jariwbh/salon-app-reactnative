@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, FlatList, TextInput, Image, ScrollView, RefreshControl, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TextInput, Image, ScrollView, RefreshControl, SafeAreaView, BackHandler } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { CategoryService, AppointmentListService, } from '../../Services/CategoryService/CategoryService';
@@ -16,6 +16,14 @@ class HomeScreen extends Component {
             loader: true,
             refreshing: false,
         };
+        this._unsubscribeSiFocus = this.props.navigation.addListener('focus', e => {
+            BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+        });
+
+        this._unsubscribeSiBlur = this.props.navigation.addListener('blur', e => {
+            BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton,
+            );
+        });
     }
 
     wait = (timeout) => {
@@ -55,6 +63,17 @@ class HomeScreen extends Component {
         this.getCategoryList();
         this.getAppointmentList();
         this.getstaffList();
+    }
+
+    componentWillUnmount() {
+        this._unsubscribeSiFocus();
+        this._unsubscribeSiBlur();
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+    handleBackButton = () => {
+        BackHandler.exitApp()
+        return true;
     }
 
     renderCategoryList = ({ item }) => (

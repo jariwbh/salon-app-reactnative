@@ -130,6 +130,9 @@ android {
     }
 
     defaultConfig {
+        // ndk {
+        //   abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        // }
         applicationId "com.salon_reactnative"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
