@@ -9,9 +9,8 @@ const CategoryService = () => {
             "criteria": "eq",
             "datatype": "ObjectId"
         },
-        { "searchfield": "addedby", "searchvalue": "5ff6957fb638dd6a777f049c", "criteria": "eq" },
         { "searchfield": "status", "searchvalue": "active", "criteria": "eq" }
-        ]
+        ], "formname": "poscategory"
     }
 
     const requestOptions = {
@@ -57,7 +56,6 @@ const CategoryByAppointmentService = (id) => {
             "searchvalue": id,
             "criteria": "eq",
             "datatype": "ObjectId"
-
         },
         { "searchfield": "status", "searchvalue": "active", "criteria": "eq" }]
     }
