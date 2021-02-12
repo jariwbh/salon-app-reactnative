@@ -11,7 +11,6 @@ export default class AppointmentsBooked extends Component {
     constructor(props) {
         super(props);
         this.serviceDetails = this.props.route.params.serviceDetails;
-        console.log(this.props.route.params);
         this.state = {
             userID: null,
             memberID: null,
@@ -187,14 +186,14 @@ export default class AppointmentsBooked extends Component {
     }
 
     render() {
-        const { fullname, mobilenumber, serviceTime, serviceDate, username, } = this.state;
+        const { fullname, mobilenumber, serviceTime, serviceDate, username, fullnameError, usernameError, mobilenumberError, serviceDateError, serviceTimeError } = this.state;
         return (
             <SafeAreaView style={styles.container}>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                     <View style={{ alignItems: 'center' }}>
                         <View style={styles.inputView}>
                             <TextInput
-                                style={styles.TextInput}
+                                style={fullnameError == null ? styles.TextInput : styles.TextInputError}
                                 defaultValue={fullname}
                                 placeholder="Name"
                                 type='clear'
@@ -205,10 +204,9 @@ export default class AppointmentsBooked extends Component {
                                 onChangeText={(fullname) => this.setFullName(fullname)}
                             />
                         </View>
-                        <Text style={{ marginTop: hp('-2%'), marginLeft: hp('-20%'), color: '#ff0000' }}>{this.state.fullnameError && this.state.fullnameError}</Text>
                         <View style={styles.inputView}>
                             <TextInput
-                                style={styles.TextInput}
+                                style={usernameError == null ? styles.TextInput : styles.TextInputError}
                                 placeholder="Email"
                                 type='clear'
                                 placeholderTextColor="#ABAFB3"
@@ -220,10 +218,9 @@ export default class AppointmentsBooked extends Component {
                                 onChangeText={(email) => this.setUserName(email)}
                             />
                         </View>
-                        <Text style={{ marginTop: hp('-2%'), marginLeft: hp('-20%'), color: '#ff0000' }}>{this.state.usernameError && this.state.usernameError}</Text>
                         <View style={styles.inputView}>
                             <TextInput
-                                style={styles.TextInput}
+                                style={mobilenumberError == null ? styles.TextInput : styles.TextInputError}
                                 defaultValue={mobilenumber}
                                 placeholder="Phone_No"
                                 type='clear'
@@ -234,10 +231,9 @@ export default class AppointmentsBooked extends Component {
                                 onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
                             />
                         </View>
-                        <Text style={{ marginTop: hp('-2%'), marginLeft: hp('-18%'), color: '#ff0000' }}>{this.state.mobilenumberError && this.state.mobilenumberError}</Text>
                         <View style={styles.inputView}>
                             <TextInput
-                                style={styles.TextInput}
+                                style={serviceDateError == null ? styles.TextInput : styles.TextInputError}
                                 defaultValue={serviceDate}
                                 placeholder="YYYY-MM-DD"
                                 type='clear'
@@ -253,10 +249,9 @@ export default class AppointmentsBooked extends Component {
                                 onCancel={this.hideDatePicker}
                             />
                         </View>
-                        <Text style={{ marginLeft: hp('-18%'), marginTop: hp('-2%'), color: '#ff0000' }}>{this.state.serviceDateError && this.state.serviceDateError}</Text>
                         <View style={styles.inputView}>
                             <TextInput
-                                style={styles.TextInput}
+                                style={serviceTimeError == null ? styles.TextInput : styles.TextInputError}
                                 defaultValue={serviceTime}
                                 placeholder="HH-MM"
                                 type='clear'
@@ -273,7 +268,6 @@ export default class AppointmentsBooked extends Component {
                                 onCancel={this.hideTimePicker}
                             />
                         </View>
-                        <Text style={{ marginLeft: hp('-18%'), marginTop: hp('-2%'), color: '#ff0000' }}>{this.state.serviceTimeError && this.state.serviceTimeError}</Text>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         <TouchableOpacity style={styles.book} onPress={() => this.onPressSubmit()} >
@@ -311,9 +305,22 @@ const styles = StyleSheet.create({
 
     },
     TextInput: {
-        fontSize: hp('2%'),
+        fontSize: hp('2.5%'),
         flex: 1,
         padding: hp('2%'),
+        borderColor: '#FFFFFF'
+    },
+    TextInputError: {
+        fontSize: hp('2.5%'),
+        flex: 1,
+        padding: hp('2%'),
+        backgroundColor: "#FFFFFF",
+        borderColor: '#FF0000',
+        borderRadius: wp('8%'),
+        width: wp('80%'),
+        height: hp('8%'),
+        alignItems: "center",
+        borderWidth: hp('0.1%')
     },
     book: {
         flexDirection: 'row',

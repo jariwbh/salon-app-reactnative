@@ -20,8 +20,8 @@ export default class AppointmentScreen extends Component {
     getAppointmentList() {
         let id = this.CategoryID
         CategoryByAppointmentService(id).then(response => {
-            this.setState({ AppointmentService: response })
-            this.searchserviceList = response;
+            this.setState({ AppointmentService: response.data })
+            this.searchserviceList = response.data;
             this.wait(1000).then(() => this.setState({ loader: false }));
         })
     }

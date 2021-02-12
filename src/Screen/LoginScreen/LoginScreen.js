@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ImageBackground, ToastAndroid, Image, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, ToastAndroid, Image, TextInput, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../../Components/Loader/Loading'
-import appConfig from '../../Helpers/appConfig'
 import { LoginService } from "../../Services/LoginService/LoginService"
 
 export default class LoginScreen extends Component {
@@ -25,16 +24,16 @@ export default class LoginScreen extends Component {
 
     setEmail(email) {
         if (!email || email <= 0) {
-            return this.setState({ usererror: 'User Name cannot be empty' })
+            return this.setState({ usererror: 'User Name cannot be empty' });
         }
-        return this.setState({ username: email, usererror: null })
+        return this.setState({ username: email, usererror: null });
     }
 
     setPassword(password) {
         if (!password || password.length <= 0) {
             return this.setState({ passworderror: 'Password cannot be empty' });
         }
-        return this.setState({ password: password, passworderror: null })
+        return this.setState({ password: password, passworderror: null });
     }
 
     resetScreen() {
@@ -44,7 +43,7 @@ export default class LoginScreen extends Component {
             password: null,
             passworderror: null,
             loading: false,
-        })
+        });
     }
 
     authenticateUser = (user) => (
@@ -54,31 +53,24 @@ export default class LoginScreen extends Component {
     onPressSubmit = async () => {
         const { username, password } = this.state;
         if (!username || !password) {
-            this.setEmail(username)
-            this.setPassword(password)
+            this.setEmail(username);
+            this.setPassword(password);
             return;
         }
         const body = {
             username: username,
             password: password
         }
-        this.setState({ loading: true })
+        this.setState({ loading: true });
         try {
             await LoginService(body)
                 .then(response => {
-                    if (response.error) {
-                        this.setState({ loading: false })
-                        ToastAndroid.show("Username and Password Invalid!", ToastAndroid.LONG);
-                        this.resetScreen()
-                        return
-                    }
-
                     if (response != null || response != 'undefind') {
-                        this.authenticateUser(response.user)
-                        appConfig.headers["authkey"] = response.user.addedby;
+                        this.authenticateUser(response.data.user);
+                        //appConfig.headers["authkey"] = response.user.addedby;
                         ToastAndroid.show("SignIn Success!", ToastAndroid.LONG);
-                        this.props.navigation.navigate('TabNavigation')
-                        this.resetScreen()
+                        this.props.navigation.navigate('TabNavigation');
+                        this.resetScreen();
                         return
                     }
                 })
@@ -90,18 +82,20 @@ export default class LoginScreen extends Component {
     }
 
     render() {
+        const { usererror, passworderror } = this.state;
         return (
             <SafeAreaView style={styles.container}>
+                <StatusBar backgroundColor="#FEBC42" barStyle="dark-content" />
                 <ImageBackground source={require('../../assets/background.png')} style={styles.backgroundImage}>
                     <View style={styles.hello}>
-                        <Text style={{ color: '#36424A', fontSize: hp('5%') }}>Hello </Text>
+                        <Text style={{ color: '#36424A', fontSize: hp('5%') }}>Welcome </Text>
                         <Text style={{ color: '#8A8E91', fontSize: hp('3%') }}>Sign in to your account</Text>
                     </View>
                     <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                             <View style={styles.inputView}>
                                 <TextInput
-                                    style={styles.TextInput}
+                                    style={usererror == null ? styles.TextInput : styles.TextInputError}
                                     placeholder="Email"
                                     defaultValue={this.state.username}
                                     type='clear'
@@ -112,10 +106,9 @@ export default class LoginScreen extends Component {
                                     onChangeText={(email) => this.setEmail(email)}
                                 />
                             </View>
-                            <Text style={{ marginTop: hp('-2%'), marginLeft: hp('-20%'), color: '#ff0000' }}>{this.state.usererror && this.state.usererror}</Text>
                             <View style={styles.inputView}>
                                 <TextInput
-                                    style={styles.TextInput}
+                                    style={passworderror == null ? styles.TextInput : styles.TextInputError}
                                     placeholder="**********"
                                     type='clear'
                                     defaultValue={this.state.password}
@@ -127,7 +120,6 @@ export default class LoginScreen extends Component {
                                     onChangeText={(password) => this.setPassword(password)}
                                 />
                             </View>
-                            <Text style={{ marginTop: hp('-2%'), marginLeft: hp('-20%'), color: '#ff0000' }}>{this.state.passworderror && this.state.passworderror}</Text>
                         </View>
                         {/* <View style={{ alignItems: 'flex-end', marginRight: hp('7%') }}>
                             <TouchableOpacity onPress={() => { this.props.navigation.navigate('ForgotPassword') }}>
@@ -184,12 +176,24 @@ const styles = StyleSheet.create({
         height: hp('8%'),
         margin: hp('2%'),
         alignItems: "center",
-
     },
     TextInput: {
         fontSize: hp('2.5%'),
         flex: 1,
-        marginLeft: hp('3%'),
+        padding: hp('2%'),
+        borderColor: '#FFFFFF'
+    },
+    TextInputError: {
+        fontSize: hp('2.5%'),
+        flex: 1,
+        padding: hp('2%'),
+        backgroundColor: "#FFFFFF",
+        borderColor: '#FF0000',
+        borderRadius: wp('8%'),
+        width: wp('80%'),
+        height: hp('8%'),
+        alignItems: "center",
+        borderWidth: hp('0.1%')
     },
     loginBtn: {
         flexDirection: 'row',

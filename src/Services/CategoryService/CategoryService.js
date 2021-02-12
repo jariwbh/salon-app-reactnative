@@ -1,4 +1,4 @@
-import appConfig from '../../Helpers/appConfig'
+import Axios from '../../Helpers/appConfig'
 
 const CategoryService = () => {
     const body =
@@ -12,18 +12,7 @@ const CategoryService = () => {
         { "searchfield": "status", "searchvalue": "active", "criteria": "eq" }
         ], "formname": "poscategory"
     }
-
-    const requestOptions = {
-        method: 'POST',
-        headers: appConfig.headers,
-        body: JSON.stringify(body)
-    };
-
-    return fetch(appConfig.baseUrl + 'formdatas/filter', requestOptions)
-        .then(response => response.json())
-        .catch(error => {
-            console.error('There was an error!', error);
-        });
+    return Axios.post('formdatas/filter', body)
 }
 
 const AppointmentListService = () => {
@@ -36,16 +25,7 @@ const AppointmentListService = () => {
             "datatype": "text"
         }, { "searchfield": "addedby", "searchvalue": "5ff6957fb638dd6a777f049c", "criteria": "eq" }]
     }
-    const requestOptions = {
-        method: 'POST',
-        headers: appConfig.headers,
-        body: JSON.stringify(body)
-    };
-
-    return fetch(appConfig.baseUrl + 'services/filter', requestOptions)
-        .then(response => response.json()).catch(error => {
-            console.error('There was an error!', error);
-        });
+    return Axios.post('services/filter', body)
 }
 
 const CategoryByAppointmentService = (id) => {
@@ -59,17 +39,7 @@ const CategoryByAppointmentService = (id) => {
         },
         { "searchfield": "status", "searchvalue": "active", "criteria": "eq" }]
     }
-
-    const requestOptions = {
-        method: 'POST',
-        headers: appConfig.headers,
-        body: JSON.stringify(body)
-    };
-
-    return fetch(appConfig.baseUrl + 'services/filter', requestOptions)
-        .then(response => response.json()).catch(error => {
-            console.error('There was an error!', error);
-        });
+    return Axios.post('services/filter', body)
 }
 
 export { CategoryService, AppointmentListService, CategoryByAppointmentService };

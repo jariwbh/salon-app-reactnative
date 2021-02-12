@@ -17,10 +17,10 @@ class StaffDetails extends Component {
         return (
             <SafeAreaView style={styles.container}>
                 <ScrollView showsVerticalScrollIndicator={false} >
-                    <View>
+                    <View style={{ marginBottom: hp('10%') }} >
                         <View style={{ margin: hp('2%'), justifyContent: 'center', alignItems: 'center' }} >
                             <Image source={{ uri: staffDetails.property.profilepic ? staffDetails.property.profilepic : 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
-                                style={{ alignItems: 'center', height: hp('16%'), width: wp('30%'), marginTop: hp('2%'), borderRadius: hp('20%'), borderColor: '#FFFFFF', borderWidth: hp('1%') }}
+                                style={{ alignItems: 'center', height: 100, width: 100, marginTop: hp('2%'), borderRadius: hp('20%'), borderColor: '#FFFFFF', borderWidth: hp('1%') }}
                             />
                         </View>
                         <View>

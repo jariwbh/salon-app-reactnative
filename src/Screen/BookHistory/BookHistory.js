@@ -18,9 +18,8 @@ class BookHistory extends Component {
     }
 
     BookHistoryService(id) {
-        BookHistoryService(id).then(data => {
-            console.log('data.length', data.length)
-            this.setState({ BookHistoryService: data })
+        BookHistoryService(id).then(response => {
+            this.setState({ BookHistoryService: response.data })
             this.wait(1000).then(() => this.setState({ loader: false }));
         })
     }
@@ -99,7 +98,7 @@ class BookHistory extends Component {
                         : <View style={{ marginTop: hp('15%') }}><Loading /></View>
                     )
                     :
-                    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />} showsVerticalScrollIndicator={false}>
+                    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#FEBC42" titleColor="#FEBC42" colors={["#FEBC42"]} onRefresh={this.onRefresh} />} showsVerticalScrollIndicator={false}>
                         <View style={{ alignItems: "center", marginTop: hp('2%'), marginBottom: hp('7%') }}>
                             <FlatList
                                 data={BookHistoryService}

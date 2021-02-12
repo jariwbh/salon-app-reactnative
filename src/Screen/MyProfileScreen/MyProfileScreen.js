@@ -12,6 +12,7 @@ export default class MyProfileScreen extends Component {
         this.state = {
             companyData: null,
             userProfile: null,
+            loader: true,
         }
     }
 
@@ -30,11 +31,15 @@ export default class MyProfileScreen extends Component {
         if (getUser == null) {
             setTimeout(() => {
                 this.props.navigation.replace('LoginScreen')
-            }, 5000);
+            }, 3000);
         } else {
             var userData;
             userData = JSON.parse(getUser)
-            this.wait(1000).then(() => this.setState({ loader: false, companyData: userData, userProfile: userData.profilepic }));
+            this.wait(1000).then(() => this.setState({
+                loader: false,
+                companyData: userData,
+                userProfile: userData.profilepic
+            }));
         }
     }
 

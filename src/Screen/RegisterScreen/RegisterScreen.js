@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, TextInput, ToastAndroid, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, TextInput, ToastAndroid, SafeAreaView, StatusBar } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
-import { RegisterService } from '../../Services/RegisterService/RegisterService';
+import RegisterService from '../../Services/RegisterService/RegisterService';
 import Loader from '../../Components/Loader/Loading';
 import BackButton from '../../Components/BackButton/BackButton'
 
@@ -17,7 +17,6 @@ class RegisterScreen extends Component {
             mobilenumber: null,
             mobilenumberError: null,
             loading: false,
-
         }
         this.setFullName = this.setFullName.bind(this);
         this.setUserName = this.setUserName.bind(this);
@@ -71,39 +70,33 @@ class RegisterScreen extends Component {
                 mobile_number: mobilenumber,
             }
         }
-
         this.setState({ loading: true })
-
         try {
             await RegisterService(body).then(response => {
-                if (response.error) {
-                    this.setState({ loading: false })
-                    ToastAndroid.show("SignUp Failed!", ToastAndroid.LONG);
-                    this.resetScreen()
-                    return
-                }
                 if (response != null) {
                     ToastAndroid.show("SignUp Success!", ToastAndroid.LONG);
-                    this.props.navigation.navigate('LoginScreen')
-                    this.resetScreen()
+                    this.props.navigation.navigate('LoginScreen');
                 }
             })
         }
         catch (error) {
             this.setState({ loading: false })
-            ToastAndroid.show("SignUp Failed!", ToastAndroid.LONG)
+            ToastAndroid.show("SignUp Failed!", ToastAndroid.LONG);
         }
     }
 
     render() {
+        const { fullnameError, usernameError, mobilenumberError } = this.state;
         return (
             <SafeAreaView style={styles.container}>
+                <StatusBar backgroundColor="#FEBC42" barStyle="dark-content" />
                 <ImageBackground source={require('../../assets/background.png')} style={styles.backgroundImage}>
+
                     <View style={{ position: 'absolute', marginTop: hp('7%') }}>
                         <BackButton onPress={() => this.props.navigation.goBack()} />
                     </View>
                     <View style={styles.sineupview}>
-                        <Text style={{ fontSize: hp('4%'), }}>Create Account </Text>
+                        <Text style={{ fontSize: hp('4%') }}>Create Account </Text>
                     </View>
                     <ScrollView
                         Vertical={true}
@@ -113,7 +106,7 @@ class RegisterScreen extends Component {
                         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                             <View style={styles.inputview}>
                                 <TextInput
-                                    style={styles.TextInput}
+                                    style={fullnameError == null ? styles.TextInput : styles.TextInputError}
                                     defaultValue={this.state.fullname}
                                     placeholder="Full Name"
                                     type='clear'
@@ -124,10 +117,9 @@ class RegisterScreen extends Component {
                                     onChangeText={(fullname) => this.setFullName(fullname)}
                                 />
                             </View>
-                            <Text style={{ marginTop: hp('-2%'), marginLeft: hp('-20%'), color: '#ff0000' }}>{this.state.fullnameError && this.state.fullnameError}</Text>
                             <View style={styles.inputview}>
                                 <TextInput
-                                    style={styles.TextInput}
+                                    style={usernameError == null ? styles.TextInput : styles.TextInputError}
                                     defaultValue={this.state.username}
                                     placeholder="Email"
                                     type='clear'
@@ -143,10 +135,9 @@ class RegisterScreen extends Component {
                                     onChangeText={(username) => this.setUserName(username)}
                                 />
                             </View>
-                            <Text style={{ marginTop: hp('-2%'), marginLeft: hp('-20%'), color: '#ff0000' }}>{this.state.usernameError && this.state.usernameError}</Text>
                             <View style={styles.inputview} >
                                 <TextInput
-                                    style={styles.TextInput}
+                                    style={mobilenumberError == null ? styles.TextInput : styles.TextInputError}
                                     placeholder="Mobile Number"
                                     type='clear'
                                     placeholderTextColor="#ABAFB3"
@@ -157,7 +148,6 @@ class RegisterScreen extends Component {
                                     onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
                                 />
                             </View>
-                            <Text style={{ marginTop: hp('-2%'), marginLeft: hp('-16%'), color: '#ff0000' }}>{this.state.mobilenumberError && this.state.mobilenumberError}</Text>
                         </View>
                         <View style={{ justifyContent: 'center', alignItems: 'center', }}>
                             <TouchableOpacity style={styles.sineBtn} onPress={() => this.onPressSubmit()} >
@@ -193,7 +183,8 @@ const styles = StyleSheet.create({
     sineupview: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: hp('30%'),
+        marginTop: hp('7%'),
+        marginBottom: hp('20%'),
     },
     inputview: {
         flexDirection: 'row',
@@ -215,7 +206,20 @@ const styles = StyleSheet.create({
     TextInput: {
         fontSize: hp('2.5%'),
         flex: 1,
-        marginLeft: hp('3%'),
+        padding: hp('2%'),
+        borderColor: '#FFFFFF'
+    },
+    TextInputError: {
+        fontSize: hp('2.5%'),
+        flex: 1,
+        padding: hp('2%'),
+        backgroundColor: "#FFFFFF",
+        borderColor: '#FF0000',
+        borderRadius: wp('8%'),
+        width: wp('80%'),
+        height: hp('8%'),
+        alignItems: "center",
+        borderWidth: hp('0.1%')
     },
     sineBtn: {
         flexDirection: 'row',

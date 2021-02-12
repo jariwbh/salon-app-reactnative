@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, FlatList, TextInput, Image, ScrollView, RefreshControl, SafeAreaView, BackHandler } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TextInput, Image, ScrollView, RefreshControl, SafeAreaView, BackHandler, StatusBar } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { CategoryService, AppointmentListService, } from '../../Services/CategoryService/CategoryService';
+import { CategoryService, AppointmentListService } from '../../Services/CategoryService/CategoryService';
 import { staffService } from '../../Services/UserService/UserService';
 import Loader from '../../Components/Loader/Loader'
 
@@ -42,20 +42,20 @@ class HomeScreen extends Component {
 
     getCategoryList() {
         CategoryService().then(response => {
-            this.setState({ CategoryList: response })
+            this.setState({ CategoryList: response.data })
         })
     }
 
     getAppointmentList() {
         AppointmentListService().then(response => {
-            const slice = response.slice(0, 3)
+            const slice = response.data.slice(0, 3)
             this.setState({ AppointmentList: slice })
         })
     }
 
     getstaffList() {
         staffService().then(response => {
-            this.setState({ staffList: response })
+            this.setState({ staffList: response.data })
         })
     }
 
@@ -118,9 +118,9 @@ class HomeScreen extends Component {
         const { CategoryList, AppointmentList, staffList, loader, refreshing } = this.state
         return (
             <SafeAreaView style={styles.container}>
+                <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
                 {CategoryList == null || CategoryList.length == 0 ? <Loader /> :
-                    <ScrollView
-                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />}
+                    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#FEBC42" titleColor="#FEBC42" colors={["#FEBC42"]} onRefresh={this.onRefresh} />}
                         showsVerticalScrollIndicator={false}>
                         <View style={{ flexDirection: 'row', }}>
                             <ScrollView

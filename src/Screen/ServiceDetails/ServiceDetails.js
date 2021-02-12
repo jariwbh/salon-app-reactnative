@@ -21,7 +21,7 @@ export default class ServiceDetails extends Component {
         const { serviceID, serviceImage, servicetitle, servicecharges, servicedescription, serviceDetails } = this.state
         return (
             <SafeAreaView style={styles.container}>
-                <ScrollView >
+                <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: hp('7%'), }}>
                         <Image source={{ uri: serviceImage }} style={{ width: wp('90%'), height: hp('40%') }}
                         />
@@ -40,7 +40,7 @@ export default class ServiceDetails extends Component {
                     <View style={{ flex: 1, marginTop: hp('1%'), marginLeft: hp('2%'), marginRight: hp('2%'), marginBottom: hp('15%') }}>
                         <HTML source={{ html: servicedescription }} />
                     </View>
-                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('5%') }}>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('5%'), marginBottom: hp('5%') }}>
                         <TouchableOpacity style={styles.book} onPress={() => { this.props.navigation.navigate('AppointmentsBooked', { serviceDetails }) }}>
                             <FontAwesome5 name="check-circle" size={24} color='#FFFFFF' style={{ margin: hp('1%'), }} />
                             <Text style={{ fontSize: hp('3%'), color: '#FFFFFF' }}>Book Now</Text>

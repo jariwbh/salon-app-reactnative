@@ -1,31 +1,13 @@
-import appConfig from '../../Helpers/appConfig'
+import Axios from '../../Helpers/appConfig'
 
 const UserService = (id) => {
-    const requestOptions = {
-        method: 'GET',
-        headers: appConfig.headers,
-    };
-
-    return fetch(appConfig.baseUrl + 'users/' + id, requestOptions)
-        .then(response => response.json())
-        .catch(error => {
-            console.error('There was an error!', error);
-        });
+    return Axios.get('users/' + id);
 }
 
 const UpdateUserService = (value) => {
-    id = value._id
-    const requestOptions = {
-        method: 'PUT',
-        headers: appConfig.headers,
-        body: JSON.stringify(value)
-    };
-
-    return fetch(appConfig.baseUrl + 'members/' + id, requestOptions)
-        .then(response => response.json())
-        .catch(error => {
-            console.error('There was an error!', error);
-        });
+    let id = value._id
+    const body = JSON.stringify(value);
+    return Axios.put('members/' + id, body);
 }
 
 
@@ -40,19 +22,7 @@ const staffService = () => {
         },
         ]
     }
-    const requestOptions = {
-        method: 'POST',
-        headers: appConfig.headers,
-        body: JSON.stringify(body)
-    };
-
-    return fetch(appConfig.baseUrl + 'users/filter', requestOptions)
-        .then(response => response.json())
-        .catch(error => {
-            console.error('There was an error!', error);
-        });
+    return Axios.post('users/filter', body);
 }
-
-
 
 export { UserService, UpdateUserService, staffService, };

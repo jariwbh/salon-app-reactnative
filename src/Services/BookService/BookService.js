@@ -1,17 +1,8 @@
-import appConfig from '../../Helpers/appConfig'
+import Axios from '../../Helpers/appConfig'
 
 const BookService = (data) => {
     const body = JSON.stringify(data)
-    const requestOptions = {
-        method: 'POST',
-        headers: appConfig.headers,
-        body: body
-    };
-    return fetch(appConfig.baseUrl + 'appointments', requestOptions)
-        .then(response => response.json())
-        .catch(error => {
-            console.error('There was an error!', error);
-        });
+    return Axios.post('appointments', body);
 }
 
 export { BookService };
