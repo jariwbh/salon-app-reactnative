@@ -75,7 +75,7 @@ function HomeStackScreen({ navigation }) {
                     elevation: 0,
                     shadowOpacity: 0,
                     borderBottomWidth: 0,
-                }, headerLeft: () => <BackButton onPress={() => navigation.navigate("ServiceListScreen")} />,
+                }, headerLeft: () => <BackButton onPress={() => navigation.navigate("HomeScreen")} />,
                 headerTintColor: '#000000',
                 headerTitleAlign: 'center',
             }} component={ServiceDetails} />

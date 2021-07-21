@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ToastAndroid, ScrollView, SafeAreaView } from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ToastAndroid, ScrollView, SafeAreaView, Dimensions } from 'react-native';
 import { UpdateUserService } from '../../Services/UserService/UserService';
 import Loader from '../../Components/Loader/Loader';
 import Loading from '../../Components/Loader/Loading';
 import AsyncStorage from '@react-native-community/async-storage'
+const HEIGHT = Dimensions.get('window').height;
+const WIDTH = Dimensions.get('window').width;
 
 class UpdateProfile extends Component {
     constructor(props) {
@@ -14,11 +15,11 @@ class UpdateProfile extends Component {
             _id: this.companyData._id,
             fullname: this.companyData.property.fullname,
             fullnameError: null,
-            username: this.companyData.property.email,
+            username: this.companyData.property.primaryemail,
             usernameError: null,
-            mobilenumber: this.companyData.property.mobile_number,
+            mobilenumber: this.companyData.property.mobile,
             mobilenumberError: null,
-            userProfile: this.companyData.branchid.branchlogo,
+            userProfile: this.companyData.profilepic,
             profileName: this.companyData.fullname,
             memberName: this.companyData.username,
             loading: false,
@@ -74,32 +75,35 @@ class UpdateProfile extends Component {
             return;
         }
 
+        this.companyData.property.fullname = fullname;
+        this.companyData.property.primaryemail = username;
+        this.companyData.property.mobile = mobilenumber;
+
         const body = {
             _id: _id,
-            status: "active",
-            username: memberName,
-            property: {
-                fullname: fullname,
-                email: username,
-                mobile_number: mobilenumber,
-            }
+            property: this.companyData.property
         }
-
         this.setState({ loading: true })
-
         try {
             await UpdateUserService(body).then(response => {
                 if (response != null) {
-                    console.log('response.data.user', response.data)
                     this.authenticateUser(response.data)
-                    ToastAndroid.show("Your Profile Update!", ToastAndroid.LONG);
+                    if (Platform.OS === 'android') {
+                        ToastAndroid.show("Your Profile Update", ToastAndroid.LONG);
+                    } else {
+                        alert('Your Profile Update');
+                    }
                     this.props.navigation.replace('MyProfile');
                 }
             })
         }
         catch (error) {
             this.setState({ loading: false })
-            ToastAndroid.show("Your Profile Not Update!", ToastAndroid.LONG)
+            if (Platform.OS === 'android') {
+                ToastAndroid.show("Your Profile Not Update", ToastAndroid.LONG)
+            } else {
+                alert('Your Profile Not Update');
+            }
         }
     }
 
@@ -185,28 +189,28 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF'
     },
     avatar: {
-        width: hp('15%'),
-        height: hp('15%'),
-        borderRadius: wp('20%'),
+        width: 100,
+        height: 100,
+        borderRadius: 100,
         alignSelf: 'center',
-        marginTop: hp('2%'),
-        marginBottom: hp('3%')
+        marginTop: 20
     },
     bodyContent: {
         flex: 1,
         alignItems: 'center',
-        paddingBottom: hp('8%')
+        paddingBottom: 40,
+        marginTop: 10
     },
     name: {
-        fontSize: hp('4%'),
+        fontSize: 28,
         color: "#737373",
         fontWeight: 'bold',
         textTransform: 'capitalize'
     },
     inputView: {
         flexDirection: 'row',
-        backgroundColor: "#fff",
-        borderRadius: wp('8%'),
+        backgroundColor: "#FFFFFF",
+        borderRadius: 100,
         shadowOpacity: 0.5,
         shadowRadius: 3,
         shadowOffset: {
@@ -215,42 +219,42 @@ const styles = StyleSheet.create({
         },
         elevation: 2,
         borderColor: '#fff',
-        width: wp('80%'),
-        height: hp('8%'),
-        marginBottom: hp('3%'),
+        width: WIDTH - 60,
+        height: 50,
+        marginBottom: 20,
         alignItems: "center",
     },
     TextInput: {
-        fontSize: hp('2.5%'),
+        fontSize: 16,
         flex: 1,
-        padding: hp('2%'),
+        padding: 15,
         borderColor: '#FFFFFF'
     },
     TextInputError: {
-        fontSize: hp('2.5%'),
+        fontSize: 16,
         flex: 1,
-        padding: hp('2%'),
+        padding: 15,
         backgroundColor: "#FFFFFF",
         borderColor: '#FF0000',
-        borderRadius: wp('8%'),
-        width: wp('80%'),
-        height: hp('8%'),
+        borderRadius: 100,
+        width: WIDTH - 60,
+        height: 50,
         alignItems: "center",
-        borderWidth: hp('0.1%')
+        borderWidth: 1
     },
     update_Btn: {
         flexDirection: 'row',
         backgroundColor: "#FEBC42",
-        marginTop: hp('2%'),
-        width: wp('60%'),
-        height: hp('6.5%'),
+        marginTop: 10,
+        width: WIDTH / 2 + 20,
+        height: 50,
         alignItems: "center",
         justifyContent: 'center'
     },
     update_text: {
         color: "white",
         fontWeight: 'bold',
-        fontSize: hp('3%'),
+        fontSize: 18,
     },
 })
 

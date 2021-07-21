@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList, TextInput, Image, TouchableOpacity, SafeAreaView } from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { View, Text, StyleSheet, ScrollView, Image, SafeAreaView, Dimensions } from 'react-native';
+import { Rating } from 'react-native-ratings';
+import HTML from 'react-native-render-html';
+const WIDTH = Dimensions.get('window').width;
 
 class StaffDetails extends Component {
     constructor(props) {
@@ -17,22 +18,25 @@ class StaffDetails extends Component {
         return (
             <SafeAreaView style={styles.container}>
                 <ScrollView showsVerticalScrollIndicator={false} >
-                    <View style={{ marginBottom: hp('10%') }} >
-                        <View style={{ margin: hp('2%'), justifyContent: 'center', alignItems: 'center' }} >
+                    <View style={{ marginBottom: 50 }} >
+                        <View style={{ margin: 10, justifyContent: 'center', alignItems: 'center' }} >
                             <Image source={{ uri: staffDetails.property.profilepic ? staffDetails.property.profilepic : 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
-                                style={{ alignItems: 'center', height: 100, width: 100, marginTop: hp('2%'), borderRadius: hp('20%'), borderColor: '#FFFFFF', borderWidth: hp('1%') }}
+                                style={{ alignItems: 'center', height: 100, width: 100, marginTop: 10, borderRadius: 100, borderColor: '#FFFFFF', borderWidth: 1 }}
                             />
                         </View>
                         <View>
-                            <Text style={{ flex: 1, fontSize: hp('3%'), color: '#000000', textAlign: 'center' }}>{staffDetails.property.fullname}</Text>
-                            <View style={styles.listview}>
-                                <Text style={{ fontSize: hp('3%'), color: '#000000', textAlign: 'center', marginTop: hp('2%'), }}>{staffDetails.property.mobile_number}</Text>
-                                <Text style={{ fontSize: hp('3%'), color: '#000000', textAlign: 'center', marginTop: hp('1%'), }}>{staffDetails.property.email}</Text>
-                                <View style={{ marginTop: hp('2%'), }}>
-                                    <Rating readonly startingValue="{5}" ratingCount={5} />
-                                </View>
-                                <View style={{ marginTop: hp('2%'), marginLeft: hp('1%'), marginRight: hp('1%') }}>
-                                    <Text style={{ fontSize: hp('2%'), color: '#000000', textAlign: 'center', }}>{staffDetails.property.description}</Text>
+                            <Text style={{ flex: 1, fontSize: 16, color: '#000000', textAlign: 'center' }}>{staffDetails.property.fullname}</Text>
+                            <View style={{ justifyContent: 'center', alignItems: 'center' }} >
+                                <View style={styles.listview}>
+                                    <Text style={{ fontSize: 16, color: '#000000', textAlign: 'center', marginTop: 10 }}>{staffDetails.property.mobile_number}</Text>
+                                    <Text style={{ fontSize: 16, color: '#000000', textAlign: 'center', marginTop: 5 }}>{staffDetails.property.email}</Text>
+                                    <View style={{ marginTop: 10 }}>
+                                        <Rating readonly startingValue="{5}" ratingCount={5} />
+                                    </View>
+                                    <View style={{ alignItems: 'center', marginTop: 10, padding: 5, marginLeft: 10, marginRight: 5, marginBottom: 20 }}>
+                                        <HTML baseFontStyle={{ fontSize: 14, textTransform: 'capitalize', textAlign: 'center' }}
+                                            html={`<html>${staffDetails && staffDetails.property.about_me} </html>`} />
+                                    </View>
                                 </View>
                             </View>
                         </View>
@@ -52,7 +56,7 @@ const styles = StyleSheet.create({
     },
     listview: {
         flexDirection: 'column',
-        borderRadius: hp('2%'),
+        borderRadius: 10,
         backgroundColor: "#FFFFFF",
         shadowOpacity: 0.5,
         shadowRadius: 2,
@@ -61,10 +65,8 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
-        marginTop: hp('2%'),
-        width: wp('90%'),
-        height: hp('50%'),
-        marginLeft: hp('2.5%'),
-        marginBottom: hp('2%'),
+        marginTop: 10,
+        width: WIDTH - 40,
+        marginBottom: 10
     }
 })

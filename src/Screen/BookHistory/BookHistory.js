@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, FlatList, RefreshControl, SafeAreaView } from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
+import { View, Text, StyleSheet, ScrollView, Image, FlatList, RefreshControl, SafeAreaView, Dimensions } from 'react-native';
 import moment from 'moment'
 import Loading from '../../Components/Loader/Loader'
 import { BookHistoryService } from '../../Services/BookHistoryService/BookHistoryService'
 import AsyncStorage from '@react-native-community/async-storage'
+const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
 
 class BookHistory extends Component {
     constructor(props) {
@@ -29,7 +30,7 @@ class BookHistory extends Component {
         if (getUser == null) {
             setTimeout(() => {
                 this.props.navigation.replace('LoginScreen')
-            }, 5000);
+            }, 3000);
         } else {
             this.userid = JSON.parse(getUser)
             this.BookHistoryService(this.userid._id)
@@ -47,7 +48,7 @@ class BookHistory extends Component {
         const { _id } = this.state;
         this.setState({ refreshing: true })
         this.BookHistoryService(_id)
-        this.wait(3000).then(() => this.setState({ refreshing: false }));
+        this.wait(1000).then(() => this.setState({ refreshing: false }));
     }
 
     componentDidMount() {
@@ -56,29 +57,29 @@ class BookHistory extends Component {
 
     renderBookHistoryService = ({ item }) => (
         <View style={styles.servicename}>
-            <View style={{ margin: hp('2%') }}>
+            <View style={{ margin: 10 }}>
                 <Image source={{ uri: item.refid.gallery[0].attachment }}
-                    style={{ alignItems: 'center', height: hp('16%'), width: wp('32%'), marginTop: hp('0%'), borderRadius: hp('2%') }} />
+                    style={{ alignItems: 'center', height: 130, width: 180, borderRadius: 10 }} />
             </View>
-            <View style={{ marginLeft: hp('2%') }}>
-                <Text style={{ fontSize: hp('1.5%') }}>Booking ID : #{item.prefix + '-' + item.number}</Text>
-                <Text style={{ fontSize: hp('2.5%') }}>{item.refid.title}</Text>
-                <Text style={{ fontSize: hp('2%') }}>{moment(item.appointmentdate).format('LL')}</Text>
-                <Text style={{ fontSize: hp('2%') }}>₹ {item.refid.charges}</Text>
+            <View style={{ marginLeft: 10 }}>
+                <Text style={{ fontSize: 10 }}>Booking ID : #{item.prefix + '-' + item.number}</Text>
+                <Text style={{ fontSize: 16 }}>{item.refid.title}</Text>
+                <Text style={{ fontSize: 14 }}>{moment(item.appointmentdate).format('LL')}</Text>
+                <Text style={{ fontSize: 14 }}>₹ {item.refid.charges}</Text>
                 {item.status == "requested" &&
-                    <Text style={{ fontSize: hp('2%'), textTransform: 'capitalize', color: '#3788D8' }}>{item.status}</Text>
+                    <Text style={{ fontSize: 14, textTransform: 'capitalize', color: '#3788D8' }}>{item.status}</Text>
                 }
                 {item.status == "confirmed" &&
-                    <Text style={{ fontSize: hp('2%'), textTransform: 'capitalize', color: '#9C27B0' }}>{item.status}</Text>
+                    <Text style={{ fontSize: 14, textTransform: 'capitalize', color: '#9C27B0' }}>{item.status}</Text>
                 }
                 {item.status == "checkout" &&
-                    <Text style={{ fontSize: hp('2%'), textTransform: 'capitalize', color: '#4CAF50' }}>{item.status}</Text>
+                    <Text style={{ fontSize: 14, textTransform: 'capitalize', color: '#4CAF50' }}>{item.status}</Text>
                 }
                 {item.status == "cancel" &&
-                    <Text style={{ fontSize: hp('2%'), textTransform: 'capitalize', color: '#F44336' }}>{item.status}</Text>
+                    <Text style={{ fontSize: 14, textTransform: 'capitalize', color: '#F44336' }}>{item.status}</Text>
                 }
                 {item.status == "noshow" &&
-                    <Text style={{ fontSize: hp('2%'), textTransform: 'capitalize', color: '#FF9800' }}>{item.status}</Text>
+                    <Text style={{ fontSize: 14, textTransform: 'capitalize', color: '#FF9800' }}>{item.status}</Text>
                 }
             </View>
         </View>
@@ -86,20 +87,20 @@ class BookHistory extends Component {
 
     render() {
         const { BookHistoryService, refreshing, loader } = this.state;
-        this.wait(3000).then(() => this.setState({ refreshing: false }));
+        this.wait(1000).then(() => this.setState({ refreshing: false }));
         return (
             <SafeAreaView style={styles.container}>
                 {(BookHistoryService == null) || (BookHistoryService && BookHistoryService.length == 0)
                     ?
                     (loader == false ?
-                        <View style={{ alignItems: "center", justifyContent: 'center', marginTop: ('30%') }}>
-                            <Text style={{ alignItems: "center", justifyContent: 'center', fontSize: hp('2%'), color: '#595959' }}>Data Not Available</Text>
+                        <View style={{ alignItems: "center", justifyContent: 'center', marginTop: 100 }}>
+                            <Text style={{ alignItems: "center", justifyContent: 'center', fontSize: 14, color: '#595959' }}>Data Not Available</Text>
                         </View>
-                        : <View style={{ marginTop: hp('15%') }}><Loading /></View>
+                        : <View style={{ marginTop: HEIGHT / 2 }}><Loading /></View>
                     )
                     :
                     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#FEBC42" titleColor="#FEBC42" colors={["#FEBC42"]} onRefresh={this.onRefresh} />} showsVerticalScrollIndicator={false}>
-                        <View style={{ alignItems: "center", marginTop: hp('2%'), marginBottom: hp('7%') }}>
+                        <View style={{ alignItems: "center", marginTop: 14, marginBottom: 50 }}>
                             <FlatList
                                 data={BookHistoryService}
                                 renderItem={this.renderBookHistoryService}
@@ -117,13 +118,13 @@ export default BookHistory;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 1
     },
     servicename: {
         aspectRatio: 2.5,
-        width: wp("100%"),
+        width: WIDTH,
         flexDirection: 'row',
-        marginBottom: hp('2%'),
+        marginBottom: 15,
         alignItems: "center",
         position: 'relative',
         backgroundColor: "#fff",
@@ -134,6 +135,6 @@ const styles = StyleSheet.create({
             height: 0,
             width: 0,
         },
-        elevation: 2,
+        elevation: 2
     }
 })

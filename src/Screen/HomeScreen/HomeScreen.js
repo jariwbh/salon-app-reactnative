@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, FlatList, TextInput, Image, ScrollView, RefreshControl, SafeAreaView, BackHandler, StatusBar } from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
+import { View, Text, StyleSheet, FlatList, Dimensions, Image, ScrollView, RefreshControl, SafeAreaView, BackHandler, StatusBar } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { CategoryService, AppointmentListService } from '../../Services/CategoryService/CategoryService';
 import { staffService } from '../../Services/UserService/UserService';
-import Loader from '../../Components/Loader/Loader'
+import Loader from '../../Components/Loader/Loader';
+const WIDTH = Dimensions.get('window').width;
 
 class HomeScreen extends Component {
     constructor(props) {
@@ -37,7 +37,7 @@ class HomeScreen extends Component {
         this.getCategoryList();
         this.getAppointmentList();
         this.getstaffList();
-        this.wait(3000).then(() => this.setState({ refreshing: false }));
+        this.setState({ refreshing: false });
     }
 
     getCategoryList() {
@@ -48,7 +48,7 @@ class HomeScreen extends Component {
 
     getAppointmentList() {
         AppointmentListService().then(response => {
-            const slice = response.data.slice(0, 3)
+            const slice = response.data.slice(0, 4)
             this.setState({ AppointmentList: slice })
         })
     }
@@ -78,38 +78,46 @@ class HomeScreen extends Component {
 
     renderCategoryList = ({ item }) => (
         <View style={{ flexDirection: 'column' }}>
-            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', margin: hp('1.5%') }} onPress={() => { this.props.navigation.navigate('ServiceListScreen', { item }) }}>
-                <Image source={{ uri: (item.property.img[0] ? item.property.img[0].attachment : '') }} style={{ alignItems: 'center', height: 100, width: 100, marginTop: hp('4%') }}
-                />
+            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', margin: 10 }} onPress={() => { this.props.navigation.navigate('ServiceListScreen', { item }) }}>
+                {item.property.img ?
+                    <Image source={{ uri: (item.property.img && item.property.img[0].attachment) }}
+                        style={{ alignItems: 'center', height: 80, width: 80, marginTop: 20, borderRadius: 100, borderColor: '#EEEEEE', borderWidth: 1 }}
+                    />
+                    :
+                    <Image source={require('../../assets/noimage.png')}
+                        style={{ alignItems: 'center', height: 80, width: 80, marginTop: 20, borderRadius: 100, borderColor: '#EEEEEE', borderWidth: 1 }}
+                    />
+                }
             </TouchableOpacity>
-            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ fontSize: hp('2%'), color: '#43434C', fontWeight: '400' }}>{item.property.name}</Text>
+            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', width: 80 }}>
+                <Text style={{ fontSize: 14, color: '#43434C', textTransform: 'capitalize', textAlign: 'center' }}>{item.property.name}</Text>
             </TouchableOpacity>
         </View>
     )
 
     renderAppointmentList = ({ item }) => (
         <View style={{ flexDirection: 'column', flex: 1 }}>
-            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => this.props.navigation.navigate('ServiceDetails', { item })}>
-                <Image source={{ uri: (item.gallery[0] ? item.gallery[0].attachment : 'https://www.icon0.com/static2/preview2/stock-photo-photo-icon-illustration-design-70325.jpg') }} style={{ alignItems: 'center', height: hp('25%'), width: wp('65%'), marginTop: hp('2%'), borderRadius: hp('2%') }}
+            <TouchableOpacity style={{ margin: 10 }} onPress={() => this.props.navigation.navigate('ServiceDetails', { item })}>
+                <Image source={{ uri: (item.gallery[0] ? item.gallery[0].attachment : 'https://img.icons8.com/ios-glyphs/480/no-image.png') }}
+                    style={{ alignItems: 'center', height: 150, width: 220, marginTop: 10, borderRadius: 10 }}
                 />
             </TouchableOpacity>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
-                <Text style={{ fontSize: hp('3%'), color: '#313131' }}>{item.title}</Text>
-                <Text style={{ fontSize: hp('3%'), color: '#313131' }}>₹ {item.charges}</Text>
+                <Text style={{ fontSize: 16, color: '#313131' }}>{item.title}</Text>
+                <Text style={{ fontSize: 16, color: '#313131' }}>₹ {item.charges}</Text>
             </View>
         </View>
     )
 
     renderstaffList = ({ item }) => (
-        <View style={{ flexDirection: 'column', marginBottom: hp('5%') }}>
-            <TouchableOpacity style={{ margin: hp('2%') }} onPress={() => this.props.navigation.navigate('StaffDetails', { item })}>
+        <View style={{ flexDirection: 'column', marginBottom: 25, alignItems: 'center' }}>
+            <TouchableOpacity style={{ margin: 15 }} onPress={() => this.props.navigation.navigate('StaffDetails', { item })}>
                 <Image source={{ uri: item.property.profilepic ? item.property.profilepic : 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
-                    style={{ alignItems: 'center', height: 120, width: 120, marginTop: hp('2%'), borderRadius: hp('20%') }}
+                    style={{ alignItems: 'center', height: 100, width: 100, marginTop: 10, borderRadius: 100 }}
                 />
             </TouchableOpacity>
-            <View>
-                <Text style={{ flex: 1, fontSize: hp('2%'), color: '#000000', textAlign: 'center', marginTop: hp('-1%') }}>{item.property.fullname}</Text>
+            <View style={{ width: 100 }}>
+                <Text style={{ flex: 1, fontSize: 14, color: '#000000', textAlign: 'center', marginTop: -5 }}>{item.fullname}</Text>
             </View>
         </View>
     )
@@ -118,11 +126,11 @@ class HomeScreen extends Component {
         const { CategoryList, AppointmentList, staffList, loader, refreshing } = this.state
         return (
             <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
+                <StatusBar barStyle="light-content" />
                 {CategoryList == null || CategoryList.length == 0 ? <Loader /> :
                     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#FEBC42" titleColor="#FEBC42" colors={["#FEBC42"]} onRefresh={this.onRefresh} />}
                         showsVerticalScrollIndicator={false}>
-                        <View style={{ flexDirection: 'row', }}>
+                        <View style={{ flexDirection: 'row', marginLeft: 5 }}>
                             <ScrollView
                                 horizontal={true}
                                 showsHorizontalScrollIndicator={false}
@@ -136,10 +144,10 @@ class HomeScreen extends Component {
                                 />
                             </ScrollView>
                         </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('2%'), }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12 }}>
                             <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
                             <View>
-                                <Text style={{ width: wp('25%'), textAlign: 'center', fontSize: hp('3%'), color: '#FEBC42' }}>featured</Text>
+                                <Text style={{ width: 100, textAlign: 'center', fontSize: 20, color: '#FEBC42' }}>Featured</Text>
                             </View>
                             <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
                         </View>
@@ -157,14 +165,14 @@ class HomeScreen extends Component {
                                 />
                             </ScrollView>
                         </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: hp('2%'), }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12 }}>
                             <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
                             <View>
-                                <Text style={{ width: wp('40%'), textAlign: 'center', fontSize: hp('3%'), color: '#FEBC42' }}>Professionals</Text>
+                                <Text style={{ width: 150, textAlign: 'center', fontSize: 20, color: '#FEBC42' }}>Professionals</Text>
                             </View>
                             <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
                         </View>
-                        <View style={{ flexDirection: 'row', marginBottom: hp('5%') }}>
+                        <View style={{ flexDirection: 'row', marginBottom: 25, marginLeft: 10 }}>
                             <ScrollView
                                 horizontal={true}
                                 showsHorizontalScrollIndicator={false}
@@ -190,21 +198,6 @@ export default HomeScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
-    },
-    statInput: {
-        fontSize: hp('2.5%'),
-        flex: 1,
-        padding: hp('2%'),
-        alignItems: "center",
-    },
-    slider: {
-        backgroundColor: "#FEBC42",
-        borderRadius: hp('10'),
-        width: wp('21%'),
-        height: hp('11%'),
-        marginTop: hp('3%'),
-        margin: hp('2%'),
-        alignItems: "center",
-    },
+        backgroundColor: "#FFFFFF"
+    }
 })

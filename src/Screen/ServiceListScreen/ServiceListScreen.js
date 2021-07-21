@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, FlatList, ScrollView, StyleSheet, TouchableOpacity, Image, Pressable, SafeAreaView } from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
+import { View, Text, TextInput, FlatList, ScrollView, StyleSheet, TouchableOpacity, Image, Dimensions, SafeAreaView, Keyboard } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { CategoryByAppointmentService } from '../../Services/CategoryService/CategoryService'
 import Loader from '../../Components/Loader/Loader'
 const serviceicon = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1610428971/userimage_qif8wv.jpg'
+const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
 
 export default class AppointmentScreen extends Component {
     constructor(props) {
@@ -22,7 +23,7 @@ export default class AppointmentScreen extends Component {
         CategoryByAppointmentService(id).then(response => {
             this.setState({ AppointmentService: response.data })
             this.searchserviceList = response.data;
-            this.wait(1000).then(() => this.setState({ loader: false }));
+            this.setState({ loader: false });
         })
     }
 
@@ -48,14 +49,14 @@ export default class AppointmentScreen extends Component {
 
     renderAppointmentList = ({ item }) => (
         <TouchableOpacity style={styles.listview} onPress={() => this.props.navigation.navigate('ServiceDetails', { item })}>
-            <TouchableOpacity style={{ marginTop: hp('2%'), marginLeft: hp('1%'), }} onPress={() => { this.props.navigation.navigate('ServiceDetails', { item }) }}>
+            <TouchableOpacity style={{ marginLeft: 5 }} onPress={() => { this.props.navigation.navigate('ServiceDetails', { item }) }}>
                 <Image source={{ uri: item.gallery[0] ? (item.gallery[0] ? item.gallery[0].attachment : serviceicon) : serviceicon }}
-                    style={{ borderRadius: hp('15%'), width: 90, height: 90, }}
+                    style={{ borderRadius: 100, width: 90, height: 90, }}
                 />
             </TouchableOpacity>
-            <View style={{ marginTop: hp('5%'), marginLeft: hp('1%'), flex: 0.9 }}>
-                <Text style={{ fontSize: hp('3%'), color: '#212121' }}>{item.title}</Text>
-                <Text style={{ fontSize: hp('2%'), color: '#313131' }}>₹ {item.charges}</Text>
+            <View style={{ marginLeft: 5, flex: 0.9 }}>
+                <Text style={{ fontSize: 18, color: '#212121' }}>{item.title}</Text>
+                <Text style={{ fontSize: 14, color: '#313131' }}>₹ {item.charges}</Text>
             </View>
         </TouchableOpacity>
     )
@@ -64,38 +65,41 @@ export default class AppointmentScreen extends Component {
         const { AppointmentService, loader } = this.state
         return (
             <SafeAreaView style={styles.container}>
-                <View style={styles.statusbar}>
-                    <TextInput
-                        style={styles.statInput}
-                        placeholder="Type here to search"
-                        type='clear'
-                        placeholderTextColor="#737373"
-                        returnKeyType="done"
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        onChangeText={(value) => this.searchFilterFunction(value)}
-                    />
-                    <TouchableOpacity >
-                        <FontAwesome5 name="search" size={24} color='#808080' style={{ alignItems: "flex-end", justifyContent: 'flex-end', marginRight: hp('2%') }} />
-                    </TouchableOpacity>
+                <View style={{ alignItems: "center", justifyContent: 'center' }}>
+                    <View style={styles.statusbar}>
+                        <TextInput
+                            style={styles.statInput}
+                            placeholder="Type here to search"
+                            type='clear'
+                            placeholderTextColor="#737373"
+                            returnKeyType="done"
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            onChangeText={(value) => this.searchFilterFunction(value)}
+                        />
+                        <TouchableOpacity onPress={() => Keyboard.dismiss()}>
+                            <FontAwesome5 name="search" size={24} color='#808080' style={{ alignItems: "flex-end", justifyContent: 'flex-end', marginRight: 15 }} />
+                        </TouchableOpacity>
+                    </View>
+
+                    {(AppointmentService == null) || (AppointmentService && AppointmentService.length == 0) ?
+                        (loader == false ?
+                            <Text style={{ textAlign: 'center', fontSize: 16, color: '#747474', marginTop: 50 }}>No Service Available</Text>
+                            : <View style={{ marginTop: HEIGHT / 2 }}><Loader /></View>
+                        )
+                        :
+                        <ScrollView showsVerticalScrollIndicator={false}>
+                            <View style={{ flexDirection: 'column', flex: 1, marginTop: 10 }}>
+                                <FlatList
+                                    data={AppointmentService}
+                                    renderItem={this.renderAppointmentList}
+                                    keyExtractor={item => `${item._id}`}
+                                />
+                            </View>
+                            <View style={{ marginBottom: 50 }}></View>
+                        </ScrollView>
+                    }
                 </View>
-                {(AppointmentService == null) || (AppointmentService && AppointmentService.length == 0) ?
-                    (loader == false ?
-                        <Text style={{ textAlign: 'center', fontSize: hp('2.5%'), color: '#747474', marginTop: hp('10%') }}>No Service Available</Text>
-                        : <Loader />
-                    )
-                    :
-                    <ScrollView showsVerticalScrollIndicator={false}>
-                        <View style={{ flexDirection: 'column', flex: 1, marginTop: hp('2%') }}>
-                            <FlatList
-                                data={AppointmentService}
-                                renderItem={this.renderAppointmentList}
-                                keyExtractor={item => `${item._id}`}
-                            />
-                        </View>
-                        <View style={{ marginBottom: hp('12%') }}></View>
-                    </ScrollView>
-                }
             </SafeAreaView>
         );
     }
@@ -117,22 +121,22 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
-        marginTop: hp('1%'),
-        width: wp('90%'),
-        height: hp('6.5%'),
-        marginLeft: hp('2.5%'),
+        marginTop: 15,
+        width: WIDTH - 40,
+        height: 50,
         alignItems: "center",
         justifyContent: 'center',
+        borderRadius: 10
     },
     statInput: {
-        fontSize: hp('2.5%'),
+        fontSize: 14,
         flex: 1,
-        marginLeft: hp('2%'),
-        alignItems: "center",
+        marginLeft: 10,
+        alignItems: "center"
     },
     listview: {
         flexDirection: 'row',
-        borderRadius: hp('2%'),
+        borderRadius: 10,
         backgroundColor: "#fff",
         shadowOpacity: 0.5,
         shadowRadius: 2,
@@ -141,11 +145,12 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
-        marginTop: hp('2%'),
-        width: wp('90%'),
-        height: hp('20%'),
-        marginLeft: hp('2.5%'),
+        width: WIDTH - 40,
+        height: 130,
+        marginLeft: 0,
+        marginTop: 10,
         justifyContent: 'space-around',
-        marginBottom: hp('1%')
+        marginBottom: 10,
+        alignItems: 'center'
     },
 })

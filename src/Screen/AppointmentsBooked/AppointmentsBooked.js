@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ToastAndroid, TextInput, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
+import { View, Text, StyleSheet, ToastAndroid, TextInput, TouchableOpacity, ScrollView, SafeAreaView, Platform, Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { BookService } from '../../Services/BookService/BookService'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import Loader from '../../Components/Loader/Loading';
+const HEIGHT = Dimensions.get('window').height;
+const WIDTH = Dimensions.get('window').width;
 
 export default class AppointmentsBooked extends Component {
     constructor(props) {
@@ -113,6 +114,7 @@ export default class AppointmentsBooked extends Component {
         }
         return this.setState({ serviceTime: serviceTime, serviceTimeError: null })
     }
+
     resetScreen() {
         this.setState({
             fullname: null,
@@ -133,13 +135,13 @@ export default class AppointmentsBooked extends Component {
         if (getUser == null || getUser && getUser.length == 0) {
             setTimeout(() => {
                 this.props.navigation.replace('LoginScreen')
-            }, 5000);
+            }, 3000);
         } else {
             const user = JSON.parse(getUser)
             this.setState({
                 fullname: user.property.fullname,
-                username: user.property.email,
-                mobilenumber: user.property.mobile_number,
+                username: user.property.primaryemail,
+                mobilenumber: user.property.mobile,
                 userID: user.addedby,
                 memberID: user._id
             })
@@ -174,14 +176,22 @@ export default class AppointmentsBooked extends Component {
             BookService(body).then(response => {
                 if (response != null) {
                     this.setState({ loading: false });
-                    ToastAndroid.show("Booking Sucess!", ToastAndroid.LONG);
+                    if (Platform.OS === 'android') {
+                        ToastAndroid.show("Booking Success", ToastAndroid.LONG);
+                    } else {
+                        alert('Booking Success');
+                    }
                     this.props.navigation.navigate('BookHistory', { response })
                 }
             })
         }
         catch (error) {
             this.setState({ loading: false })
-            ToastAndroid.show("Booking Failed!", ToastAndroid.LONG)
+            if (Platform.OS === 'android') {
+                ToastAndroid.show("Booking Failed", ToastAndroid.LONG);
+            } else {
+                alert('Booking Failed');
+            }
         }
     }
 
@@ -272,7 +282,7 @@ export default class AppointmentsBooked extends Component {
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         <TouchableOpacity style={styles.book} onPress={() => this.onPressSubmit()} >
                             {this.state.loading === true ? <Loader /> :
-                                <Text style={{ fontSize: hp('3%'), color: '#FFFFFF' }}>Book </Text>
+                                <Text style={{ fontSize: 18, color: '#FFFFFF' }}>Book </Text>
                             }
                         </TouchableOpacity>
                     </View>
@@ -284,12 +294,12 @@ export default class AppointmentsBooked extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: "#FFFFFF",
     },
     inputView: {
         flexDirection: 'row',
-        backgroundColor: "#fff",
-        borderRadius: wp('8%'),
+        backgroundColor: "#FFFFFF",
+        borderRadius: 100,
         shadowOpacity: 0.5,
         shadowRadius: 3,
         shadowOffset: {
@@ -297,37 +307,41 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
-        borderColor: '#fff',
-        width: wp('80%'),
-        height: hp('8%'),
-        margin: hp('2%'),
-        alignItems: "center",
-
+        borderColor: '#FFFFFF',
+        width: WIDTH - 60,
+        height: 50,
+        margin: 10,
+        alignItems: "center"
     },
     TextInput: {
-        fontSize: hp('2.5%'),
+        fontSize: 14,
         flex: 1,
-        padding: hp('2%'),
+        padding: 10,
         borderColor: '#FFFFFF'
     },
     TextInputError: {
-        fontSize: hp('2.5%'),
-        flex: 1,
-        padding: hp('2%'),
+        flexDirection: 'row',
         backgroundColor: "#FFFFFF",
+        borderRadius: 100,
+        shadowOpacity: 0.5,
+        shadowRadius: 3,
+        shadowOffset: {
+            height: 0,
+            width: 0,
+        },
+        elevation: 2,
         borderColor: '#FF0000',
-        borderRadius: wp('8%'),
-        width: wp('80%'),
-        height: hp('8%'),
+        width: WIDTH - 60,
+        height: 50,
         alignItems: "center",
-        borderWidth: hp('0.1%')
+        borderWidth: 1
     },
     book: {
         flexDirection: 'row',
         backgroundColor: "#FEBC42",
-        marginTop: hp('4%'),
-        width: wp('60%'),
-        height: hp('6.5%'),
+        marginTop: 30,
+        width: WIDTH / 2 + 30,
+        height: 50,
         alignItems: "center",
         justifyContent: 'center'
     }

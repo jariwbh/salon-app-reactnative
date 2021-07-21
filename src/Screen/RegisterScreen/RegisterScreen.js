@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, TextInput, ToastAndroid, SafeAreaView, StatusBar } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, Dimensions, TextInput, ToastAndroid, SafeAreaView, StatusBar, Keyboard } from 'react-native';
 import RegisterService from '../../Services/RegisterService/RegisterService';
+import { ScrollView } from 'react-native-gesture-handler';
 import Loader from '../../Components/Loader/Loading';
-import BackButton from '../../Components/BackButton/BackButton'
+import axiosConfig from '../../Helpers/axiosConfig';
+const HEIGHT = Dimensions.get('window').height;
+const WIDTH = Dimensions.get('window').width;
 
 class RegisterScreen extends Component {
     constructor(props) {
@@ -57,6 +58,7 @@ class RegisterScreen extends Component {
 
     onPressSubmit = async () => {
         const { fullname, username, mobilenumber } = this.state;
+        axiosConfig('6066c57499e17f24a4db4495');
         if (!fullname || !username || !mobilenumber) {
             this.setFullName(fullname)
             this.setUserName(username)
@@ -66,22 +68,32 @@ class RegisterScreen extends Component {
         const body = {
             property: {
                 fullname: fullname,
-                email: username,
-                mobile_number: mobilenumber,
+                primaryemail: username,
+                mobile: mobilenumber,
             }
         }
         this.setState({ loading: true })
         try {
             await RegisterService(body).then(response => {
                 if (response != null) {
-                    ToastAndroid.show("SignUp Success!", ToastAndroid.LONG);
+                    if (Platform.OS === 'android') {
+                        ToastAndroid.show("SignUp Success", ToastAndroid.LONG);
+                    } else {
+                        alert('SignUp Success');
+                    }
+
                     this.props.navigation.navigate('LoginScreen');
                 }
             })
         }
         catch (error) {
             this.setState({ loading: false })
-            ToastAndroid.show("SignUp Failed!", ToastAndroid.LONG);
+            if (Platform.OS === 'android') {
+                ToastAndroid.show("SignUp Failed", ToastAndroid.LONG);
+            } else {
+                alert('SignUp Failed');
+            }
+
         }
     }
 
@@ -91,12 +103,8 @@ class RegisterScreen extends Component {
             <SafeAreaView style={styles.container}>
                 <StatusBar backgroundColor="#FEBC42" barStyle="dark-content" />
                 <ImageBackground source={require('../../assets/background.png')} style={styles.backgroundImage}>
-
-                    <View style={{ position: 'absolute', marginTop: hp('7%') }}>
-                        <BackButton onPress={() => this.props.navigation.goBack()} />
-                    </View>
-                    <View style={styles.sineupview}>
-                        <Text style={{ fontSize: hp('4%') }}>Create Account </Text>
+                    <View style={styles.createtext}>
+                        <Text style={{ color: '#36424A', fontSize: 28 }}>Create Account</Text>
                     </View>
                     <ScrollView
                         Vertical={true}
@@ -144,7 +152,7 @@ class RegisterScreen extends Component {
                                     returnKeyType="done"
                                     keyboardType="number-pad"
                                     ref={this.TeardTextInputRef}
-                                    onSubmitEditing={() => this.onPressSubmit()}
+                                    onSubmitEditing={() => Keyboard.dismiss()}
                                     onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
                                 />
                             </View>
@@ -154,8 +162,8 @@ class RegisterScreen extends Component {
                                 {this.state.loading === true ? <Loader /> : <Text style={styles.sineText}>Sign Up</Text>}
                             </TouchableOpacity>
                         </View>
-                        <View style={{ marginTop: hp('5%'), justifyContent: 'center', flexDirection: 'row' }} >
-                            <Text style={styles.innerText}> Don't have an account? </Text>
+                        <View style={{ marginTop: 15, justifyContent: 'center', flexDirection: 'row' }} >
+                            <Text style={styles.innerText}>Already have an account? </Text>
                             <TouchableOpacity onPress={() => { this.props.navigation.navigate('LoginScreen') }} >
                                 <Text style={styles.baseText}>Signin</Text>
                             </TouchableOpacity>
@@ -172,24 +180,18 @@ export default RegisterScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: "#FFFFFF",
     },
     backgroundImage: {
         flex: 1,
         resizeMode: 'cover',
-        width: wp('100%'),
-        height: hp('100 %')
-    },
-    sineupview: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: hp('7%'),
-        marginBottom: hp('20%'),
+        width: WIDTH,
+        height: HEIGHT
     },
     inputview: {
         flexDirection: 'row',
         backgroundColor: "#fff",
-        borderRadius: wp('8%'),
+        borderRadius: 100,
         shadowOpacity: 0.5,
         shadowRadius: 3,
         shadowOffset: {
@@ -198,51 +200,56 @@ const styles = StyleSheet.create({
         },
         elevation: 2,
         borderColor: '#fff',
-        width: wp('80%'),
-        height: hp('8%'),
-        margin: hp('2%'),
-        alignItems: "center",
+        width: WIDTH - 60,
+        height: 50,
+        margin: 12,
+        alignItems: "center"
     },
     TextInput: {
-        fontSize: hp('2.5%'),
+        fontSize: 14,
         flex: 1,
-        padding: hp('2%'),
+        padding: 15,
         borderColor: '#FFFFFF'
     },
     TextInputError: {
-        fontSize: hp('2.5%'),
+        fontSize: 14,
         flex: 1,
-        padding: hp('2%'),
+        padding: 15,
         backgroundColor: "#FFFFFF",
         borderColor: '#FF0000',
-        borderRadius: wp('8%'),
-        width: wp('80%'),
-        height: hp('8%'),
+        borderRadius: 100,
+        width: WIDTH - 60,
+        height: 50,
         alignItems: "center",
-        borderWidth: hp('0.1%')
+        borderWidth: 1
     },
     sineBtn: {
         flexDirection: 'row',
-        width: wp('35%'),
-        backgroundColor: "#F6C455",
-        borderRadius: wp('7%'),
-        height: hp('7%'),
+        width: WIDTH / 3,
+        backgroundColor: "#FEBC42",
+        borderRadius: 100,
+        height: 40,
         alignItems: "center",
         justifyContent: "center",
-        marginTop: hp('4%'),
+        marginRight: 20,
+        marginTop: 15
     },
     sineText: {
         color: '#FFFFFF',
-        fontSize: hp('2.5%'),
+        fontSize: 16
     },
     baseText: {
         fontWeight: 'normal',
         color: '#F4AE3A',
-        fontSize: hp('2%'),
+        fontSize: 14
     },
     innerText: {
         color: '#ABAFB3',
-        fontSize: hp('2%'),
+        fontSize: 14
+    },
+    createtext: {
+        marginTop: HEIGHT / 3 - 20,
+        marginLeft: 35
     },
 })
 

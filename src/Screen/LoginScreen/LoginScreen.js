@@ -1,21 +1,36 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ImageBackground, ToastAndroid, Image, TextInput, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
+import {
+    View, Text, StyleSheet, ImageBackground, ToastAndroid,
+    Dimensions, TextInput, TouchableOpacity, SafeAreaView, StatusBar, BackHandler
+} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp, } from 'react-native-responsive-screen'
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../../Components/Loader/Loading'
 import { LoginService } from "../../Services/LoginService/LoginService"
+const HEIGHT = Dimensions.get('window').height;
+const WIDTH = Dimensions.get('window').width;
+import axiosConfig from '../../Helpers/axiosConfig';
 
 export default class LoginScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: null,
+            username: "MEMBROZSALON10102",
             usererror: null,
-            password: null,
+            password: "pass#123",
             passworderror: null,
             loading: false,
         };
+
+        this._unsubscribeSiFocus = this.props.navigation.addListener('focus', e => {
+            BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+        });
+
+        this._unsubscribeSiBlur = this.props.navigation.addListener('blur', e => {
+            BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton,
+            );
+        });
+
         this.setEmail = this.setEmail.bind(this);
         this.setPassword = this.setPassword.bind(this);
         this.onPressSubmit = this.onPressSubmit.bind(this);
@@ -51,6 +66,7 @@ export default class LoginScreen extends Component {
     )
 
     onPressSubmit = async () => {
+        axiosConfig(null);
         const { username, password } = this.state;
         if (!username || !password) {
             this.setEmail(username);
@@ -65,10 +81,15 @@ export default class LoginScreen extends Component {
         try {
             await LoginService(body)
                 .then(response => {
-                    if (response != null || response != 'undefind') {
+                    if (response.data && response.data != undefined && response.status == 200) {
                         this.authenticateUser(response.data.user);
-                        //appConfig.headers["authkey"] = response.user.addedby;
-                        ToastAndroid.show("SignIn Success!", ToastAndroid.LONG);
+                        let token = response.data.user._id;
+                        axiosConfig(token);
+                        if (Platform.OS === 'android') {
+                            ToastAndroid.show("SignIn Success", ToastAndroid.LONG);
+                        } else {
+                            alert('SignIn Success');
+                        }
                         this.props.navigation.navigate('TabNavigation');
                         this.resetScreen();
                         return
@@ -77,8 +98,24 @@ export default class LoginScreen extends Component {
         }
         catch (error) {
             this.setState({ loading: false })
-            ToastAndroid.show("Username and Password Invalid!", ToastAndroid.LONG)
+            if (Platform.OS === 'android') {
+                ToastAndroid.show("Username and Password Invalid", ToastAndroid.LONG)
+            } else {
+                alert('Username and Password Invalid');
+            }
+
         };
+    }
+
+    componentWillUnmount() {
+        this._unsubscribeSiFocus();
+        this._unsubscribeSiBlur();
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+    handleBackButton = () => {
+        BackHandler.exitApp()
+        return true;
     }
 
     render() {
@@ -88,8 +125,8 @@ export default class LoginScreen extends Component {
                 <StatusBar backgroundColor="#FEBC42" barStyle="dark-content" />
                 <ImageBackground source={require('../../assets/background.png')} style={styles.backgroundImage}>
                     <View style={styles.hello}>
-                        <Text style={{ color: '#36424A', fontSize: hp('5%') }}>Welcome </Text>
-                        <Text style={{ color: '#8A8E91', fontSize: hp('3%') }}>Sign in to your account</Text>
+                        <Text style={{ color: '#36424A', fontSize: 28 }}>Welcome </Text>
+                        <Text style={{ color: '#8A8E91', fontSize: 18 }}>Sign in to your account</Text>
                     </View>
                     <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
                         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -121,19 +158,19 @@ export default class LoginScreen extends Component {
                                 />
                             </View>
                         </View>
-                        {/* <View style={{ alignItems: 'flex-end', marginRight: hp('7%') }}>
-                            <TouchableOpacity onPress={() => { this.props.navigation.navigate('ForgotPassword') }}>
-                                <Text style={{ fontSize: hp('2%'), color: '#ABAFB3', marginTop: hp('0.5%') }}>Forgot password?</Text>
+                        <View style={{ alignItems: 'flex-end', marginRight: 40 }}>
+                            <TouchableOpacity onPress={() => { this.props.navigation.navigate('ForgotPasswordMain') }}>
+                                <Text style={{ fontSize: 14, color: '#ABAFB3', marginTop: 5 }}>Forgot password?</Text>
                             </TouchableOpacity>
-                        </View> */}
-                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: hp('3%') }}>
+                        </View>
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                             <TouchableOpacity style={styles.loginBtn} onPress={() => this.onPressSubmit()} >
                                 {this.state.loading == true ? <Loader /> : <Text style={styles.loginText}>Sign In</Text>}
                             </TouchableOpacity>
                         </View>
-                        <View style={{ marginTop: hp('2%'), justifyContent: 'center', flexDirection: 'row' }} >
+                        <View style={{ marginTop: 15, justifyContent: 'center', flexDirection: 'row' }} >
                             <Text style={styles.innerText}> Don't have an account? </Text>
-                            <TouchableOpacity onPress={() => { this.props.navigation.navigate('RegisterScreen') }} >
+                            <TouchableOpacity onPress={() => { this.props.navigation.navigate('RegisterScreen'), this.resetScreen() }} >
                                 <Text style={styles.baseText}>Create</Text>
                             </TouchableOpacity>
                         </View>
@@ -144,7 +181,6 @@ export default class LoginScreen extends Component {
     }
 }
 
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -153,17 +189,17 @@ const styles = StyleSheet.create({
     backgroundImage: {
         flex: 1,
         resizeMode: 'cover',
-        width: wp('100%'),
-        height: hp('100 %'),
+        width: WIDTH,
+        height: HEIGHT
     },
     hello: {
-        marginTop: hp('30%'),
-        marginLeft: hp('5%'),
+        marginTop: HEIGHT / 3 - 20,
+        marginLeft: 35
     },
     inputView: {
         flexDirection: 'row',
         backgroundColor: "#fff",
-        borderRadius: wp('8%'),
+        borderRadius: 100,
         shadowOpacity: 0.5,
         shadowRadius: 3,
         shadowOffset: {
@@ -172,51 +208,50 @@ const styles = StyleSheet.create({
         },
         elevation: 2,
         borderColor: '#fff',
-        width: wp('80%'),
-        height: hp('8%'),
-        margin: hp('2%'),
-        alignItems: "center",
+        width: WIDTH - 60,
+        height: 50,
+        margin: 12,
+        alignItems: "center"
     },
     TextInput: {
-        fontSize: hp('2.5%'),
+        fontSize: 14,
         flex: 1,
-        padding: hp('2%'),
+        padding: 15,
         borderColor: '#FFFFFF'
     },
     TextInputError: {
-        fontSize: hp('2.5%'),
+        fontSize: 14,
         flex: 1,
-        padding: hp('2%'),
+        padding: 15,
         backgroundColor: "#FFFFFF",
         borderColor: '#FF0000',
-        borderRadius: wp('8%'),
-        width: wp('80%'),
-        height: hp('8%'),
+        borderRadius: 100,
+        width: WIDTH - 60,
+        height: 50,
         alignItems: "center",
-        borderWidth: hp('0.1%')
+        borderWidth: 1
     },
     loginBtn: {
         flexDirection: 'row',
-        width: wp('35%'),
+        width: WIDTH / 3,
         backgroundColor: "#FEBC42",
-        borderRadius: wp('7%'),
-        height: hp('7%'),
+        borderRadius: 100,
+        height: 40,
         alignItems: "center",
         justifyContent: "center",
-        marginRight: hp('4%')
-
+        marginRight: 20
     },
     loginText: {
         color: '#FFFFFF',
-        fontSize: hp('2.5%'),
+        fontSize: 16
     },
     baseText: {
         fontWeight: 'normal',
         color: '#F4AE3A',
-        fontSize: hp('2%'),
+        fontSize: 14
     },
     innerText: {
         color: '#ABAFB3',
-        fontSize: hp('2%'),
+        fontSize: 14
     },
 })
