@@ -1,4 +1,4 @@
-#Mon Jul 19 11:02:39 IST 2021
+#Thu Jul 22 11:25:18 IST 2021
 base.0=D\:\\harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

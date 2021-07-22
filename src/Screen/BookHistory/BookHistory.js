@@ -59,9 +59,9 @@ class BookHistory extends Component {
         <View style={styles.servicename}>
             <View style={{ margin: 10 }}>
                 <Image source={{ uri: item.refid.gallery[0].attachment }}
-                    style={{ alignItems: 'center', height: 130, width: 180, borderRadius: 10 }} />
+                    style={{ alignItems: 'center', height: 130, width: 150, borderRadius: 10 }} />
             </View>
-            <View style={{ marginLeft: 10 }}>
+            <View style={{ marginLeft: 10, flex: 0.8 }}>
                 <Text style={{ fontSize: 10 }}>Booking ID : #{item.prefix + '-' + item.number}</Text>
                 <Text style={{ fontSize: 16 }}>{item.refid.title}</Text>
                 <Text style={{ fontSize: 14 }}>{moment(item.appointmentdate).format('LL')}</Text>
@@ -81,6 +81,9 @@ class BookHistory extends Component {
                 {item.status == "noshow" &&
                     <Text style={{ fontSize: 14, textTransform: 'capitalize', color: '#FF9800' }}>{item.status}</Text>
                 }
+                {item.status == "deleted" &&
+                    <Text style={{ fontSize: 14, textTransform: 'capitalize', color: '#FF9800' }}>{'cancel'}</Text>
+                }
             </View>
         </View>
     );
@@ -96,7 +99,7 @@ class BookHistory extends Component {
                         <View style={{ alignItems: "center", justifyContent: 'center', marginTop: 100 }}>
                             <Text style={{ alignItems: "center", justifyContent: 'center', fontSize: 14, color: '#595959' }}>Data Not Available</Text>
                         </View>
-                        : <View style={{ marginTop: HEIGHT / 2 }}><Loading /></View>
+                        : <View style={{ marginTop: HEIGHT / 2 - 80 }}><Loading /></View>
                     )
                     :
                     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#FEBC42" titleColor="#FEBC42" colors={["#FEBC42"]} onRefresh={this.onRefresh} />} showsVerticalScrollIndicator={false}>

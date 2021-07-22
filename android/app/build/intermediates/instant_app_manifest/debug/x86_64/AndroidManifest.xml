@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.salon_reactnative"
     android:targetSandboxVersion="2"
-    android:versionCode="4194307"
-    android:versionName="1.2" >
+    android:versionCode="4194308"
+    android:versionName="2.0" >
 
     <uses-sdk
         android:minSdkVersion="16"

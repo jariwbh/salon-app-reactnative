@@ -15,9 +15,9 @@ export default class LoginScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "MEMBROZSALON10102",
+            username: null,
             usererror: null,
-            password: "pass#123",
+            password: null,
             passworderror: null,
             loading: false,
         };
@@ -133,7 +133,7 @@ export default class LoginScreen extends Component {
                             <View style={styles.inputView}>
                                 <TextInput
                                     style={usererror == null ? styles.TextInput : styles.TextInputError}
-                                    placeholder="Email"
+                                    placeholder="Username"
                                     defaultValue={this.state.username}
                                     type='clear'
                                     returnKeyType="next"
