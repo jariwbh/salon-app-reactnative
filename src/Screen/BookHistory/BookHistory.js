@@ -132,12 +132,12 @@ const styles = StyleSheet.create({
         position: 'relative',
         backgroundColor: "#fff",
         borderColor: '#fff',
-        shadowOpacity: 2,
-        shadowRadius: 3,
+        shadowOpacity: 0,
+        shadowRadius: 0,
         shadowOffset: {
             height: 0,
             width: 0,
         },
-        elevation: 2
+        elevation: 3
     }
 })

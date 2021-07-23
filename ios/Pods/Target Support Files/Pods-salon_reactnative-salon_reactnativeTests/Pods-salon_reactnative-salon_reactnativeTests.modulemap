@@ -1,0 +1,6 @@
+module Pods_salon_reactnative_salon_reactnativeTests {
+  umbrella header "Pods-salon_reactnative-salon_reactnativeTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
