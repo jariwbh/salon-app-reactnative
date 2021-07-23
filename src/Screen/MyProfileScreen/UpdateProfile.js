@@ -91,7 +91,7 @@ class UpdateProfile extends Component {
                     if (Platform.OS === 'android') {
                         ToastAndroid.show("Your Profile Update", ToastAndroid.LONG);
                     } else {
-                        alert('Your Profile Update');
+                       // alert('Your Profile Update');
                     }
                     this.props.navigation.replace('MyProfile');
                 }
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFFFFF",
         borderRadius: 100,
         shadowOpacity: 0.5,
-        shadowRadius: 3,
+        shadowRadius: 1,
         shadowOffset: {
             height: 0,
             width: 0,

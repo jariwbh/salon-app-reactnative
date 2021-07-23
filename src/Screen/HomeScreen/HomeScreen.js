@@ -126,7 +126,7 @@ class HomeScreen extends Component {
         const { CategoryList, AppointmentList, staffList, loader, refreshing } = this.state
         return (
             <SafeAreaView style={styles.container}>
-                <StatusBar barStyle="light-content" />
+                <StatusBar backgroundColor="#FEBC42" barStyle="dark-content" />
                 {CategoryList == null || CategoryList.length == 0 ? <Loader /> :
                     <ScrollView refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#FEBC42" titleColor="#FEBC42" colors={["#FEBC42"]} onRefresh={this.onRefresh} />}
                         showsVerticalScrollIndicator={false}>

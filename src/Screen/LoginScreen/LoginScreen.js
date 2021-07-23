@@ -159,7 +159,7 @@ export default class LoginScreen extends Component {
                             </View>
                         </View>
                         <View style={{ alignItems: 'flex-end', marginRight: 40 }}>
-                            <TouchableOpacity onPress={() => { this.props.navigation.navigate('ForgotPasswordMain') }}>
+                            <TouchableOpacity onPress={() => { this.props.navigation.navigate('ForgotPasswordMain'),this.resetScreen() }}>
                                 <Text style={{ fontSize: 14, color: '#ABAFB3', marginTop: 5 }}>Forgot password?</Text>
                             </TouchableOpacity>
                         </View>
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
         height: HEIGHT
     },
     hello: {
-        marginTop: HEIGHT / 3 - 20,
+        marginTop: HEIGHT / 3,
         marginLeft: 35
     },
     inputView: {
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         borderRadius: 100,
         shadowOpacity: 0.5,
-        shadowRadius: 3,
+        shadowRadius: 1,
         shadowOffset: {
             height: 0,
             width: 0,

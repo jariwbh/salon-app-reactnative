@@ -56,7 +56,7 @@ export default class MyProfileScreen extends Component {
         if (Platform.OS === 'android') {
             ToastAndroid.show("Log Out Success", ToastAndroid.SHORT);
         } else {
-            alert('Log Out Success');
+          //  alert('Log Out Success');
         }
         this.props.navigation.replace('LoginScreen');
     }
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFFFFF",
         borderRadius: 100,
         shadowOpacity: 0.5,
-        shadowRadius: 3,
+        shadowRadius: 1,
         shadowOffset: {
             height: 0,
             width: 0,
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     textContainer: {
-        padding: 20,
+        marginLeft:10,
         fontSize: 20,
         color: '#737373'
     }
