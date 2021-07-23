@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  SafeAreaView
-} from 'react-native';
+import {SafeAreaView} from 'react-native';
 import NavigationApp from './src/Navigations/Navigations';
 
 const App = () => {
