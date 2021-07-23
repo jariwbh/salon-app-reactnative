@@ -3,7 +3,7 @@ import {
   SafeAreaView
 } from 'react-native';
 import NavigationApp from './src/Navigations/Navigations';
-
+//heloo
 const App = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
