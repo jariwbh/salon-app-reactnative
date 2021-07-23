@@ -1,11 +1,6 @@
 import React from 'react';
 import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
+  SafeAreaView
 } from 'react-native';
 import NavigationApp from './src/Navigations/Navigations';
 
