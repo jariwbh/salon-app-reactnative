@@ -79,7 +79,7 @@ class HomeScreen extends Component {
     renderCategoryList = ({ item }) => (
         <View style={{ flexDirection: 'column' }}>
             <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', margin: 10 }} onPress={() => { this.props.navigation.navigate('ServiceListScreen', { item }) }}>
-                {item.property.img ?
+                {item && item.property && item.property.img && item.property.img[0] ?
                     <Image source={{ uri: (item.property.img && item.property.img[0].attachment) }}
                         style={{ alignItems: 'center', height: 80, width: 80, marginTop: 20, borderRadius: 100, borderColor: '#EEEEEE', borderWidth: 1 }}
                     />
@@ -112,7 +112,7 @@ class HomeScreen extends Component {
     renderstaffList = ({ item }) => (
         <View style={{ flexDirection: 'column', marginBottom: 25, alignItems: 'center' }}>
             <TouchableOpacity style={{ margin: 15 }} onPress={() => this.props.navigation.navigate('StaffDetails', { item })}>
-                <Image source={{ uri: item.property.profilepic ? item.property.profilepic : 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
+                <Image source={{ uri: item && item.property && item.property.profilepic ? item.property.profilepic : 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
                     style={{ alignItems: 'center', height: 100, width: 100, marginTop: 10, borderRadius: 100 }}
                 />
             </TouchableOpacity>
