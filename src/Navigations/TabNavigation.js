@@ -184,7 +184,7 @@ export default function TabNavigation() {
             }}
         >
             <Tab.Screen name="Home" component={HomeStackScreen} />
-            <Tab.Screen name="Book" options={{ unmountOnBlur: true }} component={BookHistoryStackScreen} />
+            <Tab.Screen name="Book" component={BookHistoryStackScreen} />
             <Tab.Screen name="Profile" component={ProfileStackScreen} />
         </Tab.Navigator>
     );

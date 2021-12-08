@@ -6,6 +6,7 @@ import { BookHistoryService } from '../../Services/BookHistoryService/BookHistor
 import AsyncStorage from '@react-native-community/async-storage'
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
+const serviceicon = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1610428971/userimage_qif8wv.jpg'
 
 class BookHistory extends Component {
     constructor(props) {
@@ -58,7 +59,7 @@ class BookHistory extends Component {
     renderBookHistoryService = ({ item }) => (
         <View style={styles.servicename}>
             <View style={{ margin: 10 }}>
-                <Image source={{ uri: item.refid.gallery[0].attachment }}
+                <Image source={{ uri: item.refid && item.refid.gallery && item.refid.gallery[0] && item.refid.gallery[0].attachment ? item.refid.gallery[0].attachment : serviceicon }}
                     style={{ alignItems: 'center', height: 130, width: 150, borderRadius: 10 }} />
             </View>
             <View style={{ marginLeft: 10, flex: 0.8 }}>

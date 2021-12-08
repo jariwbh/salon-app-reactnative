@@ -18,13 +18,7 @@ const staffService = () => {
             "searchvalue": "active",
             "criteria": "eq",
             "datatype": "text"
-        },
-        {
-            'searchfield': 'role',
-            'searchvalue': '5dd37f796c98a22df08b9507',
-            'criteria': 'eq',
-            'datatype': 'objectId'
-        },
+        }
         ], "formname": "user"
     }
     return Axios.post('users/filter', body);

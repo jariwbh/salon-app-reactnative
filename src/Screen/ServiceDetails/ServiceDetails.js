@@ -4,6 +4,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import HTML from 'react-native-render-html';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
+const serviceicon = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1610428971/userimage_qif8wv.jpg'
 
 export default class ServiceDetails extends Component {
     constructor(props) {
@@ -11,7 +12,7 @@ export default class ServiceDetails extends Component {
         this.serviceDetails = this.props.route.params.item;
         this.state = {
             serviceID: this.serviceDetails._id,
-            serviceImage: this.serviceDetails.gallery[0].attachment,
+            serviceImage: this.serviceDetails.gallery && this.serviceDetails.gallery[0] && this.serviceDetails.gallery[0].attachment ? this.serviceDetails.gallery[0].attachment : serviceicon,
             servicetitle: this.serviceDetails.title,
             servicecharges: this.serviceDetails.charges,
             servicedescription: this.serviceDetails.description,

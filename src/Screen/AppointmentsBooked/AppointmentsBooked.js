@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ToastAndroid, TextInput, TouchableOpacity, ScrollView, SafeAreaView, Platform, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ToastAndroid, TextInput, TouchableOpacity, ScrollView, SafeAreaView, Platform, Dimensions, Keyboard } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { BookService } from '../../Services/BookService/BookService'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -164,10 +164,11 @@ export default class AppointmentsBooked extends Component {
             appointmentdate: serviceDate,
             onModel: "Member",
             refid: this.serviceDetails._id,
-            host: userID,
+            //host: userID,
             charges: this.serviceDetails.charges,
             duration: this.serviceDetails.duration,
             timeslot: {
+                day: moment(serviceDate).format('dddd'),
                 starttime: serviceTime
             },
         }
@@ -223,6 +224,7 @@ export default class AppointmentsBooked extends Component {
                                 returnKeyType="next"
                                 defaultValue={username}
                                 blurOnSubmit={false}
+                                onTouchEnd={() => Keyboard.dismiss()}
                                 onSubmitEditing={() => { this.TeardTextInputRef.current.focus() }}
                                 ref={this.secondTextInputRef}
                                 onChangeText={(email) => this.setUserName(email)}
@@ -249,7 +251,8 @@ export default class AppointmentsBooked extends Component {
                                 type='clear'
                                 placeholderTextColor="#ABAFB3"
                                 returnKeyType="next"
-                                onTouchStart={this.showDatePicker}
+                                onFocus={() => this.showDatePicker()}
+                                onTouchEnd={() => Keyboard.dismiss()}
                                 onChangeText={(serviceDate) => this.setServiceDate(serviceDate)}
                             />
                             <DateTimePickerModal
@@ -267,7 +270,8 @@ export default class AppointmentsBooked extends Component {
                                 type='clear'
                                 placeholderTextColor="#ABAFB3"
                                 returnKeyType="done"
-                                onTouchStart={this.showTimePicker}
+                                onFocus={() => this.showTimePicker()}
+                                onTouchEnd={() => Keyboard.dismiss()}
                                 onChangeText={(serviceTime) => this.setServiceTime(serviceTime)}
                                 onSubmitEditing={() => this.onPressSubmit()}
                             />

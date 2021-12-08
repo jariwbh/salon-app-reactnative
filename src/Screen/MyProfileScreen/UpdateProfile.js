@@ -91,7 +91,7 @@ class UpdateProfile extends Component {
                     if (Platform.OS === 'android') {
                         ToastAndroid.show("Your Profile Update", ToastAndroid.LONG);
                     } else {
-                       // alert('Your Profile Update');
+                        alert('Your Profile Update');
                     }
                     this.props.navigation.replace('MyProfile');
                 }

@@ -55,7 +55,10 @@ class HomeScreen extends Component {
 
     getstaffList() {
         staffService().then(response => {
-            this.setState({ staffList: response.data })
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                const slice = response.data.slice(0, 5)
+                this.setState({ staffList: slice })
+            }
         })
     }
 
@@ -103,16 +106,17 @@ class HomeScreen extends Component {
                 />
             </TouchableOpacity>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
-                <Text style={{ fontSize: 16, color: '#313131' }}>{item.title}</Text>
+                <Text style={{ fontSize: 16, color: '#313131', width: WIDTH / 3 }}>{item.title}</Text>
                 <Text style={{ fontSize: 16, color: '#313131' }}>₹ {item.charges}</Text>
             </View>
         </View>
     )
 
+    // <TouchableOpacity style={{ margin: 15 }} onPress={() => this.props.navigation.navigate('StaffDetails', { item })}>
     renderstaffList = ({ item }) => (
         <View style={{ flexDirection: 'column', marginBottom: 25, alignItems: 'center' }}>
-            <TouchableOpacity style={{ margin: 15 }} onPress={() => this.props.navigation.navigate('StaffDetails', { item })}>
-                <Image source={{ uri: item && item.property && item.property.profilepic ? item.property.profilepic : 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
+            <TouchableOpacity style={{ margin: 15 }}>
+                <Image source={{ uri: item && item.profilepic ? item.profilepic : 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
                     style={{ alignItems: 'center', height: 100, width: 100, marginTop: 10, borderRadius: 100 }}
                 />
             </TouchableOpacity>
