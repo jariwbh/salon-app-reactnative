@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import {
-    View, Text, StyleSheet, TextInput, ScrollView, ImageBackground,
-    TouchableOpacity, SafeAreaView, Dimensions, Platform, ToastAndroid
+    View, Text, StyleSheet, TextInput, ScrollView, ImageBackground, Image,
+    TouchableOpacity, SafeAreaView, Dimensions, Platform, ToastAndroid, StatusBar, Keyboard
 } from 'react-native';
 import Loading from '../../Components/Loader/Loading';
 import axiosConfig from '../../Helpers/axiosConfig';
 import ForgetPasswordService from '../../Services/ForgetPasswordService/ForgetPasswordService';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
+import * as KEY from '../../context/actions/key';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
 
 export default function ForgotPassword(props) {
     const userName = props.route.params.userValue;
@@ -96,61 +99,67 @@ export default function ForgotPassword(props) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ImageBackground source={require('../../assets/background.png')} style={styles.backgroundImage}>
+            <StatusBar backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
+            <ScrollView
+                Vertical={true}
+                showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps={KEY.ALWAYS}
+            >
+                <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={COLOR.DEFALUTCOLOR} style={styles.backgroundImage}>
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
+                        <Image style={styles.imageLogo} resizeMode={KEY.COVER} source={IMAGE.LOGO} />
+                    </View>
+                </ImageBackground>
+
                 <View style={styles.forgotview}>
                     <Text style={{ fontSize: 26 }}> Forgot Password </Text>
                 </View>
-                <View style={{ marginTop: 10, marginLeft: 40, flexDirection: 'row' }} >
-                    <Text style={{ fontSize: 14, color: '#8A8E91' }}>Enter new password below</Text>
+                <View style={{ marginTop: 10, marginLeft: 40, flexDirection: KEY.ROW }} >
+                    <Text style={{ fontSize: 14, color: COLOR.BLACK }}>Enter new password below</Text>
                 </View>
-                <ScrollView
-                    Vertical={true}
-                    showsVerticalScrollIndicator={false}
-                    keyboardShouldPersistTaps={'always'}
-                >
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <View style={newPassworderror == null ? styles.inputview : styles.inputviewError} >
-                            <TextInput
-                                style={styles.TextInput}
-                                placeholder='New Password'
-                                type='clear'
-                                placeholderTextColor="#ABAFB3"
-                                defaultValue={newPassword}
-                                returnKeyType="next"
-                                blurOnSubmit={false}
-                                secureTextEntry={true}
-                                onSubmitEditing={() => secondTextInputRef.current.focus()}
-                                onChangeText={(password) => setNewPasswordCheck(password)}
-                            />
-                        </View>
-                        <View style={rePassworderror == null ? styles.inputview : styles.inputviewError} >
-                            <TextInput
-                                style={styles.TextInput}
-                                placeholder='Re Password'
-                                type='clear'
-                                placeholderTextColor="#ABAFB3"
-                                returnKeyType="done"
-                                blurOnSubmit={false}
-                                ref={secondTextInputRef}
-                                secureTextEntry={true}
-                                onSubmitEditing={() => Keyboard.dismiss()}
-                                onChangeText={(repassword) => setRePasswordCheck(repassword)}
-                            />
-                        </View>
+
+                <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                    <View style={newPassworderror == null ? styles.inputview : styles.inputviewError} >
+                        <TextInput
+                            style={styles.TextInput}
+                            placeholder='New Password'
+                            type={KEY.CLEAR}
+                            placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                            defaultValue={newPassword}
+                            returnKeyType={KEY.NEXT}
+                            blurOnSubmit={false}
+                            secureTextEntry={true}
+                            onSubmitEditing={() => secondTextInputRef.current.focus()}
+                            onChangeText={(password) => setNewPasswordCheck(password)}
+                        />
                     </View>
-                    <View style={{ marginTop: 5, flexDirection: 'row', marginRight: 40, alignItems: 'flex-end', justifyContent: 'flex-end' }} >
-                        <Text style={styles.innerText}> Back to </Text>
-                        <TouchableOpacity onPress={() => { this.props.navigation.navigate('LoginScreen') }} >
-                            <Text style={styles.baseText}>Login</Text>
-                        </TouchableOpacity>
+                    <View style={rePassworderror == null ? styles.inputview : styles.inputviewError} >
+                        <TextInput
+                            style={styles.TextInput}
+                            placeholder='Re Password'
+                            type={KEY.CLEAR}
+                            placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                            returnKeyType={KEY.DONE}
+                            blurOnSubmit={false}
+                            ref={secondTextInputRef}
+                            secureTextEntry={true}
+                            onSubmitEditing={() => Keyboard.dismiss()}
+                            onChangeText={(repassword) => setRePasswordCheck(repassword)}
+                        />
                     </View>
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <TouchableOpacity style={styles.forBtn} onPress={() => onPressSubmit()}>
-                            {loading == true ? <Loading /> : <Text style={styles.forText}>Reset Password</Text>}
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
-            </ImageBackground>
+                </View>
+                <View style={{ marginTop: 5, flexDirection: KEY.ROW, marginRight: 40, alignItems: KEY.FLEX_END, justifyContent: KEY.FLEX_END }} >
+                    <Text style={styles.innerText}> Back to </Text>
+                    <TouchableOpacity onPress={() => { this.props.navigation.navigate('LoginScreen') }} >
+                        <Text style={styles.baseText}>Login</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                    <TouchableOpacity style={styles.forBtn} onPress={() => onPressSubmit()}>
+                        {loading == true ? <Loading /> : <Text style={styles.forText}>Reset Password</Text>}
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
         </SafeAreaView>
     );
 }
@@ -158,30 +167,26 @@ export default function ForgotPassword(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#FFFFFF"
+        backgroundColor: COLOR.WHITE
     },
     backgroundImage: {
-        flex: 1,
-        resizeMode: 'cover',
+        marginTop: -20,
         width: WIDTH,
-        height: HEIGHT
+        height: HEIGHT / 3,
     },
     forgotview: {
         marginLeft: 30,
-        marginTop: HEIGHT / 3 - 20
+        marginTop: 40
     },
-    innerText: {
-        color: '#605C5C',
-        fontSize: 14
-    },
-    baseText: {
-        fontWeight: 'normal',
-        color: '#183BAE',
-        fontSize: 14
+    TextInput: {
+        fontSize: 16,
+        flex: 1,
+        padding: 15,
+        borderColor: COLOR.WHITE,
     },
     inputview: {
-        flexDirection: 'row',
-        backgroundColor: "#fff",
+        flexDirection: KEY.ROW,
+        backgroundColor: COLOR.WHITE,
         borderRadius: 100,
         shadowOpacity: 0.5,
         shadowRadius: 1,
@@ -190,39 +195,68 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
-        borderColor: '#fff',
+        borderColor: COLOR.WHITE,
         width: WIDTH - 60,
         height: 50,
         margin: 12,
-        alignItems: "center"
+        alignItems: KEY.CENTER,
     },
-    TextInput: {
+    inputviewError: {
+        flexDirection: KEY.ROW,
+        backgroundColor: COLOR.WHITE,
+        borderRadius: 100,
+        shadowOpacity: 0.5,
+        shadowRadius: 3,
+        shadowOffset: {
+            height: 0,
+            width: 0,
+        },
+        elevation: 2,
+        borderColor: COLOR.ERRORCOLOR,
+        width: WIDTH - 60,
+        height: 50,
+        margin: 12,
+        alignItems: KEY.CENTER,
+        borderWidth: 1
+    },
+    TextInputError: {
         fontSize: 14,
         flex: 1,
         padding: 15,
-        borderColor: '#FFFFFF'
+        backgroundColor: COLOR.WHITE,
+        borderColor: COLOR.ERRORCOLOR,
+        borderRadius: 100,
+        width: WIDTH - 60,
+        height: 50,
+        alignItems: KEY.CENTER,
+        borderWidth: 1
     },
     forBtn: {
-        flexDirection: 'row',
+        flexDirection: KEY.ROW,
         width: WIDTH / 3,
-        backgroundColor: "#FEBC42",
+        backgroundColor: COLOR.DEFALUTCOLOR,
         borderRadius: 100,
         height: 40,
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: KEY.CENTER,
+        justifyContent: KEY.CENTER,
         marginRight: 20
     },
     forText: {
-        color: '#FFFFFF',
+        color: COLOR.WHITE,
         fontSize: 16
     },
     baseText: {
-        fontWeight: 'normal',
-        color: '#F4AE3A',
+        color: COLOR.DEFALUTCOLOR,
         fontSize: 14
     },
     innerText: {
-        color: '#ABAFB3',
+        color: COLOR.BLACK_OLIVE,
         fontSize: 14
+    },
+    imageLogo: {
+        justifyContent: KEY.CENTER,
+        alignItems: KEY.CENTER,
+        height: 150,
+        width: 220
     },
 })

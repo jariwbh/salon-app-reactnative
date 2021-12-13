@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-    View, Text, StyleSheet, TextInput, ScrollView, ImageBackground,
+    View, Text, StyleSheet, TextInput, ScrollView, ImageBackground, StatusBar, Image,
     TouchableOpacity, SafeAreaView, Dimensions, Keyboard, ToastAndroid, Platform
 } from 'react-native';
 import axiosConfig from '../../Helpers/axiosConfig';
@@ -9,6 +9,10 @@ const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 import Loader from '../../Components/Loader/Loading'
 import { SendEmailService, SendSmsService } from '../../Services/SendEmailandSmsService/SendEmailandSmsService';
+import * as KEY from '../../context/actions/key';
+import * as TYPE from '../../context/actions/type';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
 
 export default function ForgotPasswordMain(props) {
     const [username, setusername] = useState(null);
@@ -16,11 +20,10 @@ export default function ForgotPasswordMain(props) {
     const [usererror, setusererror] = useState(null);
     const [verifyOtpNumber, setverifyOtpNumber] = useState(null);
     const [inputOtpNumber, setinputOtpNumber] = useState(null);
-    const [inputOtpNumberError, setinputOtpNumberError] = useState(null);
     const [userInfo, setUserInfo] = useState(null);
 
     useEffect(() => {
-    }, [username, loading, usererror, verifyOtpNumber, inputOtpNumber, userInfo, inputOtpNumberError])
+    }, [username, loading, usererror, verifyOtpNumber, inputOtpNumber, userInfo])
 
     //clear Field up data
     const resetScreen = () => {
@@ -97,15 +100,15 @@ export default function ForgotPasswordMain(props) {
         let memberEmail = member.primaryemail;
         console.log(`verifyOtpNumber`, verifyOtpNumber);
 
-        axiosConfig('6066c57499e17f24a4db4495');
+        axiosConfig('6130a1b1bfd7602f90774da2');
         let mobilebody;
         let emailbody;
         if (memberMobile) {
             mobilebody = {
                 "messagetype": "SMS",
                 "message": {
-                    "content": `${verifyOtpNumber} is the OTP for accessing on MEMBROZ USES. Valid till 5 Minutes.Do not share this with anyone.`,
-                    "to": [memberMobile],
+                    "content": `${verifyOtpNumber} is the OTP for accessing on ${TYPE.APPNAME} Users. Valid till 5 Minutes.Do not share this with anyone.`,
+                    "to": memberMobile,
                     "subject": "Reset Password OTP"
                 }
             }
@@ -115,8 +118,8 @@ export default function ForgotPasswordMain(props) {
             emailbody = {
                 "messagetype": "EMAIL",
                 "message": {
-                    "content": `${verifyOtpNumber} is the OTP for accessing on MEMBROZ USES. Valid till 5 Minutes.Do not share this with anyone.`,
-                    "to": [memberEmail],
+                    "content": `${verifyOtpNumber} is the OTP for accessing on ${TYPE.APPNAME} Users. Valid till 5 Minutes.Do not share this with anyone.`,
+                    "to": memberEmail,
                     "subject": "Reset Password OTP"
                 }
             }
@@ -151,42 +154,44 @@ export default function ForgotPasswordMain(props) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ImageBackground source={require('../../assets/background.png')} style={styles.backgroundImage}>
+            <StatusBar backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
+            <ScrollView Vertical={true} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
+                <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={COLOR.DEFALUTCOLOR} style={styles.backgroundImage}>
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
+                        <Image style={styles.imageLogo} resizeMode={KEY.COVER} source={IMAGE.LOGO} />
+                    </View>
+                </ImageBackground>
+
                 <View style={styles.forgotview}>
                     <Text style={{ fontSize: 26 }}> Forgot Password </Text>
                 </View>
-                <ScrollView
-                    Vertical={true}
-                    showsVerticalScrollIndicator={false}
-                    keyboardShouldPersistTaps={'always'}
-                >
-                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                        <View style={usererror == null ? styles.inputview : styles.inputviewError} >
-                            <TextInput
-                                style={styles.TextInput}
-                                placeholder="Username"
-                                type='clear'
-                                placeholderTextColor="#ABAFB3"
-                                returnKeyType="done"
-                                defaultValue={username}
-                                onSubmitEditing={() => Keyboard.dismiss()}
-                                onChangeText={(username) => setUsernamecheck(username)}
-                            />
-                        </View>
+
+                <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 20 }}>
+                    <View style={usererror == null ? styles.inputview : styles.inputviewError} >
+                        <TextInput
+                            style={styles.TextInput}
+                            placeholder="Username"
+                            type={KEY.CLEAR}
+                            placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                            returnKeyType={KEY.DONE}
+                            defaultValue={username}
+                            onSubmitEditing={() => Keyboard.dismiss()}
+                            onChangeText={(username) => setUsernamecheck(username)}
+                        />
                     </View>
-                    <View style={{ marginTop: 5, flexDirection: 'row', marginRight: 40, alignItems: 'flex-end', justifyContent: 'flex-end' }} >
-                        <Text style={styles.innerText}> Back to </Text>
-                        <TouchableOpacity onPress={() => { props.navigation.navigate('LoginScreen'), resetScreen() }} >
-                            <Text style={styles.baseText}>Login</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 0 }}>
-                        <TouchableOpacity style={styles.forBtn} onPress={() => createOtp()}>
-                            {loading == true ? <Loader /> : <Text style={styles.forText}>Next</Text>}
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
-            </ImageBackground>
+                </View>
+                <View style={{ marginTop: 5, flexDirection: KEY.ROW, marginRight: 40, alignItems: KEY.FLEX_END, justifyContent: KEY.FLEX_END }} >
+                    <Text style={styles.innerText}> Back to </Text>
+                    <TouchableOpacity onPress={() => { props.navigation.navigate('LoginScreen'), resetScreen() }} >
+                        <Text style={styles.baseText}>Login</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>
+                    <TouchableOpacity style={styles.forBtn} onPress={() => createOtp()}>
+                        {loading == true ? <Loader /> : <Text style={styles.forText}>Next</Text>}
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
         </SafeAreaView>
     );
 }
@@ -194,30 +199,20 @@ export default function ForgotPasswordMain(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#FFFFFF"
+        backgroundColor: COLOR.WHITE
     },
     backgroundImage: {
-        flex: 1,
-        resizeMode: 'cover',
+        marginTop: -20,
         width: WIDTH,
-        height: HEIGHT
+        height: HEIGHT / 3,
     },
     forgotview: {
         marginLeft: 30,
-        marginTop: HEIGHT / 3 - 20
-    },
-    innerText: {
-        color: '#605C5C',
-        fontSize: 14
-    },
-    baseText: {
-        fontWeight: 'normal',
-        color: '#183BAE',
-        fontSize: 14
+        marginTop: 40
     },
     inputview: {
-        flexDirection: 'row',
-        backgroundColor: "#fff",
+        flexDirection: KEY.ROW,
+        backgroundColor: COLOR.WHITE,
         borderRadius: 100,
         shadowOpacity: 0.5,
         shadowRadius: 1,
@@ -226,15 +221,15 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
-        borderColor: '#fff',
+        borderColor: COLOR.WHITE,
         width: WIDTH - 60,
         height: 50,
         margin: 12,
-        alignItems: "center"
+        alignItems: KEY.CENTER,
     },
     inputviewError: {
-        flexDirection: 'row',
-        backgroundColor: "#FFFFFF",
+        flexDirection: KEY.ROW,
+        backgroundColor: COLOR.WHITE,
         borderRadius: 100,
         shadowOpacity: 0.5,
         shadowRadius: 3,
@@ -243,40 +238,45 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
-        borderColor: '#FF0000',
+        borderColor: COLOR.ERRORCOLOR,
         width: WIDTH - 60,
         height: 50,
         margin: 12,
-        alignItems: "center",
+        alignItems: KEY.CENTER,
         borderWidth: 1
     },
     TextInput: {
         fontSize: 14,
         flex: 1,
         padding: 15,
-        borderColor: '#FFFFFF'
+        borderColor: COLOR.WHITE,
     },
     forBtn: {
-        flexDirection: 'row',
+        flexDirection: KEY.ROW,
         width: WIDTH / 3,
-        backgroundColor: "#FEBC42",
+        backgroundColor: COLOR.DEFALUTCOLOR,
         borderRadius: 100,
         height: 40,
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: KEY.CENTER,
+        justifyContent: KEY.CENTER,
         marginRight: 20
     },
     forText: {
-        color: '#FFFFFF',
+        color: COLOR.WHITE,
         fontSize: 16
     },
     baseText: {
-        fontWeight: 'normal',
-        color: '#F4AE3A',
+        color: COLOR.BLACK_OLIVE,
         fontSize: 14
     },
     innerText: {
-        color: '#ABAFB3',
+        color: COLOR.BLACK_OLIVE,
         fontSize: 14
+    },
+    imageLogo: {
+        justifyContent: KEY.CENTER,
+        alignItems: KEY.CENTER,
+        height: 150,
+        width: 220
     },
 })

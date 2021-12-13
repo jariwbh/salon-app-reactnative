@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, Text, StyleSheet, ImageBackground, ToastAndroid,
+    View, Text, StyleSheet, ImageBackground, ToastAndroid, Image,
     Dimensions, TextInput, TouchableOpacity, SafeAreaView, StatusBar, BackHandler
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -10,6 +10,9 @@ import { LoginService } from "../../Services/LoginService/LoginService"
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 import axiosConfig from '../../Helpers/axiosConfig';
+import * as KEY from '../../context/actions/key';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
 
 export default class LoginScreen extends Component {
     constructor(props) {
@@ -21,16 +24,6 @@ export default class LoginScreen extends Component {
             passworderror: null,
             loading: false,
         };
-
-        this._unsubscribeSiFocus = this.props.navigation.addListener('focus', e => {
-            BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
-        });
-
-        this._unsubscribeSiBlur = this.props.navigation.addListener('blur', e => {
-            BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton,
-            );
-        });
-
         this.setEmail = this.setEmail.bind(this);
         this.setPassword = this.setPassword.bind(this);
         this.onPressSubmit = this.onPressSubmit.bind(this);
@@ -38,7 +31,7 @@ export default class LoginScreen extends Component {
     }
 
     setEmail(email) {
-        if (!email || email <= 0) {
+        if (!email || email.length <= 0) {
             return this.setState({ usererror: 'User Name cannot be empty' });
         }
         return this.setState({ username: email, usererror: null });
@@ -62,7 +55,7 @@ export default class LoginScreen extends Component {
     }
 
     authenticateUser = (user) => (
-        AsyncStorage.setItem('@authuser', JSON.stringify(user))
+        AsyncStorage.setItem(KEY.AUTHUSER, JSON.stringify(user))
     )
 
     onPressSubmit = async () => {
@@ -90,7 +83,7 @@ export default class LoginScreen extends Component {
                         } else {
                             alert('SignIn Success');
                         }
-                        this.props.navigation.navigate('TabNavigation');
+                        this.props.navigation.replace('TabNavigation');
                         this.resetScreen();
                         return
                     }
@@ -103,79 +96,70 @@ export default class LoginScreen extends Component {
             } else {
                 alert('Username and Password Invalid');
             }
-
         };
-    }
-
-    componentWillUnmount() {
-        this._unsubscribeSiFocus();
-        this._unsubscribeSiBlur();
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-    }
-
-    handleBackButton = () => {
-        BackHandler.exitApp()
-        return true;
     }
 
     render() {
         const { usererror, passworderror } = this.state;
         return (
             <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor="#FEBC42" barStyle="dark-content" />
-                <ImageBackground source={require('../../assets/background.png')} style={styles.backgroundImage}>
+                <StatusBar backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
+                <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
+                    <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={COLOR.DEFALUTCOLOR} style={styles.backgroundImage}>
+                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
+                            <Image style={styles.imageLogo} resizeMode={KEY.COVER} source={IMAGE.LOGO} />
+                        </View>
+                    </ImageBackground>
                     <View style={styles.hello}>
-                        <Text style={{ color: '#36424A', fontSize: 28 }}>Welcome </Text>
-                        <Text style={{ color: '#8A8E91', fontSize: 18 }}>Sign in to your account</Text>
+                        <Text style={{ color: COLOR.BLACK, fontSize: 28 }}>Welcome </Text>
+                        <Text style={{ color: COLOR.BLACK, fontSize: 18 }}>Sign in to your account</Text>
                     </View>
-                    <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                            <View style={styles.inputView}>
-                                <TextInput
-                                    style={usererror == null ? styles.TextInput : styles.TextInputError}
-                                    placeholder="Username"
-                                    defaultValue={this.state.username}
-                                    type='clear'
-                                    returnKeyType="next"
-                                    placeholderTextColor="#ABAFB3"
-                                    blurOnSubmit={false}
-                                    onSubmitEditing={() => { this.secondTextInputRef.current.focus() }}
-                                    onChangeText={(email) => this.setEmail(email)}
-                                />
-                            </View>
-                            <View style={styles.inputView}>
-                                <TextInput
-                                    style={passworderror == null ? styles.TextInput : styles.TextInputError}
-                                    placeholder="**********"
-                                    type='clear'
-                                    defaultValue={this.state.password}
-                                    placeholderTextColor="#ABAFB3"
-                                    secureTextEntry={true}
-                                    returnKeyType="done"
-                                    ref={this.secondTextInputRef}
-                                    onSubmitEditing={() => this.onPressSubmit()}
-                                    onChangeText={(password) => this.setPassword(password)}
-                                />
-                            </View>
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                        <View style={styles.inputView}>
+                            <TextInput
+                                style={usererror == null ? styles.TextInput : styles.TextInputError}
+                                placeholder="Username"
+                                defaultValue={this.state.username}
+                                type={KEY.CLEAR}
+                                returnKeyType={KEY.NEXT}
+                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                blurOnSubmit={false}
+                                onSubmitEditing={() => { this.secondTextInputRef.current.focus() }}
+                                onChangeText={(email) => this.setEmail(email)}
+                            />
                         </View>
-                        <View style={{ alignItems: 'flex-end', marginRight: 40 }}>
-                            <TouchableOpacity onPress={() => { this.props.navigation.navigate('ForgotPasswordMain'),this.resetScreen() }}>
-                                <Text style={{ fontSize: 14, color: '#ABAFB3', marginTop: 5 }}>Forgot password?</Text>
-                            </TouchableOpacity>
+                        <View style={styles.inputView}>
+                            <TextInput
+                                style={passworderror == null ? styles.TextInput : styles.TextInputError}
+                                placeholder="**********"
+                                type={KEY.CLEAR}
+                                defaultValue={this.state.password}
+                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                secureTextEntry={true}
+                                returnKeyType={KEY.DONE}
+                                ref={this.secondTextInputRef}
+                                onSubmitEditing={() => this.onPressSubmit()}
+                                onChangeText={(password) => this.setPassword(password)}
+                            />
                         </View>
-                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
-                            <TouchableOpacity style={styles.loginBtn} onPress={() => this.onPressSubmit()} >
-                                {this.state.loading == true ? <Loader /> : <Text style={styles.loginText}>Sign In</Text>}
-                            </TouchableOpacity>
-                        </View>
-                        <View style={{ marginTop: 15, justifyContent: 'center', flexDirection: 'row' }} >
-                            <Text style={styles.innerText}> Don't have an account? </Text>
-                            <TouchableOpacity onPress={() => { this.props.navigation.navigate('RegisterScreen'), this.resetScreen() }} >
-                                <Text style={styles.baseText}>Create</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </ScrollView>
-                </ImageBackground>
+                    </View>
+                    <View style={{ alignItems: KEY.FLEX_END, marginRight: 40 }}>
+                        <TouchableOpacity onPress={() => { this.props.navigation.navigate('ForgotPasswordMain'), this.resetScreen() }}>
+                            <Text style={{ fontSize: 14, color: COLOR.PLACEHOLDER_COLOR, marginTop: 5 }}>Forgot password?</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 20 }}>
+                        <TouchableOpacity style={styles.loginBtn} onPress={() => this.onPressSubmit()} >
+                            {this.state.loading == true ? <Loader /> : <Text style={styles.loginText}>Sign In</Text>}
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ marginTop: 15, justifyContent: KEY.CENTER, flexDirection: KEY.ROW }} >
+                        <Text style={styles.innerText}> Don't have an account? </Text>
+                        <TouchableOpacity onPress={() => { this.props.navigation.navigate('RegisterScreen'), this.resetScreen() }} >
+                            <Text style={styles.baseText}>Create</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
             </SafeAreaView>
         );
     }
@@ -184,21 +168,20 @@ export default class LoginScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFFFFF'
+        backgroundColor: COLOR.WHITE
     },
     backgroundImage: {
-        flex: 1,
-        resizeMode: 'cover',
+        marginTop: -20,
         width: WIDTH,
-        height: HEIGHT
+        height: HEIGHT / 3,
     },
     hello: {
-        marginTop: HEIGHT / 3,
+        marginTop: 40,
         marginLeft: 35
     },
     inputView: {
-        flexDirection: 'row',
-        backgroundColor: "#fff",
+        flexDirection: KEY.ROW,
+        backgroundColor: COLOR.WHITE,
         borderRadius: 100,
         shadowOpacity: 0.5,
         shadowRadius: 1,
@@ -207,51 +190,56 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
-        borderColor: '#fff',
+        borderColor: COLOR.WHITE,
         width: WIDTH - 60,
         height: 50,
         margin: 12,
-        alignItems: "center"
+        alignItems: KEY.CENTER
     },
     TextInput: {
-        fontSize: 14,
+        fontSize: 16,
         flex: 1,
         padding: 15,
-        borderColor: '#FFFFFF'
+        borderColor: COLOR.WHITE,
     },
     TextInputError: {
         fontSize: 14,
         flex: 1,
         padding: 15,
-        backgroundColor: "#FFFFFF",
-        borderColor: '#FF0000',
+        backgroundColor: COLOR.WHITE,
+        borderColor: COLOR.ERRORCOLOR,
         borderRadius: 100,
         width: WIDTH - 60,
         height: 50,
-        alignItems: "center",
+        alignItems: KEY.CENTER,
         borderWidth: 1
     },
     loginBtn: {
-        flexDirection: 'row',
+        flexDirection: KEY.ROW,
         width: WIDTH / 3,
-        backgroundColor: "#FEBC42",
+        backgroundColor: COLOR.DEFALUTCOLOR,
         borderRadius: 100,
         height: 40,
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: KEY.CENTER,
+        justifyContent: KEY.CENTER,
         marginRight: 20
     },
     loginText: {
-        color: '#FFFFFF',
+        color: COLOR.WHITE,
         fontSize: 16
     },
     baseText: {
-        fontWeight: 'normal',
-        color: '#F4AE3A',
+        color: COLOR.DEFALUTCOLOR,
         fontSize: 14
     },
     innerText: {
-        color: '#ABAFB3',
+        color: COLOR.BLACK_OLIVE,
         fontSize: 14
+    },
+    imageLogo: {
+        justifyContent: KEY.CENTER,
+        alignItems: KEY.CENTER,
+        height: 150,
+        width: 220
     },
 })
