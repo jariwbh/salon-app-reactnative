@@ -5,6 +5,10 @@ import { BookService } from '../../Services/BookService/BookService'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import Loader from '../../Components/Loader/Loading';
+import * as KEY from '../../context/actions/key';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
+
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
@@ -197,19 +201,20 @@ export default class AppointmentsBooked extends Component {
     }
 
     render() {
-        const { fullname, mobilenumber, serviceTime, serviceDate, username, fullnameError, usernameError, mobilenumberError, serviceDateError, serviceTimeError } = this.state;
+        const { fullname, mobilenumber, serviceTime, serviceDate, username, loading,
+            fullnameError, usernameError, mobilenumberError, serviceDateError, serviceTimeError } = this.state;
         return (
             <SafeAreaView style={styles.container}>
-                <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-                    <View style={{ alignItems: 'center' }}>
+                <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
+                    <View style={{ alignItems: KEY.CENTER }}>
                         <View style={styles.inputView}>
                             <TextInput
                                 style={fullnameError == null ? styles.TextInput : styles.TextInputError}
                                 defaultValue={fullname}
                                 placeholder="Name"
-                                type='clear'
-                                placeholderTextColor="#ABAFB3"
-                                returnKeyType="next"
+                                type={KEY.CLEAR}
+                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                returnKeyType={KEY.NEXT}
                                 blurOnSubmit={false}
                                 onSubmitEditing={() => { this.secondTextInputRef.current.focus() }}
                                 onChangeText={(fullname) => this.setFullName(fullname)}
@@ -219,9 +224,9 @@ export default class AppointmentsBooked extends Component {
                             <TextInput
                                 style={usernameError == null ? styles.TextInput : styles.TextInputError}
                                 placeholder="Email"
-                                type='clear'
-                                placeholderTextColor="#ABAFB3"
-                                returnKeyType="next"
+                                type={KEY.CLEAR}
+                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                returnKeyType={KEY.NEXT}
                                 defaultValue={username}
                                 blurOnSubmit={false}
                                 onTouchEnd={() => Keyboard.dismiss()}
@@ -235,9 +240,9 @@ export default class AppointmentsBooked extends Component {
                                 style={mobilenumberError == null ? styles.TextInput : styles.TextInputError}
                                 defaultValue={mobilenumber}
                                 placeholder="Phone_No"
-                                type='clear'
-                                placeholderTextColor="#ABAFB3"
-                                returnKeyType="next"
+                                type={KEY.CLEAR}
+                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                returnKeyType={KEY.NEXT}
                                 keyboardType="numeric"
                                 ref={this.TeardTextInputRef}
                                 onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
@@ -248,9 +253,9 @@ export default class AppointmentsBooked extends Component {
                                 style={serviceDateError == null ? styles.TextInput : styles.TextInputError}
                                 defaultValue={serviceDate}
                                 placeholder="YYYY-MM-DD"
-                                type='clear'
-                                placeholderTextColor="#ABAFB3"
-                                returnKeyType="next"
+                                type={KEY.CLEAR}
+                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                returnKeyType={KEY.NEXT}
                                 onFocus={() => this.showDatePicker()}
                                 onTouchEnd={() => Keyboard.dismiss()}
                                 onChangeText={(serviceDate) => this.setServiceDate(serviceDate)}
@@ -267,9 +272,9 @@ export default class AppointmentsBooked extends Component {
                                 style={serviceTimeError == null ? styles.TextInput : styles.TextInputError}
                                 defaultValue={serviceTime}
                                 placeholder="HH-MM"
-                                type='clear'
-                                placeholderTextColor="#ABAFB3"
-                                returnKeyType="done"
+                                type={KEY.CLEAR}
+                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                returnKeyType={KEY.DONE}
                                 onFocus={() => this.showTimePicker()}
                                 onTouchEnd={() => Keyboard.dismiss()}
                                 onChangeText={(serviceTime) => this.setServiceTime(serviceTime)}
@@ -283,14 +288,15 @@ export default class AppointmentsBooked extends Component {
                             />
                         </View>
                     </View>
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <TouchableOpacity style={styles.book} onPress={() => this.onPressSubmit()} >
                             {this.state.loading === true ? <Loader /> :
-                                <Text style={{ fontSize: 18, color: '#FFFFFF' }}>Book </Text>
+                                <Text style={{ fontSize: 18, color: COLOR.WHITE }}>Book Now</Text>
                             }
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
+                {loading ? <Loader /> : null}
             </SafeAreaView>
         );
     }
@@ -298,11 +304,11 @@ export default class AppointmentsBooked extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: COLOR.DEFAULTLIGHT,
     },
     inputView: {
-        flexDirection: 'row',
-        backgroundColor: "#FFFFFF",
+        flexDirection: KEY.ROW,
+        backgroundColor: COLOR.WHITE,
         borderRadius: 100,
         shadowOpacity: 0.5,
         shadowRadius: 3,
@@ -311,21 +317,21 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
-        borderColor: '#FFFFFF',
+        borderColor: COLOR.WHITE,
         width: WIDTH - 60,
         height: 50,
         margin: 10,
-        alignItems: "center"
+        alignItems: KEY.CENTER,
     },
     TextInput: {
         fontSize: 14,
         flex: 1,
         padding: 10,
-        borderColor: '#FFFFFF'
+        borderColor: COLOR.WHITE,
     },
     TextInputError: {
-        flexDirection: 'row',
-        backgroundColor: "#FFFFFF",
+        flexDirection: KEY.ROW,
+        backgroundColor: COLOR.WHITE,
         borderRadius: 100,
         shadowOpacity: 0.5,
         shadowRadius: 3,
@@ -334,19 +340,21 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
-        borderColor: '#FF0000',
+        borderColor: COLOR.ERRORCOLOR,
         width: WIDTH - 60,
         height: 50,
-        alignItems: "center",
+        alignItems: KEY.CENTER,
         borderWidth: 1
     },
     book: {
-        flexDirection: 'row',
-        backgroundColor: "#FEBC42",
-        marginTop: 30,
-        width: WIDTH / 2 + 30,
+        flexDirection: KEY.ROW,
+        backgroundColor: COLOR.DEFALUTCOLOR,
+        marginTop: 20,
+        width: WIDTH - 60,
         height: 50,
-        alignItems: "center",
-        justifyContent: 'center'
+        borderRadius: 30,
+        alignItems: KEY.CENTER,
+        justifyContent: KEY.CENTER,
+        marginBottom: 50
     }
 })

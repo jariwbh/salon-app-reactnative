@@ -1,38 +1,54 @@
-import React from 'react';
-import { StyleSheet, View, ActivityIndicator, SafeAreaView } from 'react-native';
+import React, { useContext } from 'react';
+import {
+    ActivityIndicator,
+    View,
+    StyleSheet,
+    Dimensions,
+    Platform,
+} from 'react-native';
+const { height, width } = Dimensions.get('window');
+import * as COLOR from '../../styles/colors';
+import * as KEY from '../../context/actions/key';
 
-const Loader = (props) => {
+const styles = StyleSheet.create({
+    loaderContainer: {
+        zIndex: 1,
+        elevation: 2,
+        height,
+        width,
+        position: KEY.ABSOLUTE,
+        alignItems: KEY.CENTER,
+        justifyContent: KEY.CENTER,
+        backgroundColor: COLOR.DEFAULTLIGHT
+    },
+    indicator: {
+        backgroundColor: COLOR.DEFALUTCOLOR,
+        height: 44,
+        width: 44,
+        borderRadius: 22,
+        display: KEY.FLEX,
+        alignItems: KEY.CENTER,
+        justifyContent: KEY.CENTER,
+        alignContent: KEY.CENTER,
+        marginTop: -50
+    },
+});
+
+const Loader = () => {
     return (
-        <SafeAreaView style={styles.modalBackground}>
-            <View style={styles.activityIndicatorWrapper}>
+        <View style={styles.loaderContainer}>
+            <View style={styles.indicator}>
                 <ActivityIndicator
-                    animating={true}
-                    color="#F6C455"
-                    size="large"
-                    style={styles.activityIndicator}
+                    size={KEY.LARGE}
+                    color={COLOR.WHITE}
+                    style={{
+                        left: Platform.OS === KEY.IOS ? 1.3 : 0,
+                        top: Platform.OS === KEY.IOS ? 1 : 0,
+                    }}
                 />
             </View>
-        </SafeAreaView>
+        </View>
     );
 };
 
 export default Loader;
-
-const styles = StyleSheet.create({
-    modalBackground: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    activityIndicatorWrapper: {
-        height: 100,
-        width: 100,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    activityIndicator: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 80,
-    },
-});

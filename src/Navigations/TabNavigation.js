@@ -15,13 +15,17 @@ import MyProfileScreen from '../Screen/MyProfileScreen/MyProfileScreen';
 import UpdateProfileScreen from '../Screen/MyProfileScreen/UpdateProfile';
 import BackButton from '../Components/BackButton/BackButton'
 
+import * as KEY from '../context/actions/key';
+import * as COLOR from '../styles/colors';
+import * as IMAGE from '../styles/image';
+
 const ProfileStack = createStackNavigator();
 function ProfileStackScreen({ navigation }) {
     return (
         <ProfileStack.Navigator initialRouteName="MyProfile" headerMode='screen'>
             <ProfileStack.Screen name="MyProfile" options={{
                 title: 'Profile', headerStyle: {
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: COLOR.DEFAULTLIGHT,
                     elevation: 0,
                     shadowOpacity: 0,
                     borderBottomWidth: 0,
@@ -34,7 +38,7 @@ function ProfileStackScreen({ navigation }) {
 
             <ProfileStack.Screen name="UpdateProfile" options={{
                 title: 'Profile', headerStyle: {
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: COLOR.DEFAULTLIGHT,
                     elevation: 0,
                     shadowOpacity: 0,
                     borderBottomWidth: 0,
@@ -60,7 +64,7 @@ function HomeStackScreen({ navigation }) {
 
             <HomeStack.Screen name="ServiceListScreen" options={{
                 title: 'Services', headerStyle: {
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: COLOR.DEFAULTLIGHT,
                     elevation: 0,
                     shadowOpacity: 0,
                     borderBottomWidth: 0,
@@ -71,7 +75,7 @@ function HomeStackScreen({ navigation }) {
 
             <HomeStack.Screen name="ServiceDetails" options={{
                 title: 'Service Details', headerStyle: {
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: COLOR.DEFAULTLIGHT,
                     elevation: 0,
                     shadowOpacity: 0,
                     borderBottomWidth: 0,
@@ -82,7 +86,7 @@ function HomeStackScreen({ navigation }) {
 
             <HomeStack.Screen name="AppointmentsBooked" options={{
                 title: 'Book Appointment', headerStyle: {
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: COLOR.DEFAULTLIGHT,
                     elevation: 0,
                     shadowOpacity: 0,
                     borderBottomWidth: 0,
@@ -93,7 +97,7 @@ function HomeStackScreen({ navigation }) {
 
             <HomeStack.Screen name="StaffDetails" options={{
                 title: 'Staff Detail', headerStyle: {
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: COLOR.DEFAULTLIGHT,
                     elevation: 0,
                     shadowOpacity: 0,
                     borderBottomWidth: 0,
@@ -104,7 +108,7 @@ function HomeStackScreen({ navigation }) {
 
             <HomeStack.Screen name="BookHistory" options={{
                 title: 'Book History', headerStyle: {
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: COLOR.DEFAULTLIGHT,
                     elevation: 0,
                     shadowOpacity: 0,
                     borderBottomWidth: 0,
@@ -122,7 +126,7 @@ function BookHistoryStackScreen({ navigation }) {
         <BookHistoryStack.Navigator initialRouteName="BookHistory" headerMode='screen' >
             <BookHistoryStack.Screen name="BookHistory" options={{
                 title: 'Book history', headerStyle: {
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: COLOR.DEFAULTLIGHT,
                     elevation: 0,
                     shadowOpacity: 0,
                     borderBottomWidth: 0,
@@ -171,12 +175,12 @@ export default function TabNavigation() {
             })}
             tabBarOptions={{
                 style: {
-                    backgroundColor: '#FFFFFF',
+                    backgroundColor: COLOR.WHITE,
                     borderTopRightRadius: 21,
                     borderTopLeftRadius: 21,
                     position: 'absolute',
                 },
-                activeTintColor: '#FFBA00',
+                activeTintColor: COLOR.DEFALUTCOLOR,
                 inactiveTintColor: '#808B96',
                 keyboardHidesTabBar: true,
                 backBehavior: "history",

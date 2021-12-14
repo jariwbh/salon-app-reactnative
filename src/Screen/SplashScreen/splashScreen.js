@@ -11,14 +11,12 @@ import { AUTHUSER } from '../../context/actions/type';
 import axiosConfig from '../../Helpers/axiosConfig';
 import styles from './Styles'
 import * as KEY from '../../context/actions/key';
-import * as COLOR from '../../styles/colors';
-import * as FONT from '../../styles/typography';
 import * as IMAGE from '../../styles/image';
 
 function SplashScreen(props) {
 
   useEffect(() => {
-    AuthController()
+    splashScreen();
   }, []);
 
   async function AuthController() {
@@ -30,8 +28,14 @@ function SplashScreen(props) {
       axiosConfig(token);
       return props.navigation.replace('TabNavigation');
     } else {
-      return props.navigation.replace('LoginScreen');
+      return props.navigation.replace('StartupScreen');
     }
+  }
+
+  async function splashScreen() {
+    setTimeout(() => {
+      AuthController();
+    }, 3000);
   }
 
   return (

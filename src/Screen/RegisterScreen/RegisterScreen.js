@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, Dimensions, TextInput, ToastAndroid, SafeAreaView, StatusBar, Keyboard } from 'react-native';
+import {
+    View, Text, StyleSheet, TouchableOpacity, ImageBackground, Dimensions,
+    TextInput, ToastAndroid, SafeAreaView, StatusBar, Keyboard, Image
+} from 'react-native';
 import RegisterService from '../../Services/RegisterService/RegisterService';
 import { ScrollView } from 'react-native-gesture-handler';
 import Loader from '../../Components/Loader/Loading';
 import axiosConfig from '../../Helpers/axiosConfig';
+import * as KEY from '../../context/actions/key';
+import * as TYPE from '../../context/actions/type';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
@@ -26,6 +33,7 @@ class RegisterScreen extends Component {
         this.secondTextInputRef = React.createRef();
         this.TeardTextInputRef = React.createRef();
     }
+
     setFullName(fullname) {
         if (!fullname || fullname.length <= 0) {
             return this.setState({ fullnameError: 'User Name cannot be empty' });
@@ -58,7 +66,7 @@ class RegisterScreen extends Component {
 
     onPressSubmit = async () => {
         const { fullname, username, mobilenumber } = this.state;
-        axiosConfig('6066c57499e17f24a4db4495');
+        axiosConfig(TYPE.USERKEY);
         if (!fullname || !username || !mobilenumber) {
             this.setFullName(fullname)
             this.setUserName(username)
@@ -101,75 +109,79 @@ class RegisterScreen extends Component {
         const { fullnameError, usernameError, mobilenumberError } = this.state;
         return (
             <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor="#FEBC42" barStyle="dark-content" />
-                <ImageBackground source={require('../../assets/background.png')} style={styles.backgroundImage}>
+                <StatusBar backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
+                <ScrollView
+                    Vertical={true}
+                    showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps={KEY.ALWAYS}
+                >
+                    <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={COLOR.DEFALUTCOLOR} style={styles.backgroundImage}>
+                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
+                            <Image style={styles.imageLogo} resizeMode={KEY.COVER} source={IMAGE.LOGO} />
+                        </View>
+                    </ImageBackground>
                     <View style={styles.createtext}>
-                        <Text style={{ color: '#36424A', fontSize: 28 }}>Create Account</Text>
+                        <Text style={{ color: COLOR.BLACK, fontSize: 28 }}>Create Account</Text>
                     </View>
-                    <ScrollView
-                        Vertical={true}
-                        showsVerticalScrollIndicator={false}
-                        keyboardShouldPersistTaps={'always'}
-                    >
-                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                            <View style={styles.inputview}>
-                                <TextInput
-                                    style={fullnameError == null ? styles.TextInput : styles.TextInputError}
-                                    defaultValue={this.state.fullname}
-                                    placeholder="Full Name"
-                                    type='clear'
-                                    placeholderTextColor="#ABAFB3"
-                                    returnKeyType="next"
-                                    blurOnSubmit={false}
-                                    onSubmitEditing={() => { this.secondTextInputRef.current.focus() }}
-                                    onChangeText={(fullname) => this.setFullName(fullname)}
-                                />
-                            </View>
-                            <View style={styles.inputview}>
-                                <TextInput
-                                    style={usernameError == null ? styles.TextInput : styles.TextInputError}
-                                    defaultValue={this.state.username}
-                                    placeholder="Email"
-                                    type='clear'
-                                    placeholderTextColor="#ABAFB3"
-                                    returnKeyType="next"
-                                    autoCapitalize="none"
-                                    autoCompleteType="email"
-                                    textContentType="emailAddress"
-                                    keyboardType="email-address"
-                                    blurOnSubmit={false}
-                                    onSubmitEditing={() => { this.TeardTextInputRef.current.focus() }}
-                                    ref={this.secondTextInputRef}
-                                    onChangeText={(username) => this.setUserName(username)}
-                                />
-                            </View>
-                            <View style={styles.inputview} >
-                                <TextInput
-                                    style={mobilenumberError == null ? styles.TextInput : styles.TextInputError}
-                                    placeholder="Mobile Number"
-                                    type='clear'
-                                    placeholderTextColor="#ABAFB3"
-                                    returnKeyType="done"
-                                    keyboardType="number-pad"
-                                    ref={this.TeardTextInputRef}
-                                    onSubmitEditing={() => Keyboard.dismiss()}
-                                    onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
-                                />
-                            </View>
+
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                        <View style={styles.inputview}>
+                            <TextInput
+                                style={fullnameError == null ? styles.TextInput : styles.TextInputError}
+                                defaultValue={this.state.fullname}
+                                placeholder="Full Name"
+                                type={KEY.CLEAR}
+                                returnKeyType={KEY.NEXT}
+                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                blurOnSubmit={false}
+                                onSubmitEditing={() => { this.secondTextInputRef.current.focus() }}
+                                onChangeText={(fullname) => this.setFullName(fullname)}
+                            />
                         </View>
-                        <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-                            <TouchableOpacity style={styles.sineBtn} onPress={() => this.onPressSubmit()} >
-                                {this.state.loading === true ? <Loader /> : <Text style={styles.sineText}>Sign Up</Text>}
-                            </TouchableOpacity>
+                        <View style={styles.inputview}>
+                            <TextInput
+                                style={usernameError == null ? styles.TextInput : styles.TextInputError}
+                                defaultValue={this.state.username}
+                                placeholder="Email"
+                                type={KEY.CLEAR}
+                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                returnKeyType={KEY.NEXT}
+                                autoCapitalize="none"
+                                autoCompleteType="email"
+                                textContentType="emailAddress"
+                                keyboardType="email-address"
+                                blurOnSubmit={false}
+                                onSubmitEditing={() => { this.TeardTextInputRef.current.focus() }}
+                                ref={this.secondTextInputRef}
+                                onChangeText={(username) => this.setUserName(username)}
+                            />
                         </View>
-                        <View style={{ marginTop: 15, justifyContent: 'center', flexDirection: 'row' }} >
-                            <Text style={styles.innerText}>Already have an account? </Text>
-                            <TouchableOpacity onPress={() => { this.props.navigation.navigate('LoginScreen') }} >
-                                <Text style={styles.baseText}>Signin</Text>
-                            </TouchableOpacity>
+                        <View style={styles.inputview} >
+                            <TextInput
+                                style={mobilenumberError == null ? styles.TextInput : styles.TextInputError}
+                                placeholder="Mobile Number"
+                                type={KEY.CLEAR}
+                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                returnKeyType={KEY.DONE}
+                                keyboardType="number-pad"
+                                ref={this.TeardTextInputRef}
+                                onSubmitEditing={() => Keyboard.dismiss()}
+                                onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
+                            />
                         </View>
-                    </ScrollView>
-                </ImageBackground>
+                    </View>
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 15 }}>
+                        <TouchableOpacity style={styles.sineBtn} onPress={() => this.onPressSubmit()} >
+                            {this.state.loading === true ? <Loader /> : <Text style={styles.sineText}>Sign Up</Text>}
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ marginTop: 15, justifyContent: KEY.CENTER, flexDirection: KEY.ROW }} >
+                        <Text style={styles.innerText}>Already have an account? </Text>
+                        <TouchableOpacity onPress={() => { this.props.navigation.navigate('LoginScreen') }} >
+                            <Text style={styles.baseText}>Signin</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
             </SafeAreaView>
         );
     }
@@ -180,76 +192,79 @@ export default RegisterScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: COLOR.WHITE
     },
     backgroundImage: {
-        flex: 1,
-        resizeMode: 'cover',
+        marginTop: -20,
         width: WIDTH,
-        height: HEIGHT
+        height: HEIGHT / 3,
     },
     inputview: {
-        flexDirection: 'row',
-        backgroundColor: "#fff",
+        flexDirection: KEY.ROW,
+        backgroundColor: COLOR.WHITE,
         borderRadius: 100,
         shadowOpacity: 0.5,
-        shadowRadius: 3,
+        shadowRadius: 1,
         shadowOffset: {
             height: 0,
             width: 0,
         },
         elevation: 2,
-        borderColor: '#fff',
+        borderColor: COLOR.WHITE,
         width: WIDTH - 60,
         height: 50,
         margin: 12,
-        alignItems: "center"
+        alignItems: KEY.CENTER
     },
     TextInput: {
         fontSize: 14,
         flex: 1,
         padding: 15,
-        borderColor: '#FFFFFF'
+        borderColor: COLOR.WHITE,
     },
     TextInputError: {
         fontSize: 14,
         flex: 1,
         padding: 15,
-        backgroundColor: "#FFFFFF",
-        borderColor: '#FF0000',
+        backgroundColor: COLOR.WHITE,
+        borderColor: COLOR.ERRORCOLOR,
         borderRadius: 100,
         width: WIDTH - 60,
         height: 50,
-        alignItems: "center",
+        alignItems: KEY.CENTER,
         borderWidth: 1
     },
     sineBtn: {
-        flexDirection: 'row',
+        flexDirection: KEY.ROW,
         width: WIDTH / 3,
-        backgroundColor: "#FEBC42",
+        backgroundColor: COLOR.DEFALUTCOLOR,
         borderRadius: 100,
         height: 40,
-        alignItems: "center",
-        justifyContent: "center",
-        marginRight: 20,
-        marginTop: 15
+        alignItems: KEY.CENTER,
+        justifyContent: KEY.CENTER,
+        marginRight: 20
     },
     sineText: {
-        color: '#FFFFFF',
+        color: COLOR.WHITE,
         fontSize: 16
     },
     baseText: {
-        fontWeight: 'normal',
-        color: '#F4AE3A',
+        color: COLOR.DEFALUTCOLOR,
         fontSize: 14
     },
     innerText: {
-        color: '#ABAFB3',
+        color: COLOR.BLACK_OLIVE,
         fontSize: 14
     },
     createtext: {
-        marginTop: HEIGHT / 3 - 20,
+        marginTop: 10,
         marginLeft: 35
     },
+    imageLogo: {
+        justifyContent: KEY.CENTER,
+        alignItems: KEY.CENTER,
+        height: 150,
+        width: 220
+    }
 })
 

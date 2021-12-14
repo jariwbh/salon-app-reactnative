@@ -5,6 +5,10 @@ import HTML from 'react-native-render-html';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 const serviceicon = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1610428971/userimage_qif8wv.jpg'
+import * as KEY from '../../context/actions/key';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
+import Loader from '../../Components/Loader/Loader';
 
 export default class ServiceDetails extends Component {
     constructor(props) {
@@ -19,33 +23,28 @@ export default class ServiceDetails extends Component {
             serviceDetails: this.serviceDetails
         };
     }
+
     render() {
         const { serviceID, serviceImage, servicetitle, servicecharges, servicedescription, serviceDetails } = this.state
         return (
             <SafeAreaView style={styles.container}>
-                <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
-                    <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 50 }}>
+                <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginBottom: 50 }}>
                         <Image source={{ uri: serviceImage }} style={{ width: WIDTH - 20, height: HEIGHT / 3 }}
                         />
                     </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: -30, marginLeft: 20, marginRight: 20 }}>
-                        <Text style={{ fontSize: 18 }}>{servicetitle}</Text>
-                        <Text style={{ fontSize: 18 }}>₹ {servicecharges} </Text>
+                    <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginTop: -30, marginLeft: 20, marginRight: 20 }}>
+                        <Text style={{ fontSize: 18, color: COLOR.BLACK, width: WIDTH / 2 }}>{servicetitle}</Text>
+                        <Text style={{ fontSize: 18, color: COLOR.BLACK }}>₹ {servicecharges} </Text>
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
-                        <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
-                        <View>
-                            <Text style={{ width: 100, textAlign: 'center', fontSize: 16, color: '#FEBC42' }}>Details</Text>
-                        </View>
-                        <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
-                    </View>
-                    <View style={{ flex: 1, marginTop: 5, marginLeft: 10, marginRight: 10, marginBottom: 140 }}>
+
+                    <View style={{ flex: 1, marginTop: 10, marginLeft: 10, marginRight: 10, marginBottom: 140 }}>
                         <HTML source={{ html: servicedescription }} />
                     </View>
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <TouchableOpacity style={styles.book} onPress={() => { this.props.navigation.navigate('AppointmentsBooked', { serviceDetails }) }}>
-                            <FontAwesome5 name="check-circle" size={24} color='#FFFFFF' style={{ margin: 5 }} />
-                            <Text style={{ fontSize: 16, color: '#FFFFFF' }}>Book Now</Text>
+                            <FontAwesome5 name="check-circle" size={24} color={COLOR.WHITE} style={{ margin: 5 }} />
+                            <Text style={{ fontSize: 16, color: COLOR.WHITE }}>Book Now</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -57,17 +56,18 @@ export default class ServiceDetails extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: COLOR.DEFAULTLIGHT
     },
     book: {
-        flexDirection: 'row',
-        backgroundColor: "#FEBC42",
-        marginTop: -120,
-        width: WIDTH / 2 + 30,
+        flexDirection: KEY.ROW,
+        backgroundColor: COLOR.DEFALUTCOLOR,
+        marginTop: -150,
+        width: WIDTH / 2 + 50,
         height: 50,
-        alignItems: "center",
-        justifyContent: 'center',
-        marginBottom: 20
+        borderRadius: 30,
+        alignItems: KEY.CENTER,
+        justifyContent: KEY.CENTER,
+        marginBottom: 50
     }
 })
 

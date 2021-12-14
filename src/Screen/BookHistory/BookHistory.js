@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, FlatList, RefreshControl, SafeAreaView, Dimensions } from 'react-native';
 import moment from 'moment'
-import Loading from '../../Components/Loader/Loader'
+import Loader from '../../Components/Loader/Loader';
 import { BookHistoryService } from '../../Services/BookHistoryService/BookHistoryService'
 import AsyncStorage from '@react-native-community/async-storage'
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 const serviceicon = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1610428971/userimage_qif8wv.jpg'
+import * as KEY from '../../context/actions/key';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
 
 class BookHistory extends Component {
     constructor(props) {
@@ -60,7 +63,7 @@ class BookHistory extends Component {
         <View style={styles.servicename}>
             <View style={{ margin: 10 }}>
                 <Image source={{ uri: item.refid && item.refid.gallery && item.refid.gallery[0] && item.refid.gallery[0].attachment ? item.refid.gallery[0].attachment : serviceicon }}
-                    style={{ alignItems: 'center', height: 130, width: 150, borderRadius: 10 }} />
+                    style={{ alignItems: KEY.CENTER, height: 130, width: 150, borderRadius: 10 }} />
             </View>
             <View style={{ marginLeft: 10, flex: 0.8 }}>
                 <Text style={{ fontSize: 10 }}>Booking ID : #{item.prefix + '-' + item.number}</Text>
@@ -68,22 +71,22 @@ class BookHistory extends Component {
                 <Text style={{ fontSize: 14 }}>{moment(item.appointmentdate).format('LL')}</Text>
                 <Text style={{ fontSize: 14 }}>₹ {item.refid.charges}</Text>
                 {item.status == "requested" &&
-                    <Text style={{ fontSize: 14, textTransform: 'capitalize', color: '#3788D8' }}>{item.status}</Text>
+                    <Text style={{ fontSize: 14, textTransform: KEY.CAPITALIZE, color: '#3788D8' }}>{item.status}</Text>
                 }
                 {item.status == "confirmed" &&
-                    <Text style={{ fontSize: 14, textTransform: 'capitalize', color: '#9C27B0' }}>{item.status}</Text>
+                    <Text style={{ fontSize: 14, textTransform: KEY.CAPITALIZE, color: '#9C27B0' }}>{item.status}</Text>
                 }
                 {item.status == "checkout" &&
-                    <Text style={{ fontSize: 14, textTransform: 'capitalize', color: '#4CAF50' }}>{item.status}</Text>
+                    <Text style={{ fontSize: 14, textTransform: KEY.CAPITALIZE, color: '#4CAF50' }}>{item.status}</Text>
                 }
                 {item.status == "cancel" &&
-                    <Text style={{ fontSize: 14, textTransform: 'capitalize', color: '#F44336' }}>{item.status}</Text>
+                    <Text style={{ fontSize: 14, textTransform: KEY.CAPITALIZE, color: '#F44336' }}>{item.status}</Text>
                 }
                 {item.status == "noshow" &&
-                    <Text style={{ fontSize: 14, textTransform: 'capitalize', color: '#FF9800' }}>{item.status}</Text>
+                    <Text style={{ fontSize: 14, textTransform: KEY.CAPITALIZE, color: '#FF9800' }}>{item.status}</Text>
                 }
                 {item.status == "deleted" &&
-                    <Text style={{ fontSize: 14, textTransform: 'capitalize', color: '#FF9800' }}>{'cancel'}</Text>
+                    <Text style={{ fontSize: 14, textTransform: KEY.CAPITALIZE, color: '#FF9800' }}>{'cancel'}</Text>
                 }
             </View>
         </View>
@@ -91,28 +94,31 @@ class BookHistory extends Component {
 
     render() {
         const { BookHistoryService, refreshing, loader } = this.state;
-        this.wait(1000).then(() => this.setState({ refreshing: false }));
         return (
             <SafeAreaView style={styles.container}>
-                {(BookHistoryService == null) || (BookHistoryService && BookHistoryService.length == 0)
-                    ?
-                    (loader == false ?
-                        <View style={{ alignItems: "center", justifyContent: 'center', marginTop: 100 }}>
-                            <Text style={{ alignItems: "center", justifyContent: 'center', fontSize: 14, color: '#595959' }}>Data Not Available</Text>
-                        </View>
-                        : <View style={{ marginTop: HEIGHT / 2 - 80 }}><Loading /></View>
-                    )
-                    :
-                    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#FEBC42" titleColor="#FEBC42" colors={["#FEBC42"]} onRefresh={this.onRefresh} />} showsVerticalScrollIndicator={false}>
-                        <View style={{ alignItems: "center", marginTop: 14, marginBottom: 50 }}>
-                            <FlatList
-                                data={BookHistoryService}
-                                renderItem={this.renderBookHistoryService}
-                                keyExtractor={item => `${item._id}`}
-                            />
-                        </View>
-                    </ScrollView>
-                }
+                <ScrollView
+                    refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor={COLOR.DEFALUTCOLOR}
+                        titleColor={COLOR.DEFALUTCOLOR} colors={[COLOR.DEFALUTCOLOR]} onRefresh={this.onRefresh} />} showsVerticalScrollIndicator={false}>
+                    <View style={{ alignItems: KEY.CENTER, marginTop: 14, marginBottom: 50 }}>
+                        <FlatList
+                            data={this.state.BookHistoryService}
+                            showsVerticalScrollIndicator={false}
+                            renderItem={this.renderBookHistoryService}
+                            keyExtractor={item => `${item._id}`}
+                            contentContainerStyle={{ paddingBottom: 100, alignSelf: KEY.CENTER }}
+                            ListFooterComponent={() => (
+                                BookHistoryService && BookHistoryService.length > 0 ?
+                                    <></>
+                                    :
+                                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                                        <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
+                                        <Text style={{ fontSize: 16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                                    </View>
+                            )}
+                        />
+                    </View>
+                </ScrollView>
+                {loader ? <Loader /> : null}
             </SafeAreaView>
         );
     }
@@ -122,17 +128,18 @@ export default BookHistory;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: COLOR.DEFAULTLIGHT
     },
     servicename: {
         aspectRatio: 2.5,
         width: WIDTH,
-        flexDirection: 'row',
+        flexDirection: KEY.ROW,
         marginBottom: 15,
-        alignItems: "center",
-        position: 'relative',
-        backgroundColor: "#fff",
-        borderColor: '#fff',
+        alignItems: KEY.CENTER,
+        //position: 'relative',
+        backgroundColor: COLOR.WHITE,
+        borderColor: COLOR.WHITE,
         shadowOpacity: 0,
         shadowRadius: 0,
         shadowOffset: {

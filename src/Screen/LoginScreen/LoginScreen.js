@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
         height: HEIGHT / 3,
     },
     hello: {
-        marginTop: 40,
+        marginTop: 10,
         marginLeft: 35
     },
     inputView: {

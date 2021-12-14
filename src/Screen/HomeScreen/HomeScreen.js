@@ -5,6 +5,9 @@ import { CategoryService, AppointmentListService } from '../../Services/Category
 import { staffService } from '../../Services/UserService/UserService';
 import Loader from '../../Components/Loader/Loader';
 const WIDTH = Dimensions.get('window').width;
+import * as KEY from '../../context/actions/key';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
 
 class HomeScreen extends Component {
     constructor(props) {
@@ -16,14 +19,6 @@ class HomeScreen extends Component {
             loader: true,
             refreshing: false,
         };
-        this._unsubscribeSiFocus = this.props.navigation.addListener('focus', e => {
-            BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
-        });
-
-        this._unsubscribeSiBlur = this.props.navigation.addListener('blur', e => {
-            BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton,
-            );
-        });
     }
 
     wait = (timeout) => {
@@ -37,12 +32,13 @@ class HomeScreen extends Component {
         this.getCategoryList();
         this.getAppointmentList();
         this.getstaffList();
-        this.setState({ refreshing: false });
+        this.wait(1000).then(() => this.setState({ refreshing: false }));
     }
 
     getCategoryList() {
         CategoryService().then(response => {
-            this.setState({ CategoryList: response.data })
+            this.setState({ CategoryList: response.data });
+            this.wait(1000).then(() => this.setState({ loader: false }));
         })
     }
 
@@ -50,6 +46,7 @@ class HomeScreen extends Component {
         AppointmentListService().then(response => {
             const slice = response.data.slice(0, 4)
             this.setState({ AppointmentList: slice })
+            this.wait(1000).then(() => this.setState({ loader: false }));
         })
     }
 
@@ -68,60 +65,49 @@ class HomeScreen extends Component {
         this.getstaffList();
     }
 
-    componentWillUnmount() {
-        this._unsubscribeSiFocus();
-        this._unsubscribeSiBlur();
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-    }
-
-    handleBackButton = () => {
-        BackHandler.exitApp()
-        return true;
-    }
-
     renderCategoryList = ({ item }) => (
-        <View style={{ flexDirection: 'column' }}>
-            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', margin: 10 }} onPress={() => { this.props.navigation.navigate('ServiceListScreen', { item }) }}>
+        <View style={{ flexDirection: KEY.COLUMN }}>
+            <TouchableOpacity style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, margin: 10 }} onPress={() => { this.props.navigation.navigate('ServiceListScreen', { item }) }}>
                 {item && item.property && item.property.img && item.property.img[0] ?
                     <Image source={{ uri: (item.property.img && item.property.img[0].attachment) }}
-                        style={{ alignItems: 'center', height: 80, width: 80, marginTop: 20, borderRadius: 100, borderColor: '#EEEEEE', borderWidth: 1 }}
+                        style={{ alignItems: KEY.CENTER, height: 80, width: 80, marginTop: 20, borderRadius: 100, borderColor: COLOR.BRIGHT_GRAY, borderWidth: 1 }}
                     />
                     :
                     <Image source={require('../../assets/noimage.png')}
-                        style={{ alignItems: 'center', height: 80, width: 80, marginTop: 20, borderRadius: 100, borderColor: '#EEEEEE', borderWidth: 1 }}
+                        style={{ alignItems: KEY.CENTER, height: 80, width: 80, marginTop: 20, borderRadius: 100, borderColor: COLOR.BRIGHT_GRAY, borderWidth: 1 }}
                     />
                 }
             </TouchableOpacity>
-            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', width: 80 }}>
-                <Text style={{ fontSize: 14, color: '#43434C', textTransform: 'capitalize', textAlign: 'center' }}>{item.property.name}</Text>
+            <TouchableOpacity style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, width: 80 }}>
+                <Text style={{ fontSize: 14, color: COLOR.BLACK, textTransform: KEY.CAPITALIZE, textAlign: KEY.CENTER }}>{item.property.name}</Text>
             </TouchableOpacity>
         </View>
     )
 
     renderAppointmentList = ({ item }) => (
-        <View style={{ flexDirection: 'column', flex: 1 }}>
+        <View style={{ flexDirection: KEY.COLUMN }}>
             <TouchableOpacity style={{ margin: 10 }} onPress={() => this.props.navigation.navigate('ServiceDetails', { item })}>
                 <Image source={{ uri: (item.gallery[0] ? item.gallery[0].attachment : 'https://img.icons8.com/ios-glyphs/480/no-image.png') }}
-                    style={{ alignItems: 'center', height: 150, width: 220, marginTop: 10, borderRadius: 10 }}
+                    style={{ alignItems: KEY.CENTER, height: 150, width: WIDTH - 40, marginTop: 10, borderRadius: 10, resizeMode: KEY.COVER }}
                 />
             </TouchableOpacity>
-            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
-                <Text style={{ fontSize: 16, color: '#313131', width: WIDTH / 3 }}>{item.title}</Text>
-                <Text style={{ fontSize: 16, color: '#313131' }}>₹ {item.charges}</Text>
+            <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginLeft: 10, marginRight: 10 }}>
+                <Text style={{ fontSize: 16, color: COLOR.BLACK, width: WIDTH / 2 }}>{item.title}</Text>
+                <Text style={{ fontSize: 16, color: COLOR.BLACK }}>₹ {item.charges}</Text>
             </View>
         </View>
     )
 
     // <TouchableOpacity style={{ margin: 15 }} onPress={() => this.props.navigation.navigate('StaffDetails', { item })}>
     renderstaffList = ({ item }) => (
-        <View style={{ flexDirection: 'column', marginBottom: 25, alignItems: 'center' }}>
+        <View style={{ flexDirection: KEY.COLUMN, marginBottom: 25, alignItems: KEY.CENTER }}>
             <TouchableOpacity style={{ margin: 15 }}>
                 <Image source={{ uri: item && item.profilepic ? item.profilepic : 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
-                    style={{ alignItems: 'center', height: 100, width: 100, marginTop: 10, borderRadius: 100 }}
+                    style={{ alignItems: KEY.CENTER, height: 100, width: 100, marginTop: 10, borderRadius: 100 }}
                 />
             </TouchableOpacity>
             <View style={{ width: 100 }}>
-                <Text style={{ flex: 1, fontSize: 14, color: '#000000', textAlign: 'center', marginTop: -5 }}>{item.fullname}</Text>
+                <Text style={{ flex: 1, fontSize: 14, color: COLOR.BLACK, textAlign: KEY.CENTER, marginTop: -5 }}>{item.fullname}</Text>
             </View>
         </View>
     )
@@ -130,17 +116,18 @@ class HomeScreen extends Component {
         const { CategoryList, AppointmentList, staffList, loader, refreshing } = this.state
         return (
             <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor="#FEBC42" barStyle="dark-content" />
+                <StatusBar backgroundColor={COLOR.DEFAULTLIGHT} barStyle={KEY.DARK_CONTENT} />
                 {CategoryList == null || CategoryList.length == 0 ? <Loader /> :
-                    <ScrollView refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor="#FEBC42" titleColor="#FEBC42" colors={["#FEBC42"]} onRefresh={this.onRefresh} />}
+                    <ScrollView
+                        refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor={COLOR.DEFALUTCOLOR} titleColor={COLOR.DEFALUTCOLOR} colors={[COLOR.DEFALUTCOLOR]} onRefresh={this.onRefresh} />}
                         showsVerticalScrollIndicator={false}>
-                        <View style={{ flexDirection: 'row', marginLeft: 5 }}>
+                        <View style={{ flexDirection: KEY.ROW, marginLeft: 5 }}>
                             <ScrollView
                                 horizontal={true}
                                 showsHorizontalScrollIndicator={false}
                             >
                                 <FlatList
-                                    style={{ flexDirection: 'column' }}
+                                    style={{ flexDirection: KEY.COLUMN }}
                                     numColumns={10000}
                                     data={CategoryList}
                                     renderItem={this.renderCategoryList}
@@ -148,50 +135,56 @@ class HomeScreen extends Component {
                                 />
                             </ScrollView>
                         </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12 }}>
-                            <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
+                        <View style={{ flexDirection: KEY.ROW, alignItems: KEY.CENTER, marginTop: 12 }}>
+                            <View style={{ flex: 1, height: 1, backgroundColor: COLOR.DEFALUTCOLOR }} />
                             <View>
-                                <Text style={{ width: 100, textAlign: 'center', fontSize: 20, color: '#FEBC42' }}>Featured</Text>
+                                <Text style={{ width: 130, textAlign: KEY.CENTER, fontSize: 20, color: COLOR.DEFALUTCOLOR }}>Top Services</Text>
                             </View>
-                            <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
+                            <View style={{ flex: 1, height: 1, backgroundColor: COLOR.DEFALUTCOLOR }} />
                         </View>
-                        <View style={{ flexDirection: 'row', }}>
+                        <View style={{ flexDirection: KEY.ROW, alignItems: KEY.CENTER }}>
+                            <FlatList
+                                // numColumns={10000}
+                                data={AppointmentList}
+                                showsVerticalScrollIndicator={false}
+                                renderItem={this.renderAppointmentList}
+                                keyExtractor={item => `${item._id}`}
+                                contentContainerStyle={{ paddingBottom: 100, alignSelf: KEY.CENTER, marginTop: 0 }}
+                                ListFooterComponent={() => (
+                                    AppointmentList && AppointmentList.length > 0 ?
+                                        <></>
+                                        :
+                                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                                            <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
+                                            <Text style={{ fontSize: 16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                                        </View>
+                                )}
+                            />
+                        </View>
+                        {/* <View style={{ flexDirection: KEY.ROW, alignItems: KEY.CENTER, marginTop: 12 }}>
+                            <View style={{ flex: 1, height: 1, backgroundColor: COLOR.DEFALUTCOLOR }} />
+                            <View>
+                                <Text style={{ width: 150, textAlign: KEY.CENTER, fontSize: 20, color: COLOR.DEFALUTCOLOR }}>Professionals</Text>
+                            </View>
+                            <View style={{ flex: 1, height: 1, backgroundColor: COLOR.DEFALUTCOLOR }} />
+                        </View>
+                        <View style={{ flexDirection: KEY.ROW, marginBottom: 25, marginLeft: 10 }}>
                             <ScrollView
                                 horizontal={true}
                                 showsHorizontalScrollIndicator={false}
                             >
                                 <FlatList
-                                    style={{ flexDirection: 'row' }}
-                                    numColumns={10000}
-                                    data={AppointmentList}
-                                    renderItem={this.renderAppointmentList}
-                                    keyExtractor={item => `${item._id}`}
-                                />
-                            </ScrollView>
-                        </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12 }}>
-                            <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
-                            <View>
-                                <Text style={{ width: 150, textAlign: 'center', fontSize: 20, color: '#FEBC42' }}>Professionals</Text>
-                            </View>
-                            <View style={{ flex: 1, height: 1, backgroundColor: '#FEBC42' }} />
-                        </View>
-                        <View style={{ flexDirection: 'row', marginBottom: 25, marginLeft: 10 }}>
-                            <ScrollView
-                                horizontal={true}
-                                showsHorizontalScrollIndicator={false}
-                            >
-                                <FlatList
-                                    style={{ flexDirection: 'row' }}
+                                    style={{ flexDirection: KEY.ROW }}
                                     numColumns={10000}
                                     data={staffList}
                                     renderItem={this.renderstaffList}
                                     keyExtractor={item => `${item._id}`}
                                 />
                             </ScrollView>
-                        </View>
+                        </View> */}
                     </ScrollView>
                 }
+                {loader == true ? <Loader /> : null}
             </SafeAreaView>
         );
     }
@@ -202,6 +195,6 @@ export default HomeScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#FFFFFF"
+        backgroundColor: COLOR.DEFAULTLIGHT
     }
 })
