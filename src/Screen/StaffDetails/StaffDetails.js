@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, SafeAreaView, Dimensions } from 'react-native';
+import {
+    View, Text, StyleSheet, ScrollView, Image,
+    StatusBar, SafeAreaView, Dimensions
+} from 'react-native';
 import { Rating } from 'react-native-ratings';
 import HTML from 'react-native-render-html';
 const WIDTH = Dimensions.get('window').width;
+import * as KEY from '../../context/actions/key';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
 
 class StaffDetails extends Component {
     constructor(props) {
@@ -17,6 +23,7 @@ class StaffDetails extends Component {
         const { staffDetails } = this.state
         return (
             <SafeAreaView style={styles.container}>
+                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
                 <ScrollView showsVerticalScrollIndicator={false} >
                     <View style={{ marginBottom: 50 }} >
                         <View style={{ margin: 10, justifyContent: 'center', alignItems: 'center' }} >
@@ -52,7 +59,7 @@ export default StaffDetails;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: COLOR.BACKGROUNDCOLOR,
     },
     listview: {
         flexDirection: 'column',

@@ -5,5 +5,6 @@ import LOGO from '../../src/assets/logo.png';
 import LOGO2 from '../../src/assets/logo2.png';
 import STARTUP from '../../src/assets/startup.png';
 import RECORD_ICON from '../../src/assets/record_icon_warning.png';
+import CONSULT_TALK_ICON from '../../src/assets/consult_talk_icon.png';
 
-export { BACKGROUND_IMAGE, NOIMAGE, SPLASHIMAGE, LOGO, STARTUP, LOGO2, RECORD_ICON };
+export { BACKGROUND_IMAGE, NOIMAGE, SPLASHIMAGE, LOGO, STARTUP, LOGO2, RECORD_ICON, CONSULT_TALK_ICON };

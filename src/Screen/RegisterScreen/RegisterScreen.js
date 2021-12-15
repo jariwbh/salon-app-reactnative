@@ -109,7 +109,7 @@ class RegisterScreen extends Component {
         const { fullnameError, usernameError, mobilenumberError } = this.state;
         return (
             <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
+                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
                 <ScrollView
                     Vertical={true}
                     showsVerticalScrollIndicator={false}
@@ -192,7 +192,7 @@ export default RegisterScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLOR.WHITE
+        backgroundColor: COLOR.BACKGROUNDCOLOR
     },
     backgroundImage: {
         marginTop: -20,

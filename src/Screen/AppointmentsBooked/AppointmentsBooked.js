@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ToastAndroid, TextInput, TouchableOpacity, ScrollView, SafeAreaView, Platform, Dimensions, Keyboard } from 'react-native';
+import {
+    View, Text, StyleSheet, ToastAndroid, TextInput, StatusBar,
+    TouchableOpacity, ScrollView, SafeAreaView, Platform, Dimensions, Keyboard
+} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { BookService } from '../../Services/BookService/BookService'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -205,6 +208,7 @@ export default class AppointmentsBooked extends Component {
             fullnameError, usernameError, mobilenumberError, serviceDateError, serviceTimeError } = this.state;
         return (
             <SafeAreaView style={styles.container}>
+                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                     <View style={{ alignItems: KEY.CENTER }}>
                         <View style={styles.inputView}>
@@ -304,7 +308,7 @@ export default class AppointmentsBooked extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLOR.DEFAULTLIGHT,
+        backgroundColor: COLOR.BACKGROUNDCOLOR,
     },
     inputView: {
         flexDirection: KEY.ROW,

@@ -65,7 +65,7 @@ export default function ForgotPasswordOTP(props) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
+            <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
             <ScrollView
                 Vertical={true}
                 showsVerticalScrollIndicator={false}
@@ -114,7 +114,7 @@ export default function ForgotPasswordOTP(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLOR.WHITE
+        backgroundColor: COLOR.BACKGROUNDCOLOR
     },
     backgroundImage: {
         marginTop: -20,

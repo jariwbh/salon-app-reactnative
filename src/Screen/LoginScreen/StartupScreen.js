@@ -12,10 +12,10 @@ const WIDTH = Dimensions.get('window').width;
 
 const StartupScreen = (props) => {
     const onPressStartUp = async () => {
-        return props.navigation.replace('LoginScreen');
+        return props.navigation.replace('TabNavigation');
     }
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.WHITE }} >
+        <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }} >
             <StatusBar hidden={false}
                 translucent={true}
                 backgroundColor={KEY.TRANSPARENT}

@@ -1,7 +1,8 @@
 //APP MAIN COLOR
 export const DEFALUTCOLOR = '#FF7F50';
 export const DEFAULTLIGHT = '#ffdacc';
-export const BACKGROUNDCOLOR = '#FFFFFF';
+export const BACKGROUNDCOLOR = '#EFF2F7';
+export const STATUSBARCOLOR = '#FF7F50';
 
 //BASIC COLOR
 export const PRIMARY = '#1779ba';
@@ -58,7 +59,7 @@ export const NAVAJO_WHITE = '#FFDFAE';
 
 //MENU COLOR 
 export const PAYMENT_COLOR = '#E9547C';
-export const MENU_TEXT_COLOR = '#808080';
+export const MENU_TEXT_COLOR = '#737373';
 
 //NOTIFICATION COLOR
 export const NOTIFICATION_COLOR = '#FF0000';

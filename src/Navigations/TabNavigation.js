@@ -1,8 +1,9 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 //-------HomeStackScreen
 import HomeScreen from "../Screen/HomeScreen/HomeScreen";
 import ServiceDetails from "../Screen/ServiceDetails/ServiceDetails"
@@ -13,39 +14,27 @@ import BookHistory from "../Screen/BookHistory/BookHistory"
 //-------ProfileStackScreen
 import MyProfileScreen from '../Screen/MyProfileScreen/MyProfileScreen';
 import UpdateProfileScreen from '../Screen/MyProfileScreen/UpdateProfile';
-import BackButton from '../Components/BackButton/BackButton'
-
+import AsyncStorage from '@react-native-community/async-storage';
+//------SupportStackScreen
+import SupportScreen from '../Screen/SupportScreen/SupportScreen';
 import * as KEY from '../context/actions/key';
+import * as TYPE from '../context/actions/type';
 import * as COLOR from '../styles/colors';
 import * as IMAGE from '../styles/image';
 
 const ProfileStack = createStackNavigator();
 function ProfileStackScreen({ navigation }) {
     return (
-        <ProfileStack.Navigator initialRouteName="MyProfile" headerMode='screen'>
+        <ProfileStack.Navigator initialRouteName="MyProfile" headerMode='none'>
             <ProfileStack.Screen name="MyProfile" options={{
-                title: 'Profile', headerStyle: {
-                    backgroundColor: COLOR.DEFAULTLIGHT,
-                    elevation: 0,
-                    shadowOpacity: 0,
-                    borderBottomWidth: 0,
-                }, headerLeft: () =>
-                    <BackButton onPress={() => navigation.navigate("HomeScreen")} />,
-                headerTintColor: '#000000',
-                headerTitleAlign: 'center',
+                title: '',
+                headerShown: false
             }}
                 component={MyProfileScreen} />
 
             <ProfileStack.Screen name="UpdateProfile" options={{
-                title: 'Profile', headerStyle: {
-                    backgroundColor: COLOR.DEFAULTLIGHT,
-                    elevation: 0,
-                    shadowOpacity: 0,
-                    borderBottomWidth: 0,
-                }, headerLeft: () =>
-                    <BackButton onPress={() => navigation.navigate("MyProfile")} />,
-                headerTintColor: '#000000',
-                headerTitleAlign: 'center',
+                title: '',
+                headerShown: false
             }}
                 component={UpdateProfileScreen} />
         </ProfileStack.Navigator>
@@ -55,7 +44,7 @@ function ProfileStackScreen({ navigation }) {
 const HomeStack = createStackNavigator();
 function HomeStackScreen({ navigation }) {
     return (
-        <HomeStack.Navigator initialRouteName="HomeScreen" headerMode='screen'>
+        <HomeStack.Navigator initialRouteName="HomeScreen" headerMode='none'>
             <HomeStack.Screen name="HomeScreen" component={HomeScreen}
                 options={{
                     title: '',
@@ -63,58 +52,28 @@ function HomeStackScreen({ navigation }) {
                 }} />
 
             <HomeStack.Screen name="ServiceListScreen" options={{
-                title: 'Services', headerStyle: {
-                    backgroundColor: COLOR.DEFAULTLIGHT,
-                    elevation: 0,
-                    shadowOpacity: 0,
-                    borderBottomWidth: 0,
-                }, headerLeft: () => <BackButton onPress={() => navigation.navigate("HomeScreen")} />,
-                headerTintColor: '#000000',
-                headerTitleAlign: 'center',
+                title: '',
+                headerShown: false
             }} component={ServiceListScreen} />
 
             <HomeStack.Screen name="ServiceDetails" options={{
-                title: 'Service Details', headerStyle: {
-                    backgroundColor: COLOR.DEFAULTLIGHT,
-                    elevation: 0,
-                    shadowOpacity: 0,
-                    borderBottomWidth: 0,
-                }, headerLeft: () => <BackButton onPress={() => navigation.navigate("HomeScreen")} />,
-                headerTintColor: '#000000',
-                headerTitleAlign: 'center',
+                title: '',
+                headerShown: false
             }} component={ServiceDetails} />
 
             <HomeStack.Screen name="AppointmentsBooked" options={{
-                title: 'Book Appointment', headerStyle: {
-                    backgroundColor: COLOR.DEFAULTLIGHT,
-                    elevation: 0,
-                    shadowOpacity: 0,
-                    borderBottomWidth: 0,
-                }, headerLeft: () => <BackButton onPress={() => navigation.navigate("ServiceDetails")} />,
-                headerTintColor: '#000000',
-                headerTitleAlign: 'center',
+                title: '',
+                headerShown: false
             }} component={AppointmentsBooked} />
 
             <HomeStack.Screen name="StaffDetails" options={{
-                title: 'Staff Detail', headerStyle: {
-                    backgroundColor: COLOR.DEFAULTLIGHT,
-                    elevation: 0,
-                    shadowOpacity: 0,
-                    borderBottomWidth: 0,
-                }, headerLeft: () => <BackButton onPress={() => navigation.navigate("HomeScreen")} />,
-                headerTintColor: '#000000',
-                headerTitleAlign: 'center',
+                title: '',
+                headerShown: false
             }} component={StaffDetails} />
 
             <HomeStack.Screen name="BookHistory" options={{
-                title: 'Book History', headerStyle: {
-                    backgroundColor: COLOR.DEFAULTLIGHT,
-                    elevation: 0,
-                    shadowOpacity: 0,
-                    borderBottomWidth: 0,
-                }, headerLeft: () => <BackButton onPress={() => navigation.navigate("HomeScreen")} />,
-                headerTintColor: '#000000',
-                headerTitleAlign: 'center',
+                title: '',
+                headerShown: false
             }} component={BookHistory} />
         </HomeStack.Navigator>
     );
@@ -123,25 +82,49 @@ function HomeStackScreen({ navigation }) {
 const BookHistoryStack = createStackNavigator();
 function BookHistoryStackScreen({ navigation }) {
     return (
-        <BookHistoryStack.Navigator initialRouteName="BookHistory" headerMode='screen' >
+        <BookHistoryStack.Navigator initialRouteName="BookHistory" headerMode='none' >
             <BookHistoryStack.Screen name="BookHistory" options={{
-                title: 'Book history', headerStyle: {
-                    backgroundColor: COLOR.DEFAULTLIGHT,
-                    elevation: 0,
-                    shadowOpacity: 0,
-                    borderBottomWidth: 0,
-                }, headerLeft: () =>
-                    <BackButton onPress={() => navigation.navigate("HomeScreen")} />,
-                headerTintColor: '#000000',
-                headerTitleAlign: 'center',
+                title: '',
+                headerShown: false
             }}
                 component={BookHistory} />
         </BookHistoryStack.Navigator>
     );
 }
 
+const SupportStack = createStackNavigator();
+function SupportStackScreen({ navigation }) {
+    return (
+        <SupportStack.Navigator initialRouteName="SupportScreen" headerMode='none' >
+            <SupportStack.Screen name="SupportScreen" options={{
+                title: '',
+                headerShown: false
+            }}
+                component={SupportScreen} />
+        </SupportStack.Navigator>
+    );
+}
+
 const Tab = createBottomTabNavigator();
 export default function TabNavigation() {
+    const [myCartVisible, setMyCartVisible] = useState(false);
+
+    useEffect(() => {
+        MenuPermission();
+    }, []);
+
+    useEffect(() => {
+    }, [myCartVisible]);
+
+    //CHECK MENU PERMISSION FUNCTION
+    const MenuPermission = async () => {
+        var getUser = await AsyncStorage.getItem(TYPE.AUTHUSER);
+        var userData = JSON.parse(getUser);
+        if (userData) {
+            setMyCartVisible(true);
+        };
+    }
+
     return (
         <Tab.Navigator initialRouteName="Home"
             screenOptions={({ route }) => ({
@@ -170,6 +153,14 @@ export default function TabNavigation() {
                                 color={color}
                             />
                         );
+                    } else if (route.name === 'Support') {
+                        return (
+                            <MaterialIcons
+                                name={focused ? 'contact-support' : 'contact-support'}
+                                size={20}
+                                color={color}
+                            />
+                        );
                     }
                 },
             })}
@@ -188,8 +179,12 @@ export default function TabNavigation() {
             }}
         >
             <Tab.Screen name="Home" component={HomeStackScreen} />
-            <Tab.Screen name="Book" component={BookHistoryStackScreen} />
+            {
+                myCartVisible &&
+                <Tab.Screen name="Book" component={BookHistoryStackScreen} />
+            }
             <Tab.Screen name="Profile" component={ProfileStackScreen} />
+            <Tab.Screen name="Support" component={SupportStackScreen} />
         </Tab.Navigator>
     );
 }

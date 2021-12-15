@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ToastAndroid, ScrollView, SafeAreaView, Dimensions } from 'react-native';
+import {
+    View, Text, StyleSheet, Image, TextInput, TouchableOpacity,
+    ToastAndroid, ScrollView, SafeAreaView, Dimensions, StatusBar
+} from 'react-native';
 import { UpdateUserService } from '../../Services/UserService/UserService';
+import AsyncStorage from '@react-native-community/async-storage';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import Loader from '../../Components/Loader/Loader';
 import Loading from '../../Components/Loader/Loading';
-import AsyncStorage from '@react-native-community/async-storage'
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
+import * as KEY from '../../context/actions/key';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
+import * as FONT from '../../styles/typography';
 
 class UpdateProfile extends Component {
     constructor(props) {
@@ -111,14 +119,27 @@ class UpdateProfile extends Component {
         const { fullname, username, mobilenumber, userProfile, profileName, loading, fullnameError, usernameError, mobilenumberError } = this.state;
         return (
             <SafeAreaView style={styles.container}>
+                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                <View style={styles.headerstyle}>
+                    <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
+                        <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginLeft: 20 }}>
+                            <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
+                                <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} />
+                            </TouchableOpacity>
+                            <View style={{ justifyContent: KEY.CENTER, marginLeft: WIDTH / 4 }}>
+                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>My Profile</Text>
+                            </View>
+                        </View>
+                    </View>
+                </View>
                 {this.userData === null ?
                     <Loader />
                     : <>
-                        <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={'always'}>
+                        <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                             <Image style={styles.avatar} source={{ uri: userProfile && userProfile !== null ? userProfile : "https://res.cloudinary.com/dnogrvbs2/image/upload/v1610428971/userimage_qif8wv.jpg" }} />
                             <View style={styles.body}>
                                 <View style={{
-                                    flex: 1, flexDirection: 'column', alignItems: 'center'
+                                    flex: 1, flexDirection: 'column', alignItems: KEY.CENTER
                                 }}>
                                     <View style={styles.bodyContent}>
                                         <Text style={styles.name}>{profileName && profileName}</Text>
@@ -186,30 +207,30 @@ export default UpdateProfile;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFFFFF'
+        backgroundColor: COLOR.BACKGROUNDCOLOR
     },
     avatar: {
         width: 100,
         height: 100,
         borderRadius: 100,
-        alignSelf: 'center',
+        alignSelf: KEY.CENTER,
         marginTop: 20
     },
     bodyContent: {
         flex: 1,
-        alignItems: 'center',
+        alignItems: KEY.CENTER,
         paddingBottom: 40,
         marginTop: 10
     },
     name: {
-        fontSize: 28,
-        color: "#737373",
+        fontSize: 22,
+        color: COLOR.MENU_TEXT_COLOR,
         fontWeight: 'bold',
-        textTransform: 'capitalize'
+        textTransform: KEY.CAPITALIZE
     },
     inputView: {
-        flexDirection: 'row',
-        backgroundColor: "#FFFFFF",
+        flexDirection: KEY.ROW,
+        backgroundColor: COLOR.WHITE,
         borderRadius: 100,
         shadowOpacity: 0.5,
         shadowRadius: 1,
@@ -218,43 +239,52 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 2,
-        borderColor: '#fff',
+        borderColor: COLOR.WHITE,
         width: WIDTH - 60,
         height: 50,
         marginBottom: 20,
-        alignItems: "center",
+        alignItems: KEY.CENTER
     },
     TextInput: {
         fontSize: 16,
         flex: 1,
         padding: 15,
-        borderColor: '#FFFFFF'
+        borderColor: COLOR.WHITE,
     },
     TextInputError: {
         fontSize: 16,
         flex: 1,
         padding: 15,
-        backgroundColor: "#FFFFFF",
-        borderColor: '#FF0000',
+        backgroundColor: COLOR.WHITE,
+        borderColor: COLOR.ERRORCOLOR,
         borderRadius: 100,
         width: WIDTH - 60,
         height: 50,
-        alignItems: "center",
+        alignItems: KEY.CENTER,
         borderWidth: 1
     },
     update_Btn: {
-        flexDirection: 'row',
-        backgroundColor: "#FEBC42",
+        flexDirection: KEY.ROW,
+        backgroundColor: COLOR.DEFALUTCOLOR,
         marginTop: 10,
+        borderRadius: 100,
         width: WIDTH / 2 + 20,
         height: 50,
-        alignItems: "center",
-        justifyContent: 'center'
+        alignItems: KEY.CENTER,
+        justifyContent: KEY.CENTER
     },
     update_text: {
-        color: "white",
+        color: COLOR.WHITE,
         fontWeight: 'bold',
         fontSize: 18,
     },
+    headerstyle: {
+        backgroundColor: COLOR.STATUSBARCOLOR,
+        width: WIDTH,
+        height: 90,
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30,
+        marginBottom: 20
+    }
 })
 

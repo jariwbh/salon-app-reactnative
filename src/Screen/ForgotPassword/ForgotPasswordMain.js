@@ -152,7 +152,7 @@ export default function ForgotPasswordMain(props) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
+            <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
             <ScrollView Vertical={true} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                 <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={COLOR.DEFALUTCOLOR} style={styles.backgroundImage}>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
@@ -197,7 +197,7 @@ export default function ForgotPasswordMain(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLOR.WHITE
+        backgroundColor: COLOR.BACKGROUNDCOLOR
     },
     backgroundImage: {
         marginTop: -20,
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
     baseText: {
-        color: COLOR.BLACK_OLIVE,
+        color: COLOR.DEFALUTCOLOR,
         fontSize: 14
     },
     innerText: {

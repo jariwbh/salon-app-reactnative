@@ -29,7 +29,6 @@ class BookHistory extends Component {
 
     BookHistoryService(id) {
         BookHistoryService(id).then(response => {
-            console.log(`response.data`, response.data);
             this.setState({ BookHistoryService: response.data })
             this.wait(1000).then(() => this.setState({ loader: false }));
         })
@@ -66,34 +65,83 @@ class BookHistory extends Component {
     }
 
     renderBookHistoryService = ({ item }) => (
-        <View style={styles.servicename}>
-            <View style={{ margin: 10 }}>
-                <Image source={{ uri: item.refid && item.refid.gallery && item.refid.gallery[0] && item.refid.gallery[0].attachment ? item.refid.gallery[0].attachment : serviceicon }}
-                    style={{ alignItems: KEY.CENTER, height: 130, width: 150, borderRadius: 10 }} />
+        item.status == 'confirmed' &&
+        <View style={styles(COLOR.CONFIRMED_COLOR).cardView}>
+            <View style={styles(COLOR.CONFIRMED_COLOR).filledBox}>
+                <Text style={{ fontSize: FONT.FONT_SIZE_28, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('DD')}</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
             </View>
-            <View style={{ marginLeft: 10, flex: 0.8 }}>
-                <Text style={{ fontSize: 10 }}>Booking ID : #{item.prefix + '-' + item.number}</Text>
-                <Text style={{ fontSize: 16 }}>{item.refid.title}</Text>
-                <Text style={{ fontSize: 14 }}>{moment(item.appointmentdate).format('LL')}</Text>
-                <Text style={{ fontSize: 14 }}>₹ {item.refid.charges}</Text>
-                {item.status == "requested" &&
-                    <Text style={{ fontSize: 14, textTransform: KEY.CAPITALIZE, color: '#3788D8' }}>{item.status}</Text>
-                }
-                {item.status == "confirmed" &&
-                    <Text style={{ fontSize: 14, textTransform: KEY.CAPITALIZE, color: '#9C27B0' }}>{item.status}</Text>
-                }
-                {item.status == "checkout" &&
-                    <Text style={{ fontSize: 14, textTransform: KEY.CAPITALIZE, color: '#4CAF50' }}>{item.status}</Text>
-                }
-                {item.status == "cancel" &&
-                    <Text style={{ fontSize: 14, textTransform: KEY.CAPITALIZE, color: '#F44336' }}>{item.status}</Text>
-                }
-                {item.status == "noshow" &&
-                    <Text style={{ fontSize: 14, textTransform: KEY.CAPITALIZE, color: '#FF9800' }}>{item.status}</Text>
-                }
-                {item.status == "deleted" &&
-                    <Text style={{ fontSize: 14, textTransform: KEY.CAPITALIZE, color: '#FF9800' }}>{'cancel'}</Text>
-                }
+            <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
+                <Text style={styles().rectangleText}>{item.attendee && item.attendee.fullname}</Text>
+                <Text style={styles().rectangleSubText}>{item.refid && item.refid.title}</Text>
+                <Text style={styles().rectangleSubText}>{(item.timeslot && item.timeslot.starttime) + ' - ' + (item.timeslot && item.timeslot.endtime)}</Text>
+                <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN }}>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.CONFIRMED_COLOR, marginTop: 2, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
+                </View>
+            </View>
+        </View>
+        ||
+        item.status == 'cancel' &&
+        <View style={styles(COLOR.CANCEL_COLOR).cardView}>
+            <View style={styles(COLOR.CANCEL_COLOR).filledBox}>
+                <Text style={{ fontSize: FONT.FONT_SIZE_28, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('DD')}</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
+            </View>
+            <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
+                <Text style={styles().rectangleText}>{item.attendee && item.attendee.fullname}</Text>
+                <Text style={styles().rectangleSubText}>{item.refid && item.refid.title}</Text>
+                <Text style={styles().rectangleSubText}>{(item.timeslot && item.timeslot.starttime) + ' - ' + (item.timeslot && item.timeslot.endtime)}</Text>
+                <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN }}>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.CANCEL_COLOR, marginTop: 2, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
+                </View>
+            </View>
+        </View>
+        ||
+        item.status == 'noshow' &&
+        <View style={styles(COLOR.NOSHOW_COLOR).cardView}>
+            <View style={styles(COLOR.NOSHOW_COLOR).filledBox}>
+                <Text style={{ fontSize: FONT.FONT_SIZE_28, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('DD')}</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
+            </View>
+            <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
+                <Text style={styles().rectangleText}>{item.attendee && item.attendee.fullname}</Text>
+                <Text style={styles().rectangleSubText}>{item.refid && item.refid.title}</Text>
+                <Text style={styles().rectangleSubText}>{(item.timeslot && item.timeslot.starttime) + ' - ' + (item.timeslot && item.timeslot.endtime)}</Text>
+                <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN }}>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.NOSHOW_COLOR, marginTop: 2, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
+                </View>
+            </View>
+        </View>
+        ||
+        item.status == 'requested' &&
+        <View style={styles(COLOR.REQUESTED_COLOR).cardView}>
+            <View style={styles(COLOR.REQUESTED_COLOR).filledBox}>
+                <Text style={{ fontSize: FONT.FONT_SIZE_28, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('DD')}</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
+            </View>
+            <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
+                <Text style={styles().rectangleText}>{item.attendee && item.attendee.fullname}</Text>
+                <Text style={styles().rectangleSubText}>{item.refid && item.refid.title}</Text>
+                <Text style={styles().rectangleSubText}>{(item.timeslot && item.timeslot.starttime) + ' - ' + (item.timeslot && item.timeslot.endtime)}</Text>
+                <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN }}>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.REQUESTED_COLOR, marginTop: 2, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
+                </View>
+            </View>
+        </View>
+        ||
+        item.status == 'checkout' &&
+        <View style={styles(COLOR.CHECKOUT_COLOR).cardView}>
+            <View style={styles(COLOR.CHECKOUT_COLOR).filledBox}>
+                <Text style={{ fontSize: FONT.FONT_SIZE_28, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('DD')}</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
+            </View>
+            <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
+                <Text style={styles().rectangleText}>{item.attendee && item.attendee.fullname}</Text>
+                <Text style={styles().rectangleSubText}>{item.refid && item.refid.title}</Text>
+                <Text style={styles().rectangleSubText}>{(item.timeslot && item.timeslot.starttime) + ' - ' + (item.timeslot && item.timeslot.endtime)}</Text>
+                <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN }}>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.CHECKOUT_COLOR, marginTop: 2, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
+                </View>
             </View>
         </View>
     );
@@ -101,9 +149,9 @@ class BookHistory extends Component {
     render() {
         const { BookHistoryService, refreshing, loader } = this.state;
         return (
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView style={styles().container}>
                 <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
-                <View style={styles.headerstyle}>
+                <View style={styles().headerstyle}>
                     <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
                         <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.FLEX_START, alignItems: KEY.CENTER, marginLeft: 20 }}>
                             <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
@@ -118,13 +166,13 @@ class BookHistory extends Component {
                 <ScrollView
                     refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor={COLOR.DEFALUTCOLOR}
                         titleColor={COLOR.DEFALUTCOLOR} colors={[COLOR.DEFALUTCOLOR]} onRefresh={this.onRefresh} />} showsVerticalScrollIndicator={false}>
-                    <View style={{ alignItems: KEY.CENTER, marginTop: 0, marginBottom: 50 }}>
+                    <View style={{ alignItems: KEY.CENTER, marginTop: 0, marginBottom: 0 }}>
                         <FlatList
                             data={this.state.BookHistoryService}
                             showsVerticalScrollIndicator={false}
                             renderItem={this.renderBookHistoryService}
                             keyExtractor={item => `${item._id}`}
-                            contentContainerStyle={{ paddingBottom: 100, alignSelf: KEY.CENTER }}
+                            contentContainerStyle={{ paddingBottom: 80, alignSelf: KEY.CENTER }}
                             ListFooterComponent={() => (
                                 BookHistoryService && BookHistoryService.length > 0 ?
                                     <></>
@@ -145,7 +193,7 @@ class BookHistory extends Component {
 
 export default BookHistory;
 
-const styles = StyleSheet.create({
+const styles = (colorcode) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLOR.BACKGROUNDCOLOR
@@ -174,5 +222,46 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
         marginBottom: 20
-    }
+    },
+    cardView: {
+        borderRadius: 15,
+        marginTop: 10,
+        marginBottom: 5,
+        borderRightWidth: 10,
+        borderRightColor: colorcode,
+        flexDirection: KEY.ROW,
+        backgroundColor: COLOR.WHITE,
+        shadowColor: COLOR.BLACK,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 3,
+        width: WIDTH - 20,
+    },
+    filledBox: {
+        width: 100,
+        borderTopLeftRadius: 15,
+        borderBottomLeftRadius: 15,
+        backgroundColor: colorcode,
+        justifyContent: KEY.CENTER,
+        alignItems: KEY.CENTER,
+        flexDirection: KEY.COLUMN,
+        padding: 5
+    },
+    rectangleText: {
+        fontWeight: FONT.FONT_WEIGHT_BOLD,
+        fontSize: FONT.FONT_SIZE_16,
+        color: COLOR.BLACK,
+        marginTop: 2,
+        width: WIDTH / 2
+    },
+    rectangleSubText: {
+        fontSize: FONT.FONT_SIZE_14,
+        color: COLOR.BLACK,
+        marginTop: 2,
+        width: WIDTH / 2
+    },
 })

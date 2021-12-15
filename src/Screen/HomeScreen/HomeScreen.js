@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, FlatList, Dimensions, Image, ScrollView, RefreshControl, SafeAreaView, BackHandler, StatusBar } from 'react-native';
+import {
+    View, Text, StyleSheet, FlatList, Dimensions, Image,
+    ScrollView, RefreshControl, SafeAreaView, BackHandler, StatusBar
+} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { CategoryService, AppointmentListService } from '../../Services/CategoryService/CategoryService';
-import { staffService } from '../../Services/UserService/UserService';
+import { staffService, UserService } from '../../Services/UserService/UserService';
 import Loader from '../../Components/Loader/Loader';
 const WIDTH = Dimensions.get('window').width;
 import * as KEY from '../../context/actions/key';
+import * as TYPE from '../../context/actions/type';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import { FONT_WEIGHT_BOLD } from '../../styles/typography';
+import axiosConfig from '../../Helpers/axiosConfig';
+import AsyncStorage from '@react-native-community/async-storage';
+import getCurrency from '../../Services/getCurrencyService/getCurrency';
 
 class HomeScreen extends Component {
     constructor(props) {
@@ -18,6 +26,7 @@ class HomeScreen extends Component {
             staffList: [],
             loader: true,
             refreshing: false,
+            currencySymbol: null
         };
     }
 
@@ -25,6 +34,53 @@ class HomeScreen extends Component {
         return new Promise(resolve => {
             setTimeout(resolve, timeout);
         });
+    }
+
+    authenticateUser = (user) => (
+        AsyncStorage.setItem(KEY.AUTHUSER, JSON.stringify(user))
+    )
+
+    authDefaultUser = (user) => (
+        AsyncStorage.setItem(TYPE.DEFAULTUSER, JSON.stringify(user))
+    )
+
+    getDefaultUser = async () => {
+        var getUser = await AsyncStorage.getItem(TYPE.AUTHUSER);
+        if (getUser !== null) {
+            var userData = JSON.parse(getUser);
+            axiosConfig(userData._id);
+            const responseCurrency = getCurrency(userData.branchid.currency);
+            this.setState({ currencySymbol: responseCurrency });
+            try {
+                const response = await UserService(userData._id);
+                if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                    this.authenticateUser(response.data.user);
+                    await this.getCategoryList();
+                    await this.getAppointmentList();
+                    await this.getstaffList();
+                }
+            } catch (error) {
+                console.log(`error`, error);
+            }
+        } else {
+            axiosConfig(TYPE.USERKEY);
+            try {
+                const response = await UserService(TYPE.USERKEY);
+                if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                    this.authDefaultUser(response.data);
+                    var getUser = await AsyncStorage.getItem(TYPE.DEFAULTUSER);
+                    var userData = JSON.parse(getUser);
+                    const responseCurrency = getCurrency(userData.branchid.currency);
+                    this.setState({ currencySymbol: responseCurrency });
+                    await this.getCategoryList();
+                    await this.getAppointmentList();
+                    await this.getstaffList();
+                }
+            } catch (error) {
+                console.log(`error`, error);
+            }
+
+        }
     }
 
     onRefresh = () => {
@@ -37,22 +93,26 @@ class HomeScreen extends Component {
 
     getCategoryList() {
         CategoryService().then(response => {
-            this.setState({ CategoryList: response.data });
-            this.wait(1000).then(() => this.setState({ loader: false }));
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                this.setState({ CategoryList: response.data });
+                this.wait(1000).then(() => this.setState({ loader: false }));
+            }
         })
     }
 
     getAppointmentList() {
         AppointmentListService().then(response => {
-            const slice = response.data.slice(0, 4)
-            this.setState({ AppointmentList: slice })
-            this.wait(1000).then(() => this.setState({ loader: false }));
+            if (response.data != null && response.data != 'undefind' && response.status == 200 && response.data.length > 0) {
+                const slice = response.data.slice(0, 4)
+                this.setState({ AppointmentList: slice })
+                this.wait(1000).then(() => this.setState({ loader: false }));
+            }
         })
     }
 
     getstaffList() {
         staffService().then(response => {
-            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+            if (response.data != null && response.data != 'undefind' && response.status == 200 && response.data.length > 0) {
                 const slice = response.data.slice(0, 5)
                 this.setState({ staffList: slice })
             }
@@ -60,9 +120,7 @@ class HomeScreen extends Component {
     }
 
     componentDidMount() {
-        this.getCategoryList();
-        this.getAppointmentList();
-        this.getstaffList();
+        this.getDefaultUser();
     }
 
     renderCategoryList = ({ item }) => (
@@ -85,15 +143,16 @@ class HomeScreen extends Component {
     )
 
     renderAppointmentList = ({ item }) => (
-        <View style={{ flexDirection: KEY.COLUMN }}>
-            <TouchableOpacity style={{ margin: 10 }} onPress={() => this.props.navigation.navigate('ServiceDetails', { item })}>
+        <View style={styles.cardView}>
+            <TouchableOpacity style={{ alignItems: KEY.CENTER }} onPress={() => this.props.navigation.navigate('ServiceDetails', { item })}>
                 <Image source={{ uri: (item.gallery[0] ? item.gallery[0].attachment : 'https://img.icons8.com/ios-glyphs/480/no-image.png') }}
                     style={{ alignItems: KEY.CENTER, height: 150, width: WIDTH - 40, marginTop: 10, borderRadius: 10, resizeMode: KEY.COVER }}
                 />
             </TouchableOpacity>
-            <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginLeft: 10, marginRight: 10 }}>
-                <Text style={{ fontSize: 16, color: COLOR.BLACK, width: WIDTH / 2 }}>{item.title}</Text>
-                <Text style={{ fontSize: 16, color: COLOR.BLACK }}>₹ {item.charges}</Text>
+            <View
+                style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginLeft: 10, marginRight: 10, marginBottom: 10, marginTop: 10 }}>
+                <Text style={{ fontSize: 16, color: COLOR.DEFALUTCOLOR, fontWeight: FONT_WEIGHT_BOLD, width: WIDTH / 2 }}>{item.title}</Text>
+                <Text style={{ fontSize: 16, color: COLOR.DEFALUTCOLOR, fontWeight: FONT_WEIGHT_BOLD }}>₹ {item.charges}</Text>
             </View>
         </View>
     )
@@ -116,7 +175,14 @@ class HomeScreen extends Component {
         const { CategoryList, AppointmentList, staffList, loader, refreshing } = this.state
         return (
             <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor={COLOR.DEFAULTLIGHT} barStyle={KEY.DARK_CONTENT} />
+                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                <View style={styles.headerstyle}>
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
+                        <View style={{ justifyContent: KEY.CENTER }}>
+                            <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>{TYPE.APPNAME}</Text>
+                        </View>
+                    </View>
+                </View>
                 {CategoryList == null || CategoryList.length == 0 ? <Loader /> :
                     <ScrollView
                         refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor={COLOR.DEFALUTCOLOR} titleColor={COLOR.DEFALUTCOLOR} colors={[COLOR.DEFALUTCOLOR]} onRefresh={this.onRefresh} />}
@@ -195,6 +261,30 @@ export default HomeScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLOR.DEFAULTLIGHT
-    }
+        backgroundColor: COLOR.BACKGROUNDCOLOR
+    },
+    headerstyle: {
+        backgroundColor: COLOR.STATUSBARCOLOR,
+        width: WIDTH,
+        height: 90,
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30,
+        marginBottom: 0
+    },
+    cardView: {
+        borderRadius: 15,
+        marginTop: 10,
+        marginBottom: 5,
+        flexDirection: KEY.COLUMN,
+        backgroundColor: COLOR.WHITE,
+        shadowColor: COLOR.BLACK,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 3,
+        width: WIDTH - 20,
+    },
 })

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, FlatList, ScrollView, StyleSheet, TouchableOpacity, Image, Dimensions, SafeAreaView, Keyboard } from 'react-native';
+import {
+    View, Text, TextInput, FlatList, StatusBar, StyleSheet, RefreshControl,
+    TouchableOpacity, Image, Dimensions, SafeAreaView, Keyboard, ScrollView
+} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { CategoryByAppointmentService } from '../../Services/CategoryService/CategoryService'
 import Loader from '../../Components/Loader/Loader';
@@ -9,6 +12,7 @@ const HEIGHT = Dimensions.get('window').height;
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default class AppointmentScreen extends Component {
     constructor(props) {
@@ -17,7 +21,8 @@ export default class AppointmentScreen extends Component {
         this.searchserviceList = [];
         this.state = {
             AppointmentService: [],
-            loader: true
+            loader: true,
+            refreshing: false
         };
     }
 
@@ -63,48 +68,71 @@ export default class AppointmentScreen extends Component {
         </TouchableOpacity>
     )
 
+    onRefresh = () => {
+        this.setState({ refreshing: true })
+        this.getAppointmentList();
+        this.wait(1000).then(() => this.setState({ refreshing: false }));
+    }
+
     render() {
-        const { AppointmentService, loader } = this.state
+        const { AppointmentService, loader, refreshing } = this.state
         return (
             <SafeAreaView style={styles.container}>
-                <View style={{ alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
-                    {this.searchserviceList && this.searchserviceList.length != 0 &&
-                        <View style={styles.statusbar}>
-                            <TextInput
-                                style={styles.statInput}
-                                placeholder="Type here to search"
-                                type='clear'
-                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                                returnKeyType="done"
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                onChangeText={(value) => this.searchFilterFunction(value)}
-                            />
-                            <TouchableOpacity onPress={() => Keyboard.dismiss()}>
-                                <FontAwesome5 name="search" size={24} color={COLOR.PLACEHOLDER_COLOR}
-                                    style={{ alignItems: KEY.FLEX_END, justifyContent: KEY.FLEX_END, marginRight: 15 }} />
+                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                <View style={styles.headerstyle}>
+                    <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
+                        <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.FLEX_START, alignItems: KEY.CENTER, marginLeft: 20 }}>
+                            <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
+                                <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} />
                             </TouchableOpacity>
+                            <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginLeft: WIDTH / 4 }}>
+                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>Our Services</Text>
+                            </View>
                         </View>
-                    }
-                    <View style={{ marginTop: 10 }}>
-                        <FlatList
-                            data={AppointmentService}
-                            showsVerticalScrollIndicator={false}
-                            renderItem={this.renderAppointmentList}
-                            keyExtractor={item => `${item._id}`}
-                            contentContainerStyle={{ paddingBottom: 100, alignSelf: KEY.CENTER }}
-                            ListFooterComponent={() => (
-                                AppointmentService && AppointmentService.length > 0 ?
-                                    <></>
-                                    :
-                                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                                        <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                                        <Text style={{ fontSize: 16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
-                                    </View>
-                            )}
-                        />
                     </View>
                 </View>
+                <ScrollView
+                    refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor={COLOR.DEFALUTCOLOR} titleColor={COLOR.DEFALUTCOLOR} colors={[COLOR.DEFALUTCOLOR]} onRefresh={this.onRefresh} />}
+                    showsVerticalScrollIndicator={false}>
+                    <View style={{ alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
+                        {this.searchserviceList && this.searchserviceList.length != 0 &&
+                            <View style={styles.statusbar}>
+                                <TextInput
+                                    style={styles.statInput}
+                                    placeholder="Type here to search"
+                                    type='clear'
+                                    placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                    returnKeyType="done"
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                    onChangeText={(value) => this.searchFilterFunction(value)}
+                                />
+                                <TouchableOpacity onPress={() => Keyboard.dismiss()}>
+                                    <FontAwesome5 name="search" size={24} color={COLOR.PLACEHOLDER_COLOR}
+                                        style={{ alignItems: KEY.FLEX_END, justifyContent: KEY.FLEX_END, marginRight: 15 }} />
+                                </TouchableOpacity>
+                            </View>
+                        }
+                        <View style={{ marginTop: 10 }}>
+                            <FlatList
+                                data={AppointmentService}
+                                showsVerticalScrollIndicator={false}
+                                renderItem={this.renderAppointmentList}
+                                keyExtractor={item => `${item._id}`}
+                                contentContainerStyle={{ paddingBottom: 50, alignSelf: KEY.CENTER }}
+                                ListFooterComponent={() => (
+                                    AppointmentService && AppointmentService.length > 0 ?
+                                        <></>
+                                        :
+                                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                                            <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
+                                            <Text style={{ fontSize: 16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                                        </View>
+                                )}
+                            />
+                        </View>
+                    </View>
+                </ScrollView>
                 {loader ? <Loader /> : null}
             </SafeAreaView>
         );
@@ -114,7 +142,7 @@ export default class AppointmentScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLOR.DEFAULTLIGHT,
+        backgroundColor: COLOR.BACKGROUNDCOLOR
     },
     statusbar: {
         flexDirection: KEY.ROW,
@@ -158,5 +186,13 @@ const styles = StyleSheet.create({
         justifyContent: KEY.SPACEAROUND,
         marginBottom: 10,
         alignItems: KEY.CENTER
+    },
+    headerstyle: {
+        backgroundColor: COLOR.STATUSBARCOLOR,
+        width: WIDTH,
+        height: 90,
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30,
+        marginBottom: 20
     }
 })
