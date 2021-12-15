@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, FlatList, RefreshControl, SafeAreaView, Dimensions } from 'react-native';
+import {
+    View, Text, StyleSheet, ScrollView, Image, FlatList,
+    RefreshControl, SafeAreaView, Dimensions, StatusBar, TouchableOpacity
+} from 'react-native';
 import moment from 'moment'
 import Loader from '../../Components/Loader/Loader';
 import { BookHistoryService } from '../../Services/BookHistoryService/BookHistoryService'
@@ -10,6 +13,8 @@ const serviceicon = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v16104289
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import * as FONT from '../../styles/typography';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 class BookHistory extends Component {
     constructor(props) {
@@ -24,6 +29,7 @@ class BookHistory extends Component {
 
     BookHistoryService(id) {
         BookHistoryService(id).then(response => {
+            console.log(`response.data`, response.data);
             this.setState({ BookHistoryService: response.data })
             this.wait(1000).then(() => this.setState({ loader: false }));
         })
@@ -96,10 +102,23 @@ class BookHistory extends Component {
         const { BookHistoryService, refreshing, loader } = this.state;
         return (
             <SafeAreaView style={styles.container}>
+                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                <View style={styles.headerstyle}>
+                    <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
+                        <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.FLEX_START, alignItems: KEY.CENTER, marginLeft: 20 }}>
+                            <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
+                                <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} />
+                            </TouchableOpacity>
+                            <View style={{ justifyContent: KEY.CENTER, marginLeft: WIDTH / 5 }}>
+                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>Booking History</Text>
+                            </View>
+                        </View>
+                    </View>
+                </View>
                 <ScrollView
                     refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor={COLOR.DEFALUTCOLOR}
                         titleColor={COLOR.DEFALUTCOLOR} colors={[COLOR.DEFALUTCOLOR]} onRefresh={this.onRefresh} />} showsVerticalScrollIndicator={false}>
-                    <View style={{ alignItems: KEY.CENTER, marginTop: 14, marginBottom: 50 }}>
+                    <View style={{ alignItems: KEY.CENTER, marginTop: 0, marginBottom: 50 }}>
                         <FlatList
                             data={this.state.BookHistoryService}
                             showsVerticalScrollIndicator={false}
@@ -129,7 +148,7 @@ export default BookHistory;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLOR.DEFAULTLIGHT
+        backgroundColor: COLOR.BACKGROUNDCOLOR
     },
     servicename: {
         aspectRatio: 2.5,
@@ -147,5 +166,13 @@ const styles = StyleSheet.create({
             width: 0,
         },
         elevation: 3
+    },
+    headerstyle: {
+        backgroundColor: COLOR.STATUSBARCOLOR,
+        width: WIDTH,
+        height: 90,
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30,
+        marginBottom: 20
     }
 })
