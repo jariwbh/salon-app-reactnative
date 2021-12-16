@@ -11,7 +11,7 @@ import Loader from '../../Components/Loader/Loading';
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
-
+import AntDesign from 'react-native-vector-icons/AntDesign';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
@@ -141,7 +141,7 @@ export default class AppointmentsBooked extends Component {
         var getUser = await AsyncStorage.getItem('@authuser')
         if (getUser == null || getUser && getUser.length == 0) {
             setTimeout(() => {
-                this.props.navigation.replace('LoginScreen')
+                //this.props.navigation.replace('LoginScreen')
             }, 3000);
         } else {
             const user = JSON.parse(getUser)
@@ -208,7 +208,19 @@ export default class AppointmentsBooked extends Component {
             fullnameError, usernameError, mobilenumberError, serviceDateError, serviceTimeError } = this.state;
         return (
             <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
+                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                <View style={styles.headerstyle}>
+                    <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
+                        <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.FLEX_START, alignItems: KEY.CENTER, marginLeft: 20 }}>
+                            <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
+                                <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} />
+                            </TouchableOpacity>
+                            <View style={{ justifyContent: KEY.CENTER, marginLeft: WIDTH / 5 }}>
+                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>Booking History</Text>
+                            </View>
+                        </View>
+                    </View>
+                </View>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                     <View style={{ alignItems: KEY.CENTER }}>
                         <View style={styles.inputView}>
@@ -233,7 +245,6 @@ export default class AppointmentsBooked extends Component {
                                 returnKeyType={KEY.NEXT}
                                 defaultValue={username}
                                 blurOnSubmit={false}
-                                onTouchEnd={() => Keyboard.dismiss()}
                                 onSubmitEditing={() => { this.TeardTextInputRef.current.focus() }}
                                 ref={this.secondTextInputRef}
                                 onChangeText={(email) => this.setUserName(email)}
@@ -250,45 +261,6 @@ export default class AppointmentsBooked extends Component {
                                 keyboardType="numeric"
                                 ref={this.TeardTextInputRef}
                                 onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
-                            />
-                        </View>
-                        <View style={styles.inputView}>
-                            <TextInput
-                                style={serviceDateError == null ? styles.TextInput : styles.TextInputError}
-                                defaultValue={serviceDate}
-                                placeholder="YYYY-MM-DD"
-                                type={KEY.CLEAR}
-                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                                returnKeyType={KEY.NEXT}
-                                onFocus={() => this.showDatePicker()}
-                                onTouchEnd={() => Keyboard.dismiss()}
-                                onChangeText={(serviceDate) => this.setServiceDate(serviceDate)}
-                            />
-                            <DateTimePickerModal
-                                isVisible={this.state.isDatePickerVisible}
-                                mode="date"
-                                onConfirm={this.handleConfirmDate}
-                                onCancel={this.hideDatePicker}
-                            />
-                        </View>
-                        <View style={styles.inputView}>
-                            <TextInput
-                                style={serviceTimeError == null ? styles.TextInput : styles.TextInputError}
-                                defaultValue={serviceTime}
-                                placeholder="HH-MM"
-                                type={KEY.CLEAR}
-                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                                returnKeyType={KEY.DONE}
-                                onFocus={() => this.showTimePicker()}
-                                onTouchEnd={() => Keyboard.dismiss()}
-                                onChangeText={(serviceTime) => this.setServiceTime(serviceTime)}
-                                onSubmitEditing={() => this.onPressSubmit()}
-                            />
-                            <DateTimePickerModal
-                                isVisible={this.state.isTimePickerVisibility}
-                                mode="time"
-                                onConfirm={this.handleConfirmTime}
-                                onCancel={this.hideTimePicker}
                             />
                         </View>
                     </View>
@@ -360,5 +332,13 @@ const styles = StyleSheet.create({
         alignItems: KEY.CENTER,
         justifyContent: KEY.CENTER,
         marginBottom: 50
-    }
+    },
+    headerstyle: {
+        backgroundColor: COLOR.STATUSBARCOLOR,
+        width: WIDTH,
+        height: 90,
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30,
+        marginBottom: 20
+    },
 })

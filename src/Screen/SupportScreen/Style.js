@@ -10,6 +10,11 @@ const styles = StyleSheet.create({
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER
     },
+    addressView: {
+        justifyContent: KEY.CENTER,
+        alignItems: KEY.CENTER,
+        marginTop: 20
+    },
     textHeader: {
         fontSize: FONT.FONT_SIZE_24,
         fontWeight: FONT.FONT_WEIGHT_BOLD,

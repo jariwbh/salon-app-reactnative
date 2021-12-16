@@ -3,16 +3,16 @@ import {
     View, Text, TextInput, FlatList, StatusBar, StyleSheet, RefreshControl,
     TouchableOpacity, Image, Dimensions, SafeAreaView, Keyboard, ScrollView
 } from 'react-native';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import { CategoryByAppointmentService } from '../../Services/CategoryService/CategoryService'
 import Loader from '../../Components/Loader/Loader';
-const serviceicon = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1610428971/userimage_qif8wv.jpg'
+const serviceicon = 'https://res.cloudinary.com/membroz/image/upload/v1639641450/Cocoon%20Mobile%20App/logo2_rzpyeq.png';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default class AppointmentScreen extends Component {
     constructor(props) {

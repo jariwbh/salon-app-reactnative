@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         position: KEY.ABSOLUTE,
         alignItems: KEY.CENTER,
         justifyContent: KEY.CENTER,
-        backgroundColor: COLOR.DEFAULTLIGHT
+        backgroundColor: 'rgba(0,0,0,0.5)'
     },
     indicator: {
         backgroundColor: COLOR.DEFALUTCOLOR,

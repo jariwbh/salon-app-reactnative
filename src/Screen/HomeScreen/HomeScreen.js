@@ -16,7 +16,7 @@ import { FONT_WEIGHT_BOLD } from '../../styles/typography';
 import axiosConfig from '../../Helpers/axiosConfig';
 import AsyncStorage from '@react-native-community/async-storage';
 import getCurrency from '../../Services/getCurrencyService/getCurrency';
-
+const DefaultImage = 'https://res.cloudinary.com/membroz/image/upload/v1639641450/Cocoon%20Mobile%20App/logo2_rzpyeq.png';
 class HomeScreen extends Component {
     constructor(props) {
         super(props);
@@ -131,8 +131,11 @@ class HomeScreen extends Component {
                         style={{ alignItems: KEY.CENTER, height: 80, width: 80, marginTop: 20, borderRadius: 100, borderColor: COLOR.BRIGHT_GRAY, borderWidth: 1 }}
                     />
                     :
-                    <Image source={require('../../assets/noimage.png')}
-                        style={{ alignItems: KEY.CENTER, height: 80, width: 80, marginTop: 20, borderRadius: 100, borderColor: COLOR.BRIGHT_GRAY, borderWidth: 1 }}
+                    <Image source={{ uri: DefaultImage }}
+                        style={{
+                            alignItems: KEY.CENTER, height: 80, width: 80, marginTop: 20,
+                            borderRadius: 100, backgroundColor: COLOR.WHITE, borderColor: COLOR.BRIGHT_GRAY, borderWidth: 1
+                        }}
                     />
                 }
             </TouchableOpacity>
@@ -145,8 +148,12 @@ class HomeScreen extends Component {
     renderAppointmentList = ({ item }) => (
         <View style={styles.cardView}>
             <TouchableOpacity style={{ alignItems: KEY.CENTER }} onPress={() => this.props.navigation.navigate('ServiceDetails', { item })}>
-                <Image source={{ uri: (item.gallery[0] ? item.gallery[0].attachment : 'https://img.icons8.com/ios-glyphs/480/no-image.png') }}
-                    style={{ alignItems: KEY.CENTER, height: 150, width: WIDTH - 40, marginTop: 10, borderRadius: 10, resizeMode: KEY.COVER }}
+                <Image source={{ uri: (item.gallery[0] ? item.gallery[0].attachment : DefaultImage) }}
+                    style={item.gallery[0] && item.gallery[0].attachment ?
+                        { alignItems: KEY.CENTER, height: 150, width: WIDTH - 40, marginTop: 10, borderRadius: 10, resizeMode: KEY.COVER }
+                        :
+                        { alignItems: KEY.CENTER, height: 160, width: 160, marginTop: 10, borderRadius: 10, resizeMode: KEY.COVER }
+                    }
                 />
             </TouchableOpacity>
             <View

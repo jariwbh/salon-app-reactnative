@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
     View, Text, StyleSheet, Image, Dimensions, TouchableOpacity,
-    StatusBar, ToastAndroid, SafeAreaView
+    StatusBar, ToastAndroid, SafeAreaView, ImageBackground
 } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -22,6 +22,7 @@ export default class MyProfileScreen extends Component {
             companyData: null,
             userProfile: null,
             loader: true,
+            showLogin: false
         }
     }
 
@@ -38,9 +39,7 @@ export default class MyProfileScreen extends Component {
     getdata = async () => {
         var getUser = await AsyncStorage.getItem('@authuser')
         if (getUser == null) {
-            setTimeout(() => {
-                this.props.navigation.replace('LoginScreen')
-            }, 3000);
+            this.setState({ showLogin: true });
         } else {
             var userData;
             userData = JSON.parse(getUser)
@@ -69,47 +68,74 @@ export default class MyProfileScreen extends Component {
         this.props.navigation.replace('LoginScreen');
     }
 
+    onPressSignUp = () => {
+        this.props.navigation.navigate('RegisterScreen');
+    }
+
+    onPressLogin = () => {
+        this.props.navigation.navigate('LoginScreen');
+    }
+
     render() {
-        const { companyData, userProfile, loader } = this.state;
+        const { companyData, userProfile, loader, showLogin } = this.state;
         return (
-            <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
-                <View style={styles.headerstyle}>
-                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
-                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, }}>
-                            <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>My Profile</Text>
+            !showLogin
+                ?
+                <SafeAreaView style={styles.container}>
+                    <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                    <View style={styles.headerstyle}>
+                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
+                            <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, }}>
+                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>My Profile</Text>
+                            </View>
                         </View>
                     </View>
-                </View>
-                {companyData === null ?
-                    <Loader />
-                    : <>
-                        <Image style={styles.avatar} source={{ uri: userProfile && userProfile !== null ? userProfile : "https://res.cloudinary.com/dnogrvbs2/image/upload/v1610428971/userimage_qif8wv.jpg" }} />
-                        <View style={{ marginLeft: 230, marginTop: -20 }}>
-                            <TouchableOpacity onPress={() => this.onPressUpdateProfile()}>
-                                <MaterialCommunityIcons name='circle-edit-outline' size={25} color={COLOR.MENU_TEXT_COLOR} />
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.body}>
-                            <View style={styles.bodyContent}>
-                                <Text style={styles.name}>{companyData && companyData.fullname}</Text>
-                            </View>
-                            <View style={{
-                                flex: 1, flexDirection: KEY.COLUMN, alignItems: KEY.CENTER, marginTop: 10
-                            }}>
-                                <TouchableOpacity style={styles.buttonContainer} onPress={() => this.onPressUpdateProfile()}>
-                                    <Entypo name="edit" size={20} color={COLOR.MENU_TEXT_COLOR} style={{ padding: 8, paddingLeft: 16 }} />
-                                    <Text style={styles.textContainer}>Update Profile</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={styles.buttonContainer} onPress={() => this.onPressLogout()}>
-                                    <Entypo name="log-out" size={20} color={COLOR.MENU_TEXT_COLOR} style={{ padding: 8, paddingLeft: 16 }} />
-                                    <Text style={styles.textContainer}>Log out</Text>
+                    {companyData === null ?
+                        <Loader />
+                        : <>
+                            <Image style={styles.avatar} source={{ uri: userProfile && userProfile !== null ? userProfile : "https://res.cloudinary.com/dnogrvbs2/image/upload/v1610428971/userimage_qif8wv.jpg" }} />
+                            <View style={{ marginLeft: 230, marginTop: -20 }}>
+                                <TouchableOpacity onPress={() => this.onPressUpdateProfile()}>
+                                    <MaterialCommunityIcons name='circle-edit-outline' size={25} color={COLOR.MENU_TEXT_COLOR} />
                                 </TouchableOpacity>
                             </View>
+                            <View style={styles.body}>
+                                <View style={styles.bodyContent}>
+                                    <Text style={styles.name}>{companyData && companyData.fullname}</Text>
+                                </View>
+                                <View style={{
+                                    flex: 1, flexDirection: KEY.COLUMN, alignItems: KEY.CENTER, marginTop: 10
+                                }}>
+                                    <TouchableOpacity style={styles.buttonContainer} onPress={() => this.onPressUpdateProfile()}>
+                                        <Entypo name="edit" size={20} color={COLOR.MENU_TEXT_COLOR} style={{ padding: 8, paddingLeft: 16 }} />
+                                        <Text style={styles.textContainer}>Update Profile</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.buttonContainer} onPress={() => this.onPressLogout()}>
+                                        <Entypo name="log-out" size={20} color={COLOR.MENU_TEXT_COLOR} style={{ padding: 8, paddingLeft: 16 }} />
+                                        <Text style={styles.textContainer}>Log out</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </>
+                    }
+                </SafeAreaView>
+                :
+                <SafeAreaView style={styles.container}>
+                    <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                    <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={COLOR.DEFALUTCOLOR} style={styles.backgroundImage}>
+                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
+                            <Image style={styles.imageLogo} resizeMode={KEY.COVER} source={IMAGE.LOGO} />
                         </View>
-                    </>
-                }
-            </SafeAreaView>
+                    </ImageBackground>
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: HEIGHT / 6 }}>
+                        <TouchableOpacity style={styles.update_Btn} onPress={() => this.onPressSignUp()}>
+                            <Text style={styles.update_text} >Sign Up</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.update_Btn} onPress={() => this.onPressLogin()}>
+                            <Text style={styles.update_text} >Login Now</Text>
+                        </TouchableOpacity>
+                    </View>
+                </SafeAreaView>
         )
     }
 }
@@ -169,7 +195,33 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
         marginBottom: 20
-    }
+    },
+    backgroundImage: {
+        marginTop: -20,
+        width: WIDTH,
+        height: HEIGHT / 3,
+    },
+    imageLogo: {
+        justifyContent: KEY.CENTER,
+        alignItems: KEY.CENTER,
+        height: 150,
+        width: 220
+    },
+    update_Btn: {
+        flexDirection: KEY.ROW,
+        backgroundColor: COLOR.DEFALUTCOLOR,
+        marginTop: 10,
+        borderRadius: 100,
+        width: WIDTH / 2,
+        height: 45,
+        alignItems: KEY.CENTER,
+        justifyContent: KEY.CENTER
+    },
+    update_text: {
+        color: COLOR.WHITE,
+        fontWeight: 'bold',
+        fontSize: 18,
+    },
 })
 
 

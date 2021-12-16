@@ -17,6 +17,10 @@ import UpdateProfileScreen from '../Screen/MyProfileScreen/UpdateProfile';
 import AsyncStorage from '@react-native-community/async-storage';
 //------SupportStackScreen
 import SupportScreen from '../Screen/SupportScreen/SupportScreen';
+//------ProductStackScreen
+import ProductListScreen from '../Screen/ShopScreen/ProductListScreen';
+import ProductDetailScreen from '../Screen/ShopScreen/ProductDetailScreen';
+
 import * as KEY from '../context/actions/key';
 import * as TYPE from '../context/actions/type';
 import * as COLOR from '../styles/colors';
@@ -92,6 +96,24 @@ function BookHistoryStackScreen({ navigation }) {
     );
 }
 
+const ProductStack = createStackNavigator();
+function ProductStackScreen({ navigation }) {
+    return (
+        <ProductStack.Navigator initialRouteName="ProductListScreen" headerMode='none' >
+            <ProductStack.Screen name="ProductListScreen" options={{
+                title: '',
+                headerShown: false
+            }}
+                component={ProductListScreen} />
+            <ProductStack.Screen name="ProductDetailScreen" options={{
+                title: '',
+                headerShown: false
+            }}
+                component={ProductDetailScreen} />
+        </ProductStack.Navigator>
+    );
+}
+
 const SupportStack = createStackNavigator();
 function SupportStackScreen({ navigation }) {
     return (
@@ -161,6 +183,14 @@ export default function TabNavigation() {
                                 color={color}
                             />
                         );
+                    } else if (route.name === 'Product') {
+                        return (
+                            <FontAwesome5
+                                name={focused ? 'shopping-bag' : 'shopping-bag'}
+                                size={20}
+                                color={color}
+                            />
+                        );
                     }
                 },
             })}
@@ -183,8 +213,9 @@ export default function TabNavigation() {
                 myCartVisible &&
                 <Tab.Screen name="Book" component={BookHistoryStackScreen} />
             }
-            <Tab.Screen name="Profile" component={ProfileStackScreen} />
+            <Tab.Screen name="Product" component={ProductStackScreen} />
             <Tab.Screen name="Support" component={SupportStackScreen} />
+            <Tab.Screen name="Profile" component={ProfileStackScreen} />
         </Tab.Navigator>
     );
 }
