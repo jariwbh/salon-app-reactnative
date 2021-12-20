@@ -11,8 +11,12 @@ const serviceicon = 'https://res.cloudinary.com/membroz/image/upload/v1639641450
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 import * as KEY from '../../context/actions/key';
+import * as TYPE from '../../context/actions/type';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import AsyncStorage from '@react-native-community/async-storage';
+import getCurrency from '../../Services/getCurrencyService/getCurrency';
+import axiosConfig from '../../Helpers/axiosConfig';
 
 export default class AppointmentScreen extends Component {
     constructor(props) {
@@ -22,7 +26,8 @@ export default class AppointmentScreen extends Component {
         this.state = {
             AppointmentService: [],
             loader: true,
-            refreshing: false
+            refreshing: false,
+            currencySymbol: null
         };
     }
 
@@ -37,6 +42,7 @@ export default class AppointmentScreen extends Component {
 
     componentDidMount() {
         this.getAppointmentList();
+        this.getDefaultUser();
     }
 
     wait = (timeout) => {
@@ -63,7 +69,7 @@ export default class AppointmentScreen extends Component {
             </TouchableOpacity>
             <View style={{ marginLeft: 5, flex: 0.9 }}>
                 <Text style={{ fontSize: 18, color: COLOR.BLACK }}>{item.title}</Text>
-                <Text style={{ fontSize: 14, color: COLOR.BLACK }}>₹ {item.charges}</Text>
+                <Text style={{ fontSize: 14, color: COLOR.BLACK }}> {this.state.currencySymbol + item.charges}</Text>
             </View>
         </TouchableOpacity>
     )
@@ -72,6 +78,22 @@ export default class AppointmentScreen extends Component {
         this.setState({ refreshing: true })
         this.getAppointmentList();
         this.wait(1000).then(() => this.setState({ refreshing: false }));
+    }
+
+    getDefaultUser = async () => {
+        var getUser = await AsyncStorage.getItem(TYPE.AUTHUSER);
+        if (getUser !== null) {
+            var userData = JSON.parse(getUser);
+            axiosConfig(userData._id);
+            const responseCurrency = getCurrency(userData.branchid.currency);
+            this.setState({ currencySymbol: responseCurrency });
+        } else {
+            axiosConfig(TYPE.USERKEY);
+            var getUser = await AsyncStorage.getItem(TYPE.DEFAULTUSER);
+            var userData = JSON.parse(getUser);
+            const responseCurrency = getCurrency(userData.branchid.currency);
+            this.setState({ currencySymbol: responseCurrency });
+        }
     }
 
     render() {

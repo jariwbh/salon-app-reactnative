@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
     View, Text, StyleSheet, TextInput, ScrollView, ImageBackground, Image,
-    TouchableOpacity, SafeAreaView, Dimensions, Platform, ToastAndroid, StatusBar, Keyboard
+    TouchableOpacity, SafeAreaView, Dimensions, Platform, StatusBar, Keyboard
 } from 'react-native';
 import Loading from '../../Components/Loader/Loading';
 import axiosConfig from '../../Helpers/axiosConfig';
@@ -11,6 +11,7 @@ const WIDTH = Dimensions.get('window').width;
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import Toast from 'react-native-simple-toast';
 
 export default function ForgotPassword(props) {
     const userName = props.route.params.userValue;
@@ -79,21 +80,12 @@ export default function ForgotPassword(props) {
             const response = await ForgetPasswordService(body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 setloading(false);
-                if (Platform.OS === 'android') {
-                    ToastAndroid.show('Your Password is Reset', ToastAndroid.LONG);
-                } else {
-                    alert('Your Password is Reset');
-                }
+                Toast.show('Your Password is Reset', Toast.SHORT);
                 props.navigation.navigate('LoginScreen');
             }
         } catch (error) {
-            console.log(`error`, error);
             resetScreen();
-            if (Platform.OS === 'android') {
-                ToastAndroid.show('Something wrong, try again letter!', ToastAndroid.LONG);
-            } else {
-                alert('Something wrong, try again letter!');
-            }
+            Toast.show('Something wrong, try again letter!', Toast.SHORT);
         };
     }
 

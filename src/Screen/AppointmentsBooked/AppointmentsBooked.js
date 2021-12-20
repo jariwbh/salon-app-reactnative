@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, Text, StyleSheet, ToastAndroid, TextInput, StatusBar,
+    View, Text, StyleSheet, TextInput, StatusBar,
     TouchableOpacity, ScrollView, SafeAreaView, Platform, Dimensions, Keyboard
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -12,6 +12,7 @@ import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Toast from 'react-native-simple-toast';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
@@ -184,22 +185,14 @@ export default class AppointmentsBooked extends Component {
             BookService(body).then(response => {
                 if (response != null) {
                     this.setState({ loading: false });
-                    if (Platform.OS === 'android') {
-                        ToastAndroid.show("Booking Success", ToastAndroid.LONG);
-                    } else {
-                        alert('Booking Success');
-                    }
+                    Toast.show('Booking Success', Toast.SHORT);
                     this.props.navigation.navigate('BookHistory', { response })
                 }
             })
         }
         catch (error) {
             this.setState({ loading: false })
-            if (Platform.OS === 'android') {
-                ToastAndroid.show("Booking Failed", ToastAndroid.LONG);
-            } else {
-                alert('Booking Failed');
-            }
+            Toast.show('Booking Failed', Toast.SHORT);
         }
     }
 
@@ -340,5 +333,5 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
         marginBottom: 20
-    },
+    }
 })

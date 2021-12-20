@@ -7,12 +7,15 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import HTML from 'react-native-render-html';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
-const serviceicon = 'https://res.cloudinary.com/membroz/image/upload/v1639641450/Cocoon%20Mobile%20App/logo2_rzpyeq.png'
+const serviceicon = 'https://res.cloudinary.com/membroz/image/upload/v1639641450/Cocoon%20Mobile%20App/logo2_rzpyeq.png';
+import * as TYPE from '../../context/actions/type';
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import Loader from '../../Components/Loader/Loader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import AsyncStorage from '@react-native-community/async-storage';
+import getCurrency from '../../Services/getCurrencyService/getCurrency';
 
 export default class ServiceDetails extends Component {
     constructor(props) {
@@ -24,12 +27,31 @@ export default class ServiceDetails extends Component {
             servicetitle: this.serviceDetails.title,
             servicecharges: this.serviceDetails.charges,
             servicedescription: this.serviceDetails.description,
-            serviceDetails: this.serviceDetails
+            serviceDetails: this.serviceDetails,
+            currencySymbol: null
         };
     }
 
+    componentDidMount() {
+        this.getDefaultUser();
+    }
+
+    getDefaultUser = async () => {
+        var getUser = await AsyncStorage.getItem(TYPE.AUTHUSER);
+        if (getUser !== null) {
+            var userData = JSON.parse(getUser);
+            const responseCurrency = getCurrency(userData.branchid.currency);
+            this.setState({ currencySymbol: responseCurrency });
+        } else {
+            var getUser = await AsyncStorage.getItem(TYPE.DEFAULTUSER);
+            var userData = JSON.parse(getUser);
+            const responseCurrency = getCurrency(userData.branchid.currency);
+            this.setState({ currencySymbol: responseCurrency });
+        }
+    }
+
     render() {
-        const { serviceID, serviceImage, servicetitle, servicecharges, servicedescription, serviceDetails } = this.state
+        const { serviceID, serviceImage, servicetitle, servicecharges, servicedescription, serviceDetails, currencySymbol } = this.state
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
@@ -52,14 +74,14 @@ export default class ServiceDetails extends Component {
                     </View>
                     <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginTop: -30, marginLeft: 20, marginRight: 20 }}>
                         <Text style={{ fontSize: 18, color: COLOR.DEFALUTCOLOR, width: WIDTH / 2 }}>{servicetitle}</Text>
-                        <Text style={{ fontSize: 18, color: COLOR.DEFALUTCOLOR }}>₹ {servicecharges} </Text>
+                        <Text style={{ fontSize: 18, color: COLOR.DEFALUTCOLOR }}>{currencySymbol + ' ' + servicecharges} </Text>
                     </View>
 
                     <View style={{ flex: 1, marginTop: 10, marginLeft: 10, marginRight: 10, marginBottom: 140 }}>
                         <HTML source={{ html: servicedescription }} />
                     </View>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                        <TouchableOpacity style={styles.book} onPress={() => { this.props.navigation.navigate('AppointmentsBooked', { serviceDetails }) }}>
+                        <TouchableOpacity style={styles.book} onPress={() => { this.props.navigation.navigate('AppointmentSchdule', { serviceDetails }) }}>
                             <FontAwesome5 name="check-circle" size={24} color={COLOR.WHITE} style={{ margin: 5 }} />
                             <Text style={{ fontSize: 16, color: COLOR.WHITE }}>Book Now</Text>
                         </TouchableOpacity>

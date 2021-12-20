@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
     View, Text, StyleSheet, Image, TextInput, TouchableOpacity,
-    ToastAndroid, ScrollView, SafeAreaView, Dimensions, StatusBar
+    ScrollView, SafeAreaView, Dimensions, StatusBar
 } from 'react-native';
 import { UpdateUserService } from '../../Services/UserService/UserService';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -14,6 +14,7 @@ import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import * as FONT from '../../styles/typography';
+import Toast from 'react-native-simple-toast';
 
 class UpdateProfile extends Component {
     constructor(props) {
@@ -96,22 +97,14 @@ class UpdateProfile extends Component {
             await UpdateUserService(body).then(response => {
                 if (response != null) {
                     this.authenticateUser(response.data)
-                    if (Platform.OS === 'android') {
-                        ToastAndroid.show("Your Profile Update", ToastAndroid.LONG);
-                    } else {
-                        alert('Your Profile Update');
-                    }
+                    Toast.show('Your Profile Update', Toast.SHORT);
                     this.props.navigation.replace('MyProfile');
                 }
             })
         }
         catch (error) {
             this.setState({ loading: false })
-            if (Platform.OS === 'android') {
-                ToastAndroid.show("Your Profile Not Update", ToastAndroid.LONG)
-            } else {
-                alert('Your Profile Not Update');
-            }
+            Toast.show('Your Profile Not Update', Toast.SHORT);
         }
     }
 

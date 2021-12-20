@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    View, Text, StyleSheet, ImageBackground, ToastAndroid, Image,
+    View, Text, StyleSheet, ImageBackground, Image,
     Dimensions, TextInput, TouchableOpacity, SafeAreaView, StatusBar, BackHandler
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -13,6 +13,7 @@ import axiosConfig from '../../Helpers/axiosConfig';
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import Toast from 'react-native-simple-toast';
 
 export default class LoginScreen extends Component {
     constructor(props) {
@@ -78,11 +79,7 @@ export default class LoginScreen extends Component {
                         this.authenticateUser(response.data.user);
                         let token = response.data.user._id;
                         axiosConfig(token);
-                        if (Platform.OS === 'android') {
-                            ToastAndroid.show("SignIn Success", ToastAndroid.LONG);
-                        } else {
-                            alert('SignIn Success');
-                        }
+                        Toast.show('SignIn Success', Toast.SHORT);
                         this.props.navigation.replace('TabNavigation');
                         this.resetScreen();
                         return
@@ -91,11 +88,7 @@ export default class LoginScreen extends Component {
         }
         catch (error) {
             this.setState({ loading: false })
-            if (Platform.OS === 'android') {
-                ToastAndroid.show("Username and Password Invalid", ToastAndroid.LONG)
-            } else {
-                alert('Username and Password Invalid');
-            }
+            Toast.show('Username and Password Invalid!', Toast.SHORT);
         };
     }
 

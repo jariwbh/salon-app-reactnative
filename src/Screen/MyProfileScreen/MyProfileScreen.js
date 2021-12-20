@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
     View, Text, StyleSheet, Image, Dimensions, TouchableOpacity,
-    StatusBar, ToastAndroid, SafeAreaView, ImageBackground
+    StatusBar, SafeAreaView, ImageBackground
 } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -13,9 +13,9 @@ import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Toast from 'react-native-simple-toast';
 
 export default class MyProfileScreen extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -60,11 +60,7 @@ export default class MyProfileScreen extends Component {
 
     onPressLogout() {
         AsyncStorage.removeItem('@authuser');
-        if (Platform.OS === 'android') {
-            ToastAndroid.show("Log Out Success", ToastAndroid.SHORT);
-        } else {
-            //  alert('Log Out Success');
-        }
+        Toast.show('Log Out Success', Toast.SHORT);
         this.props.navigation.replace('LoginScreen');
     }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
     View, Text, StyleSheet, TouchableOpacity, ImageBackground, Dimensions,
-    TextInput, ToastAndroid, SafeAreaView, StatusBar, Keyboard, Image
+    TextInput, SafeAreaView, StatusBar, Keyboard, Image
 } from 'react-native';
 import RegisterService from '../../Services/RegisterService/RegisterService';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -13,6 +13,7 @@ import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
+import Toast from 'react-native-simple-toast';
 
 class RegisterScreen extends Component {
     constructor(props) {
@@ -84,24 +85,14 @@ class RegisterScreen extends Component {
         try {
             await RegisterService(body).then(response => {
                 if (response != null) {
-                    if (Platform.OS === 'android') {
-                        ToastAndroid.show("SignUp Success", ToastAndroid.LONG);
-                    } else {
-                        alert('SignUp Success');
-                    }
-
+                    Toast.show('SignUp Success', Toast.SHORT);
                     this.props.navigation.navigate('LoginScreen');
                 }
             })
         }
         catch (error) {
             this.setState({ loading: false })
-            if (Platform.OS === 'android') {
-                ToastAndroid.show("SignUp Failed", ToastAndroid.LONG);
-            } else {
-                alert('SignUp Failed');
-            }
-
+            Toast.show('SignUp Problem!', Toast.SHORT);
         }
     }
 

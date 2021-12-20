@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
     View, Text, StyleSheet, TextInput, ScrollView, ImageBackground, Image, StatusBar,
-    TouchableOpacity, SafeAreaView, Dimensions, Keyboard, ToastAndroid, Platform
+    TouchableOpacity, SafeAreaView, Dimensions, Keyboard, Platform
 } from 'react-native';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
@@ -9,6 +9,7 @@ import Loader from '../../Components/Loader/Loading'
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import Toast from 'react-native-simple-toast';
 
 export default function ForgotPasswordOTP(props) {
     const verifyOtpNumber = props.route.params.verifyOtpNumber;
@@ -46,20 +47,12 @@ export default function ForgotPasswordOTP(props) {
             } else {
                 setloading(false);
                 setinputOtpNumber(null);
-                if (Platform.OS === 'android') {
-                    ToastAndroid.show('OTP not Match!', ToastAndroid.LONG)
-                } else {
-                    alert('OTP not Match!');
-                }
+                Toast.show('OTP not Match!', Toast.SHORT);
             }
         }
         catch (error) {
             resetScreen();
-            if (Platform.OS === 'android') {
-                ToastAndroid.show('User not exits!', ToastAndroid.LONG);
-            } else {
-                alert('User not exits!');
-            }
+            Toast.show('User not exits!', Toast.SHORT);
         };
     }
 

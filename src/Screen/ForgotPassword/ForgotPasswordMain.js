@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
     View, Text, StyleSheet, TextInput, ScrollView, ImageBackground, StatusBar, Image,
-    TouchableOpacity, SafeAreaView, Dimensions, Keyboard, ToastAndroid, Platform
+    TouchableOpacity, SafeAreaView, Dimensions, Keyboard, Platform
 } from 'react-native';
 import axiosConfig from '../../Helpers/axiosConfig';
 import { CheckUser } from '../../Services/UserService/UserService';
@@ -13,6 +13,7 @@ import * as KEY from '../../context/actions/key';
 import * as TYPE from '../../context/actions/type';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import Toast from 'react-native-simple-toast';
 
 export default function ForgotPasswordMain(props) {
     const [username, setusername] = useState(null);
@@ -68,29 +69,17 @@ export default function ForgotPasswordMain(props) {
                 onPressSubmit(CheckUserResponse.data.property, verifyOtpNumber);
                 setusername(null);
                 setusererror(null);
-                if (Platform.OS === 'android') {
-                    ToastAndroid.show('OTP Sending', ToastAndroid.LONG);
-                } else {
-                    alert('OTP Sending');
-                }
+                Toast.show('OTP Sending', Toast.SHORT);
                 setloading(false);
             }
             else {
-                if (Platform.OS === 'android') {
-                    ToastAndroid.show('User not exits!', ToastAndroid.LONG);
-                } else {
-                    alert('User not exits!');
-                }
+                Toast.show('User not exits!', Toast.SHORT);
                 resetScreen();
             }
         }
         catch (error) {
             resetScreen();
-            if (Platform.OS === 'android') {
-                ToastAndroid.show('User not exits!', ToastAndroid.LONG);
-            } else {
-                alert('User not exits!');
-            }
+            Toast.show('User not exits!', Toast.SHORT);
         };
     }
 
@@ -142,11 +131,7 @@ export default function ForgotPasswordMain(props) {
         }
         catch (error) {
             resetScreen();
-            if (Platform.OS === 'android') {
-                ToastAndroid.show('User not exits!', ToastAndroid.LONG);
-            } else {
-                alert('User not exits!');
-            }
+            Toast.show('User not exits!', Toast.SHORT);
         };
     }
 

@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import AsyncStorage from '@react-native-community/async-storage';
 //-------HomeStackScreen
 import HomeScreen from "../Screen/HomeScreen/HomeScreen";
 import ServiceDetails from "../Screen/ServiceDetails/ServiceDetails"
@@ -11,10 +12,10 @@ import ServiceListScreen from '../Screen/ServiceListScreen/ServiceListScreen'
 import AppointmentsBooked from "../Screen/AppointmentsBooked/AppointmentsBooked";
 import StaffDetails from "../Screen/StaffDetails/StaffDetails"
 import BookHistory from "../Screen/BookHistory/BookHistory"
+import AppointmentSchdule from "../Screen/AppointmentsBooked/AppointmentSchdule";
 //-------ProfileStackScreen
 import MyProfileScreen from '../Screen/MyProfileScreen/MyProfileScreen';
 import UpdateProfileScreen from '../Screen/MyProfileScreen/UpdateProfile';
-import AsyncStorage from '@react-native-community/async-storage';
 //------SupportStackScreen
 import SupportScreen from '../Screen/SupportScreen/SupportScreen';
 //------ProductStackScreen
@@ -79,6 +80,12 @@ function HomeStackScreen({ navigation }) {
                 title: '',
                 headerShown: false
             }} component={BookHistory} />
+
+            <HomeStack.Screen name="AppointmentSchdule" options={{
+                title: '',
+                headerShown: false
+            }} component={AppointmentSchdule} />
+
         </HomeStack.Navigator>
     );
 }
