@@ -78,7 +78,10 @@ export default class ServiceDetails extends Component {
                     </View>
 
                     <View style={{ flex: 1, marginTop: 10, marginLeft: 10, marginRight: 10, marginBottom: 140 }}>
-                        <HTML source={{ html: servicedescription }} />
+                        {
+                            servicedescription &&
+                            <HTML source={{ html: servicedescription }} />
+                        }
                     </View>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <TouchableOpacity style={styles.book} onPress={() => { this.props.navigation.navigate('AppointmentSchdule', { serviceDetails }) }}>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
     View, Text, ScrollView, StyleSheet, Dimensions, StatusBar,
-    TouchableOpacity, Image, SafeAreaView, FlatList
+    TouchableOpacity, Image, SafeAreaView, FlatList, Linking
 } from 'react-native';
 import getCurrency from '../../Services/getCurrencyService/getCurrency';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -21,21 +21,19 @@ export default class AppointmentSchdule extends Component {
     constructor(props) {
         super(props);
         this.serviceDetails = props.route.params.serviceDetails;
-        this.currentDate = null;
+        this.currentDate = moment().format('YYYY-MM-DD');
         this.state = {
             timeSlots: [],
-            time: null,
             loading: false,
             currencySymbol: null,
-            holidaysList: [],
-            renderList: null,
             selectedDay: null,
+            currentDay: null
         };
     }
 
     componentDidMount() {
         this.getDefaultUser();
-        this.generatingTS(this.serviceDetails);
+        this.onPressSelectedDay({ dateString: moment().format('YYYY-MM-DD') })
     }
 
     getDefaultUser = async () => {
@@ -101,7 +99,8 @@ export default class AppointmentSchdule extends Component {
             }
             var obj;
             obj = {
-                "day": moment().format('dddd'),
+                "date": this.currentDate,
+                "day": moment(this.currentDate).format('dddd'),
                 "starttime": start,
                 "endtime": end,
                 "displaytext": start + " - " + end,
@@ -114,22 +113,68 @@ export default class AppointmentSchdule extends Component {
         return
     }
 
-    onPressToBookNow = () => {
+    onPressToBookNow = (item) => {
+        this.serviceDetails.selectedtime = item;
         let serviceDetails = this.serviceDetails;
         this.props.navigation.navigate('AppointmentsBooked', { serviceDetails });
     }
 
     onPressSelectedDay = (day) => {
-        day = moment(day.dateString).format('YYYY-MM-DD')
-        console.log(`day`, day);
+        day = moment(day.dateString).format('YYYY-MM-DD');
         let markedDates = {};
         markedDates[day] = { selected: true, marked: false, selectedColor: COLOR.DEFALUTCOLOR }
-
-        console.log(`markedDates`, markedDates);
         this.setState({ selectedDay: markedDates })
+        this.currentDate = day;
+
+        if (moment(day).format('dddd') === 'Sunday' || moment(day).format('dddd') === 'Saturday') {
+            this.setState({ timeSlots: [] });
+        } else {
+            this.generatingTS(this.serviceDetails);
+        }
     }
 
+    //ON PRESS TO CALL DIALER TO USE FUNCTION
+    onPressCall = () => {
+        let mobile = '00628113882240';
+        let phoneNumber = mobile;
+        if (Platform.OS !== 'android') {
+            phoneNumber = `telprompt:${mobile}`;
+        }
+        else {
+            phoneNumber = `tel:${mobile}`;
+        }
+        Linking.openURL(phoneNumber);
+    }
+
+    renderTimeSlots = ({ item, index }) => (
+        <View style={{ alignItems: KEY.CENTER, justifyContent: KEY.CENTER }} key={index}>
+            <View style={styles.cardView}>
+                <View style={styles.filledBox}>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_28, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.date).format('DD')}</Text>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.date).format('MMM')}</Text>
+                </View>
+                <View style={{ flexDirection: KEY.ROW, marginLeft: 5, padding: 5 }}>
+                    <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
+                        <Text style={styles.rectangleSubText}>Start Time : {(item && item.starttime)}</Text>
+                        <Text style={styles.rectangleSubText}>End Time : {(item && item.endtime)}</Text>
+                    </View>
+                    {
+                        moment().format('YYYY-MM-DD') === this.currentDate ?
+                            <TouchableOpacity style={styles.book} onPress={() => this.onPressCall()} >
+                                <Text style={{ fontSize: 14, color: COLOR.WHITE, marginLeft: 10, marginRight: 10 }}>Call to Book</Text>
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity style={styles.book} onPress={() => this.onPressToBookNow(item)} >
+                                <Text style={{ fontSize: 14, color: COLOR.WHITE, marginLeft: 15, marginRight: 15 }}>Select</Text>
+                            </TouchableOpacity>
+                    }
+                </View>
+            </View>
+        </View>
+    )
+
     render() {
+        const { selectedDay, timeSlots, loading } = this.state;
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
@@ -146,7 +191,7 @@ export default class AppointmentSchdule extends Component {
                     </View>
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
-                    <View style={{ justifyContent: KEY.CENTER, marginLeft: 20 }}>
+                    <View style={{ justifyContent: KEY.CENTER, marginLeft: 20, marginRight: 20 }}>
                         <Text style={{ fontSize: 16, color: COLOR.DEFALUTCOLOR, fontWeight: 'bold' }}>{this.serviceDetails.title}</Text>
                         <Text style={{ fontSize: 16, color: COLOR.DEFALUTCOLOR, fontWeight: 'bold' }}>({(this.serviceDetails.duration + 'mins') + ', ' + this.state.currencySymbol + ' ' + this.serviceDetails.charges})</Text>
                     </View>
@@ -165,36 +210,31 @@ export default class AppointmentSchdule extends Component {
                             }}
                             style={{ backgroundColor: COLOR.BACKGROUNDCOLOR }}
                             onDayPress={(day) => this.onPressSelectedDay(day)}
-                            markedDates={this.state.selectedDay}
+                            markedDates={selectedDay}
                             // onMonthChange={(month) => this.onChangeMonth(month)}
                             markingType={'custom'}
                             hideExtraDays={true}
                         />
-                        {
-                            this.state.timeSlots.map((item) => (
-                                <View style={{ alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
-                                    <View style={styles.cardView}>
-                                        <View style={styles.filledBox}>
-                                            <Text style={{ fontSize: FONT.FONT_SIZE_28, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment().format('DD')}</Text>
-                                            <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment().format('MMM')}</Text>
-                                        </View>
-                                        <View style={{ flexDirection: KEY.ROW, marginLeft: 5, padding: 5 }}>
-                                            <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
-                                                <Text style={styles.rectangleSubText}>Start Time : {(item && item.starttime)}</Text>
-                                                <Text style={styles.rectangleSubText}>End Time : {(item && item.endtime)}</Text>
-                                            </View>
-                                            <TouchableOpacity style={styles.book} onPress={() => this.onPressToBookNow()} >
-                                                <Text style={{ fontSize: 14, color: COLOR.WHITE }}>Select</Text>
-                                            </TouchableOpacity>
-                                        </View>
+                        <Text style={{ marginTop: 10, textAlign: KEY.CENTER, fontSize: 16, color: COLOR.DEFALUTCOLOR, fontWeight: 'bold' }}>Available appointments on {moment(selectedDay).format('DD MMMM YYYY')}</Text>
+                        <FlatList
+                            data={timeSlots}
+                            showsVerticalScrollIndicator={false}
+                            renderItem={this.renderTimeSlots}
+                            keyExtractor={(item) => item.starttime}
+                            contentContainerStyle={{ paddingBottom: 80, alignSelf: KEY.CENTER }}
+                            ListFooterComponent={() => (
+                                timeSlots && timeSlots.length > 0 ?
+                                    <></>
+                                    :
+                                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                                        <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 30 }} resizeMode={KEY.CONTAIN} />
+                                        <Text style={{ fontSize: 16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No appointments available</Text>
                                     </View>
-                                </View>
-                            ))
-                        }
-                        <View style={{ marginBottom: HEIGHT / 5 }} />
+                            )}
+                        />
                     </View>
                 </ScrollView>
-                {this.state.loading ? <Loader /> : null}
+                {loading ? <Loader /> : null}
             </SafeAreaView>
         )
     }
@@ -204,17 +244,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLOR.BACKGROUNDCOLOR
-    },
-    book: {
-        flexDirection: KEY.ROW,
-        backgroundColor: COLOR.DEFALUTCOLOR,
-        marginTop: -150,
-        width: WIDTH / 2 + 50,
-        height: 50,
-        borderRadius: 30,
-        alignItems: KEY.CENTER,
-        justifyContent: KEY.CENTER,
-        marginBottom: 50
     },
     headerstyle: {
         backgroundColor: COLOR.STATUSBARCOLOR,
@@ -267,12 +296,16 @@ const styles = StyleSheet.create({
     },
     book: {
         backgroundColor: COLOR.DEFALUTCOLOR,
-        width: 80,
+        //width: 80,
         height: 30,
         borderRadius: 30,
         alignItems: KEY.CENTER,
         justifyContent: KEY.CENTER,
         margin: 15,
-        marginLeft: 10
-    }
+        marginLeft: 20
+    },
+    snackbar: {
+        flex: 1,
+        justifyContent: KEY.SPACEBETWEEN,
+    },
 })

@@ -5,76 +5,47 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { BookService } from '../../Services/BookService/BookService'
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import Loader from '../../Components/Loader/Loading';
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Toast from 'react-native-simple-toast';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
-
+const genderArray = [
+    { "key": "male", "value": "male" },
+    { "key": "female", "value": "female" }
+]
 export default class AppointmentsBooked extends Component {
     constructor(props) {
         super(props);
         this.serviceDetails = this.props.route.params.serviceDetails;
+        console.log(`this.serviceDetails`, this.serviceDetails);
         this.state = {
             userID: null,
             memberID: null,
-            userData: null,
             fullname: null,
             fullnameError: null,
             username: null,
             usernameError: null,
             mobilenumber: null,
             mobilenumberError: null,
-            serviceDate: null,
-            serviceDateError: null,
-            serviceTime: null,
-            serviceTimeError: null,
-            isDatePickerVisible: false,
-            isTimePickerVisibility: false,
+            country: null,
+            countryError: null,
             loading: false,
+            gender: null,
+            genderError: null
         }
         this.setFullName = this.setFullName.bind(this);
         this.setUserName = this.setUserName.bind(this);
         this.setMobileNumber = this.setMobileNumber.bind(this);
-        this.setServiceDate = this.setServiceDate.bind(this);
-        this.setServiceTime = this.setServiceTime.bind(this);
         this.onPressSubmit = this.onPressSubmit.bind(this);
         this.secondTextInputRef = React.createRef();
         this.TeardTextInputRef = React.createRef();
-        this.FourthTextInputRef = React.createRef();
-        this.FiftethTextInputRef = React.createRef();
     }
-
-    showDatePicker = () => {
-        this.setState({ isDatePickerVisible: true });
-    };
-
-    hideDatePicker = () => {
-        this.setState({ isDatePickerVisible: false });
-    };
-
-    handleConfirmDate = (date) => {
-        this.setState({ serviceDate: moment(date).format('YYYY-MM-DD') });
-        this.hideDatePicker();
-    };
-
-    showTimePicker = () => {
-        this.setState({ isTimePickerVisibility: true });
-    };
-
-    hideTimePicker = () => {
-        this.setState({ isTimePickerVisibility: false });
-    };
-
-    handleConfirmTime = (time) => {
-        this.setState({ serviceTime: moment(time).format('HH:mm') });
-        this.hideTimePicker();
-    };
 
     componentDidMount() {
         this.getdata()
@@ -109,18 +80,11 @@ export default class AppointmentsBooked extends Component {
         return this.setState({ mobilenumber: mobilenumber, mobilenumberError: null })
     }
 
-    setServiceDate(serviceDate) {
-        if (!serviceDate || serviceDate.length <= 0) {
-            return this.setState({ serviceDateError: 'service Date cannot be empty', serviceDate: serviceDate });
+    setCountry(country) {
+        if (!country || country.length <= 0) {
+            return this.setState({ countryError: 'country cannot be empty', country: country });
         }
-        return this.setState({ serviceDate: serviceDate, serviceDateError: null })
-    }
-
-    setServiceTime(serviceTime) {
-        if (!serviceTime || serviceTime.length <= 0) {
-            return this.setState({ serviceTimeError: 'Service Time cannot be empty', serviceTime: serviceTime });
-        }
-        return this.setState({ serviceTime: serviceTime, serviceTimeError: null })
+        return this.setState({ country: country, countryError: null })
     }
 
     resetScreen() {
@@ -130,11 +94,7 @@ export default class AppointmentsBooked extends Component {
             username: null,
             usernameError: null,
             mobilenumber: null,
-            mobilenumberError: null,
-            serviceDate: null,
-            serviceDateError: null,
-            serviceTime: null,
-            serviceTimeError: null,
+            mobilenumberError: null
         })
     }
 
@@ -158,37 +118,36 @@ export default class AppointmentsBooked extends Component {
     }
 
     onPressSubmit = () => {
-        const { fullname, username, mobilenumber, serviceDate, serviceTime, userID, memberID, } = this.state;
-        if (!fullname || !username || !mobilenumber || !serviceDate || !serviceTime) {
+        const { fullname, username, mobilenumber, memberID, } = this.state;
+        if (!fullname || !username || !mobilenumber) {
             this.setFullName(fullname)
             this.setUserName(username)
             this.setMobileNumber(mobilenumber)
-            this.setServiceDate(serviceDate)
-            this.setServiceTime(serviceTime)
             return;
         }
         const body = {
             attendee: memberID,
-            appointmentdate: serviceDate,
+            appointmentdate: this.serviceDetails.selectedtime.date,
             onModel: "Member",
             refid: this.serviceDetails._id,
             //host: userID,
             charges: this.serviceDetails.charges,
             duration: this.serviceDetails.duration,
             timeslot: {
-                day: moment(serviceDate).format('dddd'),
-                starttime: serviceTime
+                day: this.serviceDetails.selectedtime.day,
+                starttime: this.serviceDetails.selectedtime.starttime,
+                endtime: this.serviceDetails.selectedtime.endtime
             },
         }
-        this.setState({ loading: true });
+        //this.setState({ loading: true });
         try {
-            BookService(body).then(response => {
-                if (response != null) {
-                    this.setState({ loading: false });
-                    Toast.show('Booking Success', Toast.SHORT);
-                    this.props.navigation.navigate('BookHistory', { response })
-                }
-            })
+            // BookService(body).then(response => {
+            //     if (response != null) {
+            //         this.setState({ loading: false });
+            Toast.show('Booking Success', Toast.SHORT);
+            //         this.props.navigation.navigate('BookHistory', { response })
+            //     }
+            // })
         }
         catch (error) {
             this.setState({ loading: false })
@@ -196,9 +155,20 @@ export default class AppointmentsBooked extends Component {
         }
     }
 
+    // Select sub category change to get data with color
+    onPressSelectGender = async (item, index) => {
+        this.setState({ gender: item.value });
+        const reArrangeArray = genderArray.map((item) => {
+            item.selected = false;
+            return item;
+        });
+        reArrangeArray[index].selected = true;
+        this.setState({ genderArray: reArrangeArray });
+    }
+
     render() {
-        const { fullname, mobilenumber, serviceTime, serviceDate, username, loading,
-            fullnameError, usernameError, mobilenumberError, serviceDateError, serviceTimeError } = this.state;
+        const { fullname, mobilenumber, username, loading, fullnameError,
+            usernameError, mobilenumberError, countryError, country } = this.state;
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
@@ -220,7 +190,7 @@ export default class AppointmentsBooked extends Component {
                             <TextInput
                                 style={fullnameError == null ? styles.TextInput : styles.TextInputError}
                                 defaultValue={fullname}
-                                placeholder="Name"
+                                placeholder="Full Name"
                                 type={KEY.CLEAR}
                                 placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
                                 returnKeyType={KEY.NEXT}
@@ -247,7 +217,7 @@ export default class AppointmentsBooked extends Component {
                             <TextInput
                                 style={mobilenumberError == null ? styles.TextInput : styles.TextInputError}
                                 defaultValue={mobilenumber}
-                                placeholder="Phone_No"
+                                placeholder="Contact Number"
                                 type={KEY.CLEAR}
                                 placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
                                 returnKeyType={KEY.NEXT}
@@ -255,6 +225,33 @@ export default class AppointmentsBooked extends Component {
                                 ref={this.TeardTextInputRef}
                                 onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
                             />
+                        </View>
+                        <View style={styles.inputView}>
+                            <TextInput
+                                style={countryError == null ? styles.TextInput : styles.TextInputError}
+                                defaultValue={country}
+                                placeholder="Select Country"
+                                type={KEY.CLEAR}
+                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                returnKeyType={KEY.NEXT}
+                                onChangeText={(country) => this.setCountry(country)}
+                            />
+                        </View>
+                    </View>
+                    <View style={{ marginLeft: 20, marginTop: 10 }}>
+                        <View style={{ flexDirection: KEY.ROW }}>
+                            <Text style={{ fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>Gender</Text>
+                            <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
+                        </View>
+                        <View style={{ flexDirection: KEY.ROW }}>
+                            {genderArray.map((item, index) => (
+                                <View style={{ flexDirection: KEY.ROW, marginLeft: 15, alignItems: KEY.CENTER }}>
+                                    <TouchableOpacity onPress={() => this.onPressSelectGender(item, index)}>
+                                        <Ionicons size={30} name={item.selected == true ? "radio-button-on" : "radio-button-off"} color={COLOR.DEFALUTCOLOR} style={{ marginRight: 5 }} />
+                                    </TouchableOpacity>
+                                    <Text style={{ textTransform: KEY.CAPITALIZE }}>{item.value}</Text>
+                                </View>
+                            ))}
                         </View>
                     </View>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
@@ -270,6 +267,7 @@ export default class AppointmentsBooked extends Component {
         );
     }
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -278,7 +276,7 @@ const styles = StyleSheet.create({
     inputView: {
         flexDirection: KEY.ROW,
         backgroundColor: COLOR.WHITE,
-        borderRadius: 100,
+        borderRadius: 10,
         shadowOpacity: 0.5,
         shadowRadius: 3,
         shadowOffset: {
@@ -287,7 +285,7 @@ const styles = StyleSheet.create({
         },
         elevation: 2,
         borderColor: COLOR.WHITE,
-        width: WIDTH - 60,
+        width: WIDTH - 40,
         height: 50,
         margin: 10,
         alignItems: KEY.CENTER,
@@ -297,11 +295,11 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         borderColor: COLOR.WHITE,
+        paddingLeft: 15
     },
     TextInputError: {
-        flexDirection: KEY.ROW,
         backgroundColor: COLOR.WHITE,
-        borderRadius: 100,
+        borderRadius: 10,
         shadowOpacity: 0.5,
         shadowRadius: 3,
         shadowOffset: {
@@ -310,18 +308,19 @@ const styles = StyleSheet.create({
         },
         elevation: 2,
         borderColor: COLOR.ERRORCOLOR,
-        width: WIDTH - 60,
+        width: WIDTH - 40,
         height: 50,
         alignItems: KEY.CENTER,
-        borderWidth: 1
+        borderWidth: 1,
+        paddingLeft: 15
     },
     book: {
         flexDirection: KEY.ROW,
         backgroundColor: COLOR.DEFALUTCOLOR,
         marginTop: 20,
-        width: WIDTH - 60,
+        width: WIDTH - 40,
         height: 50,
-        borderRadius: 30,
+        borderRadius: 10,
         alignItems: KEY.CENTER,
         justifyContent: KEY.CENTER,
         marginBottom: 50
