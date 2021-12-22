@@ -3,22 +3,27 @@ import {
     View, Text, StyleSheet, TextInput, StatusBar,
     TouchableOpacity, ScrollView, SafeAreaView, Platform, Dimensions, Keyboard
 } from 'react-native';
+import { getAllCountryService } from '../../Services/LookupService/LookupService';
+import { BookService } from '../../Services/BookService/BookService';
 import AsyncStorage from '@react-native-community/async-storage';
-import { BookService } from '../../Services/BookService/BookService'
-import moment from 'moment';
-import Loader from '../../Components/Loader/Loading';
-import * as KEY from '../../context/actions/key';
-import * as COLOR from '../../styles/colors';
-import * as IMAGE from '../../styles/image';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Picker } from '@react-native-picker/picker';
+import Loader from '../../Components/Loader/Loader';
+import * as KEY from '../../context/actions/key';
+import * as FONT from '../../styles/typography';
 import Toast from 'react-native-simple-toast';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
+import moment from 'moment';
+
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 const genderArray = [
     { "key": "male", "value": "male" },
     { "key": "female", "value": "female" }
 ]
+
 export default class AppointmentsBooked extends Component {
     constructor(props) {
         super(props);
@@ -37,10 +42,14 @@ export default class AppointmentsBooked extends Component {
             countryError: null,
             loading: false,
             gender: null,
-            genderError: null
+            genderError: null,
+            specialRequest: null,
+            acceptPolicy: false,
+            countryList: null
         }
         this.setFullName = this.setFullName.bind(this);
         this.setUserName = this.setUserName.bind(this);
+        this.setCountry = this.setCountry.bind(this);
         this.setMobileNumber = this.setMobileNumber.bind(this);
         this.onPressSubmit = this.onPressSubmit.bind(this);
         this.secondTextInputRef = React.createRef();
@@ -48,7 +57,9 @@ export default class AppointmentsBooked extends Component {
     }
 
     componentDidMount() {
-        this.getdata()
+        this.setState({ loading: true });
+        this.getCountryList();
+        this.getdata();
     }
 
     setFullName(fullname) {
@@ -82,7 +93,7 @@ export default class AppointmentsBooked extends Component {
 
     setCountry(country) {
         if (!country || country.length <= 0) {
-            return this.setState({ countryError: 'country cannot be empty', country: country });
+            return this.setState({ countryError: 'country cannot be empty', country: null });
         }
         return this.setState({ country: country, countryError: null })
     }
@@ -98,6 +109,18 @@ export default class AppointmentsBooked extends Component {
         })
     }
 
+    getCountryList = async () => {
+        try {
+            const response = await getAllCountryService();
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                console.log(`response.data[0].data`, response.data[0].data);
+                this.setState({ loading: false, countryList: response.data[0].data });
+            }
+        } catch (error) {
+            this.setState({ loading: false });
+        }
+    }
+
     getdata = async () => {
         var getUser = await AsyncStorage.getItem('@authuser')
         if (getUser == null || getUser && getUser.length == 0) {
@@ -105,7 +128,7 @@ export default class AppointmentsBooked extends Component {
                 //this.props.navigation.replace('LoginScreen')
             }, 3000);
         } else {
-            const user = JSON.parse(getUser)
+            const user = JSON.parse(getUser);
             this.setState({
                 fullname: user.property.fullname,
                 username: user.property.primaryemail,
@@ -114,11 +137,10 @@ export default class AppointmentsBooked extends Component {
                 memberID: user._id
             })
         }
-
     }
 
     onPressSubmit = () => {
-        const { fullname, username, mobilenumber, memberID, } = this.state;
+        const { fullname, username, mobilenumber, memberID, country } = this.state;
         if (!fullname || !username || !mobilenumber) {
             this.setFullName(fullname)
             this.setUserName(username)
@@ -166,9 +188,13 @@ export default class AppointmentsBooked extends Component {
         this.setState({ genderArray: reArrangeArray });
     }
 
+    setSpecialRequest = (desc) => {
+        this.setState({ specialRequest: desc });
+    }
+
     render() {
-        const { fullname, mobilenumber, username, loading, fullnameError,
-            usernameError, mobilenumberError, countryError, country } = this.state;
+        const { fullname, mobilenumber, username, loading, fullnameError, countryList,
+            usernameError, mobilenumberError, countryError, country, specialRequest } = this.state;
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
@@ -185,58 +211,96 @@ export default class AppointmentsBooked extends Component {
                     </View>
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
-                    <View style={{ alignItems: KEY.CENTER }}>
-                        <View style={styles.inputView}>
-                            <TextInput
-                                style={fullnameError == null ? styles.TextInput : styles.TextInputError}
-                                defaultValue={fullname}
-                                placeholder="Full Name"
-                                type={KEY.CLEAR}
-                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                                returnKeyType={KEY.NEXT}
-                                blurOnSubmit={false}
-                                onSubmitEditing={() => { this.secondTextInputRef.current.focus() }}
-                                onChangeText={(fullname) => this.setFullName(fullname)}
-                            />
+                    <View style={{ marginTop: 10, marginLeft: 20, marginRight: 20 }}>
+                        <View style={{ flexDirection: KEY.ROW }}>
+                            <Text style={{ fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>Full Name</Text>
+                            <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
                         </View>
-                        <View style={styles.inputView}>
-                            <TextInput
-                                style={usernameError == null ? styles.TextInput : styles.TextInputError}
-                                placeholder="Email"
-                                type={KEY.CLEAR}
-                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                                returnKeyType={KEY.NEXT}
-                                defaultValue={username}
-                                blurOnSubmit={false}
-                                onSubmitEditing={() => { this.TeardTextInputRef.current.focus() }}
-                                ref={this.secondTextInputRef}
-                                onChangeText={(email) => this.setUserName(email)}
-                            />
+                        <TextInput
+                            style={fullnameError == null ? styles.inputTextView : styles.inputTextViewError}
+                            defaultValue={fullname}
+                            placeholder="Full Name"
+                            type={KEY.CLEAR}
+                            placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                            returnKeyType={KEY.NEXT}
+                            blurOnSubmit={false}
+                            onSubmitEditing={() => { this.secondTextInputRef.current.focus() }}
+                            onChangeText={(fullname) => this.setFullName(fullname)}
+                        />
+                    </View>
+                    <View style={{ marginTop: 10, marginLeft: 20, marginRight: 20 }}>
+                        <View style={{ flexDirection: KEY.ROW }}>
+                            <Text style={{ fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>Email</Text>
+                            <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
                         </View>
-                        <View style={styles.inputView}>
-                            <TextInput
-                                style={mobilenumberError == null ? styles.TextInput : styles.TextInputError}
-                                defaultValue={mobilenumber}
-                                placeholder="Contact Number"
-                                type={KEY.CLEAR}
-                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                                returnKeyType={KEY.NEXT}
-                                keyboardType="numeric"
-                                ref={this.TeardTextInputRef}
-                                onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
-                            />
+                        <TextInput
+                            style={usernameError == null ? styles.inputTextView : styles.inputTextViewError}
+                            placeholder="Email"
+                            type={KEY.CLEAR}
+                            placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                            returnKeyType={KEY.NEXT}
+                            defaultValue={username}
+                            blurOnSubmit={false}
+                            onSubmitEditing={() => { this.TeardTextInputRef.current.focus() }}
+                            ref={this.secondTextInputRef}
+                            onChangeText={(email) => this.setUserName(email)}
+                        />
+                    </View>
+                    <View style={{ marginTop: 10, marginLeft: 20, marginRight: 20 }}>
+                        <View style={{ flexDirection: KEY.ROW }}>
+                            <Text style={{ fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>Contact Number</Text>
+                            <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
                         </View>
-                        <View style={styles.inputView}>
-                            <TextInput
-                                style={countryError == null ? styles.TextInput : styles.TextInputError}
-                                defaultValue={country}
-                                placeholder="Select Country"
-                                type={KEY.CLEAR}
-                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                                returnKeyType={KEY.NEXT}
-                                onChangeText={(country) => this.setCountry(country)}
-                            />
+                        <TextInput
+                            style={mobilenumberError == null ? styles.inputTextView : styles.inputTextViewError}
+                            defaultValue={mobilenumber}
+                            placeholder="Contact Number"
+                            type={KEY.CLEAR}
+                            placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                            returnKeyType={KEY.NEXT}
+                            keyboardType="numeric"
+                            ref={this.TeardTextInputRef}
+                            onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
+                        />
+                    </View>
+                    <View style={{ marginTop: 10, marginLeft: 20, marginRight: 20 }}>
+                        <View style={{ flexDirection: KEY.ROW }}>
+                            <Text style={{ fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>Country</Text>
+                            <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
                         </View>
+                        <TextInput
+                            style={countryError == null ? styles.inputTextView : styles.inputTextViewError}
+                            type={KEY.CLEAR}
+                            returnKeyType={KEY.Done}
+                            placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                        />
+                        <Picker style={{ marginTop: -60, marginRight: 20 }}
+                            selectedValue={country}
+                            onValueChange={(itemValue, itemIndex) => this.setCountry(itemValue)}>
+                            {
+                                countryList && countryList.length > 0 ?
+                                    countryList.map((item) => (
+                                        <Picker.Item label={item.name} value={item.code} />
+                                    ))
+                                    : <Picker.Item label={'No data'} value={'No data'} />
+                            }
+                        </Picker>
+                    </View>
+                    <View style={{ marginTop: 10, marginLeft: 20, marginRight: 20 }}>
+                        <View style={{ flexDirection: KEY.ROW }}>
+                            <Text style={{ fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>Special Request</Text>
+                            <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
+                        </View>
+                        <TextInput placeholder='Special Request'
+                            multiline={true}
+                            numberOfLines={3}
+                            style={styles.textDescription}
+                            type={KEY.CLEAR}
+                            returnKeyType={KEY.DONE}
+                            placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                            defaultValue={specialRequest}
+                            onChangeText={(desc) => this.setSpecialRequest(desc)}
+                        />
                     </View>
                     <View style={{ marginLeft: 20, marginTop: 10 }}>
                         <View style={{ flexDirection: KEY.ROW }}>
@@ -256,9 +320,7 @@ export default class AppointmentsBooked extends Component {
                     </View>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <TouchableOpacity style={styles.book} onPress={() => this.onPressSubmit()} >
-                            {this.state.loading === true ? <Loader /> :
-                                <Text style={{ fontSize: 18, color: COLOR.WHITE }}>Book Now</Text>
-                            }
+                            <Text style={{ fontSize: 18, color: COLOR.WHITE }}>Book Now</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -273,46 +335,41 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: COLOR.BACKGROUNDCOLOR,
     },
-    inputView: {
-        flexDirection: KEY.ROW,
-        backgroundColor: COLOR.WHITE,
+    textDescription: {
         borderRadius: 10,
-        shadowOpacity: 0.5,
-        shadowRadius: 3,
-        shadowOffset: {
-            height: 0,
-            width: 0,
-        },
-        elevation: 2,
-        borderColor: COLOR.WHITE,
-        width: WIDTH - 40,
-        height: 50,
-        margin: 10,
-        alignItems: KEY.CENTER,
-    },
-    TextInput: {
-        fontSize: 14,
-        flex: 1,
-        padding: 10,
-        borderColor: COLOR.WHITE,
-        paddingLeft: 15
-    },
-    TextInputError: {
-        backgroundColor: COLOR.WHITE,
-        borderRadius: 10,
-        shadowOpacity: 0.5,
-        shadowRadius: 3,
-        shadowOffset: {
-            height: 0,
-            width: 0,
-        },
-        elevation: 2,
-        borderColor: COLOR.ERRORCOLOR,
-        width: WIDTH - 40,
-        height: 50,
-        alignItems: KEY.CENTER,
         borderWidth: 1,
-        paddingLeft: 15
+        borderColor: COLOR.BLACK,
+        alignItems: KEY.CENTER,
+        marginBottom: 10,
+        width: WIDTH - 40,
+        height: 100,
+        color: COLOR.BLACK,
+        fontSize: FONT.FONT_SIZE_14,
+        paddingLeft: 15,
+    },
+    inputTextView: {
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: COLOR.BLACK,
+        alignItems: KEY.CENTER,
+        marginBottom: 10,
+        width: WIDTH - 40,
+        height: 45,
+        color: COLOR.BLACK,
+        fontSize: FONT.FONT_SIZE_14,
+        paddingLeft: 15,
+    },
+    inputTextViewError: {
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: COLOR.ERRORCOLOR,
+        alignItems: KEY.CENTER,
+        marginBottom: 10,
+        width: WIDTH - 40,
+        height: 45,
+        color: COLOR.BLACK,
+        fontSize: FONT.FONT_SIZE_14,
+        paddingLeft: 15,
     },
     book: {
         flexDirection: KEY.ROW,

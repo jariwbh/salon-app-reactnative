@@ -14,3 +14,5 @@ export default appConfig;
 // baseURL: 'https://app.membroz.com/api/',
 
 // baseURL: 'http://cocoonmedicalspa.membroz.com/api/',
+
+// baseURL: 'http://crm.cocoonmedicalspa.com/api/',
