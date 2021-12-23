@@ -158,15 +158,8 @@ class BookHistory extends Component {
             <SafeAreaView style={styles().container}>
                 <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
                 <View style={styles().headerstyle}>
-                    <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
-                        <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.FLEX_START, alignItems: KEY.CENTER, marginLeft: 20 }}>
-                            <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
-                                <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} />
-                            </TouchableOpacity>
-                            <View style={{ justifyContent: KEY.CENTER, marginLeft: WIDTH / 5 }}>
-                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>Booking History</Text>
-                            </View>
-                        </View>
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
+                        <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>Booking History</Text>
                     </View>
                 </View>
                 <ScrollView

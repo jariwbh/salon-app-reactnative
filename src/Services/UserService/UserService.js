@@ -4,6 +4,10 @@ const UserService = (id) => {
     return Axios.get('users/' + id);
 }
 
+const MemberService = (id) => {
+    return Axios.get('members/' + id);
+}
+
 const UpdateUserService = (value) => {
     let id = value._id
     const body = JSON.stringify(value);
@@ -28,4 +32,4 @@ const CheckUser = (body) => {
     return Axios.post('public/checkmember', body);
 }
 
-export { UserService, UpdateUserService, staffService, CheckUser };
+export { UserService, UpdateUserService, staffService, CheckUser, MemberService };

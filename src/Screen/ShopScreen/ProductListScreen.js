@@ -60,8 +60,8 @@ const ProductListScreen = (props) => {
         if (getAuthUser !== null) {
             var userData = JSON.parse(getAuthUser);
             axiosConfig(userData._id);
-            setCurrencySymbol(response);
             const response = getCurrency(userData.branchid.currency);
+            setCurrencySymbol(response);
         } else {
             axiosConfig(TYPE.USERKEY);
             var userData = JSON.parse(getDefaultUser);
@@ -141,15 +141,8 @@ const ProductListScreen = (props) => {
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.WHITE }}>
             <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
             <View style={styles.headerstyle}>
-                <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
-                    <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.FLEX_START, alignItems: KEY.CENTER, marginLeft: 20 }}>
-                        <TouchableOpacity onPress={() => props.navigation.goBack(null)}>
-                            <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} />
-                        </TouchableOpacity>
-                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginLeft: WIDTH / 5 }}>
-                            <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>Our Products</Text>
-                        </View>
-                    </View>
+                <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
+                    <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>Our Products</Text>
                 </View>
             </View>
 

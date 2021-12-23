@@ -215,7 +215,7 @@ export default class AppointmentSchdule extends Component {
                             markingType={'custom'}
                             hideExtraDays={true}
                         />
-                        <Text style={{ marginTop: 10, textAlign: KEY.CENTER, fontSize: 16, color: COLOR.DEFALUTCOLOR, fontWeight: 'bold' }}>Available appointments on {moment(selectedDay).format('DD MMMM YYYY')}</Text>
+                        <Text style={{ marginTop: 10, textAlign: KEY.CENTER, fontSize: 16, color: COLOR.DEFALUTCOLOR, fontWeight: 'bold' }}>Available appointments on {moment(this.currentDate).format('DD MMMM YYYY')}</Text>
                         <FlatList
                             data={timeSlots}
                             showsVerticalScrollIndicator={false}

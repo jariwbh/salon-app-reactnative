@@ -47,8 +47,8 @@ const ProductDetailScreen = (props) => {
         if (getAuthUser !== null) {
             var userData = JSON.parse(getAuthUser);
             axiosConfig(userData._id);
-            setCurrencySymbol(response);
             const response = getCurrency(userData.branchid.currency);
+            setCurrencySymbol(response);
             setSupportEmail(userData.branchid.supportemail);
         } else {
             axiosConfig(TYPE.USERKEY);

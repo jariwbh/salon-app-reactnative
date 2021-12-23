@@ -28,7 +28,6 @@ export default class AppointmentsBooked extends Component {
     constructor(props) {
         super(props);
         this.serviceDetails = this.props.route.params.serviceDetails;
-        console.log(`this.serviceDetails`, this.serviceDetails);
         this.state = {
             userID: null,
             memberID: null,
@@ -45,7 +44,8 @@ export default class AppointmentsBooked extends Component {
             genderError: null,
             specialRequest: null,
             acceptPolicy: false,
-            countryList: null
+            countryList: null,
+            memberInfo: null
         }
         this.setFullName = this.setFullName.bind(this);
         this.setUserName = this.setUserName.bind(this);
@@ -113,7 +113,6 @@ export default class AppointmentsBooked extends Component {
         try {
             const response = await getAllCountryService();
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                console.log(`response.data[0].data`, response.data[0].data);
                 this.setState({ loading: false, countryList: response.data[0].data });
             }
         } catch (error) {
@@ -123,30 +122,39 @@ export default class AppointmentsBooked extends Component {
 
     getdata = async () => {
         var getUser = await AsyncStorage.getItem('@authuser')
-        if (getUser == null || getUser && getUser.length == 0) {
-            setTimeout(() => {
-                //this.props.navigation.replace('LoginScreen')
-            }, 3000);
-        } else {
-            const user = JSON.parse(getUser);
+        if (getUser != null || getUser && getUser.length > 0) {
+            const memberInfo = JSON.parse(getUser);
             this.setState({
-                fullname: user.property.fullname,
-                username: user.property.primaryemail,
-                mobilenumber: user.property.mobile,
-                userID: user.addedby,
-                memberID: user._id
+                fullname: memberInfo.property.fullname,
+                username: memberInfo.property.primaryemail,
+                mobilenumber: memberInfo.property.mobile,
+                userID: memberInfo.addedby,
+                memberID: memberInfo._id,
+                memberInfo: memberInfo
             })
         }
     }
 
-    onPressSubmit = () => {
-        const { fullname, username, mobilenumber, memberID, country } = this.state;
+    onPressSubmit = async () => {
+        const { fullname, username, mobilenumber, memberID, memberInfo,
+            country, gender, specialRequest } = this.state;
         if (!fullname || !username || !mobilenumber) {
-            this.setFullName(fullname)
-            this.setUserName(username)
-            this.setMobileNumber(mobilenumber)
+            this.setFullName(fullname);
+            this.setUserName(username);
+            this.setMobileNumber(mobilenumber);
+            this.setCountry(country);
             return;
         }
+
+        if (gender == null) {
+            return Toast.show('Please select gender', Toast.SHORT);
+        }
+
+        if (memberInfo == null || memberInfo == undefined) {
+            Toast.show('Please Sign in After Booked Appointment', Toast.SHORT);
+            return this.props.navigation.replace('LoginScreen');
+        }
+
         const body = {
             attendee: memberID,
             appointmentdate: this.serviceDetails.selectedtime.date,
@@ -160,19 +168,26 @@ export default class AppointmentsBooked extends Component {
                 starttime: this.serviceDetails.selectedtime.starttime,
                 endtime: this.serviceDetails.selectedtime.endtime
             },
+            property: {
+                country: country,
+                gender: gender,
+                fullname: fullname,
+                primaryemail: username,
+                mobilenumber: mobilenumber,
+                specialRequest: specialRequest
+            }
         }
-        //this.setState({ loading: true });
+
+        this.setState({ loading: true });
         try {
-            // BookService(body).then(response => {
-            //     if (response != null) {
-            //         this.setState({ loading: false });
-            Toast.show('Booking Success', Toast.SHORT);
-            //         this.props.navigation.navigate('BookHistory', { response })
-            //     }
-            // })
-        }
-        catch (error) {
-            this.setState({ loading: false })
+            const response = await BookService(body);
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                this.setState({ loading: false });
+                Toast.show('Booking Success', Toast.SHORT);
+                this.props.navigation.navigate('BookHistory', { response })
+            }
+        } catch (error) {
+            this.setState({ loading: false });
             Toast.show('Booking Failed', Toast.SHORT);
         }
     }
@@ -246,24 +261,23 @@ export default class AppointmentsBooked extends Component {
                             onChangeText={(email) => this.setUserName(email)}
                         />
                     </View>
-                    <View style={{ marginTop: 10, marginLeft: 20, marginRight: 20 }}>
+                    <View style={{ marginLeft: 20, marginTop: 10 }}>
                         <View style={{ flexDirection: KEY.ROW }}>
-                            <Text style={{ fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>Contact Number</Text>
+                            <Text style={{ fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>Gender</Text>
                             <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
                         </View>
-                        <TextInput
-                            style={mobilenumberError == null ? styles.inputTextView : styles.inputTextViewError}
-                            defaultValue={mobilenumber}
-                            placeholder="Contact Number"
-                            type={KEY.CLEAR}
-                            placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                            returnKeyType={KEY.NEXT}
-                            keyboardType="numeric"
-                            ref={this.TeardTextInputRef}
-                            onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
-                        />
+                        <View style={{ flexDirection: KEY.ROW }}>
+                            {genderArray.map((item, index) => (
+                                <View style={{ flexDirection: KEY.ROW, marginLeft: 15, alignItems: KEY.CENTER }}>
+                                    <TouchableOpacity onPress={() => this.onPressSelectGender(item, index)}>
+                                        <Ionicons size={30} name={item.selected == true ? "radio-button-on" : "radio-button-off"} color={COLOR.DEFALUTCOLOR} style={{ marginRight: 5 }} />
+                                    </TouchableOpacity>
+                                    <Text style={{ textTransform: KEY.CAPITALIZE }}>{item.value}</Text>
+                                </View>
+                            ))}
+                        </View>
                     </View>
-                    <View style={{ marginTop: 10, marginLeft: 20, marginRight: 20 }}>
+                    <View style={{ marginTop: 15, marginLeft: 20, marginRight: 20 }}>
                         <View style={{ flexDirection: KEY.ROW }}>
                             <Text style={{ fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>Country</Text>
                             <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
@@ -288,8 +302,25 @@ export default class AppointmentsBooked extends Component {
                     </View>
                     <View style={{ marginTop: 10, marginLeft: 20, marginRight: 20 }}>
                         <View style={{ flexDirection: KEY.ROW }}>
-                            <Text style={{ fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>Special Request</Text>
+                            <Text style={{ fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>Contact Number</Text>
                             <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
+                        </View>
+                        <TextInput
+                            style={mobilenumberError == null ? styles.inputTextView : styles.inputTextViewError}
+                            defaultValue={mobilenumber}
+                            placeholder="Contact Number"
+                            type={KEY.CLEAR}
+                            placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                            returnKeyType={KEY.NEXT}
+                            keyboardType="numeric"
+                            ref={this.TeardTextInputRef}
+                            onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
+                        />
+                    </View>
+
+                    <View style={{ marginTop: 10, marginLeft: 20, marginRight: 20 }}>
+                        <View style={{ flexDirection: KEY.ROW }}>
+                            <Text style={{ fontSize: 16, marginBottom: 10, textTransform: KEY.CAPITALIZE }}>Special Request</Text>
                         </View>
                         <TextInput placeholder='Special Request'
                             multiline={true}
@@ -302,27 +333,12 @@ export default class AppointmentsBooked extends Component {
                             onChangeText={(desc) => this.setSpecialRequest(desc)}
                         />
                     </View>
-                    <View style={{ marginLeft: 20, marginTop: 10 }}>
-                        <View style={{ flexDirection: KEY.ROW }}>
-                            <Text style={{ fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>Gender</Text>
-                            <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
-                        </View>
-                        <View style={{ flexDirection: KEY.ROW }}>
-                            {genderArray.map((item, index) => (
-                                <View style={{ flexDirection: KEY.ROW, marginLeft: 15, alignItems: KEY.CENTER }}>
-                                    <TouchableOpacity onPress={() => this.onPressSelectGender(item, index)}>
-                                        <Ionicons size={30} name={item.selected == true ? "radio-button-on" : "radio-button-off"} color={COLOR.DEFALUTCOLOR} style={{ marginRight: 5 }} />
-                                    </TouchableOpacity>
-                                    <Text style={{ textTransform: KEY.CAPITALIZE }}>{item.value}</Text>
-                                </View>
-                            ))}
-                        </View>
-                    </View>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <TouchableOpacity style={styles.book} onPress={() => this.onPressSubmit()} >
                             <Text style={{ fontSize: 18, color: COLOR.WHITE }}>Book Now</Text>
                         </TouchableOpacity>
                     </View>
+                    <View style={{ marginBottom: 30 }} />
                 </ScrollView>
                 {loading ? <Loader /> : null}
             </SafeAreaView>
