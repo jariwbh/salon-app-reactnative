@@ -22,7 +22,6 @@ function SplashScreen(props) {
   async function AuthController() {
     var getStartup = await AsyncStorage.getItem(STARTUP);
     var startup = JSON.parse(getStartup);
-    console.log(`startup`, startup);
     var getUser = await AsyncStorage.getItem(AUTHUSER);
     var userData = JSON.parse(getUser);
     if (userData) {

@@ -10,6 +10,7 @@ const HEIGHT = Dimensions.get('window').height;
 import * as TYPE from '../../context/actions/type';
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
+import * as FONT from '../../styles/typography';
 import * as IMAGE from '../../styles/image';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -21,11 +22,10 @@ export default class PackageDetails extends Component {
         this.serviceDetails = this.props.route.params.item;
         this.state = {
             serviceID: this.serviceDetails._id,
-            serviceImage: this.serviceDetails.gallery && this.serviceDetails.gallery[0] && this.serviceDetails.gallery[0].attachment ? this.serviceDetails.gallery[0].attachment : TYPE.DefaultImage,
-            servicetitle: this.serviceDetails.title,
-            servicecharges: this.serviceDetails.charges,
-            servicedescription: this.serviceDetails.description,
-            serviceDetails: this.serviceDetails,
+            serviceImage: this.serviceDetails && this.serviceDetails.property && this.serviceDetails.property.image && this.serviceDetails.property.image[0] && this.serviceDetails.property.image[0].attachment ? this.serviceDetails.property.image[0].attachment : TYPE.DefaultImage,
+            servicetitle: this.serviceDetails.membershipname,
+            servicecharges: this.serviceDetails.property && this.serviceDetails.property.cost ? this.serviceDetails.property.cost : 0,
+            servicedescription: this.serviceDetails.property && this.serviceDetails.property.description ? this.serviceDetails.property.description : null,
             currencySymbol: null
         };
     }
@@ -49,7 +49,7 @@ export default class PackageDetails extends Component {
     }
 
     render() {
-        const { serviceID, serviceImage, servicetitle, servicecharges, servicedescription, serviceDetails, currencySymbol } = this.state
+        const { serviceID, serviceImage, servicetitle, servicecharges, servicedescription, currencySymbol } = this.state
         return (
             <SafeAreaView style={styles.container}>
                 <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
@@ -74,13 +74,41 @@ export default class PackageDetails extends Component {
                         <Text style={{ fontSize: 18, color: COLOR.DEFALUTCOLOR, width: WIDTH / 2 }}>{servicetitle}</Text>
                         <Text style={{ fontSize: 18, color: COLOR.DEFALUTCOLOR }}>{currencySymbol + ' ' + servicecharges} </Text>
                     </View>
-
-                    <View style={{ flex: 1, marginTop: 10, marginLeft: 10, marginRight: 10, marginBottom: 140 }}>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_18, color: COLOR.BLACK, marginTop: 10, marginLeft: 20 }}>Description</Text>
+                    <View style={{ flex: 1, marginTop: 10, marginLeft: 20, marginRight: 10, marginBottom: 0 }}>
                         {
                             servicedescription &&
                             <HTML source={{ html: servicedescription }} />
                         }
                     </View>
+                    <View style={{
+                        justifyContent: KEY.SPACEBETWEEN, flexDirection: KEY.ROW,
+                        alignItems: KEY.CENTER, marginLeft: 20, marginRight: 20, marginTop: 10
+                    }}>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_18, color: COLOR.DEFALUTCOLOR }}>Service</Text>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_18, color: COLOR.DEFALUTCOLOR }}>Cost</Text>
+                    </View>
+                    {(this.serviceDetails && this.serviceDetails.services && this.serviceDetails.services.length > 0)
+                        ?
+                        <View>
+                            <View style={{ borderBottomColor: COLOR.BLACK, borderBottomWidth: 1, marginTop: 10, marginLeft: 20, marginRight: 20 }} />
+                            {this.serviceDetails.services.map((item) => (
+                                <>
+                                    <View style={{
+                                        justifyContent: KEY.SPACEBETWEEN, flexDirection: KEY.ROW,
+                                        alignItems: KEY.CENTER, marginLeft: 20, marginRight: 20, marginTop: 10
+                                    }}>
+                                        <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.BLACK, width: WIDTH / 2 }}>{item.serviceid.title}</Text>
+                                        <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.BLACK }}>{currencySymbol + ' ' + item.serviceid.charges}</Text>
+                                    </View>
+                                    <View style={{ borderBottomColor: COLOR.BLACK, borderBottomWidth: 1, marginTop: 10, marginLeft: 20, marginRight: 20 }} />
+                                </>
+                            ))}
+                            <View style={{ marginBottom: 150 }} />
+                        </View>
+                        :
+                        null
+                    }
                 </ScrollView>
             </SafeAreaView>
         );
@@ -110,6 +138,90 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
         marginBottom: 20
+    },
+    viewdrop: {
+        justifyContent: KEY.SPACEBETWEEN,
+        alignItems: KEY.CENTER,
+        flexDirection: KEY.ROW,
+        height: 50,
+        marginTop: 10,
+        marginBottom: 10,
+        width: WIDTH - 30,
+        backgroundColor: COLOR.WHITE,
+        borderRadius: 5,
+        marginLeft: 15,
+        shadowColor: COLOR.BLACK,
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+
+        elevation: 2,
+    },
+    viewdropSecond: {
+        justifyContent: KEY.SPACEBETWEEN,
+        alignItems: KEY.CENTER,
+        flexDirection: KEY.ROW,
+        marginTop: 15,
+        width: WIDTH - 30,
+        backgroundColor: COLOR.WHITE,
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+        height: 45,
+        marginLeft: 15,
+        shadowColor: COLOR.BLACK,
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+        elevation: 2,
+    },
+    subView: {
+        marginTop: 0,
+        width: WIDTH - 30,
+        backgroundColor: COLOR.WHITE,
+        borderBottomLeftRadius: 5,
+        borderBottomRightRadius: 5,
+        height: 110,
+        marginLeft: 15,
+        shadowColor: COLOR.BLACK,
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+        marginBottom: 5,
+        elevation: 2,
+    },
+    listSection: {
+        backgroundColor: COLOR.WHITE,
+        width: WIDTH - 30,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        marginBottom: 10
+    },
+    listAccordion: {
+        backgroundColor: COLOR.WHITE,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+
+    },
+    gridContainer: {
+        width: 220,
+    },
+    rowStyle: {
+        flexDirection: KEY.ROW,
+        alignItems: KEY.CENTER,
+        justifyContent: KEY.SPACEAROUND,
+    },
+    cellStyle: {
+        flex: 1,
+        margin: 10,
     }
 })
 

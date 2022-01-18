@@ -23,7 +23,7 @@ import SupportScreen from '../Screen/SupportScreen/SupportScreen';
 import ProductListScreen from '../Screen/ShopScreen/ProductListScreen';
 import ProductDetailScreen from '../Screen/ShopScreen/ProductDetailScreen';
 //------PackageStackScreen
-import PackageScreen from '../Screen/PackageScreen/packageScreen';
+import PackageScreen from '../Screen/PackageScreen/PackageScreen';
 import PackageDetails from '../Screen/PackageScreen/PackageDetails';
 
 import * as KEY from '../context/actions/key';
@@ -252,7 +252,7 @@ export default function TabNavigation() {
             }
 
             <Tab.Screen name="Package" component={PackageStackScreen} />
-            <Tab.Screen name="Product" component={ProductStackScreen} />
+            {/* <Tab.Screen name="Product" component={ProductStackScreen} /> */}
             <Tab.Screen name="Support" component={SupportStackScreen} />
             <Tab.Screen name="Profile" component={ProfileStackScreen} />
         </Tab.Navigator>

@@ -81,13 +81,13 @@ export default class AppointmentsBooked extends Component {
     }
 
     setMobileNumber(mobilenumber) {
-        const reg = /^[0]?[789]\d{9}$/;
+        // const reg = /^[0]?[789]\d{9}$/;
         if (!mobilenumber || mobilenumber.length <= 0) {
             return this.setState({ mobilenumberError: 'Mobile Number cannot be empty', mobilenumber: mobilenumber });
         }
-        if (!reg.test(mobilenumber)) {
-            return this.setState({ mobilenumberError: 'Ooops! We need a valid Mobile Number' });
-        }
+        // if (!reg.test(mobilenumber)) {
+        //     return this.setState({ mobilenumberError: 'Ooops! We need a valid Mobile Number' });
+        // }
         return this.setState({ mobilenumber: mobilenumber, mobilenumberError: null })
     }
 

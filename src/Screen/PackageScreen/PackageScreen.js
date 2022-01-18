@@ -21,10 +21,11 @@ class PackageScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            AppointmentList: [],
+            PackageList: [],
             loader: true,
             refreshing: false,
-            currencySymbol: null
+            currencySymbol: null,
+            branchID: null
         };
     }
 
@@ -33,10 +34,6 @@ class PackageScreen extends Component {
             setTimeout(resolve, timeout);
         });
     }
-
-    authenticateUser = (user) => (
-        AsyncStorage.setItem(KEY.AUTHUSER, JSON.stringify(user))
-    )
 
     authDefaultUser = (user) => (
         AsyncStorage.setItem(TYPE.DEFAULTUSER, JSON.stringify(user))
@@ -47,10 +44,11 @@ class PackageScreen extends Component {
         if (getUser !== null) {
             var userData = JSON.parse(getUser);
             axiosConfig(userData._id);
+            this.setState({ branchID: userData.branchid._id });
             const responseCurrency = getCurrency(userData.branchid.currency);
             this.setState({ currencySymbol: responseCurrency });
             try {
-                await this.getPackageList();
+                await this.getPackageList(userData.branchid._id);
             } catch (error) {
                 console.log(`error`, error);
             }
@@ -62,9 +60,10 @@ class PackageScreen extends Component {
                     this.authDefaultUser(response.data);
                     var getUser = await AsyncStorage.getItem(TYPE.DEFAULTUSER);
                     var userData = JSON.parse(getUser);
+                    this.setState({ branchID: userData.branchid._id });
                     const responseCurrency = getCurrency(userData.branchid.currency);
                     this.setState({ currencySymbol: responseCurrency });
-                    await this.getPackageList();
+                    await this.getPackageList(userData.branchid._id);
                 }
             } catch (error) {
                 console.log(`error`, error);
@@ -74,19 +73,19 @@ class PackageScreen extends Component {
 
     onRefresh = () => {
         this.setState({ refreshing: true })
-        this.getPackageList();
+        this.getPackageList(this.state.branchID);
         this.wait(1000).then(() => this.setState({ refreshing: false }));
     }
 
-    getPackageList = async () => {
+    getPackageList = async (id) => {
         try {
-            const response = await getPackageService();
-            console.log(`response.data`, response);
-            // if (response.data != null && response.data != 'undefind' && response.status == 200) {
-            //     this.setState({ PackageList: response.data, loader: false })
-            // }
+            const response = await getPackageService(id);
+            console.log(`response.data`, response.data);
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                this.setState({ PackageList: response.data, loader: false })
+            }
         } catch (error) {
-            console.log(`error 2 `, error);
+            console.log(`error`, error);
             this.setState({ loading: false });
         }
     }
@@ -98,8 +97,8 @@ class PackageScreen extends Component {
     renderPackageList = ({ item }) => (
         <View style={styles.cardView}>
             <TouchableOpacity style={{ alignItems: KEY.CENTER }} onPress={() => this.props.navigation.navigate('PackageDetails', { item })}>
-                <Image source={{ uri: (item.gallery[0] ? item.gallery[0].attachment : TYPE.DefaultImage) }}
-                    style={item.gallery[0] && item.gallery[0].attachment ?
+                <Image source={{ uri: (item && item.property && item.property.image && item.property.image[0] && item.property.image[0].attachment ? item.property.image[0].attachment : TYPE.DefaultImage) }}
+                    style={item && item.property && item.property.image && item.property.image[0] && item.property.image[0].attachment ?
                         { alignItems: KEY.CENTER, height: 150, width: WIDTH - 40, marginTop: 10, borderRadius: 10, resizeMode: KEY.COVER }
                         :
                         { alignItems: KEY.CENTER, height: 160, width: 160, marginTop: 10, borderRadius: 10, resizeMode: KEY.COVER }
@@ -108,8 +107,8 @@ class PackageScreen extends Component {
             </TouchableOpacity>
             <View
                 style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginLeft: 10, marginRight: 10, marginBottom: 10, marginTop: 10 }}>
-                <Text style={{ fontSize: 16, color: COLOR.DEFALUTCOLOR, fontWeight: FONT_WEIGHT_BOLD, width: WIDTH / 2 }}>{item.title}</Text>
-                <Text style={{ fontSize: 16, color: COLOR.DEFALUTCOLOR, fontWeight: FONT_WEIGHT_BOLD }}>{this.state.currencySymbol + ' ' + item.charges}</Text>
+                <Text style={{ fontSize: 16, color: COLOR.DEFALUTCOLOR, fontWeight: FONT_WEIGHT_BOLD, width: WIDTH / 2 }}>{item && item.membershipname}</Text>
+                <Text style={{ fontSize: 16, color: COLOR.DEFALUTCOLOR, fontWeight: FONT_WEIGHT_BOLD }}>{this.state.currencySymbol + ' ' + (item && item.property && item.property.cost)}</Text>
             </View>
         </View>
     )

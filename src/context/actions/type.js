@@ -1,9 +1,9 @@
 
 //AUTH USER KEY NAME
-export const AUTHUSER = '@authuser'
+export const AUTHUSER = '@authusersalon'
 export const REMOTEDATA = '@remotedata'
-export const AUTHUSERINFO = '@authuserinfo'
-export const AUTHREMBERUSERINFO = '@authremberuserinfo'
+export const AUTHUSERINFO = '@authuserinfosalon'
+export const AUTHREMBERUSERINFO = '@authremberuserinfosalon'
 export const STARTUP = '@startup'
 export const CLOUD_URL = 'https://api.cloudinary.com/v1_1/membroz/upload';
 export const UPLOAD_PRESET = 'egi2wepr';
