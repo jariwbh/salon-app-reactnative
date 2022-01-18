@@ -7,11 +7,18 @@ import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as FONT from '../../styles/typography';
 import * as IMAGE from '../../styles/image';
+import AsyncStorage from '@react-native-community/async-storage';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
 const StartupScreen = (props) => {
+
+    const checkStartUP = (val) => (
+        AsyncStorage.setItem(KEY.STARTUP, JSON.stringify(val))
+    )
+
     const onPressStartUp = async () => {
+        checkStartUP(true);
         return props.navigation.replace('TabNavigation');
     }
     return (

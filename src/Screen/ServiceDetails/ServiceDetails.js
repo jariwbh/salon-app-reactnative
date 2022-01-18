@@ -7,7 +7,6 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import HTML from 'react-native-render-html';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
-const serviceicon = 'https://res.cloudinary.com/membroz/image/upload/v1639641450/Cocoon%20Mobile%20App/logo2_rzpyeq.png';
 import * as TYPE from '../../context/actions/type';
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
@@ -23,7 +22,7 @@ export default class ServiceDetails extends Component {
         this.serviceDetails = this.props.route.params.item;
         this.state = {
             serviceID: this.serviceDetails._id,
-            serviceImage: this.serviceDetails.gallery && this.serviceDetails.gallery[0] && this.serviceDetails.gallery[0].attachment ? this.serviceDetails.gallery[0].attachment : serviceicon,
+            serviceImage: this.serviceDetails.gallery && this.serviceDetails.gallery[0] && this.serviceDetails.gallery[0].attachment ? this.serviceDetails.gallery[0].attachment : TYPE.DefaultImage,
             servicetitle: this.serviceDetails.title,
             servicecharges: this.serviceDetails.charges,
             servicedescription: this.serviceDetails.description,

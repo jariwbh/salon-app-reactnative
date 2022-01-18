@@ -21,7 +21,6 @@ import * as TYPE from '../../context/actions/type';
 import axiosConfig from '../../Helpers/axiosConfig';
 import AsyncStorage from '@react-native-community/async-storage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-const DefaultImage = 'https://res.cloudinary.com/membroz/image/upload/v1639641450/Cocoon%20Mobile%20App/logo2_rzpyeq.png';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
@@ -82,9 +81,9 @@ const ProductDetailScreen = (props) => {
             </View>
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 10 }}>
-                    <Image source={{ uri: productDeatil && productDeatil.imagegallery[0] && productDeatil.imagegallery[0].attachment ? productDeatil?.imagegallery[0]?.attachment : DefaultImage }}
+                    <Image source={{ uri: productDeatil && productDeatil.imagegallery[0] && productDeatil.imagegallery[0].attachment ? productDeatil?.imagegallery[0]?.attachment : TYPE.DefaultImage }}
                         resizeMode={KEY.CONTAIN}
-                        style={{ width: WIDTH - 150, height: HEIGHT / 3 }} />
+                        style={{ width: WIDTH, height: HEIGHT / 3 }} />
                 </View>
                 <View style={{ marginTop: 15, width: WIDTH - 30, marginLeft: 10 }}>
                     <Text style={{ color: COLOR.BLACK, fontSize: FONT.FONT_SIZE_16 }}>Brand Name</Text>

@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Entypo from "react-native-vector-icons/Entypo";
 import AsyncStorage from '@react-native-community/async-storage';
 //-------HomeStackScreen
 import HomeScreen from "../Screen/HomeScreen/HomeScreen";
@@ -21,6 +22,9 @@ import SupportScreen from '../Screen/SupportScreen/SupportScreen';
 //------ProductStackScreen
 import ProductListScreen from '../Screen/ShopScreen/ProductListScreen';
 import ProductDetailScreen from '../Screen/ShopScreen/ProductDetailScreen';
+//------PackageStackScreen
+import PackageScreen from '../Screen/PackageScreen/packageScreen';
+import PackageDetails from '../Screen/PackageScreen/PackageDetails';
 
 import * as KEY from '../context/actions/key';
 import * as TYPE from '../context/actions/type';
@@ -121,6 +125,24 @@ function ProductStackScreen({ navigation }) {
     );
 }
 
+const PackageStack = createStackNavigator();
+function PackageStackScreen({ navigation }) {
+    return (
+        <PackageStack.Navigator initialRouteName="PackageScreen" headerMode='none' >
+            <PackageStack.Screen name="PackageScreen" options={{
+                title: 'Packages',
+                headerShown: false
+            }}
+                component={PackageScreen} />
+            <PackageStack.Screen name="PackageDetails" options={{
+                title: 'Package Details',
+                headerShown: false
+            }}
+                component={PackageDetails} />
+        </PackageStack.Navigator>
+    );
+}
+
 const SupportStack = createStackNavigator();
 function SupportStackScreen({ navigation }) {
     return (
@@ -198,6 +220,14 @@ export default function TabNavigation() {
                                 color={color}
                             />
                         );
+                    } else if (route.name === 'Package') {
+                        return (
+                            <Entypo
+                                name={focused ? 'spotify' : 'spotify'}
+                                size={20}
+                                color={color}
+                            />
+                        );
                     }
                 },
             })}
@@ -220,6 +250,8 @@ export default function TabNavigation() {
                 myCartVisible &&
                 <Tab.Screen name="Book" component={BookHistoryStackScreen} />
             }
+
+            <Tab.Screen name="Package" component={PackageStackScreen} />
             <Tab.Screen name="Product" component={ProductStackScreen} />
             <Tab.Screen name="Support" component={SupportStackScreen} />
             <Tab.Screen name="Profile" component={ProfileStackScreen} />

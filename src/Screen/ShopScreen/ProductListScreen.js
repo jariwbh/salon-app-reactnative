@@ -22,7 +22,6 @@ import * as TYPE from '../../context/actions/type';
 import axiosConfig from '../../Helpers/axiosConfig';
 import AsyncStorage from '@react-native-community/async-storage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-const DefaultImage = 'https://res.cloudinary.com/membroz/image/upload/v1639641450/Cocoon%20Mobile%20App/logo2_rzpyeq.png';
 
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
@@ -114,7 +113,7 @@ const ProductListScreen = (props) => {
             <View style={{ flexDirection: KEY.ROW, marginBottom: 10 }}>
                 <TouchableOpacity onPress={() => props.navigation.navigate('ProductDetailScreen', { item })}
                     style={{ flexDirection: KEY.ROW, alignItems: KEY.CENTER, justifyContent: 'space-between' }}>
-                    <Image source={{ uri: item.imagegallery && item.imagegallery[0] && item.imagegallery[0].attachment ? item?.imagegallery[0]?.attachment : DefaultImage }}
+                    <Image source={{ uri: item.imagegallery && item.imagegallery[0] && item.imagegallery[0].attachment ? item?.imagegallery[0]?.attachment : TYPE.DefaultImage }}
                         resizeMode={KEY.STRETCH}
                         style={{ height: 150, width: 150 }} />
                     <View style={{ flexDirection: KEY.COLUMN, marginLeft: 20 }}>

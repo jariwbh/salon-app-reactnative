@@ -7,7 +7,7 @@ import {
   ActivityIndicator, Modal,
   Text
 } from 'react-native';
-import { AUTHUSER } from '../../context/actions/type';
+import { AUTHUSER, STARTUP } from '../../context/actions/type';
 import axiosConfig from '../../Helpers/axiosConfig';
 import styles from './Styles'
 import * as KEY from '../../context/actions/key';
@@ -20,6 +20,9 @@ function SplashScreen(props) {
   }, []);
 
   async function AuthController() {
+    var getStartup = await AsyncStorage.getItem(STARTUP);
+    var startup = JSON.parse(getStartup);
+    console.log(`startup`, startup);
     var getUser = await AsyncStorage.getItem(AUTHUSER);
     var userData = JSON.parse(getUser);
     if (userData) {
@@ -28,7 +31,11 @@ function SplashScreen(props) {
       axiosConfig(token);
       return props.navigation.replace('TabNavigation');
     } else {
-      return props.navigation.replace('StartupScreen');
+      if (!startup) {
+        return props.navigation.replace('StartupScreen');
+      } else {
+        return props.navigation.replace('TabNavigation');
+      }
     }
   }
 

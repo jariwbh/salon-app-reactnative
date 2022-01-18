@@ -23,7 +23,7 @@ const AppointmentListService = () => {
             "searchvalue": "active",
             "criteria": "eq",
             "datatype": "text"
-        }]
+        }], "size": 5
     }
     return Axios.post('services/filter', body)
 }

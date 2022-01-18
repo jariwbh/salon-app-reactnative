@@ -7,7 +7,6 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { CategoryByAppointmentService } from '../../Services/CategoryService/CategoryService'
 import Loader from '../../Components/Loader/Loader';
-const serviceicon = 'https://res.cloudinary.com/membroz/image/upload/v1639641450/Cocoon%20Mobile%20App/logo2_rzpyeq.png';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 import * as KEY from '../../context/actions/key';
@@ -63,7 +62,7 @@ export default class AppointmentScreen extends Component {
     renderAppointmentList = ({ item }) => (
         <TouchableOpacity style={styles.listview} onPress={() => this.props.navigation.navigate('ServiceDetails', { item })}>
             <TouchableOpacity style={{ marginLeft: 5 }} onPress={() => { this.props.navigation.navigate('ServiceDetails', { item }) }}>
-                <Image source={{ uri: item.gallery[0] ? (item.gallery[0] ? item.gallery[0].attachment : serviceicon) : serviceicon }}
+                <Image source={{ uri: item.gallery[0] ? (item.gallery[0] ? item.gallery[0].attachment : TYPE.DefaultImage) : TYPE.DefaultImage }}
                     style={{ borderRadius: 100, width: 90, height: 90, }}
                 />
             </TouchableOpacity>

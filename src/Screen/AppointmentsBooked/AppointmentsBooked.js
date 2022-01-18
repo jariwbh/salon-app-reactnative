@@ -220,7 +220,7 @@ export default class AppointmentsBooked extends Component {
                                 <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} />
                             </TouchableOpacity>
                             <View style={{ justifyContent: KEY.CENTER, marginLeft: WIDTH / 5 }}>
-                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>Booking History</Text>
+                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>Book Appointment</Text>
                             </View>
                         </View>
                     </View>
