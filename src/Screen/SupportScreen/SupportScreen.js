@@ -49,9 +49,12 @@ const SupportScreen = (props) => {
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
             <View style={styles.headerstyle}>
-                <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
-                    <View style={{ justifyContent: KEY.CENTER }}>
-                        <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>{TYPE.APPNAME}</Text>
+                <Image source={{ uri: TYPE.DefaultImage }}
+                    style={{ tintColor: COLOR.WHITE, alignItems: KEY.CENTER, height: 80, width: 80, marginLeft: 10, marginTop: 0, borderRadius: 10, resizeMode: KEY.COVER }}
+                />
+                <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -60 }}>
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>
+                        <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>{'Our Packages'}</Text>
                     </View>
                 </View>
             </View>

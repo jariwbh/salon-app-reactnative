@@ -74,7 +74,7 @@ export default class PackageDetails extends Component {
                         <Text style={{ fontSize: 18, color: COLOR.DEFALUTCOLOR, width: WIDTH / 2 }}>{servicetitle}</Text>
                         <Text style={{ fontSize: 18, color: COLOR.DEFALUTCOLOR }}>{currencySymbol + ' ' + servicecharges} </Text>
                     </View>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_18, color: COLOR.BLACK, marginTop: 10, marginLeft: 20 }}>Description</Text>
+                    {/* <Text style={{ fontSize: FONT.FONT_SIZE_18, color: COLOR.BLACK, marginTop: 10, marginLeft: 20 }}>Description</Text> */}
                     <View style={{ flex: 1, marginTop: 10, marginLeft: 20, marginRight: 10, marginBottom: 0 }}>
                         {
                             servicedescription &&

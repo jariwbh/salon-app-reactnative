@@ -188,13 +188,16 @@ class HomeScreen extends Component {
             <SafeAreaView style={styles.container}>
                 <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
                 <View style={styles.headerstyle}>
-                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
-                        <View style={{ justifyContent: KEY.CENTER }}>
+                    <Image source={{ uri: TYPE.DefaultImage }}
+                        style={{ tintColor: COLOR.WHITE, alignItems: KEY.CENTER, height: 80, width: 80, marginLeft: 10, marginTop: 0, borderRadius: 10, resizeMode: KEY.COVER }}
+                    />
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -60 }}>
+                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>
                             <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>{TYPE.APPNAME}</Text>
                         </View>
                     </View>
                 </View>
-                {CategoryList == null || CategoryList.length == 0 ? <Loader /> :
+                {CategoryList == null || CategoryList.length == 0 ? null :
                     <ScrollView
                         refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor={COLOR.DEFALUTCOLOR} titleColor={COLOR.DEFALUTCOLOR} colors={[COLOR.DEFALUTCOLOR]} onRefresh={this.onRefresh} />}
                         showsVerticalScrollIndicator={false}>
