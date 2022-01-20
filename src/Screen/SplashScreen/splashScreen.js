@@ -28,12 +28,14 @@ function SplashScreen(props) {
       //set header auth user key
       let token = userData._id;
       axiosConfig(token);
-      return props.navigation.replace('TabNavigation');
+      // return props.navigation.replace('TabNavigation');
+      return props.navigation.replace('SelectBranchScreen');
     } else {
       if (!startup) {
         return props.navigation.replace('StartupScreen');
       } else {
-        return props.navigation.replace('TabNavigation');
+        // return props.navigation.replace('TabNavigation');
+        return props.navigation.replace('SelectBranchScreen');
       }
     }
   }

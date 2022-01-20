@@ -9,6 +9,7 @@ import SplashScreen from '../Screen/SplashScreen/splashScreen';
 import ForgotPasswordMain from '../Screen/ForgotPassword/ForgotPasswordMain';
 import ForgotPasswordOTP from '../Screen/ForgotPassword/ForgotPasswordOTP';
 import StartupScreen from '../Screen/LoginScreen/StartupScreen';
+import SelectBranchScreen from '../Screen/SplashScreen/SelectBranchScreen';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ export default NavigationsApp = () => {
         <NavigationContainer>
             <Stack.Navigator headerMode='none' initialRouteName='splashScreen'>
                 <Stack.Screen name='splashScreen' component={SplashScreen} />
+                <Stack.Screen name="SelectBranchScreen" component={SelectBranchScreen} />
                 <Stack.Screen name='StartupScreen' component={StartupScreen} />
                 <Stack.Screen name="LoginScreen" component={LoginScreen} />
                 <Stack.Screen name="ForgotPassword" component={ForgotPassword} />

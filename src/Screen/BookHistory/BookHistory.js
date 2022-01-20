@@ -7,9 +7,6 @@ import moment from 'moment'
 import Loader from '../../Components/Loader/Loader';
 import { BookHistoryService } from '../../Services/BookHistoryService/BookHistoryService'
 import AsyncStorage from '@react-native-community/async-storage'
-const WIDTH = Dimensions.get('window').width;
-const HEIGHT = Dimensions.get('window').height;
-const serviceicon = 'https://res.cloudinary.com/dnogrvbs2/image/upload/v1610428971/userimage_qif8wv.jpg';
 import * as TYPE from '../../context/actions/type';
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
@@ -17,6 +14,8 @@ import * as IMAGE from '../../styles/image';
 import * as FONT from '../../styles/typography';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import getCurrency from '../../Services/getCurrencyService/getCurrency';
+const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
 
 class BookHistory extends Component {
     constructor(props) {

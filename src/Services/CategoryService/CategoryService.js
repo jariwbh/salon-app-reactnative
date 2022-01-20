@@ -1,4 +1,4 @@
-import Axios from '../../Helpers/appConfig'
+import Axios from '../../Helpers/appConfig';
 
 const CategoryService = () => {
     const body =
