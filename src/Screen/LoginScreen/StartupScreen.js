@@ -19,7 +19,7 @@ const StartupScreen = (props) => {
 
     const onPressStartUp = async () => {
         checkStartUP(true);
-        return props.navigation.replace('TabNavigation');
+        return props.navigation.replace('SelectBranchScreen');
     }
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }} >
