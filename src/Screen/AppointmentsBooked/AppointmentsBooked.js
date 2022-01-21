@@ -16,6 +16,7 @@ import Toast from 'react-native-simple-toast';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import moment from 'moment';
+import { getBranchDetails } from '../../Services/LocalService/LocalService';
 
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
@@ -27,7 +28,9 @@ const genderArray = [
 export default class AppointmentsBooked extends Component {
     constructor(props) {
         super(props);
+        this.getBranch = null;
         this.serviceDetails = this.props.route.params.serviceDetails;
+        this.getBranch = null;
         this.state = {
             userID: null,
             memberID: null,
@@ -56,7 +59,9 @@ export default class AppointmentsBooked extends Component {
         this.TeardTextInputRef = React.createRef();
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        const getBranch = await getBranchDetails();
+        this.getBranch = getBranch;
         this.setState({ loading: true });
         this.getCountryList();
         this.getdata();
@@ -211,9 +216,9 @@ export default class AppointmentsBooked extends Component {
         const { fullname, mobilenumber, username, loading, fullnameError, countryList,
             usernameError, mobilenumberError, countryError, country, specialRequest } = this.state;
         return (
-            <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
-                <View style={styles.headerstyle}>
+            <SafeAreaView style={styles().container}>
+                <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR).headerstyle}>
                     <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
                         <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.FLEX_START, alignItems: KEY.CENTER, marginLeft: 20 }}>
                             <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
@@ -232,7 +237,7 @@ export default class AppointmentsBooked extends Component {
                             <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
                         </View>
                         <TextInput
-                            style={fullnameError == null ? styles.inputTextView : styles.inputTextViewError}
+                            style={fullnameError == null ? styles().inputTextView : styles().inputTextViewError}
                             defaultValue={fullname}
                             placeholder="Full Name"
                             type={KEY.CLEAR}
@@ -249,7 +254,7 @@ export default class AppointmentsBooked extends Component {
                             <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
                         </View>
                         <TextInput
-                            style={usernameError == null ? styles.inputTextView : styles.inputTextViewError}
+                            style={usernameError == null ? styles().inputTextView : styles().inputTextViewError}
                             placeholder="Email"
                             type={KEY.CLEAR}
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
@@ -270,7 +275,7 @@ export default class AppointmentsBooked extends Component {
                             {genderArray.map((item, index) => (
                                 <View style={{ flexDirection: KEY.ROW, marginLeft: 15, alignItems: KEY.CENTER }}>
                                     <TouchableOpacity onPress={() => this.onPressSelectGender(item, index)}>
-                                        <Ionicons size={30} name={item.selected == true ? "radio-button-on" : "radio-button-off"} color={COLOR.DEFALUTCOLOR} style={{ marginRight: 5 }} />
+                                        <Ionicons size={30} name={item.selected == true ? "radio-button-on" : "radio-button-off"} color={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR} style={{ marginRight: 5 }} />
                                     </TouchableOpacity>
                                     <Text style={{ textTransform: KEY.CAPITALIZE }}>{item.value}</Text>
                                 </View>
@@ -283,7 +288,7 @@ export default class AppointmentsBooked extends Component {
                             <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
                         </View>
                         <TextInput
-                            style={countryError == null ? styles.inputTextView : styles.inputTextViewError}
+                            style={countryError == null ? styles().inputTextView : styles().inputTextViewError}
                             type={KEY.CLEAR}
                             returnKeyType={KEY.Done}
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
@@ -306,7 +311,7 @@ export default class AppointmentsBooked extends Component {
                             <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
                         </View>
                         <TextInput
-                            style={mobilenumberError == null ? styles.inputTextView : styles.inputTextViewError}
+                            style={mobilenumberError == null ? styles().inputTextView : styles().inputTextViewError}
                             defaultValue={mobilenumber}
                             placeholder="Contact Number"
                             type={KEY.CLEAR}
@@ -325,7 +330,7 @@ export default class AppointmentsBooked extends Component {
                         <TextInput placeholder='Special Request'
                             multiline={true}
                             numberOfLines={3}
-                            style={styles.textDescription}
+                            style={styles().textDescription}
                             type={KEY.CLEAR}
                             returnKeyType={KEY.DONE}
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
@@ -334,7 +339,7 @@ export default class AppointmentsBooked extends Component {
                         />
                     </View>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                        <TouchableOpacity style={styles.book} onPress={() => this.onPressSubmit()} >
+                        <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).book} onPress={() => this.onPressSubmit()} >
                             <Text style={{ fontSize: 18, color: COLOR.WHITE }}>Book Now</Text>
                         </TouchableOpacity>
                     </View>
@@ -346,7 +351,7 @@ export default class AppointmentsBooked extends Component {
     }
 }
 
-const styles = StyleSheet.create({
+const styles = (colorcode) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLOR.BACKGROUNDCOLOR,
@@ -389,7 +394,7 @@ const styles = StyleSheet.create({
     },
     book: {
         flexDirection: KEY.ROW,
-        backgroundColor: COLOR.DEFALUTCOLOR,
+        backgroundColor: colorcode,
         marginTop: 20,
         width: WIDTH - 40,
         height: 50,
@@ -399,7 +404,7 @@ const styles = StyleSheet.create({
         marginBottom: 50
     },
     headerstyle: {
-        backgroundColor: COLOR.STATUSBARCOLOR,
+        backgroundColor: colorcode,
         width: WIDTH,
         height: 90,
         borderBottomLeftRadius: 30,

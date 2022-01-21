@@ -5,7 +5,7 @@ import * as KEY from '../../context/actions/key';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
-const styles = StyleSheet.create({
+const styles = (colorcode) => StyleSheet.create({
     containView: {
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     textHeader: {
         fontSize: FONT.FONT_SIZE_24,
         fontWeight: FONT.FONT_WEIGHT_BOLD,
-        color: COLOR.DEFALUTCOLOR,
+        color: colorcode,
         marginTop: 5
     },
     textSub: {
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         marginTop: 15
     },
     headerstyle: {
-        backgroundColor: COLOR.STATUSBARCOLOR,
+        backgroundColor: colorcode,
         width: WIDTH,
         height: 90,
         borderBottomLeftRadius: 30,

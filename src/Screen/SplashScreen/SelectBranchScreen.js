@@ -50,8 +50,8 @@ const SelectBranchScreen = (props) => {
         wait(3000).then(() => setrefreshing(false));
     }
 
-    const authDefaultUser = (user) => (
-        AsyncStorage.setItem(TYPE.DEFAULTUSER, JSON.stringify(user))
+    const authDefaultUser = (key, user) => (
+        AsyncStorage.setItem(key, JSON.stringify(user))
     )
 
     //GET BRANCHLIST LIST 
@@ -73,7 +73,7 @@ const SelectBranchScreen = (props) => {
         try {
             const response = await UserService(TYPE.USERKEY);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                authDefaultUser(response.data);
+                authDefaultUser(TYPE.DEFAULTUSER, response.data);
                 await getBranch();
             }
         } catch (error) {
@@ -83,7 +83,7 @@ const SelectBranchScreen = (props) => {
 
     //RENDER BRANCHLIST
     const renderBranchList = ({ item }) => (
-        <TouchableOpacity style={styles.cardView} onPress={() => props.navigation.replace('TabNavigation')}>
+        <TouchableOpacity style={styles.cardView} onPress={() => onPressSelectBranch(item)}>
             <View
                 style={{ flexDirection: KEY.ROW, alignItems: KEY.CENTER, justifyContent: KEY.SPACEBETWEEN, marginLeft: 20 }}>
                 <Image source={item?.branchlogo ? { uri: item?.branchlogo } : TYPE.DefaultImage}
@@ -96,13 +96,19 @@ const SelectBranchScreen = (props) => {
         </TouchableOpacity>
     )
 
+    //SELECT BRANCH TO CALL FUNCTION
+    const onPressSelectBranch = (val) => {
+        authDefaultUser(KEY.AUTHUSERBRANCH, val);
+        return props.navigation.replace('TabNavigation');
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
             <View style={styles.headerstyle}>
-                <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 0 }}>
+                <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -15 }}>
                     <Image source={{ uri: TYPE.DefaultImage }}
-                        style={{ tintColor: COLOR.WHITE, alignItems: KEY.CENTER, height: 100, width: 100, resizeMode: KEY.COVER }}
+                        style={{ tintColor: COLOR.WHITE, alignItems: KEY.CENTER, height: 120, width: 120, resizeMode: KEY.COVER }}
                     />
                 </View>
             </View>
@@ -206,7 +212,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
         elevation: 3,
-        width: WIDTH - 20,
+        width: WIDTH - 30,
         height: 130
     }
 });

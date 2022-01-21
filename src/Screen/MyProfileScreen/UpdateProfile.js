@@ -15,10 +15,12 @@ import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import * as FONT from '../../styles/typography';
 import Toast from 'react-native-simple-toast';
+import { getBranchDetails } from '../../Services/LocalService/LocalService';
 
 class UpdateProfile extends Component {
     constructor(props) {
         super(props);
+        this.getBranch = null;
         this.companyData = this.props.route.params.companyData;
         this.state = {
             _id: this.companyData._id,
@@ -32,6 +34,7 @@ class UpdateProfile extends Component {
             profileName: this.companyData.fullname,
             memberName: this.companyData.username,
             loading: false,
+            loader: true,
         }
         this.setFullName = this.setFullName.bind(this);
         this.setUserName = this.setUserName.bind(this);
@@ -39,6 +42,12 @@ class UpdateProfile extends Component {
         this.onPressSubmit = this.onPressSubmit.bind(this);
         this.secondTextInputRef = React.createRef();
         this.TeardTextInputRef = React.createRef();
+    }
+
+    wait = (timeout) => {
+        return new Promise(resolve => {
+            setTimeout(resolve, timeout);
+        });
     }
 
     setFullName(fullname) {
@@ -108,12 +117,19 @@ class UpdateProfile extends Component {
         }
     }
 
+    async componentDidMount() {
+        const getBranch = await getBranchDetails();
+        this.getBranch = getBranch;
+        this.wait(1000).then(() => this.setState({ loader: false }));
+    }
+
     render() {
-        const { fullname, username, mobilenumber, userProfile, profileName, loading, fullnameError, usernameError, mobilenumberError } = this.state;
+        const { fullname, username, mobilenumber, userProfile, profileName, loader,
+            loading, fullnameError, usernameError, mobilenumberError } = this.state;
         return (
-            <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
-                <View style={styles.headerstyle}>
+            <SafeAreaView style={styles().container}>
+                <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR).headerstyle}>
                     <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
                         <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginLeft: 20 }}>
                             <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
@@ -129,17 +145,17 @@ class UpdateProfile extends Component {
                     <Loader />
                     : <>
                         <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
-                            <Image style={styles.avatar} source={{ uri: userProfile && userProfile !== null ? userProfile : "https://res.cloudinary.com/dnogrvbs2/image/upload/v1610428971/userimage_qif8wv.jpg" }} />
-                            <View style={styles.body}>
+                            <Image style={styles().avatar} source={{ uri: userProfile && userProfile !== null ? userProfile : "https://res.cloudinary.com/dnogrvbs2/image/upload/v1610428971/userimage_qif8wv.jpg" }} />
+                            <View style={styles().body}>
                                 <View style={{
                                     flex: 1, flexDirection: 'column', alignItems: KEY.CENTER
                                 }}>
-                                    <View style={styles.bodyContent}>
-                                        <Text style={styles.name}>{profileName && profileName}</Text>
+                                    <View style={styles().bodyContent}>
+                                        <Text style={styles().name}>{profileName && profileName}</Text>
                                     </View>
-                                    <View style={styles.inputView}>
+                                    <View style={styles().inputView}>
                                         <TextInput
-                                            style={fullnameError == null ? styles.TextInput : styles.TextInputError}
+                                            style={fullnameError == null ? styles().TextInput : styles().TextInputError}
                                             label="Name"
                                             defaultValue={fullname}
                                             placeholder="User Name"
@@ -151,9 +167,9 @@ class UpdateProfile extends Component {
                                             onChangeText={(fullname) => this.setFullName(fullname)}
                                         />
                                     </View>
-                                    <View style={styles.inputView}>
+                                    <View style={styles().inputView}>
                                         <TextInput
-                                            style={usernameError == null ? styles.TextInput : styles.TextInputError}
+                                            style={usernameError == null ? styles().TextInput : styles().TextInputError}
                                             defaultValue={username}
                                             placeholder="Email Id"
                                             type='clear'
@@ -169,9 +185,9 @@ class UpdateProfile extends Component {
                                             onChangeText={(username) => this.setUserName(username)}
                                         />
                                     </View>
-                                    <View style={styles.inputView} >
+                                    <View style={styles().inputView} >
                                         <TextInput
-                                            style={mobilenumberError == null ? styles.TextInput : styles.TextInputError}
+                                            style={mobilenumberError == null ? styles().TextInput : styles().TextInputError}
                                             defaultValue={mobilenumber}
                                             placeholder="Mobile Number"
                                             type='clear'
@@ -183,13 +199,14 @@ class UpdateProfile extends Component {
                                             onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
                                         />
                                     </View>
-                                    <TouchableOpacity style={styles.update_Btn} onPress={() => this.onPressSubmit()}>
-                                        {loading == true ? <Loading /> : <Text style={styles.update_text} >Update Profile</Text>}
+                                    <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR).update_Btn} onPress={() => this.onPressSubmit()}>
+                                        {loading == true ? <Loading /> : <Text style={styles().update_text} >Update Profile</Text>}
                                     </TouchableOpacity>
                                 </View>
                             </View>
                         </ScrollView>
                     </>}
+                {loader == true ? <Loader /> : null}
             </SafeAreaView>
         );
     }
@@ -197,7 +214,7 @@ class UpdateProfile extends Component {
 
 export default UpdateProfile;
 
-const styles = StyleSheet.create({
+const styles = colorcode => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLOR.BACKGROUNDCOLOR
@@ -258,7 +275,7 @@ const styles = StyleSheet.create({
     },
     update_Btn: {
         flexDirection: KEY.ROW,
-        backgroundColor: COLOR.DEFALUTCOLOR,
+        backgroundColor: colorcode,
         marginTop: 10,
         borderRadius: 100,
         width: WIDTH / 2 + 20,
@@ -272,7 +289,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     headerstyle: {
-        backgroundColor: COLOR.STATUSBARCOLOR,
+        backgroundColor: colorcode,
         width: WIDTH,
         height: 90,
         borderBottomLeftRadius: 30,

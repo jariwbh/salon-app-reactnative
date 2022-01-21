@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import {
     View, Text, StyleSheet, ImageBackground, Image,
-    Dimensions, TextInput, TouchableOpacity, SafeAreaView, StatusBar, BackHandler
+    Dimensions, TextInput, TouchableOpacity, SafeAreaView, StatusBar, BackHandler, Keyboard
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
-import Loader from '../../Components/Loader/Loading'
+import Loading from '../../Components/Loader/Loading';
+import Loader from '../../Components/Loader/Loader';
 import { LoginService } from "../../Services/LoginService/LoginService"
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
@@ -14,16 +15,19 @@ import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import Toast from 'react-native-simple-toast';
+import { getBranchDetails } from '../../Services/LocalService/LocalService';
 
 export default class LoginScreen extends Component {
     constructor(props) {
         super(props);
+        this.getBranch = null;
         this.state = {
             username: null,
             usererror: null,
             password: null,
             passworderror: null,
             loading: false,
+            loader: true,
         };
         this.setEmail = this.setEmail.bind(this);
         this.setPassword = this.setPassword.bind(this);
@@ -60,6 +64,7 @@ export default class LoginScreen extends Component {
     )
 
     onPressSubmit = async () => {
+        Keyboard.dismiss();
         axiosConfig(null);
         const { username, password } = this.state;
         if (!username || !password) {
@@ -92,25 +97,37 @@ export default class LoginScreen extends Component {
         };
     }
 
+    async componentDidMount() {
+        const getBranch = await getBranchDetails();
+        this.getBranch = getBranch;
+        this.wait(1000).then(() => this.setState({ loader: false }));
+    }
+
+    wait = (timeout) => {
+        return new Promise(resolve => {
+            setTimeout(resolve, timeout);
+        });
+    }
+
     render() {
-        const { usererror, passworderror } = this.state;
+        const { usererror, passworderror, loader, loading } = this.state;
         return (
-            <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
+            <SafeAreaView style={styles().container}>
+                <StatusBar backgroundColor={this.getBranch && this.getBranch.property.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
-                    <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={COLOR.DEFALUTCOLOR} style={styles.backgroundImage}>
+                    <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR} style={styles().backgroundImage}>
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
-                            <Image style={styles.imageLogo} resizeMode={KEY.COVER} source={IMAGE.LOGO} />
+                            <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={this.getBranch?.branchlogo ? { uri: this.getBranch.branchlogo } : IMAGE.LOGO} />
                         </View>
                     </ImageBackground>
-                    <View style={styles.hello}>
+                    <View style={styles().hello}>
                         <Text style={{ color: COLOR.BLACK, fontSize: 28 }}>Welcome </Text>
                         <Text style={{ color: COLOR.BLACK, fontSize: 18 }}>Sign in to your account</Text>
                     </View>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                        <View style={styles.inputView}>
+                        <View style={styles().inputView}>
                             <TextInput
-                                style={usererror == null ? styles.TextInput : styles.TextInputError}
+                                style={usererror == null ? styles().TextInput : styles().TextInputError}
                                 placeholder="Username"
                                 defaultValue={this.state.username}
                                 type={KEY.CLEAR}
@@ -121,9 +138,9 @@ export default class LoginScreen extends Component {
                                 onChangeText={(email) => this.setEmail(email)}
                             />
                         </View>
-                        <View style={styles.inputView}>
+                        <View style={styles().inputView}>
                             <TextInput
-                                style={passworderror == null ? styles.TextInput : styles.TextInputError}
+                                style={passworderror == null ? styles().TextInput : styles().TextInputError}
                                 placeholder="**********"
                                 type={KEY.CLEAR}
                                 defaultValue={this.state.password}
@@ -142,23 +159,24 @@ export default class LoginScreen extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 20 }}>
-                        <TouchableOpacity style={styles.loginBtn} onPress={() => this.onPressSubmit()} >
-                            {this.state.loading == true ? <Loader /> : <Text style={styles.loginText}>Sign In</Text>}
+                        <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).loginBtn} onPress={() => this.onPressSubmit()} >
+                            {this.state.loading == true ? <Loading /> : <Text style={styles().loginText}>Sign In</Text>}
                         </TouchableOpacity>
                     </View>
                     <View style={{ marginTop: 15, justifyContent: KEY.CENTER, flexDirection: KEY.ROW }} >
-                        <Text style={styles.innerText}> Don't have an account? </Text>
+                        <Text style={styles().innerText}> Don't have an account? </Text>
                         <TouchableOpacity onPress={() => { this.props.navigation.navigate('RegisterScreen'), this.resetScreen() }} >
-                            <Text style={styles.baseText}>Create</Text>
+                            <Text style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).baseText}>Create</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
+                {loader == true ? <Loader /> : null}
             </SafeAreaView>
         );
     }
 }
 
-const styles = StyleSheet.create({
+const styles = (colorcode) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLOR.BACKGROUNDCOLOR
@@ -210,7 +228,7 @@ const styles = StyleSheet.create({
     loginBtn: {
         flexDirection: KEY.ROW,
         width: WIDTH / 3,
-        backgroundColor: COLOR.DEFALUTCOLOR,
+        backgroundColor: colorcode,
         borderRadius: 100,
         height: 40,
         alignItems: KEY.CENTER,
@@ -222,7 +240,7 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
     baseText: {
-        color: COLOR.DEFALUTCOLOR,
+        color: colorcode,
         fontSize: 14
     },
     innerText: {
@@ -233,6 +251,7 @@ const styles = StyleSheet.create({
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER,
         height: 150,
-        width: 220
+        width: 220,
+        tintColor: COLOR.WHITE
     },
 })

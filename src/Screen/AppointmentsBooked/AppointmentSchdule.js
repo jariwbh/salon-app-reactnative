@@ -14,24 +14,28 @@ import * as COLOR from '../../styles/colors';
 import * as FONT from '../../styles/typography';
 import * as IMAGE from '../../styles/image';
 import moment from 'moment';
+import { getBranchDetails } from '../../Services/LocalService/LocalService';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
 export default class AppointmentSchdule extends Component {
     constructor(props) {
         super(props);
+        this.getBranch = null;
         this.serviceDetails = props.route.params.serviceDetails;
         this.currentDate = moment().format('YYYY-MM-DD');
         this.state = {
             timeSlots: [],
-            loading: false,
+            loading: true,
             currencySymbol: null,
             selectedDay: null,
             currentDay: null
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        const getBranch = await getBranchDetails();
+        this.getBranch = getBranch;
         this.getDefaultUser();
         this.onPressSelectedDay({ dateString: moment().format('YYYY-MM-DD') })
     }
@@ -122,7 +126,7 @@ export default class AppointmentSchdule extends Component {
     onPressSelectedDay = (day) => {
         day = moment(day.dateString).format('YYYY-MM-DD');
         let markedDates = {};
-        markedDates[day] = { selected: true, marked: false, selectedColor: COLOR.DEFALUTCOLOR }
+        markedDates[day] = { selected: true, marked: false, selectedColor: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR }
         this.setState({ selectedDay: markedDates })
         this.currentDate = day;
 
@@ -148,23 +152,23 @@ export default class AppointmentSchdule extends Component {
 
     renderTimeSlots = ({ item, index }) => (
         <View style={{ alignItems: KEY.CENTER, justifyContent: KEY.CENTER }} key={index}>
-            <View style={styles.cardView}>
-                <View style={styles.filledBox}>
+            <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).cardView}>
+                <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).filledBox}>
                     <Text style={{ fontSize: FONT.FONT_SIZE_28, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.date).format('DD')}</Text>
                     <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.date).format('MMM')}</Text>
                 </View>
                 <View style={{ flexDirection: KEY.ROW, marginLeft: 5, padding: 5 }}>
                     <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
-                        <Text style={styles.rectangleSubText}>Start Time : {(item && item.starttime)}</Text>
-                        <Text style={styles.rectangleSubText}>End Time : {(item && item.endtime)}</Text>
+                        <Text style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).rectangleSubText}>Start Time : {(item && item.starttime)}</Text>
+                        <Text style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).rectangleSubText}>End Time : {(item && item.endtime)}</Text>
                     </View>
                     {
                         moment().format('YYYY-MM-DD') === this.currentDate ?
-                            <TouchableOpacity style={styles.book} onPress={() => this.onPressCall()} >
+                            <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).book} onPress={() => this.onPressCall()} >
                                 <Text style={{ fontSize: 14, color: COLOR.WHITE, marginLeft: 10, marginRight: 10 }}>Call to Book</Text>
                             </TouchableOpacity>
                             :
-                            <TouchableOpacity style={styles.book} onPress={() => this.onPressToBookNow(item)} >
+                            <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).book} onPress={() => this.onPressToBookNow(item)} >
                                 <Text style={{ fontSize: 14, color: COLOR.WHITE, marginLeft: 15, marginRight: 15 }}>Select</Text>
                             </TouchableOpacity>
                     }
@@ -176,9 +180,9 @@ export default class AppointmentSchdule extends Component {
     render() {
         const { selectedDay, timeSlots, loading } = this.state;
         return (
-            <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
-                <View style={styles.headerstyle}>
+            <SafeAreaView style={styles().container}>
+                <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR).headerstyle}>
                     <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
                         <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.FLEX_START, alignItems: KEY.CENTER, marginLeft: 20 }}>
                             <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
@@ -192,8 +196,8 @@ export default class AppointmentSchdule extends Component {
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                     <View style={{ justifyContent: KEY.CENTER, marginLeft: 20, marginRight: 20 }}>
-                        <Text style={{ fontSize: 16, color: COLOR.DEFALUTCOLOR, fontWeight: 'bold' }}>{this.serviceDetails.title}</Text>
-                        <Text style={{ fontSize: 16, color: COLOR.DEFALUTCOLOR, fontWeight: 'bold' }}>({(this.serviceDetails.duration + 'mins') + ', ' + this.state.currencySymbol + ' ' + this.serviceDetails.charges})</Text>
+                        <Text style={{ fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontWeight: 'bold' }}>{this.serviceDetails.title}</Text>
+                        <Text style={{ fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontWeight: 'bold' }}>({(this.serviceDetails.duration + 'mins') + ', ' + this.state.currencySymbol + ' ' + this.serviceDetails.charges})</Text>
                     </View>
                     <View style={{ justifyContent: KEY.CENTER, alignContent: KEY.CENTER }}>
                         <Calendar
@@ -206,7 +210,7 @@ export default class AppointmentSchdule extends Component {
                                 monthTextColor: COLOR.BLACK,
                                 indicatorColor: COLOR.BLACK,
                                 dayTextColor: COLOR.BLACK,
-                                todayTextColor: COLOR.DEFALUTCOLOR,
+                                todayTextColor: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.GREEN,
                             }}
                             style={{ backgroundColor: COLOR.BACKGROUNDCOLOR }}
                             onDayPress={(day) => this.onPressSelectedDay(day)}
@@ -215,7 +219,7 @@ export default class AppointmentSchdule extends Component {
                             markingType={'custom'}
                             hideExtraDays={true}
                         />
-                        <Text style={{ marginTop: 10, textAlign: KEY.CENTER, fontSize: 16, color: COLOR.DEFALUTCOLOR, fontWeight: 'bold' }}>Available appointments on {moment(this.currentDate).format('DD MMMM YYYY')}</Text>
+                        <Text style={{ marginTop: 10, textAlign: KEY.CENTER, fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontWeight: 'bold' }}>Available appointments on {moment(this.currentDate).format('DD MMMM YYYY')}</Text>
                         <FlatList
                             data={timeSlots}
                             showsVerticalScrollIndicator={false}
@@ -240,13 +244,13 @@ export default class AppointmentSchdule extends Component {
     }
 }
 
-const styles = StyleSheet.create({
+const styles = (colorcode) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLOR.BACKGROUNDCOLOR
     },
     headerstyle: {
-        backgroundColor: COLOR.STATUSBARCOLOR,
+        backgroundColor: colorcode,
         width: WIDTH,
         height: 90,
         borderBottomLeftRadius: 30,
@@ -258,7 +262,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 5,
         borderRightWidth: 10,
-        borderRightColor: COLOR.DEFALUTCOLOR,
+        borderRightColor: colorcode,
         flexDirection: KEY.ROW,
         backgroundColor: COLOR.WHITE,
         shadowColor: COLOR.BLACK,
@@ -275,7 +279,7 @@ const styles = StyleSheet.create({
         width: 100,
         borderTopLeftRadius: 15,
         borderBottomLeftRadius: 15,
-        backgroundColor: COLOR.DEFALUTCOLOR,
+        backgroundColor: colorcode,
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER,
         flexDirection: KEY.COLUMN,
@@ -295,7 +299,7 @@ const styles = StyleSheet.create({
         //width: WIDTH / 2
     },
     book: {
-        backgroundColor: COLOR.DEFALUTCOLOR,
+        backgroundColor: colorcode,
         //width: 80,
         height: 30,
         borderRadius: 30,

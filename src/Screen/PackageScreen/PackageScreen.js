@@ -16,10 +16,12 @@ import { FONT_WEIGHT_BOLD } from '../../styles/typography';
 import axiosConfig from '../../Helpers/axiosConfig';
 import AsyncStorage from '@react-native-community/async-storage';
 import getCurrency from '../../Services/getCurrencyService/getCurrency';
+import { getBranchDetails } from '../../Services/LocalService/LocalService';
 
 class PackageScreen extends Component {
     constructor(props) {
         super(props);
+        this.getBranch = null;
         this.state = {
             PackageList: [],
             loader: true,
@@ -80,7 +82,6 @@ class PackageScreen extends Component {
     getPackageList = async (id) => {
         try {
             const response = await getPackageService(id);
-            console.log(`response.data`, response.data);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 this.setState({ PackageList: response.data, loader: false })
             }
@@ -90,14 +91,16 @@ class PackageScreen extends Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        const getBranch = await getBranchDetails();
+        this.getBranch = getBranch;
         this.getDefaultUser();
     }
 
     renderPackageList = ({ item }) => (
         <View style={styles.cardView}>
             <TouchableOpacity style={{ alignItems: KEY.CENTER }} onPress={() => this.props.navigation.navigate('PackageDetails', { item })}>
-                <Image source={{ uri: (item && item.property && item.property.image && item.property.image[0] && item.property.image[0].attachment ? item.property.image[0].attachment : TYPE.DefaultImage) }}
+                <Image source={{ uri: (item && item.property && item.property.image && item.property.image[0] && item.property.image[0].attachment ? item.property.image[0].attachment : this.getBranch.branchlogo) }}
                     style={item && item.property && item.property.image && item.property.image[0] && item.property.image[0].attachment ?
                         { alignItems: KEY.CENTER, height: 150, width: WIDTH - 40, marginTop: 10, borderRadius: 10, resizeMode: KEY.COVER }
                         :
@@ -107,8 +110,8 @@ class PackageScreen extends Component {
             </TouchableOpacity>
             <View
                 style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginLeft: 10, marginRight: 10, marginBottom: 10, marginTop: 10 }}>
-                <Text style={{ fontSize: 16, color: COLOR.DEFALUTCOLOR, fontWeight: FONT_WEIGHT_BOLD, width: WIDTH / 2 }}>{item && item.membershipname}</Text>
-                <Text style={{ fontSize: 16, color: COLOR.DEFALUTCOLOR, fontWeight: FONT_WEIGHT_BOLD }}>{this.state.currencySymbol + ' ' + (item && item.property && item.property.cost)}</Text>
+                <Text style={{ fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontWeight: FONT_WEIGHT_BOLD, width: WIDTH / 2 }}>{item && item.membershipname}</Text>
+                <Text style={{ fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontWeight: FONT_WEIGHT_BOLD }}>{this.state.currencySymbol + ' ' + (item && item.property && item.property.cost)}</Text>
             </View>
         </View>
     )
@@ -116,11 +119,11 @@ class PackageScreen extends Component {
     render() {
         const { PackageList, loader, refreshing } = this.state
         return (
-            <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
-                <View style={styles.headerstyle}>
-                    <Image source={{ uri: TYPE.DefaultImage }}
-                        style={{ tintColor: COLOR.WHITE, alignItems: KEY.CENTER, height: 80, width: 80, marginLeft: 10, marginTop: 0, borderRadius: 10, resizeMode: KEY.COVER }}
+            <SafeAreaView style={styles().container}>
+                <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.BACKGROUNDCOLOR).headerstyle}>
+                    <Image source={{ uri: this.getBranch?.branchlogo ? this.getBranch.branchlogo : TYPE.DefaultImage }}
+                        style={{ tintColor: COLOR.WHITE, alignItems: KEY.CENTER, height: 90, width: 90, marginLeft: 10, marginTop: 0, borderRadius: 10, resizeMode: KEY.COVER }}
                     />
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -60 }}>
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>
@@ -131,7 +134,9 @@ class PackageScreen extends Component {
                 {PackageList && PackageList.length != 0 ?
                     <ScrollView
                         refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh"
-                            tintColor={COLOR.DEFALUTCOLOR} titleColor={COLOR.DEFALUTCOLOR} colors={[COLOR.DEFALUTCOLOR]} onRefresh={this.onRefresh} />} showsVerticalScrollIndicator={false}>
+                            tintColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.BACKGROUNDCOLOR}
+                            titleColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR}
+                            colors={[this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR]} onRefresh={this.onRefresh} />} showsVerticalScrollIndicator={false}>
                         <View style={{ flexDirection: KEY.ROW, alignItems: KEY.CENTER }}>
                             <FlatList
                                 // numColumns={10000}
@@ -157,13 +162,13 @@ class PackageScreen extends Component {
 
 export default PackageScreen;
 
-const styles = StyleSheet.create({
+const styles = (colorcode) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLOR.BACKGROUNDCOLOR
     },
     headerstyle: {
-        backgroundColor: COLOR.STATUSBARCOLOR,
+        backgroundColor: colorcode,
         width: WIDTH,
         height: 90,
         borderBottomLeftRadius: 30,

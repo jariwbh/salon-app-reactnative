@@ -15,14 +15,16 @@ import Loader from '../../Components/Loader/Loader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-community/async-storage';
 import getCurrency from '../../Services/getCurrencyService/getCurrency';
+import { getBranchDetails } from '../../Services/LocalService/LocalService';
 
 export default class ServiceDetails extends Component {
     constructor(props) {
         super(props);
+        this.getBranch = null;
         this.serviceDetails = this.props.route.params.item;
         this.state = {
             serviceID: this.serviceDetails._id,
-            serviceImage: this.serviceDetails.gallery && this.serviceDetails.gallery[0] && this.serviceDetails.gallery[0].attachment ? this.serviceDetails.gallery[0].attachment : TYPE.DefaultImage,
+            serviceImage: this.serviceDetails.gallery && this.serviceDetails.gallery[0] && this.serviceDetails.gallery[0].attachment ? this.serviceDetails.gallery[0].attachment : this.getBranch && this.getBranch.branchlogo,
             servicetitle: this.serviceDetails.title,
             servicecharges: this.serviceDetails.charges,
             servicedescription: this.serviceDetails.description,
@@ -31,7 +33,9 @@ export default class ServiceDetails extends Component {
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        const getBranch = await getBranchDetails();
+        this.getBranch = getBranch;
         this.getDefaultUser();
     }
 
@@ -52,9 +56,9 @@ export default class ServiceDetails extends Component {
     render() {
         const { serviceID, serviceImage, servicetitle, servicecharges, servicedescription, serviceDetails, currencySymbol } = this.state
         return (
-            <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
-                <View style={styles.headerstyle}>
+            <SafeAreaView style={styles().container}>
+                <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR).headerstyle}>
                     <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
                         <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.FLEX_START, alignItems: KEY.CENTER, marginLeft: 20 }}>
                             <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
@@ -68,12 +72,12 @@ export default class ServiceDetails extends Component {
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginBottom: 50 }}>
-                        <Image source={{ uri: serviceImage }} style={{ width: WIDTH - 20, height: HEIGHT / 3, borderRadius: 10 }}
+                        <Image source={{ uri: this.serviceDetails.gallery && this.serviceDetails.gallery[0] && this.serviceDetails.gallery[0].attachment ? this.serviceDetails.gallery[0].attachment : this.getBranch && this.getBranch.branchlogo }} style={{ width: WIDTH - 20, height: HEIGHT / 3, borderRadius: 10 }}
                         />
                     </View>
                     <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginTop: -30, marginLeft: 20, marginRight: 20 }}>
-                        <Text style={{ fontSize: 18, color: COLOR.DEFALUTCOLOR, width: WIDTH / 2 }}>{servicetitle}</Text>
-                        <Text style={{ fontSize: 18, color: COLOR.DEFALUTCOLOR }}>{currencySymbol + ' ' + servicecharges} </Text>
+                        <Text style={{ fontSize: 18, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, width: WIDTH / 2 }}>{servicetitle}</Text>
+                        <Text style={{ fontSize: 18, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR }}>{currencySymbol + ' ' + servicecharges} </Text>
                     </View>
 
                     <View style={{ flex: 1, marginTop: 10, marginLeft: 10, marginRight: 10, marginBottom: 140 }}>
@@ -83,7 +87,7 @@ export default class ServiceDetails extends Component {
                         }
                     </View>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                        <TouchableOpacity style={styles.book} onPress={() => { this.props.navigation.navigate('AppointmentSchdule', { serviceDetails }) }}>
+                        <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).book} onPress={() => { this.props.navigation.navigate('AppointmentSchdule', { serviceDetails }) }}>
                             <FontAwesome5 name="check-circle" size={24} color={COLOR.WHITE} style={{ margin: 5 }} />
                             <Text style={{ fontSize: 16, color: COLOR.WHITE }}>Book Now</Text>
                         </TouchableOpacity>
@@ -94,14 +98,14 @@ export default class ServiceDetails extends Component {
     }
 }
 
-const styles = StyleSheet.create({
+const styles = (colorcode) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLOR.BACKGROUNDCOLOR
     },
     book: {
         flexDirection: KEY.ROW,
-        backgroundColor: COLOR.DEFALUTCOLOR,
+        backgroundColor: colorcode,
         marginTop: -150,
         width: WIDTH / 2 + 50,
         height: 50,
@@ -111,7 +115,7 @@ const styles = StyleSheet.create({
         marginBottom: 50
     },
     headerstyle: {
-        backgroundColor: COLOR.STATUSBARCOLOR,
+        backgroundColor: colorcode,
         width: WIDTH,
         height: 90,
         borderBottomLeftRadius: 30,

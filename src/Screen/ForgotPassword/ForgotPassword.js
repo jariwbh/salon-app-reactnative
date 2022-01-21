@@ -12,6 +12,7 @@ import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import Toast from 'react-native-simple-toast';
+import { getBranchDetails } from '../../Services/LocalService/LocalService';
 
 export default function ForgotPassword(props) {
     const userName = props.route.params.userValue;
@@ -20,10 +21,22 @@ export default function ForgotPassword(props) {
     const [rePassword, setRePassword] = useState(null);
     const [rePassworderror, setRePassworderror] = useState(null);
     const [loading, setloading] = useState(false);
+    const [getBranch, setgetBranch] = useState(null);
     const secondTextInputRef = React.createRef();
 
     useEffect(() => {
-    }, [newPassword, newPassworderror, rePassword, rePassworderror, loading])
+    }, [newPassword, newPassworderror, rePassword,
+        rePassworderror, loading, getBranch])
+
+    useEffect(() => {
+        getMemberDeatilsLocalStorage();
+    }, []);
+
+    //GET MEMBER DATA IN MOBILE LOCAL STORAGE
+    const getMemberDeatilsLocalStorage = async () => {
+        const getBranchdata = await getBranchDetails();
+        setgetBranch(getBranchdata);
+    }
 
     //check password validation
     const setNewPasswordCheck = (password) => {
@@ -90,20 +103,16 @@ export default function ForgotPassword(props) {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
-            <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
-            <ScrollView
-                Vertical={true}
-                showsVerticalScrollIndicator={false}
-                keyboardShouldPersistTaps={KEY.ALWAYS}
-            >
-                <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={COLOR.DEFALUTCOLOR} style={styles.backgroundImage}>
+        <SafeAreaView style={styles().container}>
+            <StatusBar backgroundColor={getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
+            <ScrollView Vertical={true} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
+                <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR} style={styles().backgroundImage}>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
-                        <Image style={styles.imageLogo} resizeMode={KEY.COVER} source={IMAGE.LOGO} />
+                        <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={getBranch?.branchlogo ? { uri: getBranch.branchlogo } : IMAGE.LOGO} />
                     </View>
                 </ImageBackground>
 
-                <View style={styles.forgotview}>
+                <View style={styles().forgotview}>
                     <Text style={{ fontSize: 26 }}> Forgot Password </Text>
                 </View>
                 <View style={{ marginTop: 10, marginLeft: 40, flexDirection: KEY.ROW }} >
@@ -111,9 +120,9 @@ export default function ForgotPassword(props) {
                 </View>
 
                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                    <View style={newPassworderror == null ? styles.inputview : styles.inputviewError} >
+                    <View style={newPassworderror == null ? styles().inputview : styles().inputviewError} >
                         <TextInput
-                            style={styles.TextInput}
+                            style={styles().TextInput}
                             placeholder='New Password'
                             type={KEY.CLEAR}
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
@@ -125,9 +134,9 @@ export default function ForgotPassword(props) {
                             onChangeText={(password) => setNewPasswordCheck(password)}
                         />
                     </View>
-                    <View style={rePassworderror == null ? styles.inputview : styles.inputviewError} >
+                    <View style={rePassworderror == null ? styles().inputview : styles().inputviewError} >
                         <TextInput
-                            style={styles.TextInput}
+                            style={styles().TextInput}
                             placeholder='Re Password'
                             type={KEY.CLEAR}
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
@@ -141,14 +150,14 @@ export default function ForgotPassword(props) {
                     </View>
                 </View>
                 <View style={{ marginTop: 5, flexDirection: KEY.ROW, marginRight: 40, alignItems: KEY.FLEX_END, justifyContent: KEY.FLEX_END }} >
-                    <Text style={styles.innerText}> Back to </Text>
+                    <Text style={styles().innerText}> Back to </Text>
                     <TouchableOpacity onPress={() => { this.props.navigation.navigate('LoginScreen') }} >
-                        <Text style={styles.baseText}>Login</Text>
+                        <Text style={styles(getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).baseText}>Login</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                    <TouchableOpacity style={styles.forBtn} onPress={() => onPressSubmit()}>
-                        {loading == true ? <Loading /> : <Text style={styles.forText}>Reset Password</Text>}
+                    <TouchableOpacity style={styles(getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).forBtn} onPress={() => onPressSubmit()}>
+                        {loading == true ? <Loading /> : <Text style={styles().forText}>Reset Password</Text>}
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -156,7 +165,7 @@ export default function ForgotPassword(props) {
     );
 }
 
-const styles = StyleSheet.create({
+const styles = (colorcode) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLOR.BACKGROUNDCOLOR
@@ -226,7 +235,7 @@ const styles = StyleSheet.create({
     forBtn: {
         flexDirection: KEY.ROW,
         width: WIDTH / 3,
-        backgroundColor: COLOR.DEFALUTCOLOR,
+        backgroundColor: colorcode,
         borderRadius: 100,
         height: 40,
         alignItems: KEY.CENTER,
@@ -238,7 +247,7 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
     baseText: {
-        color: COLOR.DEFALUTCOLOR,
+        color: colorcode,
         fontSize: 14
     },
     innerText: {
@@ -249,6 +258,7 @@ const styles = StyleSheet.create({
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER,
         height: 150,
-        width: 220
-    },
+        width: 220,
+        tintColor: COLOR.WHITE
+    }
 })

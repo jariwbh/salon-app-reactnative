@@ -14,12 +14,14 @@ import * as IMAGE from '../../styles/image';
 import * as FONT from '../../styles/typography';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import getCurrency from '../../Services/getCurrencyService/getCurrency';
+import { getBranchDetails } from '../../Services/LocalService/LocalService';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
 class BookHistory extends Component {
     constructor(props) {
         super(props);
+        this.getBranch = null;
         this.state = {
             _id: null,
             BookHistoryService: [],
@@ -37,7 +39,7 @@ class BookHistory extends Component {
     }
 
     getdata = async () => {
-        var getUser = await AsyncStorage.getItem('@authuser')
+        var getUser = await AsyncStorage.getItem(KEY.AUTHUSER)
         if (getUser == null) {
             setTimeout(() => {
                 this.props.navigation.replace('LoginScreen')
@@ -65,7 +67,9 @@ class BookHistory extends Component {
         this.wait(1000).then(() => this.setState({ refreshing: false }));
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        const getBranch = await getBranchDetails();
+        this.getBranch = getBranch;
         this.getdata();
     }
 
@@ -155,15 +159,23 @@ class BookHistory extends Component {
         const { BookHistoryService, refreshing, loader } = this.state;
         return (
             <SafeAreaView style={styles().container}>
-                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
-                <View style={styles().headerstyle}>
-                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
-                        <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>Booking History</Text>
+                <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.BACKGROUNDCOLOR).headerstyle}>
+                    <Image source={{ uri: this.getBranch?.branchlogo ? this.getBranch.branchlogo : TYPE.DefaultImage }}
+                        style={{ tintColor: COLOR.WHITE, alignItems: KEY.CENTER, height: 90, width: 90, marginLeft: 10, marginTop: 0, borderRadius: 10, resizeMode: KEY.COVER }}
+                    />
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -60 }}>
+                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>
+                            <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>{'Booking History'}</Text>
+                        </View>
                     </View>
                 </View>
                 <ScrollView
-                    refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor={COLOR.DEFALUTCOLOR}
-                        titleColor={COLOR.DEFALUTCOLOR} colors={[COLOR.DEFALUTCOLOR]} onRefresh={this.onRefresh} />} showsVerticalScrollIndicator={false}>
+                    refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh"
+                        tintColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR}
+                        titleColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR}
+                        colors={[this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR]}
+                        onRefresh={this.onRefresh} />} showsVerticalScrollIndicator={false}>
                     <View style={{ alignItems: KEY.CENTER, marginTop: 0, marginBottom: 0 }}>
                         <FlatList
                             data={this.state.BookHistoryService}
@@ -214,7 +226,7 @@ const styles = (colorcode) => StyleSheet.create({
         elevation: 3
     },
     headerstyle: {
-        backgroundColor: COLOR.STATUSBARCOLOR,
+        backgroundColor: colorcode,
         width: WIDTH,
         height: 90,
         borderBottomLeftRadius: 30,

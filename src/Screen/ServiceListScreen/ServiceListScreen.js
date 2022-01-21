@@ -16,10 +16,12 @@ import * as IMAGE from '../../styles/image';
 import AsyncStorage from '@react-native-community/async-storage';
 import getCurrency from '../../Services/getCurrencyService/getCurrency';
 import axiosConfig from '../../Helpers/axiosConfig';
+import { getBranchDetails } from '../../Services/LocalService/LocalService';
 
 export default class AppointmentScreen extends Component {
     constructor(props) {
         super(props);
+        this.getBranch = null;
         this.CategoryID = this.props.route.params.item._id;
         this.searchserviceList = [];
         this.state = {
@@ -39,7 +41,9 @@ export default class AppointmentScreen extends Component {
         })
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        const getBranch = await getBranchDetails();
+        this.getBranch = getBranch;
         this.getAppointmentList();
         this.getDefaultUser();
     }
@@ -60,9 +64,9 @@ export default class AppointmentScreen extends Component {
     };
 
     renderAppointmentList = ({ item }) => (
-        <TouchableOpacity style={styles.listview} onPress={() => this.props.navigation.navigate('ServiceDetails', { item })}>
+        <TouchableOpacity style={styles().listview} onPress={() => this.props.navigation.navigate('ServiceDetails', { item })}>
             <TouchableOpacity style={{ marginLeft: 5 }} onPress={() => { this.props.navigation.navigate('ServiceDetails', { item }) }}>
-                <Image source={{ uri: item.gallery[0] ? (item.gallery[0] ? item.gallery[0].attachment : TYPE.DefaultImage) : TYPE.DefaultImage }}
+                <Image source={{ uri: item.gallery[0] ? (item.gallery[0] ? item.gallery[0].attachment : this.getBranch.branchlogo) : this.getBranch.branchlogo }}
                     style={{ borderRadius: 100, width: 90, height: 90, }}
                 />
             </TouchableOpacity>
@@ -98,9 +102,9 @@ export default class AppointmentScreen extends Component {
     render() {
         const { AppointmentService, loader, refreshing } = this.state
         return (
-            <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
-                <View style={styles.headerstyle}>
+            <SafeAreaView style={styles().container}>
+                <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR).headerstyle}>
                     <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
                         <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.FLEX_START, alignItems: KEY.CENTER, marginLeft: 20 }}>
                             <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
@@ -113,13 +117,16 @@ export default class AppointmentScreen extends Component {
                     </View>
                 </View>
                 <ScrollView
-                    refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor={COLOR.DEFALUTCOLOR} titleColor={COLOR.DEFALUTCOLOR} colors={[COLOR.DEFALUTCOLOR]} onRefresh={this.onRefresh} />}
+                    refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh"
+                        tintColor={COLOR.DEFALUTCOLOR}
+                        titleColor={COLOR.DEFALUTCOLOR}
+                        colors={[COLOR.DEFALUTCOLOR]} onRefresh={this.onRefresh} />}
                     showsVerticalScrollIndicator={false}>
                     <View style={{ alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
                         {this.searchserviceList && this.searchserviceList.length != 0 &&
-                            <View style={styles.statusbar}>
+                            <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).statusbar}>
                                 <TextInput
-                                    style={styles.statInput}
+                                    style={styles().statInput}
                                     placeholder="Type here to search"
                                     type='clear'
                                     placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
@@ -160,7 +167,7 @@ export default class AppointmentScreen extends Component {
     }
 }
 
-const styles = StyleSheet.create({
+const styles = (colorcode) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLOR.BACKGROUNDCOLOR
@@ -168,7 +175,7 @@ const styles = StyleSheet.create({
     statusbar: {
         flexDirection: KEY.ROW,
         backgroundColor: COLOR.WHITE,
-        borderColor: COLOR.DEFALUTCOLOR,
+        borderColor: colorcode,
         shadowOpacity: 0.5,
         shadowRadius: 2,
         shadowOffset: {
@@ -209,7 +216,7 @@ const styles = StyleSheet.create({
         alignItems: KEY.CENTER
     },
     headerstyle: {
-        backgroundColor: COLOR.STATUSBARCOLOR,
+        backgroundColor: colorcode,
         width: WIDTH,
         height: 90,
         borderBottomLeftRadius: 30,

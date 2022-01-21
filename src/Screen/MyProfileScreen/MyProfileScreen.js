@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
     View, Text, StyleSheet, Image, Dimensions, TouchableOpacity,
-    StatusBar, SafeAreaView, ImageBackground
+    StatusBar, SafeAreaView, ImageBackground, Alert
 } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -9,15 +9,18 @@ import Entypo from 'react-native-vector-icons/Entypo'
 import Loader from '../../Components/Loader/Loader';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
+import * as TYPE from '../../context/actions/type';
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Toast from 'react-native-simple-toast';
+import { getBranchDetails } from '../../Services/LocalService/LocalService';
 
 export default class MyProfileScreen extends Component {
     constructor(props) {
         super(props);
+        this.getBranch = null;
         this.state = {
             companyData: null,
             userProfile: null,
@@ -32,12 +35,14 @@ export default class MyProfileScreen extends Component {
         });
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        const getBranch = await getBranchDetails();
+        this.getBranch = getBranch;
         this.getdata()
     }
 
     getdata = async () => {
-        var getUser = await AsyncStorage.getItem('@authuser')
+        var getUser = await AsyncStorage.getItem(KEY.AUTHUSER)
         if (getUser == null) {
             this.setState({ showLogin: true });
         } else {
@@ -59,9 +64,25 @@ export default class MyProfileScreen extends Component {
     }
 
     onPressLogout() {
-        AsyncStorage.removeItem('@authuser');
-        Toast.show('Log Out Success', Toast.SHORT);
-        this.props.navigation.replace('LoginScreen');
+        Alert.alert(
+            "Logout",
+            "Are you sure you want to logout?",
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel"
+                },
+                {
+                    text: "Log out", onPress: () => {
+                        AsyncStorage.removeItem(KEY.AUTHUSERINFO);
+                        AsyncStorage.removeItem(KEY.AUTHUSER);
+                        Toast.show('Log Out Success', Toast.SHORT);
+                        this.props.navigation.replace('LoginScreen');
+                    }
+                }
+            ]
+        );
+
     }
 
     onPressSignUp = () => {
@@ -77,38 +98,41 @@ export default class MyProfileScreen extends Component {
         return (
             !showLogin
                 ?
-                <SafeAreaView style={styles.container}>
-                    <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
-                    <View style={styles.headerstyle}>
-                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
-                            <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, }}>
-                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>My Profile</Text>
+                <SafeAreaView style={styles().container}>
+                    <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                    <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR).headerstyle}>
+                        <Image source={{ uri: this.getBranch?.branchlogo ? this.getBranch.branchlogo : TYPE.DefaultImage }}
+                            style={{ tintColor: COLOR.WHITE, alignItems: KEY.CENTER, height: 90, width: 90, marginLeft: 10, marginTop: 0, borderRadius: 10, resizeMode: KEY.COVER }}
+                        />
+                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -60 }}>
+                            <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>
+                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>{'My Profile'}</Text>
                             </View>
                         </View>
                     </View>
                     {companyData === null ?
                         <Loader />
                         : <>
-                            <Image style={styles.avatar} source={{ uri: userProfile && userProfile !== null ? userProfile : "https://res.cloudinary.com/dnogrvbs2/image/upload/v1610428971/userimage_qif8wv.jpg" }} />
+                            <Image style={styles().avatar} source={{ uri: userProfile && userProfile !== null ? userProfile : "https://res.cloudinary.com/dnogrvbs2/image/upload/v1610428971/userimage_qif8wv.jpg" }} />
                             <View style={{ marginLeft: 230, marginTop: -20 }}>
                                 <TouchableOpacity onPress={() => this.onPressUpdateProfile()}>
                                     <MaterialCommunityIcons name='circle-edit-outline' size={25} color={COLOR.MENU_TEXT_COLOR} />
                                 </TouchableOpacity>
                             </View>
-                            <View style={styles.body}>
-                                <View style={styles.bodyContent}>
-                                    <Text style={styles.name}>{companyData && companyData.fullname}</Text>
+                            <View style={styles().body}>
+                                <View style={styles().bodyContent}>
+                                    <Text style={styles().name}>{companyData && companyData.fullname}</Text>
                                 </View>
                                 <View style={{
                                     flex: 1, flexDirection: KEY.COLUMN, alignItems: KEY.CENTER, marginTop: 10
                                 }}>
-                                    <TouchableOpacity style={styles.buttonContainer} onPress={() => this.onPressUpdateProfile()}>
+                                    <TouchableOpacity style={styles().buttonContainer} onPress={() => this.onPressUpdateProfile()}>
                                         <Entypo name="edit" size={20} color={COLOR.MENU_TEXT_COLOR} style={{ padding: 8, paddingLeft: 16 }} />
-                                        <Text style={styles.textContainer}>Update Profile</Text>
+                                        <Text style={styles().textContainer}>Update Profile</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={styles.buttonContainer} onPress={() => this.onPressLogout()}>
+                                    <TouchableOpacity style={styles().buttonContainer} onPress={() => this.onPressLogout()}>
                                         <Entypo name="log-out" size={20} color={COLOR.MENU_TEXT_COLOR} style={{ padding: 8, paddingLeft: 16 }} />
-                                        <Text style={styles.textContainer}>Log out</Text>
+                                        <Text style={styles().textContainer}>Log out</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -116,19 +140,19 @@ export default class MyProfileScreen extends Component {
                     }
                 </SafeAreaView>
                 :
-                <SafeAreaView style={styles.container}>
-                    <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
-                    <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={COLOR.DEFALUTCOLOR} style={styles.backgroundImage}>
+                <SafeAreaView style={styles().container}>
+                    <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                    <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR} style={styles().backgroundImage}>
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
-                            <Image style={styles.imageLogo} resizeMode={KEY.COVER} source={IMAGE.LOGO} />
+                            <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={this.getBranch?.branchlogo ? { uri: this.getBranch.branchlogo } : IMAGE.LOGO} />
                         </View>
                     </ImageBackground>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: HEIGHT / 6 }}>
-                        <TouchableOpacity style={styles.update_Btn} onPress={() => this.onPressSignUp()}>
-                            <Text style={styles.update_text} >Sign Up</Text>
+                        <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).update_Btn} onPress={() => this.onPressSignUp()}>
+                            <Text style={styles().update_text} >Sign Up</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.update_Btn} onPress={() => this.onPressLogin()}>
-                            <Text style={styles.update_text} >Login Now</Text>
+                        <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).update_Btn} onPress={() => this.onPressLogin()}>
+                            <Text style={styles().update_text} >Sign In</Text>
                         </TouchableOpacity>
                     </View>
                 </SafeAreaView>
@@ -136,7 +160,7 @@ export default class MyProfileScreen extends Component {
     }
 }
 
-const styles = StyleSheet.create({
+const styles = (colorcode) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLOR.BACKGROUNDCOLOR
@@ -185,7 +209,7 @@ const styles = StyleSheet.create({
         color: COLOR.MENU_TEXT_COLOR
     },
     headerstyle: {
-        backgroundColor: COLOR.STATUSBARCOLOR,
+        backgroundColor: colorcode,
         width: WIDTH,
         height: 90,
         borderBottomLeftRadius: 30,
@@ -201,11 +225,12 @@ const styles = StyleSheet.create({
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER,
         height: 150,
-        width: 220
+        width: 220,
+        tintColor: COLOR.WHITE
     },
     update_Btn: {
         flexDirection: KEY.ROW,
-        backgroundColor: COLOR.DEFALUTCOLOR,
+        backgroundColor: colorcode,
         marginTop: 10,
         borderRadius: 100,
         width: WIDTH / 2,

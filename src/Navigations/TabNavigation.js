@@ -30,6 +30,7 @@ import * as KEY from '../context/actions/key';
 import * as TYPE from '../context/actions/type';
 import * as COLOR from '../styles/colors';
 import * as IMAGE from '../styles/image';
+import { getBranchDetails } from '../Services/LocalService/LocalService';
 
 const ProfileStack = createStackNavigator();
 function ProfileStackScreen({ navigation }) {
@@ -159,16 +160,19 @@ function SupportStackScreen({ navigation }) {
 const Tab = createBottomTabNavigator();
 export default function TabNavigation() {
     const [myCartVisible, setMyCartVisible] = useState(false);
+    const [getBranch, setgetBranch] = useState(null);
 
     useEffect(() => {
         MenuPermission();
     }, []);
 
     useEffect(() => {
-    }, [myCartVisible]);
+    }, [myCartVisible, getBranch]);
 
     //CHECK MENU PERMISSION FUNCTION
     const MenuPermission = async () => {
+        const getBranchdata = await getBranchDetails();
+        setgetBranch(getBranchdata);
         var getUser = await AsyncStorage.getItem(TYPE.AUTHUSER);
         var userData = JSON.parse(getUser);
         if (userData) {
@@ -238,7 +242,7 @@ export default function TabNavigation() {
                     borderTopLeftRadius: 21,
                     position: 'absolute',
                 },
-                activeTintColor: COLOR.DEFALUTCOLOR,
+                activeTintColor: getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR,
                 inactiveTintColor: '#808B96',
                 keyboardHidesTabBar: true,
                 backBehavior: "history",

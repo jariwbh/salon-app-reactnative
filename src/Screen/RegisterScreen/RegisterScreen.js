@@ -5,7 +5,8 @@ import {
 } from 'react-native';
 import RegisterService from '../../Services/RegisterService/RegisterService';
 import { ScrollView } from 'react-native-gesture-handler';
-import Loader from '../../Components/Loader/Loading';
+import Loading from '../../Components/Loader/Loading';
+import Loader from '../../Components/Loader/Loader';
 import axiosConfig from '../../Helpers/axiosConfig';
 import * as KEY from '../../context/actions/key';
 import * as TYPE from '../../context/actions/type';
@@ -14,10 +15,12 @@ import * as IMAGE from '../../styles/image';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 import Toast from 'react-native-simple-toast';
+import { getBranchDetails } from '../../Services/LocalService/LocalService';
 
 class RegisterScreen extends Component {
     constructor(props) {
         super(props);
+        this.getBranch = null;
         this.state = {
             fullname: null,
             fullnameError: null,
@@ -26,6 +29,7 @@ class RegisterScreen extends Component {
             mobilenumber: null,
             mobilenumberError: null,
             loading: false,
+            loader: true,
         }
         this.setFullName = this.setFullName.bind(this);
         this.setUserName = this.setUserName.bind(this);
@@ -96,29 +100,43 @@ class RegisterScreen extends Component {
         }
     }
 
+    async componentDidMount() {
+        const getBranch = await getBranchDetails();
+        this.getBranch = getBranch;
+        this.wait(1000).then(() => this.setState({ loader: false }));
+    }
+
+    wait = (timeout) => {
+        return new Promise(resolve => {
+            setTimeout(resolve, timeout);
+        });
+    }
+
     render() {
-        const { fullnameError, usernameError, mobilenumberError } = this.state;
+        const { fullnameError, usernameError, mobilenumberError, loader, loading } = this.state;
         return (
-            <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
+            <SafeAreaView style={styles().container}>
+                <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
                 <ScrollView
                     Vertical={true}
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps={KEY.ALWAYS}
                 >
-                    <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={COLOR.DEFALUTCOLOR} style={styles.backgroundImage}>
+                    <ImageBackground source={IMAGE.BACKGROUND_IMAGE}
+                        tintColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR}
+                        style={styles().backgroundImage}>
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
-                            <Image style={styles.imageLogo} resizeMode={KEY.COVER} source={IMAGE.LOGO} />
+                            <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={this.getBranch?.branchlogo ? { uri: this.getBranch.branchlogo } : IMAGE.LOGO} />
                         </View>
                     </ImageBackground>
-                    <View style={styles.createtext}>
+                    <View style={styles().createtext}>
                         <Text style={{ color: COLOR.BLACK, fontSize: 28 }}>Create Account</Text>
                     </View>
 
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                        <View style={styles.inputview}>
+                        <View style={styles().inputview}>
                             <TextInput
-                                style={fullnameError == null ? styles.TextInput : styles.TextInputError}
+                                style={fullnameError == null ? styles().TextInput : styles().TextInputError}
                                 defaultValue={this.state.fullname}
                                 placeholder="Full Name"
                                 type={KEY.CLEAR}
@@ -129,9 +147,9 @@ class RegisterScreen extends Component {
                                 onChangeText={(fullname) => this.setFullName(fullname)}
                             />
                         </View>
-                        <View style={styles.inputview}>
+                        <View style={styles().inputview}>
                             <TextInput
-                                style={usernameError == null ? styles.TextInput : styles.TextInputError}
+                                style={usernameError == null ? styles().TextInput : styles().TextInputError}
                                 defaultValue={this.state.username}
                                 placeholder="Email"
                                 type={KEY.CLEAR}
@@ -147,9 +165,9 @@ class RegisterScreen extends Component {
                                 onChangeText={(username) => this.setUserName(username)}
                             />
                         </View>
-                        <View style={styles.inputview} >
+                        <View style={styles().inputview} >
                             <TextInput
-                                style={mobilenumberError == null ? styles.TextInput : styles.TextInputError}
+                                style={mobilenumberError == null ? styles().TextInput : styles().TextInputError}
                                 placeholder="Mobile Number"
                                 type={KEY.CLEAR}
                                 placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
@@ -162,25 +180,24 @@ class RegisterScreen extends Component {
                         </View>
                     </View>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 15 }}>
-                        <TouchableOpacity style={styles.sineBtn} onPress={() => this.onPressSubmit()} >
-                            {this.state.loading === true ? <Loader /> : <Text style={styles.sineText}>Sign Up</Text>}
+                        <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).sineBtn} onPress={() => this.onPressSubmit()} >
+                            {this.state.loading === true ? <Loading /> : <Text style={styles().sineText}>Sign Up</Text>}
                         </TouchableOpacity>
                     </View>
                     <View style={{ marginTop: 15, justifyContent: KEY.CENTER, flexDirection: KEY.ROW }} >
-                        <Text style={styles.innerText}>Already have an account? </Text>
+                        <Text style={styles().innerText}>Already have an account? </Text>
                         <TouchableOpacity onPress={() => { this.props.navigation.navigate('LoginScreen') }} >
-                            <Text style={styles.baseText}>Signin</Text>
+                            <Text style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).baseText}>Signin</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
+                {loader == true ? <Loader /> : null}
             </SafeAreaView>
         );
     }
 }
 
-export default RegisterScreen;
-
-const styles = StyleSheet.create({
+const styles = (colorcode) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLOR.BACKGROUNDCOLOR
@@ -228,7 +245,7 @@ const styles = StyleSheet.create({
     sineBtn: {
         flexDirection: KEY.ROW,
         width: WIDTH / 3,
-        backgroundColor: COLOR.DEFALUTCOLOR,
+        backgroundColor: colorcode,
         borderRadius: 100,
         height: 40,
         alignItems: KEY.CENTER,
@@ -240,7 +257,7 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
     baseText: {
-        color: COLOR.DEFALUTCOLOR,
+        color: colorcode,
         fontSize: 14
     },
     innerText: {
@@ -255,7 +272,12 @@ const styles = StyleSheet.create({
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER,
         height: 150,
-        width: 220
+        width: 220,
+        tintColor: COLOR.WHITE
     }
 })
+
+export default RegisterScreen;
+
+
 

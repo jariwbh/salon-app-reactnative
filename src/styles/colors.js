@@ -1,8 +1,8 @@
 //APP MAIN COLOR
-export const DEFALUTCOLOR = '#FF7F50';
-export const DEFAULTLIGHT = '#ffdacc';
+export const DEFALUTCOLOR = '#F7C32B';//'#AF721C';//'#FF7F50'
+export const DEFAULTLIGHT = '#FFDACC';
 export const BACKGROUNDCOLOR = '#EFF2F7';
-export const STATUSBARCOLOR = '#FF7F50';
+export const STATUSBARCOLOR = '#F7C32B';
 
 //BASIC COLOR
 export const PRIMARY = '#1779ba';

@@ -16,10 +16,12 @@ import { FONT_WEIGHT_BOLD } from '../../styles/typography';
 import axiosConfig from '../../Helpers/axiosConfig';
 import AsyncStorage from '@react-native-community/async-storage';
 import getCurrency from '../../Services/getCurrencyService/getCurrency';
+import { getBranchDetails } from '../../Services/LocalService/LocalService';
 
 class HomeScreen extends Component {
     constructor(props) {
         super(props);
+        this.getBranch = null;
         this.state = {
             CategoryList: [],
             AppointmentList: [],
@@ -123,7 +125,9 @@ class HomeScreen extends Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        const getBranch = await getBranchDetails();
+        this.getBranch = getBranch;
         this.getDefaultUser();
     }
 
@@ -150,9 +154,9 @@ class HomeScreen extends Component {
     )
 
     renderAppointmentList = ({ item }) => (
-        <View style={styles.cardView}>
+        <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR).cardView}>
             <TouchableOpacity style={{ alignItems: KEY.CENTER }} onPress={() => this.props.navigation.navigate('ServiceDetails', { item })}>
-                <Image source={{ uri: (item.gallery[0] ? item.gallery[0].attachment : TYPE.DefaultImage) }}
+                <Image source={{ uri: (item.gallery[0] ? item.gallery[0].attachment : this.getBranch.branchlogo) }}
                     style={item.gallery[0] && item.gallery[0].attachment ?
                         { alignItems: KEY.CENTER, height: 150, width: WIDTH - 40, marginTop: 10, borderRadius: 10, resizeMode: KEY.COVER }
                         :
@@ -162,8 +166,8 @@ class HomeScreen extends Component {
             </TouchableOpacity>
             <View
                 style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginLeft: 10, marginRight: 10, marginBottom: 10, marginTop: 10 }}>
-                <Text style={{ fontSize: 16, color: COLOR.DEFALUTCOLOR, fontWeight: FONT_WEIGHT_BOLD, width: WIDTH / 2 }}>{item.title}</Text>
-                <Text style={{ fontSize: 16, color: COLOR.DEFALUTCOLOR, fontWeight: FONT_WEIGHT_BOLD }}>{this.state.currencySymbol + ' ' + item.charges}</Text>
+                <Text style={{ fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontWeight: FONT_WEIGHT_BOLD, width: WIDTH / 2 }}>{item.title}</Text>
+                <Text style={{ fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontWeight: FONT_WEIGHT_BOLD }}>{this.state.currencySymbol + ' ' + item.charges}</Text>
             </View>
         </View>
     )
@@ -185,21 +189,25 @@ class HomeScreen extends Component {
     render() {
         const { CategoryList, AppointmentList, staffList, loader, refreshing } = this.state
         return (
-            <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
-                <View style={styles.headerstyle}>
-                    <Image source={{ uri: TYPE.DefaultImage }}
-                        style={{ tintColor: COLOR.WHITE, alignItems: KEY.CENTER, height: 80, width: 80, marginLeft: 10, marginTop: 0, borderRadius: 10, resizeMode: KEY.COVER }}
+            <SafeAreaView style={styles().container}>
+                <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR).headerstyle}>
+                    <Image source={{ uri: this.getBranch?.branchlogo ? this.getBranch.branchlogo : TYPE.DefaultImage }}
+                        style={{ tintColor: COLOR.WHITE, alignItems: KEY.CENTER, height: 90, width: 90, marginLeft: 10, marginTop: 0, borderRadius: 10, resizeMode: KEY.COVER }}
                     />
-                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -60 }}>
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -60, marginRight: -10 }}>
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>
-                            <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>{TYPE.APPNAME}</Text>
+                            <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold', width: WIDTH / 2, textAlign: KEY.CENTER }}>{this.getBranch && this.getBranch.branchname}</Text>
                         </View>
                     </View>
                 </View>
                 {CategoryList == null || CategoryList.length == 0 ? null :
                     <ScrollView
-                        refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh" tintColor={COLOR.DEFALUTCOLOR} titleColor={COLOR.DEFALUTCOLOR} colors={[COLOR.DEFALUTCOLOR]} onRefresh={this.onRefresh} />}
+                        refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh"
+                            tintColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR}
+                            titleColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR}
+                            colors={[this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR]}
+                            onRefresh={this.onRefresh} />}
                         showsVerticalScrollIndicator={false}>
                         <View style={{ flexDirection: KEY.ROW, marginLeft: 5 }}>
                             <ScrollView
@@ -216,11 +224,11 @@ class HomeScreen extends Component {
                             </ScrollView>
                         </View>
                         <View style={{ flexDirection: KEY.ROW, alignItems: KEY.CENTER, marginTop: 12 }}>
-                            <View style={{ flex: 1, height: 1, backgroundColor: COLOR.DEFALUTCOLOR }} />
+                            <View style={{ flex: 1, height: 1, backgroundColor: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR }} />
                             <View>
-                                <Text style={{ width: 130, textAlign: KEY.CENTER, fontSize: 20, color: COLOR.DEFALUTCOLOR }}>Top Services</Text>
+                                <Text style={{ width: 130, textAlign: KEY.CENTER, fontSize: 20, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR }}>Top Services</Text>
                             </View>
-                            <View style={{ flex: 1, height: 1, backgroundColor: COLOR.DEFALUTCOLOR }} />
+                            <View style={{ flex: 1, height: 1, backgroundColor: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR }} />
                         </View>
                         <View style={{ flexDirection: KEY.ROW, alignItems: KEY.CENTER }}>
                             <FlatList
@@ -272,13 +280,13 @@ class HomeScreen extends Component {
 
 export default HomeScreen;
 
-const styles = StyleSheet.create({
+const styles = (colorcode) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: COLOR.BACKGROUNDCOLOR
     },
     headerstyle: {
-        backgroundColor: COLOR.STATUSBARCOLOR,
+        backgroundColor: colorcode,
         width: WIDTH,
         height: 90,
         borderBottomLeftRadius: 30,
