@@ -28,12 +28,15 @@ class RegisterScreen extends Component {
             usernameError: null,
             mobilenumber: null,
             mobilenumberError: null,
+            password: null,
+            passwordError: null,
             loading: false,
             loader: true,
         }
         this.setFullName = this.setFullName.bind(this);
         this.setUserName = this.setUserName.bind(this);
         this.setMobileNumber = this.setMobileNumber.bind(this);
+        this.setPassword = this.setPassword.bind(this);
         this.onPressSubmit = this.onPressSubmit.bind(this);
         this.secondTextInputRef = React.createRef();
         this.TeardTextInputRef = React.createRef();
@@ -69,26 +72,35 @@ class RegisterScreen extends Component {
         return this.setState({ mobilenumber: mobilenumber, mobilenumberError: null })
     }
 
+    setPassword(password) {
+        if (!password || password.length <= 0) {
+            return this.setState({ passwordError: 'Password cannot be empty' });
+        }
+        return this.setState({ password: password, passwordError: null })
+    }
+
     onPressSubmit = async () => {
-        const { fullname, username, mobilenumber } = this.state;
+        const { fullname, username, mobilenumber, password } = this.state;
         axiosConfig(TYPE.USERKEY);
-        if (!fullname || !username || !mobilenumber) {
+        if (!fullname || !username || !password) {
             this.setFullName(fullname)
             this.setUserName(username)
-            this.setMobileNumber(mobilenumber)
+            this.setPassword(password)
+            //this.setMobileNumber(mobilenumber)
             return;
         }
         const body = {
             property: {
                 fullname: fullname,
                 primaryemail: username,
-                mobile: mobilenumber,
-            }
+                //mobile: mobilenumber,
+            },
+            password: password
         }
         this.setState({ loading: true })
         try {
             await RegisterService(body).then(response => {
-                if (response != null) {
+                if (response.data && response.data != undefined && response.status == 200) {
                     Toast.show('SignUp Success', Toast.SHORT);
                     this.props.navigation.navigate('LoginScreen');
                 }
@@ -113,7 +125,7 @@ class RegisterScreen extends Component {
     }
 
     render() {
-        const { fullnameError, usernameError, mobilenumberError, loader, loading } = this.state;
+        const { fullnameError, usernameError, mobilenumberError, passwordError, loader, loading } = this.state;
         return (
             <SafeAreaView style={styles().container}>
                 <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
@@ -165,7 +177,21 @@ class RegisterScreen extends Component {
                                 onChangeText={(username) => this.setUserName(username)}
                             />
                         </View>
-                        <View style={styles().inputview} >
+                        <View style={styles().inputview}>
+                            <TextInput
+                                style={passwordError == null ? styles().TextInput : styles().TextInputError}
+                                defaultValue={this.state.password}
+                                placeholder="**********"
+                                type={KEY.CLEAR}
+                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                secureTextEntry={true}
+                                returnKeyType={KEY.DONE}
+                                blurOnSubmit={false}
+                                onSubmitEditing={() => Keyboard.dismiss()}
+                                onChangeText={(password) => this.setPassword(password)}
+                            />
+                        </View>
+                        {/* <View style={styles().inputview} >
                             <TextInput
                                 style={mobilenumberError == null ? styles().TextInput : styles().TextInputError}
                                 placeholder="Mobile Number"
@@ -177,7 +203,7 @@ class RegisterScreen extends Component {
                                 onSubmitEditing={() => Keyboard.dismiss()}
                                 onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
                             />
-                        </View>
+                        </View> */}
                     </View>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 15 }}>
                         <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).sineBtn} onPress={() => this.onPressSubmit()} >

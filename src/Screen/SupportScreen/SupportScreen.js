@@ -66,7 +66,7 @@ const SupportScreen = (props) => {
             </View>
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                 <View style={styles().containView}>
-                    <Image source={IMAGE.CONSULT_TALK_ICON} resizeMode={KEY.CONTAIN} style={{ height: 100, width: 100 }} />
+                    {/* <Image source={IMAGE.CONSULT_TALK_ICON} resizeMode={KEY.CONTAIN} style={{ height: 100, width: 100 }} /> */}
                     <Text style={styles(getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).textHeader}>We are here to help you</Text>
                     <Text style={styles().textSub}>Contact Us</Text>
                     <View style={{ marginTop: 10, justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
@@ -84,6 +84,7 @@ const SupportScreen = (props) => {
         </SafeAreaView>
     );
 }
+
 export default SupportScreen;
 
 

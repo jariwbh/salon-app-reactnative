@@ -73,7 +73,7 @@ export default class LoginScreen extends Component {
             return;
         }
         const body = {
-            username: username,
+            username: username.trim(),
             password: password
         }
         this.setState({ loading: true });
@@ -92,6 +92,7 @@ export default class LoginScreen extends Component {
                 })
         }
         catch (error) {
+            console.log(`error`, error);
             this.setState({ loading: false })
             Toast.show('Username and Password Invalid!', Toast.SHORT);
         };
@@ -128,7 +129,7 @@ export default class LoginScreen extends Component {
                         <View style={styles().inputView}>
                             <TextInput
                                 style={usererror == null ? styles().TextInput : styles().TextInputError}
-                                placeholder="Username"
+                                placeholder="User name"
                                 defaultValue={this.state.username}
                                 type={KEY.CLEAR}
                                 returnKeyType={KEY.NEXT}
