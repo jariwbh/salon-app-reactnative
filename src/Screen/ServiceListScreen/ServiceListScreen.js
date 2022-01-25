@@ -91,7 +91,7 @@ export default class AppointmentScreen extends Component {
             const responseCurrency = getCurrency(userData.branchid.currency);
             this.setState({ currencySymbol: responseCurrency });
         } else {
-            axiosConfig(TYPE.USERKEY);
+            axiosConfig(this.getBranch?.property?.authkey);
             var getUser = await AsyncStorage.getItem(TYPE.DEFAULTUSER);
             var userData = JSON.parse(getUser);
             const responseCurrency = getCurrency(userData.branchid.currency);

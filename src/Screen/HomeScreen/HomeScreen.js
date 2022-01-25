@@ -61,9 +61,9 @@ class HomeScreen extends Component {
                 console.log(`error`, error);
             }
         } else {
-            axiosConfig(TYPE.USERKEY);
+            axiosConfig(this.getBranch?.property?.authkey);
             try {
-                const response = await UserService(TYPE.USERKEY);
+                const response = await UserService(this.getBranch?.property?.authkey);
                 if (response.data != null && response.data != 'undefind' && response.status == 200) {
                     this.authDefaultUser(response.data);
                     var getUser = await AsyncStorage.getItem(TYPE.DEFAULTUSER);
@@ -197,7 +197,7 @@ class HomeScreen extends Component {
                     />
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -60, marginRight: -10 }}>
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>
-                            <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold', width: WIDTH / 2, textAlign: KEY.CENTER }}>{this.getBranch && this.getBranch.branchname}</Text>
+                            <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold', width: WIDTH / 2, textAlign: KEY.CENTER, marginTop: -10 }}>{this.getBranch && this.getBranch.branchname}</Text>
                         </View>
                     </View>
                 </View>
@@ -270,7 +270,21 @@ class HomeScreen extends Component {
                                 />
                             </ScrollView>
                         </View> */}
+                        {CategoryList == null || CategoryList.length == 0 ?
+                            <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                                <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
+                                <Text style={{ fontSize: 16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                            </View>
+                            : null
+                        }
                     </ScrollView>
+                }
+                {CategoryList == null || CategoryList.length == 0 ?
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                        <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
+                        <Text style={{ fontSize: 16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                    </View>
+                    : null
                 }
                 {loader == true ? <Loader /> : null}
             </SafeAreaView>

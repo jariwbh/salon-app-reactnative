@@ -55,9 +55,9 @@ class PackageScreen extends Component {
                 console.log(`error`, error);
             }
         } else {
-            axiosConfig(TYPE.USERKEY);
+            axiosConfig(this.getBranch?.property?.authkey);
             try {
-                const response = await UserService(TYPE.USERKEY);
+                const response = await UserService(this.getBranch?.property?.authkey);
                 if (response.data != null && response.data != 'undefind' && response.status == 200) {
                     this.authDefaultUser(response.data);
                     var getUser = await AsyncStorage.getItem(TYPE.DEFAULTUSER);

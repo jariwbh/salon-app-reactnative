@@ -98,6 +98,7 @@ const SelectBranchScreen = (props) => {
 
     //SELECT BRANCH TO CALL FUNCTION
     const onPressSelectBranch = (val) => {
+        axiosConfig(val.property.authkey);
         authDefaultUser(KEY.AUTHUSERBRANCH, val);
         return props.navigation.replace('TabNavigation');
     }

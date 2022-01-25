@@ -21,13 +21,13 @@ import * as IMAGE from '../../styles/image';
 import * as TYPE from '../../context/actions/type';
 import axiosConfig from '../../Helpers/axiosConfig';
 import AsyncStorage from '@react-native-community/async-storage';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
 const ProductListScreen = (props) => {
     const [loading, setLoading] = useState(false);
+    const [getBranch, setgetBranch] = useState(null);
     const [catagoryList, setCatagoryList] = useState([]);
     const [productList, setProductList] = useState([]);
     const [productListCategoryWise, setProductListCatagoryWise] = useState(null);
@@ -43,7 +43,8 @@ const ProductListScreen = (props) => {
     }, [])
 
     useEffect(() => {
-    }, [loading, productListCategoryWise, catagoryList, productList, currencySymbol])
+    }, [loading, productListCategoryWise, catagoryList,
+        productList, getBranch, currencySymbol])
 
     //TIME OUT FUNCTION
     const wait = (timeout) => {
@@ -55,16 +56,14 @@ const ProductListScreen = (props) => {
     //GET MEMBER DATA IN MOBILE LOCAL STORAGE
     const getMemberDeatilsLocalStorage = async () => {
         var getAuthUser = await AsyncStorage.getItem(TYPE.AUTHUSER);
-        var getDefaultUser = await AsyncStorage.getItem(TYPE.DEFAULTUSER);
         if (getAuthUser !== null) {
             var userData = JSON.parse(getAuthUser);
             axiosConfig(userData._id);
             const response = getCurrency(userData.branchid.currency);
             setCurrencySymbol(response);
         } else {
-            axiosConfig(TYPE.USERKEY);
-            var userData = JSON.parse(getDefaultUser);
-            const response = getCurrency(userData.branchid.currency);
+            axiosConfig(getBranch?.property?.authkey);
+            const response = getCurrency(getBranch.currency);
             setCurrencySymbol(response);
         }
     }

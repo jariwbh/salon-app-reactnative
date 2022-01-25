@@ -42,6 +42,21 @@ class RegisterScreen extends Component {
         this.TeardTextInputRef = React.createRef();
     }
 
+    resetScreen() {
+        this.setState({
+            fullname: null,
+            fullnameError: null,
+            username: null,
+            usernameError: null,
+            mobilenumber: null,
+            mobilenumberError: null,
+            password: null,
+            passwordError: null,
+            loading: false,
+            loader: false,
+        });
+    }
+
     setFullName(fullname) {
         if (!fullname || fullname.length <= 0) {
             return this.setState({ fullnameError: 'User Name cannot be empty' });
@@ -81,7 +96,7 @@ class RegisterScreen extends Component {
 
     onPressSubmit = async () => {
         const { fullname, username, mobilenumber, password } = this.state;
-        axiosConfig(TYPE.USERKEY);
+        axiosConfig(this.getBranch?.property?.authkey);
         if (!fullname || !username || !password) {
             this.setFullName(fullname)
             this.setUserName(username)
@@ -212,7 +227,7 @@ class RegisterScreen extends Component {
                     </View>
                     <View style={{ marginTop: 15, justifyContent: KEY.CENTER, flexDirection: KEY.ROW }} >
                         <Text style={styles().innerText}>Already have an account? </Text>
-                        <TouchableOpacity onPress={() => { this.props.navigation.navigate('LoginScreen') }} >
+                        <TouchableOpacity onPress={() => { this.resetScreen(), this.props.navigation.navigate('LoginScreen') }} >
                             <Text style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).baseText}>Signin</Text>
                         </TouchableOpacity>
                     </View>

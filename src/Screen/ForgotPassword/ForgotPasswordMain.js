@@ -101,7 +101,7 @@ export default function ForgotPasswordMain(props) {
     onPressSubmit = async (member, verifyOtpNumber) => {
         let memberMobile = member.mobile;
         let memberEmail = member.primaryemail;
-        axiosConfig(TYPE.USERKEY);
+        axiosConfig(getBranch?.property?.authkey);
         let mobilebody;
         let emailbody;
         if (memberMobile) {
