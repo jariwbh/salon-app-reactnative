@@ -117,6 +117,7 @@
   <com.android.asset-pack/>
   <com.android.asset-pack-bundle/>
   <com.android.billingclient/>
+  <com.android.car.ui/>
   <com.android.databinding/>
   <com.android.dynamic-feature/>
   <com.android.installreferrer/>
