@@ -16,6 +16,7 @@ import * as IMAGE from '../../styles/image';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Toast from 'react-native-simple-toast';
 import { getBranchDetails } from '../../Services/LocalService/LocalService';
+import { MemberService } from '../../Services/UserService/UserService'
 
 export default class MyProfileScreen extends Component {
     constructor(props) {
@@ -48,11 +49,7 @@ export default class MyProfileScreen extends Component {
         } else {
             var userData;
             userData = JSON.parse(getUser)
-            this.setState({
-                loader: false,
-                companyData: userData,
-                userProfile: userData.profilepic
-            });
+            await this.getMemberDetails(userData._id);
         }
     }
 
@@ -91,6 +88,30 @@ export default class MyProfileScreen extends Component {
 
     onPressLogin = () => {
         this.props.navigation.navigate('LoginScreen');
+    }
+
+    authenticateUser = (user) => {
+        AsyncStorage.setItem(KEY.AUTHUSER, JSON.stringify(user));
+    }
+
+    getMemberDetails = async (id) => {
+        try {
+            await MemberService(id).then(response => {
+                if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                    this.setState({
+                        loader: false,
+                        companyData: response.data,
+                        userProfile: response.data.profilepic
+                    });
+                    this.authenticateUser(response.data);
+                }
+            })
+        }
+        catch (error) {
+            console.log(`error`, error);
+            this.setState({ loading: false })
+            Toast.show('Your Profile Not Update', Toast.SHORT);
+        }
     }
 
     render() {

@@ -203,6 +203,7 @@ class RegisterScreen extends Component {
                                 returnKeyType={KEY.DONE}
                                 blurOnSubmit={false}
                                 onSubmitEditing={() => Keyboard.dismiss()}
+                                ref={this.TeardTextInputRef}
                                 onChangeText={(password) => this.setPassword(password)}
                             />
                         </View>
@@ -215,7 +216,7 @@ class RegisterScreen extends Component {
                                 returnKeyType={KEY.DONE}
                                 keyboardType="number-pad"
                                 ref={this.TeardTextInputRef}
-                                onSubmitEditing={() => Keyboard.dismiss()}
+                                onSubmitEditing={() => Keyboard.dismiss()}                               
                                 onChangeText={(mobilenumber) => this.setMobileNumber(mobilenumber)}
                             />
                         </View> */}

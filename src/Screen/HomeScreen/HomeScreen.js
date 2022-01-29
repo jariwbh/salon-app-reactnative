@@ -58,6 +58,7 @@ class HomeScreen extends Component {
                 await this.getAppointmentList();
                 await this.getstaffList();
             } catch (error) {
+                this.setState({ loader: false });
                 console.log(`error`, error);
             }
         } else {
@@ -75,6 +76,7 @@ class HomeScreen extends Component {
                     await this.getstaffList();
                 }
             } catch (error) {
+                this.setState({ loader: false });
                 console.log(`error`, error);
             }
         }
@@ -128,7 +130,7 @@ class HomeScreen extends Component {
     async componentDidMount() {
         const getBranch = await getBranchDetails();
         this.getBranch = getBranch;
-        this.getDefaultUser();
+        await this.getDefaultUser();
     }
 
     renderCategoryList = ({ item }) => (

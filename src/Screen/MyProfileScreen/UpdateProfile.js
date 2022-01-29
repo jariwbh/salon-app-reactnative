@@ -44,6 +44,7 @@ class UpdateProfile extends Component {
         this.TeardTextInputRef = React.createRef();
     }
 
+
     wait = (timeout) => {
         return new Promise(resolve => {
             setTimeout(resolve, timeout);
@@ -70,18 +71,18 @@ class UpdateProfile extends Component {
     }
 
     setMobileNumber(mobilenumber) {
-        const reg = /^[0]?[789]\d{9}$/;
+        //const reg = /^[0]?[789]\d{9}$/;
         if (!mobilenumber || mobilenumber.length <= 0) {
             return this.setState({ mobilenumberError: 'Mobile Number cannot be empty', mobilenumber: null });
         }
-        if (!reg.test(mobilenumber)) {
-            return this.setState({ mobilenumberError: 'Ooops! We need a valid Mobile Number' });
-        }
+        // if (!reg.test(mobilenumber)) {
+        //     return this.setState({ mobilenumberError: 'Ooops! We need a valid Mobile Number' });
+        // }
         return this.setState({ mobilenumber: mobilenumber, mobilenumberError: null })
     }
 
     authenticateUser = (user) => {
-        AsyncStorage.setItem('@authuser', JSON.stringify(user));
+        AsyncStorage.setItem(KEY.AUTHUSER, JSON.stringify(user));
     }
 
     onPressSubmit = async () => {
