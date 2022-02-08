@@ -155,7 +155,7 @@ export default function ForgotPasswordMain(props) {
             <ScrollView Vertical={true} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                 <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR} style={styles().backgroundImage}>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
-                        <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={getBranch?.branchlogo ? { uri: getBranch.branchlogo } : IMAGE.LOGO} />
+                        <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={getBranch?.branchlogo ? { uri: getBranch.branchlogo } : TYPE.DefaultImage} />
                     </View>
                 </ImageBackground>
 

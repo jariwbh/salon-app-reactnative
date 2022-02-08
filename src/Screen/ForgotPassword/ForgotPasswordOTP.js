@@ -11,6 +11,7 @@ import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import Toast from 'react-native-simple-toast';
 import { getBranchDetails } from '../../Services/LocalService/LocalService';
+import { DefaultImage } from '../../context/actions/type';
 
 export default function ForgotPasswordOTP(props) {
     const verifyOtpNumber = props.route.params.verifyOtpNumber;
@@ -74,7 +75,7 @@ export default function ForgotPasswordOTP(props) {
             <ScrollView Vertical={true} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS} >
                 <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={COLOR.DEFALUTCOLOR} style={styles().backgroundImage}>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
-                        <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={getBranch?.branchlogo ? { uri: getBranch.branchlogo } : IMAGE.LOGO} />
+                        <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={getBranch?.branchlogo ? { uri: getBranch.branchlogo } : DefaultImage} />
                     </View>
                 </ImageBackground>
                 <View style={styles().forgotview}>

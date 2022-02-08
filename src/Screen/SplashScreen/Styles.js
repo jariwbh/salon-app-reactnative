@@ -1,21 +1,21 @@
 import { StyleSheet, Dimensions } from 'react-native';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
+
 import * as COLOR from '../../styles/colors';
 import * as KEY from '../../context/actions/key';
 
 const styles = StyleSheet.create({
     imageStyle: {
-        flex: 1,
-        height: HEIGHT,
-        width: WIDTH,
-        justifyContent: KEY.CENTER
+        height: "100%",
+        width: "100%"
     },
     imageLogo: {
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER,
-        height: 100,
-        width: 250
+        height: 300,
+        width: 300,
+        tintColor: COLOR.WHITE
     },
     msgModalView: {
         marginTop: HEIGHT / 2.5,

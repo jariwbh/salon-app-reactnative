@@ -153,7 +153,7 @@ class RegisterScreen extends Component {
                         tintColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR}
                         style={styles().backgroundImage}>
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
-                            <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={this.getBranch?.branchlogo ? { uri: this.getBranch.branchlogo } : IMAGE.LOGO} />
+                            <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={this.getBranch?.branchlogo ? { uri: this.getBranch.branchlogo } : TYPE.DefaultImage} />
                         </View>
                     </ImageBackground>
                     <View style={styles().createtext}>

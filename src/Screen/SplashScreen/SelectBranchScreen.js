@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { BranchService } from '../../Services/BranchService/BranchService';
 import { UserService } from '../../Services/UserService/UserService';
+import AsyncStorage from '@react-native-community/async-storage';
 import * as TYPE from '../../context/actions/type';
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
@@ -19,7 +20,6 @@ import * as IMAGE from '../../styles/image';
 import * as FONT from '../../styles/typography';
 import Loader from '../../Components/Loader/Loader';
 import axiosConfig from '../../Helpers/axiosConfig';
-import AsyncStorage from '@react-native-community/async-storage';
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 

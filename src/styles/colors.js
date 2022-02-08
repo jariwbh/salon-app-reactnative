@@ -1,8 +1,8 @@
 //APP MAIN COLOR
-export const DEFALUTCOLOR = '#F7C32B';//'#AF721C';//'#FF7F50'
-export const DEFAULTLIGHT = '#FFDACC';
+export const DEFALUTCOLOR = '#575552';
+export const DEFAULTLIGHT = '#575552';
 export const BACKGROUNDCOLOR = '#EFF2F7';
-export const STATUSBARCOLOR = '#F7C32B';
+export const STATUSBARCOLOR = '#575552';
 
 //BASIC COLOR
 export const PRIMARY = '#1779ba';
@@ -88,3 +88,9 @@ export const NOSHOW_COLOR = '#F57C00'
 export const REQUESTED_COLOR = '#3D58D4'
 export const CHECKOUT_COLOR = '#47CCBF'
 
+//  cocoon medical spa
+//APP MAIN COLOR
+// export const DEFALUTCOLOR = '#F7C32B';
+// export const DEFAULTLIGHT = '#FFDACC';
+// export const BACKGROUNDCOLOR = '#EFF2F7';
+// export const STATUSBARCOLOR = '#F7C32B';

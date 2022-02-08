@@ -1,4 +1,4 @@
-package com.salon_reactnative;
+package com.jeskir;
 
 import com.facebook.react.ReactActivity;
 
