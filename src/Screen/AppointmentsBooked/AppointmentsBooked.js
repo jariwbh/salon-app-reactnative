@@ -126,7 +126,7 @@ export default class AppointmentsBooked extends Component {
     }
 
     getdata = async () => {
-        var getUser = await AsyncStorage.getItem('@authuser')
+        var getUser = await AsyncStorage.getItem(KEY.AUTHUSER)
         if (getUser != null || getUser && getUser.length > 0) {
             const memberInfo = JSON.parse(getUser);
             this.setState({

@@ -154,7 +154,7 @@ export default function ForgotPasswordMain(props) {
             <StatusBar backgroundColor={getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
             <ScrollView Vertical={true} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                 <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR} style={styles().backgroundImage}>
-                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 55 }}>
                         <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={getBranch?.branchlogo ? { uri: getBranch.branchlogo } : TYPE.DefaultImage} />
                     </View>
                 </ImageBackground>
@@ -273,7 +273,7 @@ const styles = (colorcode) => StyleSheet.create({
     imageLogo: {
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER,
-        height: 150,
+        height: 160,
         width: 220,
         tintColor: COLOR.WHITE
     },

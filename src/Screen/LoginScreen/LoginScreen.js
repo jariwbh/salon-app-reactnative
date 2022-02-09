@@ -118,7 +118,7 @@ export default class LoginScreen extends Component {
                 <StatusBar backgroundColor={this.getBranch && this.getBranch.property.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                     <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR} style={styles().backgroundImage}>
-                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
+                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 55 }}>
                             <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={this.getBranch?.branchlogo ? { uri: this.getBranch.branchlogo } : DefaultImage} />
                         </View>
                     </ImageBackground>
@@ -252,7 +252,7 @@ const styles = (colorcode) => StyleSheet.create({
     imageLogo: {
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER,
-        height: 150,
+        height: 160,
         width: 220,
         tintColor: COLOR.WHITE
     },

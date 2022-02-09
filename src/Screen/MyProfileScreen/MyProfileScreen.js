@@ -245,7 +245,7 @@ const styles = (colorcode) => StyleSheet.create({
     imageLogo: {
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER,
-        height: 150,
+        height: 160,
         width: 220,
         tintColor: COLOR.WHITE
     },

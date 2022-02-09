@@ -94,6 +94,7 @@ class HomeScreen extends Component {
         try {
             const response = await CategoryService();
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                console.log(`response`, response);
                 this.setState({ CategoryList: response.data });
             }
         } catch (error) {
@@ -106,7 +107,7 @@ class HomeScreen extends Component {
         try {
             const response = await AppointmentListService();
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                // const slice = response.data.slice(0, 4)
+                // const slice = response.data.slice(0, 4)                
                 this.setState({ AppointmentList: response.data, loader: false })
             }
         } catch (error) {
