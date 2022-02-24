@@ -7,6 +7,7 @@ const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 import Loader from '../../Components/Loader/Loading'
 import * as KEY from '../../context/actions/key';
+import * as TYPE from '../../context/actions/type';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import Toast from 'react-native-simple-toast';
@@ -75,7 +76,7 @@ export default function ForgotPasswordOTP(props) {
             <ScrollView Vertical={true} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS} >
                 <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={COLOR.DEFALUTCOLOR} style={styles().backgroundImage}>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 55 }}>
-                        <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={getBranch?.branchlogo ? { uri: getBranch.branchlogo } : DefaultImage} />
+                        <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={getBranch?.property?.mobilelogo ? { uri: getBranch?.property?.mobilelogo } : { uri: TYPE.DefaultImage }} />
                     </View>
                 </ImageBackground>
                 <View style={styles().forgotview}>

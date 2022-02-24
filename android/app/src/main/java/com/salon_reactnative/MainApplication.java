@@ -1,4 +1,4 @@
-package com.jeskir;
+package com.salon_reactnative;
 
 import android.app.Application;
 import android.content.Context;

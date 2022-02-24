@@ -86,7 +86,7 @@ const SelectBranchScreen = (props) => {
         <TouchableOpacity style={styles.cardView} onPress={() => onPressSelectBranch(item)}>
             <View
                 style={{ flexDirection: KEY.ROW, alignItems: KEY.CENTER, justifyContent: KEY.SPACEBETWEEN, marginLeft: 20 }}>
-                <Image source={item?.branchlogo ? { uri: item?.branchlogo } : TYPE.DefaultImage}
+                <Image source={item?.property?.mobilelogo ? { uri: item?.property?.mobilelogo } : { uri: TYPE.DefaultImage }}
                     resizeMode={KEY.STRETCH}
                     style={{ height: 100, width: 100 }} />
                 <View style={{ flexDirection: KEY.COLUMN, marginLeft: 20 }}>

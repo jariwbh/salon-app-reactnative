@@ -94,7 +94,6 @@ class HomeScreen extends Component {
         try {
             const response = await CategoryService();
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                console.log(`response`, response);
                 this.setState({ CategoryList: response.data });
             }
         } catch (error) {
@@ -142,7 +141,7 @@ class HomeScreen extends Component {
                         style={{ alignItems: KEY.CENTER, height: 80, width: 80, marginTop: 20, borderRadius: 100, borderColor: COLOR.BRIGHT_GRAY, borderWidth: 1 }}
                     />
                     :
-                    <Image source={{ uri: TYPE.DefaultImage }}
+                    <Image source={{ uri: this.getBranch?.property?.mobilelogo ? this.getBranch.property.mobilelogo : TYPE.DefaultImage }}
                         style={{
                             alignItems: KEY.CENTER, height: 80, width: 80, marginTop: 20,
                             borderRadius: 100, backgroundColor: COLOR.WHITE, borderColor: COLOR.BRIGHT_GRAY, borderWidth: 1
@@ -159,7 +158,7 @@ class HomeScreen extends Component {
     renderAppointmentList = ({ item }) => (
         <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR).cardView}>
             <TouchableOpacity style={{ alignItems: KEY.CENTER }} onPress={() => this.props.navigation.navigate('ServiceDetails', { item })}>
-                <Image source={{ uri: (item.gallery[0] ? item.gallery[0].attachment : this.getBranch.branchlogo) }}
+                <Image source={{ uri: (item.gallery[0] ? item.gallery[0].attachment : this.getBranch?.property?.mobilelogo ? this.getBranch?.property?.mobilelogo : TYPE.DefaultImage) }}
                     style={item.gallery[0] && item.gallery[0].attachment ?
                         { alignItems: KEY.CENTER, height: 150, width: WIDTH - 40, marginTop: 10, borderRadius: 10, resizeMode: KEY.COVER }
                         :
@@ -195,7 +194,7 @@ class HomeScreen extends Component {
             <SafeAreaView style={styles().container}>
                 <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
                 <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR).headerstyle}>
-                    <Image source={{ uri: this.getBranch?.branchlogo ? this.getBranch.branchlogo : TYPE.DefaultImage }}
+                    <Image source={{ uri: this.getBranch?.property?.mobilelogo ? this.getBranch?.property?.mobilelogo : TYPE.DefaultImage }}
                         style={{ tintColor: COLOR.WHITE, alignItems: KEY.CENTER, height: 90, width: 90, marginLeft: 10, marginTop: 0, borderRadius: 10, resizeMode: KEY.COVER }}
                     />
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -60, marginRight: -10 }}>

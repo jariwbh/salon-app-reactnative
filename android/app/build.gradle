@@ -130,7 +130,7 @@ android {
     }
 
     defaultConfig {      
-        applicationId "com.jeskir"
+        applicationId "com.salon_reactnative"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

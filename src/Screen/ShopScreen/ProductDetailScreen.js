@@ -83,7 +83,11 @@ const ProductDetailScreen = (props) => {
             </View>
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 10 }}>
-                    <Image source={{ uri: productDeatil && productDeatil.imagegallery[0] && productDeatil.imagegallery[0].attachment ? productDeatil?.imagegallery[0]?.attachment : TYPE.DefaultImage }}
+                    <Image source={{
+                        uri: productDeatil && productDeatil.imagegallery[0] && productDeatil.imagegallery[0].attachment ?
+                            productDeatil?.imagegallery[0]?.attachment :
+                            getBranch?.property?.mobilelogo ? getBranch.property.mobilelogo : TYPE.DefaultImage
+                    }}
                         resizeMode={KEY.CONTAIN}
                         style={{ width: WIDTH, height: HEIGHT / 3 }} />
                 </View>

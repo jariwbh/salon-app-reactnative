@@ -24,7 +24,7 @@ export default class PackageDetails extends Component {
         this.serviceDetails = this.props.route.params.item;
         this.state = {
             serviceID: this.serviceDetails._id,
-            serviceImage: this.serviceDetails && this.serviceDetails.property && this.serviceDetails.property.image && this.serviceDetails.property.image[0] && this.serviceDetails.property.image[0].attachment ? this.serviceDetails.property.image[0].attachment : this.getBranch && this.getBranch.branchlogo,
+            serviceImage: this.serviceDetails && this.serviceDetails.property && this.serviceDetails.property.image && this.serviceDetails.property.image[0] && this.serviceDetails.property.image[0].attachment ? this.serviceDetails.property.image[0].attachment : this.getBranch && this.getBranch?.property?.mobilelogo,
             servicetitle: this.serviceDetails.membershipname,
             servicecharges: this.serviceDetails.property && this.serviceDetails.property.cost ? this.serviceDetails.property.cost : 0,
             servicedescription: this.serviceDetails.property && this.serviceDetails.property.description ? this.serviceDetails.property.description : null,
@@ -71,7 +71,13 @@ export default class PackageDetails extends Component {
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginBottom: 50 }}>
-                        <Image source={{ uri: this.serviceDetails && this.serviceDetails.property && this.serviceDetails.property.image && this.serviceDetails.property.image[0] && this.serviceDetails.property.image[0].attachment ? this.serviceDetails.property.image[0].attachment : this.getBranch && this.getBranch.branchlogo }} style={{ width: WIDTH - 20, height: HEIGHT / 3, borderRadius: 10 }}
+                        <Image source={{
+                            uri: this.serviceDetails && this.serviceDetails.property && this.serviceDetails.property.image &&
+                                this.serviceDetails.property.image[0] && this.serviceDetails.property.image[0].attachment ?
+                                this.serviceDetails.property.image[0].attachment : this.getBranch &&
+                                    this.getBranch?.property?.mobilelogo ? this.getBranch?.property?.mobilelogo : TYPE.DefaultImage
+                        }}
+                            style={{ width: WIDTH - 20, height: HEIGHT / 3, borderRadius: 10 }}
                         />
                     </View>
                     <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginTop: -30, marginLeft: 20, marginRight: 20 }}>
