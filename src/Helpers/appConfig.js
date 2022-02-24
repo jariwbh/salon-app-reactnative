@@ -1,7 +1,7 @@
 import Axios from 'axios';
 
 const appConfig = Axios.create({
-    baseURL: 'http://cocoonmedicalspa.membroz.com/api/',
+    baseURL: 'http://qa.membroz.com//api/',
     headers: {
         'Content-Type': 'application/json'
     }

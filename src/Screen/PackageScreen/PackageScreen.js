@@ -98,7 +98,7 @@ class PackageScreen extends Component {
     }
 
     renderPackageList = ({ item }) => (
-        <View style={styles.cardView}>
+        <View style={styles().cardView}>
             <TouchableOpacity style={{ alignItems: KEY.CENTER }} onPress={() => this.props.navigation.navigate('PackageDetails', { item })}>
                 <Image source={{ uri: (item && item.property && item.property.image && item.property.image[0] && item.property.image[0].attachment ? item.property.image[0].attachment : this.getBranch?.property?.mobilelogo ? this.getBranch?.property?.mobilelogo : TYPE.DefaultImage) }}
                     style={item && item.property && item.property.image && item.property.image[0] && item.property.image[0].attachment ?
