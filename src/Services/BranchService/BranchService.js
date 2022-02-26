@@ -8,7 +8,7 @@ export const BranchService = () => {
             "searchvalue": "active",
             "criteria": "eq",
             "datatype": "text"
-        }], "size": 5
+        }] //, "size": 5
     }
     return Axios.post('branches/filter', body)
 }

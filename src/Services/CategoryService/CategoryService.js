@@ -42,13 +42,13 @@ const CategoryByAppointmentService = (id) => {
             "searchvalue": "active",
             "criteria": "eq"
         },
-        {
-            "searchfield": "property.onlineavailibility",
-            "searchvalue": true,
-            "criteria": "eq",
-            "datatype": "boolean"
-        }
-        ]
+            // {
+            //     "searchfield": "property.onlineavailibility",
+            //     "searchvalue": true,
+            //     "criteria": "eq",
+            //     "datatype": "boolean"
+            // }
+        ], "formname": "service"
     }
     return Axios.post('services/filter', body)
 }

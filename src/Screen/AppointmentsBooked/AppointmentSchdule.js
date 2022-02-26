@@ -41,16 +41,20 @@ export default class AppointmentSchdule extends Component {
     }
 
     getDefaultUser = async () => {
-        var getUser = await AsyncStorage.getItem(TYPE.AUTHUSER);
-        if (getUser !== null) {
-            var userData = JSON.parse(getUser);
-            const responseCurrency = getCurrency(userData.branchid.currency);
-            this.setState({ currencySymbol: responseCurrency });
-        } else {
-            var getUser = await AsyncStorage.getItem(TYPE.DEFAULTUSER);
-            var userData = JSON.parse(getUser);
-            const responseCurrency = getCurrency(userData.branchid.currency);
-            this.setState({ currencySymbol: responseCurrency });
+        try {
+            var getUser = await AsyncStorage.getItem(TYPE.AUTHUSER);
+            if (getUser !== null) {
+                var userData = JSON.parse(getUser);
+                const responseCurrency = getCurrency(userData.branchid.currency);
+                this.setState({ currencySymbol: responseCurrency });
+            } else {
+                var getUser = await AsyncStorage.getItem(TYPE.DEFAULTUSER);
+                var userData = JSON.parse(getUser);
+                const responseCurrency = getCurrency(userData.branchid.currency);
+                this.setState({ currencySymbol: responseCurrency });
+            }
+        } catch (error) {
+            console.log(`error`, error);
         }
     }
 
@@ -124,22 +128,24 @@ export default class AppointmentSchdule extends Component {
     }
 
     onPressSelectedDay = (day) => {
+        let availabilityList = this.serviceDetails?.availability?.days;
+        let findAry = availabilityList.find((x) => x.toLowerCase() === moment(day).format('dddd').toLowerCase());
         day = moment(day.dateString).format('YYYY-MM-DD');
         let markedDates = {};
         markedDates[day] = { selected: true, marked: false, selectedColor: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR }
         this.setState({ selectedDay: markedDates })
         this.currentDate = day;
 
-        if (moment(day).format('dddd') === 'Sunday' || moment(day).format('dddd') === 'Saturday') {
-            this.setState({ timeSlots: [] });
-        } else {
+        if (findAry) {
             this.generatingTS(this.serviceDetails);
+        } else {
+            this.setState({ timeSlots: [], loading: false });
         }
     }
 
     //ON PRESS TO CALL DIALER TO USE FUNCTION
     onPressCall = () => {
-        let mobile = '00628113882240';
+        let mobile = this.getBranch.supportnumber;
         let phoneNumber = mobile;
         if (Platform.OS !== 'android') {
             phoneNumber = `telprompt:${mobile}`;
