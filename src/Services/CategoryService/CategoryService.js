@@ -1,6 +1,6 @@
 import Axios from '../../Helpers/appConfig';
 
-const CategoryService = () => {
+const CategoryService = (id) => {
     const body =
     {
         "search": [{
@@ -9,13 +9,14 @@ const CategoryService = () => {
             "criteria": "eq",
             "datatype": "ObjectId"
         },
-        { "searchfield": "status", "searchvalue": "active", "criteria": "eq" }
+        { "searchfield": "branchid", "searchvalue": id, "criteria": "eq", "datatype": "ObjectId" },
+        { "searchfield": "status", "searchvalue": "active", "criteria": "eq", "datatype": "text" }
         ], "formname": "treatment"
     }
     return Axios.post('formdatas/filter', body)
 }
 
-const AppointmentListService = () => {
+const AppointmentListService = (id) => {
     const body =
     {
         "search": [{
@@ -23,7 +24,8 @@ const AppointmentListService = () => {
             "searchvalue": "active",
             "criteria": "eq",
             "datatype": "text"
-        }], "size": 5
+        }, { "searchfield": "branchid", "searchvalue": id, "criteria": "eq", "datatype": "ObjectId" }
+        ], "size": 5
     }
     return Axios.post('services/filter', body)
 }

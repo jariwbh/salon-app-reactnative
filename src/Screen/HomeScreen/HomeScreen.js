@@ -54,9 +54,9 @@ class HomeScreen extends Component {
             const responseCurrency = getCurrency(userData.branchid.currency);
             this.setState({ currencySymbol: responseCurrency });
             try {
-                await this.getCategoryList();
-                await this.getAppointmentList();
-                await this.getstaffList();
+                await this.getCategoryList(this.getBranch._id);
+                await this.getAppointmentList(this.getBranch._id);
+                await this.getstaffList(this.getBranch._id);
             } catch (error) {
                 this.setState({ loader: false });
                 console.log(`error`, error);
@@ -71,8 +71,8 @@ class HomeScreen extends Component {
                     var userData = JSON.parse(getUser);
                     const responseCurrency = getCurrency(userData.branchid.currency);
                     this.setState({ currencySymbol: responseCurrency });
-                    await this.getCategoryList();
-                    await this.getAppointmentList();
+                    await this.getCategoryList(this.getBranch._id);
+                    await this.getAppointmentList(this.getBranch._id);
                     await this.getstaffList();
                 }
             } catch (error) {
@@ -90,21 +90,20 @@ class HomeScreen extends Component {
         this.wait(1000).then(() => this.setState({ refreshing: false }));
     }
 
-    getCategoryList = async () => {
+    getCategoryList = async (id) => {
         try {
-            const response = await CategoryService();
+            const response = await CategoryService(id);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 this.setState({ CategoryList: response.data });
             }
         } catch (error) {
-            console.log(`error 1 `, error);
             this.setState({ loading: false });
         }
     }
 
-    getAppointmentList = async () => {
+    getAppointmentList = async (id) => {
         try {
-            const response = await AppointmentListService();
+            const response = await AppointmentListService(id);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 // const slice = response.data.slice(0, 4)                
                 this.setState({ AppointmentList: response.data, loader: false })
