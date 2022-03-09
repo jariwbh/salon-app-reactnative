@@ -28,3 +28,16 @@ export const SPLASHSCREENIAMGE = 'https://res.cloudinary.com/membroz/image/uploa
 // export const SPLASHSCREENIAMGE = 'https://res.cloudinary.com/membroz/image/upload/v1645448714/Cocoon%20Medical%20Spa%20Mobile%20App/splashscreen1_duyzx1.png';
 // export const USERKEY = '6130a1b1bfd7602f90774da2';
 // export const APPNAME = 'Cocoon Medical Spa';
+
+
+// Membroz app
+// export const DefaultImage = 'https://res.cloudinary.com/membroz/image/upload/v1641900420/Membroz%20Mobile%20app%20/Group_79_u6uqor.png';
+// export const DefaultImage2 = 'https://res.cloudinary.com/membroz/image/upload/v1639641450/Cocoon%20Mobile%20App/logo2_rzpyeq.png';
+// export const SPLASHSCREENIAMGE = 'https://res.cloudinary.com/membroz/image/upload/v1642061150/Jeskir%20Mobile%20App/pexels-alena-beliaeva-9501477_2_zlvz8t.jpg';
+// export const USERKEY = '6130a1b1bfd7602f90774da2';
+// export const APPNAME = 'Salon - Membroz';
+
+//warring code this copy past in brach wise
+//"mobilelogo" : "https://res.cloudinary.com/membroz/image/upload/v1641900420/Membroz%20Mobile%20app%20/Group_79_u6uqor.png",
+//"appcolorcode" : "#F7C32B",
+//"authkey" : "6130a1b1bfd7602f90774da2"
