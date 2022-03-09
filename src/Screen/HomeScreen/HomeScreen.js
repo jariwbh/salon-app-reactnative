@@ -84,8 +84,8 @@ class HomeScreen extends Component {
 
     onRefresh = () => {
         this.setState({ refreshing: true })
-        this.getCategoryList();
-        this.getAppointmentList();
+        this.getCategoryList(this.getBranch._id);
+        this.getAppointmentList(this.getBranch._id);
         this.getstaffList();
         this.wait(1000).then(() => this.setState({ refreshing: false }));
     }
@@ -148,7 +148,7 @@ class HomeScreen extends Component {
                     />
                 }
             </TouchableOpacity>
-            <TouchableOpacity style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, width: 80 }}>
+            <TouchableOpacity style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, width: 90 }}>
                 <Text style={{ fontSize: 14, color: COLOR.BLACK, textTransform: KEY.CAPITALIZE, textAlign: KEY.CENTER }}>{item.property.name}</Text>
             </TouchableOpacity>
         </View>

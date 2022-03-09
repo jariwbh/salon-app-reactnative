@@ -13,7 +13,7 @@ export const DEFAULTUSER = 'defaultuser';
 
 export const APPNAME = 'Jeskir';
 export const USERKEY = '5a2cbf23ee5c2a1080793272';
-export const DefaultImage = 'https://res.cloudinary.com/membroz/image/upload/v1646032899/Jeskir%20Mobile%20App/512x512-transparent_lprzoz.png';
+export const DefaultImage = 'https://res.cloudinary.com/membroz/image/upload/v1641989921/Jeskir%20Mobile%20App/playstore-removebg-preview_hgvxt5.png';
 export const SPLASHSCREENIAMGE = 'https://res.cloudinary.com/membroz/image/upload/v1642061150/Jeskir%20Mobile%20App/pexels-alena-beliaeva-9501477_2_zlvz8t.jpg';
 
 // Jeskir

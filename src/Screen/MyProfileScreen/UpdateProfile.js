@@ -275,6 +275,7 @@ const styles = colorcode => StyleSheet.create({
         borderWidth: 1
     },
     update_Btn: {
+        marginBottom: HEIGHT * 0.3,
         flexDirection: KEY.ROW,
         backgroundColor: colorcode,
         marginTop: 10,
