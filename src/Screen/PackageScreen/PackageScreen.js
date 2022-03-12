@@ -100,8 +100,8 @@ class PackageScreen extends Component {
     renderPackageList = ({ item }) => (
         <View style={styles().cardView}>
             <TouchableOpacity style={{ alignItems: KEY.CENTER }} onPress={() => this.props.navigation.navigate('PackageDetails', { item })}>
-                <Image source={{ uri: (item && item.property && item.property.image && item.property.image[0] && item.property.image[0].attachment ? item.property.image[0].attachment : this.getBranch?.property?.mobilelogo ? this.getBranch?.property?.mobilelogo : TYPE.DefaultImage) }}
-                    style={item && item.property && item.property.image && item.property.image[0] && item.property.image[0].attachment ?
+                <Image source={{ uri: (item && item.profilepic ? item.profilepic : this.getBranch?.property?.mobilelogo ? this.getBranch?.property?.mobilelogo : TYPE.DefaultImage) }}
+                    style={item && item.profilepic ?
                         { alignItems: KEY.CENTER, height: 150, width: WIDTH - 40, marginTop: 10, borderRadius: 10, resizeMode: KEY.COVER }
                         :
                         { alignItems: KEY.CENTER, height: 160, width: 160, marginTop: 10, borderRadius: 10, resizeMode: KEY.COVER }

@@ -11,10 +11,10 @@ export const UPLOAD_PRESET = 'egi2wepr';
 export const DEFAULTPROFILE = 'https://res.cloudinary.com/membroz/image/upload/v1637309115/Mobile%20Public%20Image/ic_account_mgu7ie.png';
 export const DEFAULTUSER = 'defaultuser';
 
-export const APPNAME = 'Jeskir';
-export const USERKEY = '5a2cbf23ee5c2a1080793272';
-export const DefaultImage = 'https://res.cloudinary.com/membroz/image/upload/v1641989921/Jeskir%20Mobile%20App/playstore-removebg-preview_hgvxt5.png';
-export const SPLASHSCREENIAMGE = 'https://res.cloudinary.com/membroz/image/upload/v1642061150/Jeskir%20Mobile%20App/pexels-alena-beliaeva-9501477_2_zlvz8t.jpg';
+export const APPNAME = 'Membroz - Salon';
+export const USERKEY = '6130a1b1bfd7602f90774da2';
+export const DefaultImage = 'https://res.cloudinary.com/membroz/image/upload/v1641900420/Membroz%20Mobile%20app%20/Group_79_u6uqor.png';
+export const SPLASHSCREENIAMGE = 'https://res.cloudinary.com/membroz/image/upload/v1632728295/Membroz%20Mobile%20app%20/background_l4v1dc.jpg';
 
 // Jeskir
 // export const APPNAME = 'Jeskir App';
@@ -39,5 +39,5 @@ export const SPLASHSCREENIAMGE = 'https://res.cloudinary.com/membroz/image/uploa
 
 //warring code this copy past in brach wise
 //"mobilelogo" : "https://res.cloudinary.com/membroz/image/upload/v1641900420/Membroz%20Mobile%20app%20/Group_79_u6uqor.png",
-//"appcolorcode" : "#F7C32B",
+//"appcolorcode" : "#FC7845",
 //"authkey" : "6130a1b1bfd7602f90774da2"

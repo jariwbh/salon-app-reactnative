@@ -130,7 +130,7 @@ android {
     }
 
     defaultConfig {      
-        applicationId "com.app.jeskir"
+        applicationId "com.app.membrozsalon"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

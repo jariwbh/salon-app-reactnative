@@ -1,7 +1,7 @@
 import Axios from 'axios';
 
 const appConfig = Axios.create({
-    baseURL: 'http://jeskir.membroz.com/api/',
+    baseURL: 'https://app.membroz.com/api/',
     headers: {
         'Content-Type': 'application/json'
     }
