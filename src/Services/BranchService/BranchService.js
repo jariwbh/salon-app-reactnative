@@ -9,12 +9,12 @@ export const BranchService = () => {
             "criteria": "eq",
             "datatype": "text"
         }
-            , {
-            "searchfield": "_id",
-            "searchvalue": "615c46f7bfd7600bf0d36074",
-            "criteria": "eq",
-            "datatype": "objectId"
-        }
+            // , {
+            //     "searchfield": "_id",
+            //     "searchvalue": "615c46f7bfd7600bf0d36074",
+            //     "criteria": "eq",
+            //     "datatype": "objectId"
+            // }
         ] //, "size": 5
     }
     return Axios.post('branches/filter', body)

@@ -1,4 +1,4 @@
-package com.app.membrozsalon;
+package com.app.jeskir;
 
 import android.app.Application;
 import android.content.Context;

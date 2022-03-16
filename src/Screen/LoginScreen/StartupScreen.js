@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     },
     loginText: {
         color: COLOR.WHITE,
-        fontSize: 16
+        fontSize: 16,
+        fontFamily: FONT.FONT_FAMILY_REGULAR
     },
 })

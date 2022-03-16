@@ -13,6 +13,7 @@ import * as TYPE from '../../context/actions/type';
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import * as FONT from '../../styles/typography';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Toast from 'react-native-simple-toast';
 import { getBranchDetails } from '../../Services/LocalService/LocalService';
@@ -127,7 +128,7 @@ export default class MyProfileScreen extends Component {
                         />
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -60 }}>
                             <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>
-                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>{'My Profile'}</Text>
+                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontFamily: FONT.FONT_FAMILY_BOLD }}>{'My Profile'}</Text>
                             </View>
                         </View>
                     </View>
@@ -204,7 +205,7 @@ const styles = (colorcode) => StyleSheet.create({
     name: {
         fontSize: 22,
         color: COLOR.MENU_TEXT_COLOR,
-        fontWeight: 'bold',
+        fontFamily: FONT.FONT_FAMILY_BOLD,
         textTransform: KEY.CAPITALIZE
     },
     buttonContainer: {
@@ -227,7 +228,8 @@ const styles = (colorcode) => StyleSheet.create({
     textContainer: {
         marginLeft: 10,
         fontSize: 20,
-        color: COLOR.MENU_TEXT_COLOR
+        color: COLOR.MENU_TEXT_COLOR,
+        fontFamily: FONT.FONT_FAMILY_REGULAR
     },
     headerstyle: {
         backgroundColor: colorcode,
@@ -261,7 +263,7 @@ const styles = (colorcode) => StyleSheet.create({
     },
     update_text: {
         color: COLOR.WHITE,
-        fontWeight: 'bold',
+        fontFamily: FONT.FONT_FAMILY_BOLD,
         fontSize: 18,
     },
 })

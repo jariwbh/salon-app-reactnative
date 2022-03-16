@@ -114,7 +114,7 @@ const SelectBranchScreen = (props) => {
                 </View>
             </View>
             <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 15 }}>
-                <Text style={{ fontSize: 22, color: COLOR.DEFALUTCOLOR, fontWeight: 'bold' }}>{'Select Your Location'}</Text>
+                <Text style={{ fontSize: 22, color: COLOR.DEFALUTCOLOR, fontFamily: FONT.FONT_FAMILY_BOLD }}>{'Select Your Location'}</Text>
             </View>
             <View style={{ marginTop: 5 }} />
             <FlatList
@@ -141,7 +141,7 @@ const SelectBranchScreen = (props) => {
                         :
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                             <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 50 }} resizeMode={KEY.CONTAIN} />
-                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10, fontFamily: FONT.FONT_FAMILY_REGULAR }}>No record found</Text>
                         </View>
                 )}
             />
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     },
     titleText: {
         fontSize: FONT.FONT_SIZE_16,
-        fontWeight: FONT.FONT_WEIGHT_BOLD,
+        fontFamily: FONT.FONT_FAMILY_BOLD,
         width: WIDTH / 2,
         color: COLOR.BLACK
     },

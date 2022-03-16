@@ -115,10 +115,10 @@ export default function ForgotPassword(props) {
                 </ImageBackground>
 
                 <View style={styles().forgotview}>
-                    <Text style={{ fontSize: 26 }}> Forgot Password </Text>
+                    <Text style={{ fontSize: 26, color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR }}> Forgot Password </Text>
                 </View>
                 <View style={{ marginTop: 10, marginLeft: 40, flexDirection: KEY.ROW }} >
-                    <Text style={{ fontSize: 14, color: COLOR.BLACK }}>Enter new password below</Text>
+                    <Text style={{ fontSize: 14, color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Enter new password below</Text>
                 </View>
 
                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
@@ -186,6 +186,8 @@ const styles = (colorcode) => StyleSheet.create({
         flex: 1,
         padding: 15,
         borderColor: COLOR.WHITE,
+        fontFamily: FONT.FONT_FAMILY_REGULAR,
+        color: COLOR.BLACK
     },
     inputview: {
         flexDirection: KEY.ROW,
@@ -246,15 +248,18 @@ const styles = (colorcode) => StyleSheet.create({
     },
     forText: {
         color: COLOR.WHITE,
-        fontSize: 16
+        fontSize: 16,
+        fontFamily: FONT.FONT_FAMILY_REGULAR
     },
     baseText: {
         color: colorcode,
-        fontSize: 14
+        fontSize: 14,
+        fontFamily: FONT.FONT_FAMILY_REGULAR
     },
     innerText: {
         color: COLOR.BLACK_OLIVE,
-        fontSize: 14
+        fontSize: 14,
+        fontFamily: FONT.FONT_FAMILY_REGULAR
     },
     imageLogo: {
         justifyContent: KEY.CENTER,

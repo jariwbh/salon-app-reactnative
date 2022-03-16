@@ -13,6 +13,7 @@ import * as KEY from '../../context/actions/key';
 import * as TYPE from '../../context/actions/type';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import * as FONT from '../../styles/typography';
 import AsyncStorage from '@react-native-community/async-storage';
 import getCurrency from '../../Services/getCurrencyService/getCurrency';
 import axiosConfig from '../../Helpers/axiosConfig';
@@ -71,8 +72,8 @@ export default class AppointmentScreen extends Component {
                 />
             </TouchableOpacity>
             <View style={{ marginLeft: 5, flex: 0.9 }}>
-                <Text style={{ fontSize: 18, color: COLOR.BLACK }}>{item.title}</Text>
-                <Text style={{ fontSize: 14, color: COLOR.BLACK }}> {this.state.currencySymbol + item.charges}</Text>
+                <Text style={{ fontSize: 18, color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR }}>{item.title}</Text>
+                <Text style={{ fontSize: 14, color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR }}> {this.state.currencySymbol + item.charges}</Text>
             </View>
         </TouchableOpacity>
     )
@@ -110,8 +111,8 @@ export default class AppointmentScreen extends Component {
                             <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
                                 <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} />
                             </TouchableOpacity>
-                            <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginLeft: WIDTH / 4 }}>
-                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>Our Services</Text>
+                            <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginLeft: WIDTH * 0.2 }}>
+                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontFamily: FONT.FONT_FAMILY_BOLD }}>Our Services</Text>
                             </View>
                         </View>
                     </View>
@@ -154,7 +155,7 @@ export default class AppointmentScreen extends Component {
                                         :
                                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                                             <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                                            <Text style={{ fontSize: 16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                                            <Text style={{ fontSize: 16, color: COLOR.TAUPE_GRAY, marginTop: 10, fontFamily: FONT.FONT_FAMILY_REGULAR }}>No record found</Text>
                                         </View>
                                 )}
                             />
@@ -194,7 +195,9 @@ const styles = (colorcode) => StyleSheet.create({
         fontSize: 14,
         flex: 1,
         marginLeft: 10,
-        alignItems: KEY.CENTER
+        alignItems: KEY.CENTER,
+        fontFamily: FONT.FONT_FAMILY_REGULAR,
+        color: COLOR.BLACK
     },
     listview: {
         flexDirection: KEY.ROW,

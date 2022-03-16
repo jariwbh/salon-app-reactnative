@@ -17,14 +17,15 @@ const styles = (colorcode) => StyleSheet.create({
     },
     textHeader: {
         fontSize: FONT.FONT_SIZE_24,
-        fontWeight: FONT.FONT_WEIGHT_BOLD,
+        fontFamily: FONT.FONT_FAMILY_BOLD,
         color: colorcode,
         marginTop: 5
     },
     textSub: {
         color: COLOR.BLACK,
         fontSize: FONT.FONT_SIZE_16,
-        marginTop: 15
+        marginTop: 15,
+        fontFamily: FONT.FONT_FAMILY_REGULAR
     },
     headerstyle: {
         backgroundColor: colorcode,

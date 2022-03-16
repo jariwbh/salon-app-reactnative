@@ -76,7 +76,7 @@ const ProductDetailScreen = (props) => {
                             <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} />
                         </TouchableOpacity>
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginLeft: WIDTH / 5 }}>
-                            <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>Product Details</Text>
+                            <Text style={{ fontSize: 22, color: COLOR.WHITE, fontFamily: FONT.FONT_FAMILY_BOLD }}>Product Details</Text>
                         </View>
                     </View>
                 </View>
@@ -92,24 +92,24 @@ const ProductDetailScreen = (props) => {
                         style={{ width: WIDTH, height: HEIGHT / 3 }} />
                 </View>
                 <View style={{ marginTop: 15, width: WIDTH - 30, marginLeft: 10 }}>
-                    <Text style={{ color: COLOR.BLACK, fontSize: FONT.FONT_SIZE_16 }}>Brand Name</Text>
-                    <Text style={{ color: COLOR.DEFALUTCOLOR, marginTop: 15, marginLeft: 5, fontSize: FONT.FONT_SIZE_16 }}>{productDeatil?.itemname}</Text>
+                    <Text style={{ color: COLOR.BLACK, fontSize: FONT.FONT_SIZE_16, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Brand Name</Text>
+                    <Text style={{ color: COLOR.DEFALUTCOLOR, marginTop: 15, marginLeft: 5, fontSize: FONT.FONT_SIZE_16, fontFamily: FONT.FONT_FAMILY_REGULAR }}>{productDeatil?.itemname}</Text>
                     <View style={{ flexDirection: KEY.ROW, padding: 5 }} >
-                        <Text style={{ fontSize: FONT.FONT_SIZE_18 }}>{currencySymbol + ' ' + productDeatil?.sale?.rate}</Text>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_18, color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR }}>{currencySymbol + ' ' + productDeatil?.sale?.rate}</Text>
                         {
                             productDeatil?.sale.discounttype == "Percentage" &&
-                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.DEFALUTCOLOR }}> ({productDeatil?.sale?.discount + '%' + ' OFF'})</Text>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.DEFALUTCOLOR, fontFamily: FONT.FONT_FAMILY_REGULAR }}> ({productDeatil?.sale?.discount + '%' + ' OFF'})</Text>
                         }
                         {
                             productDeatil?.sale.discounttype == "Fixed" &&
-                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.DEFALUTCOLOR }}> ({productDeatil?.sale?.discount + ' ' + currencySymbol + 'OFF'})</Text>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.DEFALUTCOLOR, fontFamily: FONT.FONT_FAMILY_REGULAR }}> ({productDeatil?.sale?.discount + ' ' + currencySymbol + 'OFF'})</Text>
                         }
                     </View>
-                    <Text style={{ marginTop: 10, color: COLOR.BLACK, fontSize: FONT.FONT_SIZE_16 }}>PRODUCT DETAIL</Text>
+                    <Text style={{ marginTop: 10, color: COLOR.BLACK, fontSize: FONT.FONT_SIZE_16, fontFamily: FONT.FONT_FAMILY_REGULAR }}>PRODUCT DETAIL</Text>
                     {productDeatil?.sale?.description ?
                         <RenderHTML contentWidth={WIDTH - 60} source={{ html }} baseStyle={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.BLACK, width: WIDTH - 60, marginBottom: 20, marginTop: 5 }} />
                         :
-                        <Text style={{ marginTop: 20, fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY }} >No Detail Available </Text>
+                        <Text style={{ marginTop: 20, fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, fontFamily: FONT.FONT_FAMILY_REGULAR }} >No Detail Available </Text>
                     }
                 </View>
                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
@@ -124,7 +124,7 @@ const ProductDetailScreen = (props) => {
                             height: 50,
                             alignItems: KEY.CENTER,
                         }}>
-                        <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>ORDER NOW</Text>
+                        <Text style={{ fontFamily: FONT.FONT_FAMILY_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>ORDER NOW</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>

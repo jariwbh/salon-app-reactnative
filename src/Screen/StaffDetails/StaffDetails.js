@@ -9,6 +9,7 @@ const WIDTH = Dimensions.get('window').width;
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import * as FONT from '../../styles/typography';
 
 class StaffDetails extends Component {
     constructor(props) {
@@ -26,22 +27,22 @@ class StaffDetails extends Component {
                 <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
                 <ScrollView showsVerticalScrollIndicator={false} >
                     <View style={{ marginBottom: 50 }} >
-                        <View style={{ margin: 10, justifyContent: 'center', alignItems: 'center' }} >
+                        <View style={{ margin: 10, justifyContent: KEY.CENTER, alignItems: KEY.CENTER }} >
                             <Image source={{ uri: staffDetails.property.profilepic ? staffDetails.property.profilepic : 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
-                                style={{ alignItems: 'center', height: 100, width: 100, marginTop: 10, borderRadius: 100, borderColor: '#FFFFFF', borderWidth: 1 }}
+                                style={{ alignItems: KEY.CENTER, height: 100, width: 100, marginTop: 10, borderRadius: 100, borderColor: '#FFFFFF', borderWidth: 1 }}
                             />
                         </View>
                         <View>
-                            <Text style={{ flex: 1, fontSize: 16, color: '#000000', textAlign: 'center' }}>{staffDetails.property.fullname}</Text>
-                            <View style={{ justifyContent: 'center', alignItems: 'center' }} >
+                            <Text style={{ flex: 1, fontSize: 16, color: COLOR.BLACK, textAlign: KEY.CENTER, fontFamily: FONT.FONT_FAMILY_REGULAR }}>{staffDetails.property.fullname}</Text>
+                            <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }} >
                                 <View style={styles.listview}>
-                                    <Text style={{ fontSize: 16, color: '#000000', textAlign: 'center', marginTop: 10 }}>{staffDetails.property.mobile_number}</Text>
-                                    <Text style={{ fontSize: 16, color: '#000000', textAlign: 'center', marginTop: 5 }}>{staffDetails.property.email}</Text>
+                                    <Text style={{ fontSize: 16, color: COLOR.BLACK, textAlign: KEY.CENTER, marginTop: 10, fontFamily: FONT.FONT_FAMILY_REGULAR }}>{staffDetails.property.mobile_number}</Text>
+                                    <Text style={{ fontSize: 16, color: COLOR.BLACK, textAlign: KEY.CENTER, marginTop: 5, fontFamily: FONT.FONT_FAMILY_REGULAR }}>{staffDetails.property.email}</Text>
                                     <View style={{ marginTop: 10 }}>
                                         <Rating readonly startingValue="{5}" ratingCount={5} />
                                     </View>
-                                    <View style={{ alignItems: 'center', marginTop: 10, padding: 5, marginLeft: 10, marginRight: 5, marginBottom: 20 }}>
-                                        <HTML baseFontStyle={{ fontSize: 14, textTransform: 'capitalize', textAlign: 'center' }}
+                                    <View style={{ alignItems: KEY.CENTER, marginTop: 10, padding: 5, marginLeft: 10, marginRight: 5, marginBottom: 20 }}>
+                                        <HTML baseFontStyle={{ fontSize: 14, textTransform: KEY.CAPITALIZE, textAlign: KEY.CENTER }}
                                             html={`<html>${staffDetails && staffDetails.property.about_me} </html>`} />
                                     </View>
                                 </View>

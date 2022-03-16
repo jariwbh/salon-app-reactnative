@@ -38,7 +38,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -57,6 +57,26 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>ITCAvantGardeStdBk.ttf</string>
+		<string>ITCAvantGardeStdBkCn.ttf</string>
+		<string>ITCAvantGardeStdBkCnObl.ttf</string>
+		<string>ITCAvantGardeStdBkObl.ttf</string>
+		<string>ITCAvantGardeStdBold.ttf</string>
+		<string>ITCAvantGardeStdBoldCn.ttf</string>
+		<string>ITCAvantGardeStdBoldCnObl.ttf</string>
+		<string>ITCAvantGardeStdBoldObl.ttf</string>
+		<string>ITCAvantGardeStdDemi.ttf</string>
+		<string>ITCAvantGardeStdDemiCn.ttf</string>
+		<string>ITCAvantGardeStdDemiCnObl.ttf</string>
+		<string>ITCAvantGardeStdDemiObl.ttf</string>
+		<string>ITCAvantGardeStdMd.ttf</string>
+		<string>ITCAvantGardeStdMdCn.ttf</string>
+		<string>ITCAvantGardeStdMdCnObl.ttf</string>
+		<string>ITCAvantGardeStdMdObl.ttf</string>
+		<string>ITCAvantGardeStdXLt.ttf</string>
+		<string>ITCAvantGardeStdXLtCn.ttf</string>
+		<string>ITCAvantGardeStdXLtCnObl.ttf</string>
+		<string>ITCAvantGardeStdXLtObl.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

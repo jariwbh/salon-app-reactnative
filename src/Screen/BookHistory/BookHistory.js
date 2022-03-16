@@ -77,15 +77,15 @@ class BookHistory extends Component {
         item.status == 'confirmed' &&
         <View style={styles(COLOR.CONFIRMED_COLOR).cardView}>
             <View style={styles(COLOR.CONFIRMED_COLOR).filledBox}>
-                <Text style={{ fontSize: FONT.FONT_SIZE_28, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('DD')}</Text>
-                <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_28, fontFamily: FONT.FONT_FAMILY_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('DD')}</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_16, fontFamily: FONT.FONT_FAMILY_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
             </View>
             <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
                 <Text style={styles().rectangleText}>{item.attendee && item.attendee.fullname}</Text>
                 <Text style={styles().rectangleSubText}>{item.refid && item.refid.title}</Text>
                 <Text style={styles().rectangleSubText}>{(item.timeslot && item.timeslot.starttime) + ' - ' + (item.timeslot && item.timeslot.endtime)}</Text>
                 <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN }}>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.CONFIRMED_COLOR, marginTop: 2, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.CONFIRMED_COLOR, marginTop: 2, fontFamily: FONT.FONT_FAMILY_REGULAR, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
                 </View>
             </View>
         </View>
@@ -93,15 +93,15 @@ class BookHistory extends Component {
         item.status == 'cancel' &&
         <View style={styles(COLOR.CANCEL_COLOR).cardView}>
             <View style={styles(COLOR.CANCEL_COLOR).filledBox}>
-                <Text style={{ fontSize: FONT.FONT_SIZE_28, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('DD')}</Text>
-                <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_28, fontFamily: FONT.FONT_FAMILY_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('DD')}</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_16, fontFamily: FONT.FONT_FAMILY_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
             </View>
             <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
                 <Text style={styles().rectangleText}>{item.attendee && item.attendee.fullname}</Text>
                 <Text style={styles().rectangleSubText}>{item.refid && item.refid.title}</Text>
                 <Text style={styles().rectangleSubText}>{(item.timeslot && item.timeslot.starttime) + ' - ' + (item.timeslot && item.timeslot.endtime)}</Text>
                 <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN }}>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.CANCEL_COLOR, marginTop: 2, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.CANCEL_COLOR, marginTop: 2, textTransform: KEY.CAPITALIZE, fontFamily: FONT.FONT_FAMILY_REGULAR }}>{item.status}</Text>
                 </View>
             </View>
         </View>
@@ -109,15 +109,15 @@ class BookHistory extends Component {
         item.status == 'noshow' &&
         <View style={styles(COLOR.NOSHOW_COLOR).cardView}>
             <View style={styles(COLOR.NOSHOW_COLOR).filledBox}>
-                <Text style={{ fontSize: FONT.FONT_SIZE_28, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('DD')}</Text>
-                <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_28, fontFamily: FONT.FONT_FAMILY_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('DD')}</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_16, fontFamily: FONT.FONT_FAMILY_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
             </View>
             <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
                 <Text style={styles().rectangleText}>{item.attendee && item.attendee.fullname}</Text>
                 <Text style={styles().rectangleSubText}>{item.refid && item.refid.title}</Text>
                 <Text style={styles().rectangleSubText}>{(item.timeslot && item.timeslot.starttime) + ' - ' + (item.timeslot && item.timeslot.endtime)}</Text>
                 <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN }}>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.NOSHOW_COLOR, marginTop: 2, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.NOSHOW_COLOR, marginTop: 2, fontFamily: FONT.FONT_FAMILY_REGULAR, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
                 </View>
             </View>
         </View>
@@ -125,15 +125,15 @@ class BookHistory extends Component {
         item.status == 'requested' &&
         <View style={styles(COLOR.REQUESTED_COLOR).cardView}>
             <View style={styles(COLOR.REQUESTED_COLOR).filledBox}>
-                <Text style={{ fontSize: FONT.FONT_SIZE_28, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('DD')}</Text>
-                <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_28, fontFamily: FONT.FONT_FAMILY_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('DD')}</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_16, fontFamily: FONT.FONT_FAMILY_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
             </View>
             <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
                 <Text style={styles().rectangleText}>{item.attendee && item.attendee.fullname}</Text>
                 <Text style={styles().rectangleSubText}>{item.refid && item.refid.title}</Text>
                 <Text style={styles().rectangleSubText}>{(item.timeslot && item.timeslot.starttime) + ' - ' + (item.timeslot && item.timeslot.endtime)}</Text>
                 <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN }}>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.REQUESTED_COLOR, marginTop: 2, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.REQUESTED_COLOR, marginTop: 2, fontFamily: FONT.FONT_FAMILY_REGULAR, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
                 </View>
             </View>
         </View>
@@ -141,15 +141,15 @@ class BookHistory extends Component {
         item.status == 'checkout' &&
         <View style={styles(COLOR.CHECKOUT_COLOR).cardView}>
             <View style={styles(COLOR.CHECKOUT_COLOR).filledBox}>
-                <Text style={{ fontSize: FONT.FONT_SIZE_28, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('DD')}</Text>
-                <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_28, fontFamily: FONT.FONT_FAMILY_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('DD')}</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_16, fontFamily: FONT.FONT_FAMILY_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
             </View>
             <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
                 <Text style={styles().rectangleText}>{item.attendee && item.attendee.fullname}</Text>
                 <Text style={styles().rectangleSubText}>{item.refid && item.refid.title}</Text>
                 <Text style={styles().rectangleSubText}>{(item.timeslot && item.timeslot.starttime) + ' - ' + (item.timeslot && item.timeslot.endtime)}</Text>
                 <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN }}>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.CHECKOUT_COLOR, marginTop: 2, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.CHECKOUT_COLOR, marginTop: 2, fontFamily: FONT.FONT_FAMILY_REGULAR, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
                 </View>
             </View>
         </View>
@@ -166,7 +166,7 @@ class BookHistory extends Component {
                     />
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -60 }}>
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>
-                            <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>{'Booking History'}</Text>
+                            <Text style={{ fontSize: 22, color: COLOR.WHITE, fontFamily: FONT.FONT_FAMILY_BOLD }}>{'Booking History'}</Text>
                         </View>
                     </View>
                 </View>
@@ -189,7 +189,7 @@ class BookHistory extends Component {
                                     :
                                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                                         <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                                        <Text style={{ fontSize: 16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                                        <Text style={{ fontSize: 16, color: COLOR.TAUPE_GRAY, marginTop: 10, fontFamily: FONT.FONT_FAMILY_REGULAR }}>No record found</Text>
                                     </View>
                             )}
                         />
@@ -262,13 +262,14 @@ const styles = (colorcode) => StyleSheet.create({
         padding: 5
     },
     rectangleText: {
-        fontWeight: FONT.FONT_WEIGHT_BOLD,
+        fontFamily: FONT.FONT_FAMILY_BOLD,
         fontSize: FONT.FONT_SIZE_16,
         color: COLOR.BLACK,
         marginTop: 2,
         width: WIDTH / 2
     },
     rectangleSubText: {
+        fontFamily: FONT.FONT_FAMILY_REGULAR,
         fontSize: FONT.FONT_SIZE_14,
         color: COLOR.BLACK,
         marginTop: 2,

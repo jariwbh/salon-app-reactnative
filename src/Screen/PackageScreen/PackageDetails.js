@@ -62,8 +62,8 @@ export default class PackageDetails extends Component {
                             <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
                                 <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} />
                             </TouchableOpacity>
-                            <View style={{ justifyContent: KEY.CENTER, marginLeft: WIDTH / 5 }}>
-                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>{'Package Details'}</Text>
+                            <View style={{ justifyContent: KEY.CENTER, marginLeft: WIDTH * 0.1 }}>
+                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontFamily: FONT.FONT_FAMILY_BOLD }}>{'Package Details'}</Text>
                             </View>
                         </View>
                     </View>
@@ -75,14 +75,14 @@ export default class PackageDetails extends Component {
                                 this.serviceDetails.profilepic : this.getBranch &&
                                     this.getBranch?.property?.mobilelogo ? this.getBranch?.property?.mobilelogo : TYPE.DefaultImage
                         }}
-                            style={{ width: WIDTH - 20, height: HEIGHT / 3, borderRadius: 10 }}
+                            style={{ width: WIDTH - 20, height: HEIGHT / 3, borderRadius: 10, backgroundColor: COLOR.WHITE }}
                         />
                     </View>
                     <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginTop: -30, marginLeft: 20, marginRight: 20 }}>
-                        <Text style={{ fontSize: 18, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, width: WIDTH / 2 }}>{servicetitle}</Text>
-                        <Text style={{ fontSize: 18, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR }}>{currencySymbol + ' ' + servicecharges} </Text>
+                        <Text style={{ fontSize: 18, fontFamily: FONT.FONT_FAMILY_REGULAR, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, width: WIDTH / 2 }}>{servicetitle}</Text>
+                        <Text style={{ fontSize: 18, fontFamily: FONT.FONT_FAMILY_REGULAR, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR }}>{currencySymbol + ' ' + servicecharges} </Text>
                     </View>
-                    {/* <Text style={{ fontSize: FONT.FONT_SIZE_18, color: COLOR.BLACK, marginTop: 10, marginLeft: 20 }}>Description</Text> */}
+                    {/* <Text style={{ fontSize: FONT.FONT_SIZE_18, color: COLOR.BLACK, marginTop: 10, marginLeft: 20,fontFamily: FONT.FONT_FAMILY_REGULAR }}>Description</Text> */}
                     <View style={{ flex: 1, marginTop: 10, marginLeft: 20, marginRight: 10, marginBottom: 0 }}>
                         {
                             servicedescription &&
@@ -93,8 +93,8 @@ export default class PackageDetails extends Component {
                         justifyContent: KEY.SPACEBETWEEN, flexDirection: KEY.ROW,
                         alignItems: KEY.CENTER, marginLeft: 20, marginRight: 20, marginTop: 10
                     }}>
-                        <Text style={{ fontSize: FONT.FONT_SIZE_18, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR }}>Service</Text>
-                        <Text style={{ fontSize: FONT.FONT_SIZE_18, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR }}>Cost</Text>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_18, fontFamily: FONT.FONT_FAMILY_REGULAR, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR }}>Service</Text>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_18, fontFamily: FONT.FONT_FAMILY_REGULAR, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR }}>Cost</Text>
                     </View>
                     {(this.serviceDetails && this.serviceDetails.services && this.serviceDetails.services.length > 0)
                         ?
@@ -106,8 +106,8 @@ export default class PackageDetails extends Component {
                                         justifyContent: KEY.SPACEBETWEEN, flexDirection: KEY.ROW,
                                         alignItems: KEY.CENTER, marginLeft: 20, marginRight: 20, marginTop: 10
                                     }}>
-                                        <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.BLACK, width: WIDTH / 2 }}>{item.serviceid.title}</Text>
-                                        <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.BLACK }}>{currencySymbol + ' ' + item.serviceid.charges}</Text>
+                                        <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR, width: WIDTH / 2 }}>{item.serviceid.title}</Text>
+                                        <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR }}>{currencySymbol + ' ' + item.serviceid.charges}</Text>
                                     </View>
                                     <View style={{ borderBottomColor: COLOR.BLACK, borderBottomWidth: 1, marginTop: 10, marginLeft: 20, marginRight: 20 }} />
                                 </>

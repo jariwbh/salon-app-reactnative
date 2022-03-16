@@ -220,12 +220,15 @@ export default class AppointmentsBooked extends Component {
                 <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
                 <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR).headerstyle}>
                     <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
-                        <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.FLEX_START, alignItems: KEY.CENTER, marginLeft: 20 }}>
+                        <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.FLEX_START, alignSelf: KEY.CENTER, alignItems: KEY.CENTER, marginLeft: 20 }}>
                             <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>
                                 <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} />
                             </TouchableOpacity>
-                            <View style={{ justifyContent: KEY.CENTER, marginLeft: WIDTH / 5 }}>
-                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>Book Appointment</Text>
+                            <View style={{ justifyContent: KEY.CENTER }}>
+                                <Text style={{
+                                    fontSize: 22, color: COLOR.WHITE,
+                                    fontFamily: FONT.FONT_FAMILY_BOLD, marginLeft: WIDTH * 0.1
+                                }}>Book Appointment</Text>
                             </View>
                         </View>
                     </View>
@@ -233,8 +236,14 @@ export default class AppointmentsBooked extends Component {
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                     <View style={{ marginTop: 10, marginLeft: 20, marginRight: 20 }}>
                         <View style={{ flexDirection: KEY.ROW }}>
-                            <Text style={{ fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>Full Name</Text>
-                            <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
+                            <Text style={{
+                                fontSize: 16, marginBottom: 3, color: COLOR.BLACK,
+                                fontFamily: FONT.FONT_FAMILY_REGULAR, textTransform: KEY.CAPITALIZE
+                            }}>Full Name</Text>
+                            <Text style={{
+                                marginLeft: 5, fontSize: 16,
+                                color: COLOR.ERRORCOLOR, fontFamily: FONT.FONT_FAMILY_REGULAR, marginBottom: 10
+                            }}>{'*'}</Text>
                         </View>
                         <TextInput
                             style={fullnameError == null ? styles().inputTextView : styles().inputTextViewError}
@@ -250,8 +259,14 @@ export default class AppointmentsBooked extends Component {
                     </View>
                     <View style={{ marginTop: 10, marginLeft: 20, marginRight: 20 }}>
                         <View style={{ flexDirection: KEY.ROW }}>
-                            <Text style={{ fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>Email</Text>
-                            <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
+                            <Text style={{
+                                fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE,
+                                color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR
+                            }}>Email</Text>
+                            <Text style={{
+                                marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR,
+                                fontFamily: FONT.FONT_FAMILY_REGULAR, marginBottom: 10
+                            }}>{'*'}</Text>
                         </View>
                         <TextInput
                             style={usernameError == null ? styles().inputTextView : styles().inputTextViewError}
@@ -268,8 +283,14 @@ export default class AppointmentsBooked extends Component {
                     </View>
                     <View style={{ marginLeft: 20, marginTop: 10 }}>
                         <View style={{ flexDirection: KEY.ROW }}>
-                            <Text style={{ fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>Gender</Text>
-                            <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
+                            <Text style={{
+                                fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE,
+                                color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR
+                            }}>Gender</Text>
+                            <Text style={{
+                                marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR,
+                                marginTop: 0, marginBottom: 10, fontFamily: FONT.FONT_FAMILY_REGULAR
+                            }}>{'*'}</Text>
                         </View>
                         <View style={{ flexDirection: KEY.ROW }}>
                             {genderArray.map((item, index) => (
@@ -277,15 +298,21 @@ export default class AppointmentsBooked extends Component {
                                     <TouchableOpacity onPress={() => this.onPressSelectGender(item, index)}>
                                         <Ionicons size={30} name={item.selected == true ? "radio-button-on" : "radio-button-off"} color={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR} style={{ marginRight: 5 }} />
                                     </TouchableOpacity>
-                                    <Text style={{ textTransform: KEY.CAPITALIZE }}>{item.value}</Text>
+                                    <Text style={{ textTransform: KEY.CAPITALIZE, color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR }}>{item.value}</Text>
                                 </View>
                             ))}
                         </View>
                     </View>
                     <View style={{ marginTop: 15, marginLeft: 20, marginRight: 20 }}>
                         <View style={{ flexDirection: KEY.ROW }}>
-                            <Text style={{ fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>Country</Text>
-                            <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
+                            <Text style={{
+                                fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE,
+                                color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR
+                            }}>Country</Text>
+                            <Text style={{
+                                marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR,
+                                marginTop: 0, marginBottom: 10, fontFamily: FONT.FONT_FAMILY_REGULAR
+                            }}>{'*'}</Text>
                         </View>
                         <TextInput
                             style={countryError == null ? styles().inputTextView : styles().inputTextViewError}
@@ -307,8 +334,14 @@ export default class AppointmentsBooked extends Component {
                     </View>
                     <View style={{ marginTop: 10, marginLeft: 20, marginRight: 20 }}>
                         <View style={{ flexDirection: KEY.ROW }}>
-                            <Text style={{ fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>Contact Number</Text>
-                            <Text style={{ marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>
+                            <Text style={{
+                                fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE,
+                                color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR
+                            }}>Contact Number</Text>
+                            <Text style={{
+                                marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR,
+                                marginTop: 0, marginBottom: 10, fontFamily: FONT.FONT_FAMILY_REGULAR
+                            }}>{'*'}</Text>
                         </View>
                         <TextInput
                             style={mobilenumberError == null ? styles().inputTextView : styles().inputTextViewError}
@@ -325,7 +358,10 @@ export default class AppointmentsBooked extends Component {
 
                     <View style={{ marginTop: 10, marginLeft: 20, marginRight: 20 }}>
                         <View style={{ flexDirection: KEY.ROW }}>
-                            <Text style={{ fontSize: 16, marginBottom: 10, textTransform: KEY.CAPITALIZE }}>Special Request</Text>
+                            <Text style={{
+                                fontSize: 16, marginBottom: 10, fontFamily: FONT.FONT_FAMILY_REGULAR,
+                                color: COLOR.BLACK, textTransform: KEY.CAPITALIZE
+                            }}>Special Request</Text>
                         </View>
                         <TextInput placeholder='Special Request'
                             multiline={true}
@@ -340,7 +376,7 @@ export default class AppointmentsBooked extends Component {
                     </View>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).book} onPress={() => this.onPressSubmit()} >
-                            <Text style={{ fontSize: 18, color: COLOR.WHITE }}>Book Now</Text>
+                            <Text style={{ fontSize: 18, color: COLOR.WHITE, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Book Now</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={{ marginBottom: 30 }} />
@@ -379,6 +415,7 @@ const styles = (colorcode) => StyleSheet.create({
         color: COLOR.BLACK,
         fontSize: FONT.FONT_SIZE_14,
         paddingLeft: 15,
+        fontFamily: FONT.FONT_FAMILY_REGULAR
     },
     inputTextViewError: {
         borderRadius: 10,
@@ -391,6 +428,7 @@ const styles = (colorcode) => StyleSheet.create({
         color: COLOR.BLACK,
         fontSize: FONT.FONT_SIZE_14,
         paddingLeft: 15,
+        fontFamily: FONT.FONT_FAMILY_REGULAR
     },
     book: {
         flexDirection: KEY.ROW,

@@ -15,6 +15,7 @@ import * as KEY from '../../context/actions/key';
 import * as TYPE from '../../context/actions/type';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import * as FONT from '../../styles/typography';
 import Toast from 'react-native-simple-toast';
 import { getBranchDetails } from '../../Services/LocalService/LocalService';
 import { DefaultImage } from '../../context/actions/type';
@@ -124,8 +125,8 @@ export default class LoginScreen extends Component {
                         </View>
                     </ImageBackground>
                     <View style={styles().hello}>
-                        <Text style={{ color: COLOR.BLACK, fontSize: 28 }}>Welcome </Text>
-                        <Text style={{ color: COLOR.BLACK, fontSize: 18 }}>Sign in to your account</Text>
+                        <Text style={{ color: COLOR.BLACK, fontSize: 28, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Welcome </Text>
+                        <Text style={{ color: COLOR.BLACK, fontSize: 18, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Sign in to your account</Text>
                     </View>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <View style={styles().inputView}>
@@ -158,7 +159,7 @@ export default class LoginScreen extends Component {
                     </View>
                     <View style={{ alignItems: KEY.FLEX_END, marginRight: 40 }}>
                         <TouchableOpacity onPress={() => { this.props.navigation.navigate('ForgotPasswordMain'), this.resetScreen() }}>
-                            <Text style={{ fontSize: 14, color: COLOR.PLACEHOLDER_COLOR, marginTop: 5 }}>Forgot password?</Text>
+                            <Text style={{ fontSize: 14, color: COLOR.PLACEHOLDER_COLOR, marginTop: 5, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Forgot password?</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 20 }}>
@@ -215,6 +216,8 @@ const styles = (colorcode) => StyleSheet.create({
         flex: 1,
         padding: 15,
         borderColor: COLOR.WHITE,
+        fontFamily: FONT.FONT_FAMILY_REGULAR,
+        color: COLOR.BLACK
     },
     TextInputError: {
         fontSize: 14,
@@ -240,15 +243,18 @@ const styles = (colorcode) => StyleSheet.create({
     },
     loginText: {
         color: COLOR.WHITE,
-        fontSize: 16
+        fontSize: 16,
+        fontFamily: FONT.FONT_FAMILY_REGULAR
     },
     baseText: {
         color: colorcode,
-        fontSize: 14
+        fontSize: 14,
+        fontFamily: FONT.FONT_FAMILY_REGULAR
     },
     innerText: {
         color: COLOR.BLACK_OLIVE,
-        fontSize: 14
+        fontSize: 14,
+        fontFamily: FONT.FONT_FAMILY_REGULAR
     },
     imageLogo: {
         justifyContent: KEY.CENTER,
@@ -256,5 +262,5 @@ const styles = (colorcode) => StyleSheet.create({
         height: 160,
         width: 220,
         tintColor: COLOR.WHITE
-    },
+    }
 })

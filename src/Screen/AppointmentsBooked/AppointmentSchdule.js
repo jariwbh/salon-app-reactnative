@@ -160,8 +160,8 @@ export default class AppointmentSchdule extends Component {
         <View style={{ alignItems: KEY.CENTER, justifyContent: KEY.CENTER }} key={index}>
             <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).cardView}>
                 <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).filledBox}>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_28, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.date).format('DD')}</Text>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.date).format('MMM')}</Text>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_28, fontFamily: FONT.FONT_FAMILY_BOLD, color: COLOR.WHITE }}>{moment(item.date).format('DD')}</Text>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_16, fontFamily: FONT.FONT_FAMILY_BOLD, color: COLOR.WHITE }}>{moment(item.date).format('MMM')}</Text>
                 </View>
                 <View style={{ flexDirection: KEY.ROW, marginLeft: 5, padding: 5 }}>
                     <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
@@ -171,11 +171,11 @@ export default class AppointmentSchdule extends Component {
                     {
                         moment().format('YYYY-MM-DD') === this.currentDate ?
                             <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).book} onPress={() => this.onPressCall()} >
-                                <Text style={{ fontSize: 14, color: COLOR.WHITE, marginLeft: 10, marginRight: 10 }}>Call to Book</Text>
+                                <Text style={{ fontSize: 14, color: COLOR.WHITE, marginLeft: 10, marginRight: 10, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Call to Book</Text>
                             </TouchableOpacity>
                             :
                             <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).book} onPress={() => this.onPressToBookNow(item)} >
-                                <Text style={{ fontSize: 14, color: COLOR.WHITE, marginLeft: 15, marginRight: 15 }}>Select</Text>
+                                <Text style={{ fontSize: 14, color: COLOR.WHITE, marginLeft: 15, marginRight: 15, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Select</Text>
                             </TouchableOpacity>
                     }
                 </View>
@@ -195,15 +195,15 @@ export default class AppointmentSchdule extends Component {
                                 <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} />
                             </TouchableOpacity>
                             <View style={{ justifyContent: KEY.CENTER, marginLeft: WIDTH / 5 }}>
-                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>Booking Online</Text>
+                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontFamily: FONT.FONT_FAMILY_BOLD }}>Booking Online</Text>
                             </View>
                         </View>
                     </View>
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                     <View style={{ justifyContent: KEY.CENTER, marginLeft: 20, marginRight: 20 }}>
-                        <Text style={{ fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontWeight: 'bold' }}>{this.serviceDetails.title}</Text>
-                        <Text style={{ fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontWeight: 'bold' }}>({(this.serviceDetails.duration + 'mins') + ', ' + this.state.currencySymbol + ' ' + this.serviceDetails.charges})</Text>
+                        <Text style={{ fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontFamily: FONT.FONT_FAMILY_BOLD }}>{this.serviceDetails.title}</Text>
+                        <Text style={{ fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontFamily: FONT.FONT_FAMILY_BOLD }}>({(this.serviceDetails.duration + 'mins') + ', ' + this.state.currencySymbol + ' ' + this.serviceDetails.charges})</Text>
                     </View>
                     <View style={{ justifyContent: KEY.CENTER, alignContent: KEY.CENTER }}>
                         <Calendar
@@ -225,7 +225,7 @@ export default class AppointmentSchdule extends Component {
                             markingType={'custom'}
                             hideExtraDays={true}
                         />
-                        <Text style={{ marginTop: 10, textAlign: KEY.CENTER, fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontWeight: 'bold' }}>Available appointments on {moment(this.currentDate).format('DD MMMM YYYY')}</Text>
+                        <Text style={{ marginTop: 10, textAlign: KEY.CENTER, fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontFamily: FONT.FONT_FAMILY_BOLD }}>Available appointments on {moment(this.currentDate).format('DD MMMM YYYY')}</Text>
                         <FlatList
                             data={timeSlots}
                             showsVerticalScrollIndicator={false}
@@ -238,7 +238,7 @@ export default class AppointmentSchdule extends Component {
                                     :
                                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                                         <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 30 }} resizeMode={KEY.CONTAIN} />
-                                        <Text style={{ fontSize: 16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No appointments available</Text>
+                                        <Text style={{ fontSize: 16, color: COLOR.TAUPE_GRAY, marginTop: 10, fontFamily: FONT.FONT_FAMILY_REGULAR }}>No appointments available</Text>
                                     </View>
                             )}
                         />
@@ -292,13 +292,14 @@ const styles = (colorcode) => StyleSheet.create({
         padding: 5
     },
     rectangleText: {
-        fontWeight: FONT.FONT_WEIGHT_BOLD,
+        fontFamily: FONT.FONT_FAMILY_BOLD,
         fontSize: FONT.FONT_SIZE_16,
         color: COLOR.BLACK,
         marginTop: 2,
         width: WIDTH / 2
     },
     rectangleSubText: {
+        fontFamily: FONT.FONT_FAMILY_REGULAR,
         fontSize: FONT.FONT_SIZE_14,
         color: COLOR.BLACK,
         marginTop: 2,

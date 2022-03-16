@@ -137,7 +137,7 @@ class UpdateProfile extends Component {
                                 <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} />
                             </TouchableOpacity>
                             <View style={{ justifyContent: KEY.CENTER, marginLeft: WIDTH / 4 }}>
-                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>My Profile</Text>
+                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontFamily: FONT.FONT_FAMILY_BOLD }}>My Profile</Text>
                             </View>
                         </View>
                     </View>
@@ -205,6 +205,7 @@ class UpdateProfile extends Component {
                                     </TouchableOpacity>
                                 </View>
                             </View>
+                            <View style={{ marginBottom: WIDTH * 0.1 }} />
                         </ScrollView>
                     </>}
                 {loader == true ? <Loader /> : null}
@@ -236,7 +237,7 @@ const styles = colorcode => StyleSheet.create({
     name: {
         fontSize: 22,
         color: COLOR.MENU_TEXT_COLOR,
-        fontWeight: 'bold',
+        fontFamily: FONT.FONT_FAMILY_BOLD,
         textTransform: KEY.CAPITALIZE
     },
     inputView: {
@@ -261,6 +262,8 @@ const styles = colorcode => StyleSheet.create({
         flex: 1,
         padding: 15,
         borderColor: COLOR.WHITE,
+        fontFamily: FONT.FONT_FAMILY_REGULAR,
+        color: COLOR.BLACK
     },
     TextInputError: {
         fontSize: 16,
@@ -287,7 +290,7 @@ const styles = colorcode => StyleSheet.create({
     },
     update_text: {
         color: COLOR.WHITE,
-        fontWeight: 'bold',
+        fontFamily: FONT.FONT_FAMILY_BOLD,
         fontSize: 18,
     },
     headerstyle: {

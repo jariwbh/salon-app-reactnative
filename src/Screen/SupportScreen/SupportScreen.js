@@ -60,7 +60,7 @@ const SupportScreen = (props) => {
                 />
                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -60 }}>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>
-                        <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>{'Support'}</Text>
+                        <Text style={{ fontSize: 22, color: COLOR.WHITE, fontFamily: FONT.FONT_FAMILY_BOLD }}>{'Support'}</Text>
                     </View>
                 </View>
             </View>
@@ -70,14 +70,14 @@ const SupportScreen = (props) => {
                     <Text style={styles(getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).textHeader}>We are here to help you</Text>
                     <Text style={styles().textSub}>Contact Us</Text>
                     <View style={{ marginTop: 10, justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                        <Text style={{ color: COLOR.BLACK, fontSize: FONT.FONT_SIZE_16 }}>Call us - {supportMobile}</Text>
-                        <Text style={{ color: COLOR.BLACK, fontSize: FONT.FONT_SIZE_16 }}>Mail us - {supportEmail}</Text>
+                        <Text style={{ color: COLOR.BLACK, fontSize: FONT.FONT_SIZE_16, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Call us - {supportMobile}</Text>
+                        <Text style={{ color: COLOR.BLACK, fontSize: FONT.FONT_SIZE_16, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Mail us - {supportEmail}</Text>
                     </View>
                 </View>
                 <View style={styles().addressView}>
                     <Ionicons name='location-sharp' color={getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR} size={24} />
-                    <Text style={{ color: getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontSize: FONT.FONT_SIZE_18 }}>{getBranch && getBranch.property.country}</Text>
-                    <Text style={{ color: COLOR.BLACK, fontSize: FONT.FONT_SIZE_16, width: WIDTH / 2, textAlign: KEY.CENTER }}>{getBranch && getBranch.property.address}</Text>
+                    <Text style={{ color: getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontSize: FONT.FONT_SIZE_18, fontFamily: FONT.FONT_FAMILY_REGULAR }}>{getBranch && getBranch.property.country}</Text>
+                    <Text style={{ color: COLOR.BLACK, fontSize: FONT.FONT_SIZE_16, width: WIDTH / 2, textAlign: KEY.CENTER, fontFamily: FONT.FONT_FAMILY_REGULAR }}>{getBranch && getBranch.property.address}</Text>
                 </View>
                 <View style={{ marginBottom: 100 }} />
             </ScrollView>

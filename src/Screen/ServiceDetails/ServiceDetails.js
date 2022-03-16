@@ -11,6 +11,7 @@ import * as TYPE from '../../context/actions/type';
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import * as FONT from '../../styles/typography';
 import Loader from '../../Components/Loader/Loader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -65,19 +66,19 @@ export default class ServiceDetails extends Component {
                                 <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} />
                             </TouchableOpacity>
                             <View style={{ justifyContent: KEY.CENTER, marginLeft: WIDTH / 5 }}>
-                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>Service Details</Text>
+                                <Text style={{ fontSize: 22, color: COLOR.WHITE, fontFamily: FONT.FONT_FAMILY_BOLD }}>Service Details</Text>
                             </View>
                         </View>
                     </View>
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginBottom: 50 }}>
-                        <Image source={{ uri: this.serviceDetails.gallery && this.serviceDetails.gallery[0] && this.serviceDetails.gallery[0].attachment ? this.serviceDetails.gallery[0].attachment : this.getBranch && this.getBranch?.property?.mobilelogo ? this.getBranch?.property?.mobilelogo : TYPE.DefaultImage }} style={{ width: WIDTH - 20, height: HEIGHT / 3, borderRadius: 10 }}
-                        />
+                        <Image source={{ uri: this.serviceDetails.gallery && this.serviceDetails.gallery[0] && this.serviceDetails.gallery[0].attachment ? this.serviceDetails.gallery[0].attachment : this.getBranch && this.getBranch?.property?.mobilelogo ? this.getBranch?.property?.mobilelogo : TYPE.DefaultImage }}
+                            style={{ width: WIDTH - 20, height: HEIGHT / 3, borderRadius: 10, backgroundColor: COLOR.WHITE }} />
                     </View>
                     <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginTop: -30, marginLeft: 20, marginRight: 20 }}>
-                        <Text style={{ fontSize: 18, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, width: WIDTH / 2 }}>{servicetitle}</Text>
-                        <Text style={{ fontSize: 18, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR }}>{currencySymbol + ' ' + servicecharges} </Text>
+                        <Text style={{ fontSize: 18, fontFamily: FONT.FONT_FAMILY_REGULAR, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, width: WIDTH / 2 }}>{servicetitle}</Text>
+                        <Text style={{ fontSize: 18, fontFamily: FONT.FONT_FAMILY_REGULAR, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR }}>{currencySymbol + ' ' + servicecharges} </Text>
                     </View>
 
                     <View style={{ flex: 1, marginTop: 10, marginLeft: 10, marginRight: 10, marginBottom: 140 }}>
@@ -89,7 +90,7 @@ export default class ServiceDetails extends Component {
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).book} onPress={() => { this.props.navigation.navigate('AppointmentSchdule', { serviceDetails }) }}>
                             <FontAwesome5 name="check-circle" size={24} color={COLOR.WHITE} style={{ margin: 5 }} />
-                            <Text style={{ fontSize: 16, color: COLOR.WHITE }}>Book Now</Text>
+                            <Text style={{ fontSize: 16, color: COLOR.WHITE, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Book Now</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>

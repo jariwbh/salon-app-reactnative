@@ -12,6 +12,7 @@ import * as KEY from '../../context/actions/key';
 import * as TYPE from '../../context/actions/type';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import * as FONT from '../../styles/typography';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 import Toast from 'react-native-simple-toast';
@@ -157,7 +158,7 @@ class RegisterScreen extends Component {
                         </View>
                     </ImageBackground>
                     <View style={styles().createtext}>
-                        <Text style={{ color: COLOR.BLACK, fontSize: 28 }}>Create Account</Text>
+                        <Text style={{ color: COLOR.BLACK, fontSize: 28, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Create Account</Text>
                     </View>
 
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
@@ -271,6 +272,8 @@ const styles = (colorcode) => StyleSheet.create({
         flex: 1,
         padding: 15,
         borderColor: COLOR.WHITE,
+        fontFamily: FONT.FONT_FAMILY_REGULAR,
+        color: COLOR.BLACK
     },
     TextInputError: {
         fontSize: 14,
@@ -296,15 +299,18 @@ const styles = (colorcode) => StyleSheet.create({
     },
     sineText: {
         color: COLOR.WHITE,
-        fontSize: 16
+        fontSize: 16,
+        fontFamily: FONT.FONT_FAMILY_REGULAR
     },
     baseText: {
         color: colorcode,
-        fontSize: 14
+        fontSize: 14,
+        fontFamily: FONT.FONT_FAMILY_REGULAR
     },
     innerText: {
         color: COLOR.BLACK_OLIVE,
-        fontSize: 14
+        fontSize: 14,
+        fontFamily: FONT.FONT_FAMILY_REGULAR
     },
     createtext: {
         marginTop: 10,

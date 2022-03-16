@@ -121,14 +121,14 @@ const ProductListScreen = (props) => {
                     <View style={{ flexDirection: KEY.COLUMN, marginLeft: 20 }}>
                         <Text style={styles.detailText}>{item?.itemname}</Text>
                         <View style={{ flexDirection: KEY.COLUMN, marginTop: 5 }}>
-                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK }}>{currencySymbol + ' ' + item?.sale?.rate} </Text>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR }}>{currencySymbol + ' ' + item?.sale?.rate} </Text>
                             {
                                 item?.sale.discounttype == "Percentage" &&
-                                <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.DEFALUTCOLOR }}> ({item?.sale?.discount + '%' + ' OFF'})</Text>
+                                <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.DEFALUTCOLOR, fontFamily: FONT.FONT_FAMILY_REGULAR }}> ({item?.sale?.discount + '%' + ' OFF'})</Text>
                             }
                             {
                                 item?.sale.discounttype == "Fixed" &&
-                                <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.DEFALUTCOLOR }}> ({item?.sale?.discount + ' ' + currencySymbol + 'OFF'})</Text>
+                                <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.DEFALUTCOLOR, fontFamily: FONT.FONT_FAMILY_REGULAR }}> ({item?.sale?.discount + ' ' + currencySymbol + 'OFF'})</Text>
                             }
                         </View>
                     </View>
@@ -143,7 +143,7 @@ const ProductListScreen = (props) => {
             <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
             <View style={styles.headerstyle}>
                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
-                    <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>Our Products</Text>
+                    <Text style={{ fontSize: 22, color: COLOR.WHITE, fontFamily: FONT.FONT_FAMILY_BOLD }}>Our Products</Text>
                 </View>
             </View>
 
@@ -171,7 +171,7 @@ const ProductListScreen = (props) => {
                         :
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                             <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 50 }} resizeMode={KEY.CONTAIN} />
-                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10, fontFamily: FONT.FONT_FAMILY_REGULAR }}>No record found</Text>
                         </View>
                 )}
             />
@@ -211,6 +211,7 @@ const styles = StyleSheet.create({
         fontSize: FONT.FONT_SIZE_14,
         width: WIDTH / 2 - 20,
         color: COLOR.BLACK,
+        fontFamily: FONT.FONT_FAMILY_REGULAR
     },
     centerView: {
         alignItems: KEY.CENTER,

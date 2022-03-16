@@ -1,8 +1,8 @@
 //APP MAIN COLOR
-export const DEFALUTCOLOR = '#FC7845';
-export const DEFAULTLIGHT = '#FC7845';
-export const BACKGROUNDCOLOR = '#FCF4F1';
-export const STATUSBARCOLOR = '#FC7845';
+export const DEFALUTCOLOR = '#575552';
+export const DEFAULTLIGHT = '#575552';
+export const BACKGROUNDCOLOR = '#f2f2f2';
+export const STATUSBARCOLOR = '#575552';
 
 //BASIC COLOR
 export const PRIMARY = '#1779ba';
@@ -97,5 +97,11 @@ export const CHECKOUT_COLOR = '#47CCBF'
 // Jeskir App
 // export const DEFALUTCOLOR = '#575552';
 // export const DEFAULTLIGHT = '#575552';
-// export const BACKGROUNDCOLOR = '#EFF2F7';
+// export const BACKGROUNDCOLOR = '#f2f2f2';
 // export const STATUSBARCOLOR = '#575552';
+
+// membrzo App
+// export const DEFALUTCOLOR = '#FC7845';
+// export const DEFAULTLIGHT = '#FC7845';
+// export const BACKGROUNDCOLOR = '#FCF4F1';
+// export const STATUSBARCOLOR = '#FC7845';

@@ -12,7 +12,7 @@ import * as KEY from '../../context/actions/key';
 import * as TYPE from '../../context/actions/type';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
-import { FONT_WEIGHT_BOLD } from '../../styles/typography';
+import * as FONT from '../../styles/typography';
 import axiosConfig from '../../Helpers/axiosConfig';
 import AsyncStorage from '@react-native-community/async-storage';
 import getCurrency from '../../Services/getCurrencyService/getCurrency';
@@ -110,8 +110,8 @@ class PackageScreen extends Component {
             </TouchableOpacity>
             <View
                 style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginLeft: 10, marginRight: 10, marginBottom: 10, marginTop: 10 }}>
-                <Text style={{ fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontWeight: FONT_WEIGHT_BOLD, width: WIDTH / 2 }}>{item && item.membershipname}</Text>
-                <Text style={{ fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontWeight: FONT_WEIGHT_BOLD }}>{this.state.currencySymbol + ' ' + (item && item.property && item.property.cost)}</Text>
+                <Text style={{ fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontFamily: FONT.FONT_FAMILY_BOLD, width: WIDTH / 2 }}>{item && item.membershipname}</Text>
+                <Text style={{ fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontFamily: FONT.FONT_FAMILY_BOLD }}>{this.state.currencySymbol + ' ' + (item && item.property && item.property.cost)}</Text>
             </View>
         </View>
     )
@@ -127,7 +127,7 @@ class PackageScreen extends Component {
                     />
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -60 }}>
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>
-                            <Text style={{ fontSize: 22, color: COLOR.WHITE, fontWeight: 'bold' }}>{'Our Packages'}</Text>
+                            <Text style={{ fontSize: 22, color: COLOR.WHITE, fontFamily: FONT.FONT_FAMILY_BOLD }}>{'Our Packages'}</Text>
                         </View>
                     </View>
                 </View>
@@ -151,7 +151,7 @@ class PackageScreen extends Component {
                     :
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                        <Text style={{ fontSize: 16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                        <Text style={{ fontSize: 16, color: COLOR.TAUPE_GRAY, marginTop: 10, fontFamily: FONT.FONT_FAMILY_REGULAR }}>No record found</Text>
                     </View>
                 }
                 {loader == true ? <Loader /> : null}
