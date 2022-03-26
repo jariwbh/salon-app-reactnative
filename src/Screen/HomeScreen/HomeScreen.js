@@ -150,7 +150,7 @@ class HomeScreen extends Component {
                 }
             </TouchableOpacity>
             <TouchableOpacity style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, width: 90 }}>
-                <Text style={{ fontSize: 14, color: COLOR.BLACK, textTransform: KEY.CAPITALIZE, textAlign: KEY.CENTER, fontFamily: FONT.FONT_FAMILY_REGULAR }}>{item.property.name}</Text>
+                <Text style={{ fontSize: 12, color: COLOR.BLACK, textTransform: KEY.CAPITALIZE, textAlign: KEY.CENTER, fontFamily: FONT.FONT_FAMILY_REGULAR }}>{item.property.name}</Text>
             </TouchableOpacity>
         </View>
     )

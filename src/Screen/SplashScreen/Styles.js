@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         alignItems: KEY.CENTER,
         height: 300,
         width: 300,
-        tintColor: COLOR.WHITE
+        //tintColor: COLOR.WHITE
     },
     msgModalView: {
         marginTop: HEIGHT / 2.5,
