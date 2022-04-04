@@ -41,7 +41,7 @@ export default StartupScreen;
 
 const styles = StyleSheet.create({
     imageStyle: {
-        height: HEIGHT - 100,
+        height: HEIGHT * 0.8,
         width: WIDTH,
         justifyContent: KEY.CENTER,
         borderBottomRightRadius: 150,
