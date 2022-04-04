@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
     View, Text, StyleSheet, Image, Dimensions, TouchableOpacity,
-    StatusBar, SafeAreaView, ImageBackground, Alert
+    StatusBar, SafeAreaView, ImageBackground, Alert, Platform
 } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -121,7 +121,7 @@ export default class MyProfileScreen extends Component {
             !showLogin
                 ?
                 <SafeAreaView style={styles().container}>
-                    <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                    <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
                     <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR).headerstyle}>
                         <Image source={{ uri: this.getBranch?.property?.mobilelogo ? this.getBranch?.property?.mobilelogo : TYPE.DefaultImage }}
                             style={{ tintColor: COLOR.WHITE, alignItems: KEY.CENTER, height: 90, width: 90, marginLeft: 10, marginTop: 0, borderRadius: 10, resizeMode: KEY.COVER }}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
     View, Text, StyleSheet, FlatList, Dimensions, Image,
-    ScrollView, RefreshControl, SafeAreaView, BackHandler, StatusBar
+    ScrollView, RefreshControl, SafeAreaView, BackHandler, StatusBar, Platform
 } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { getPackageService } from '../../Services/PackageService/PackageService';
@@ -120,7 +120,7 @@ class PackageScreen extends Component {
         const { PackageList, loader, refreshing } = this.state
         return (
             <SafeAreaView style={styles().container}>
-                <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
                 <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.BACKGROUNDCOLOR).headerstyle}>
                     <Image source={{ uri: this.getBranch?.property?.mobilelogo ? this.getBranch?.property?.mobilelogo : TYPE.DefaultImage }}
                         style={{ tintColor: COLOR.WHITE, alignItems: KEY.CENTER, height: 90, width: 90, marginLeft: 10, marginTop: 0, borderRadius: 10, resizeMode: KEY.COVER }}

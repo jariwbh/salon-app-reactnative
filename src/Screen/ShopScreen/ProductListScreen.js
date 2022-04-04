@@ -8,7 +8,7 @@ import {
     View, Text,
     FlatList,
     StyleSheet, TextInput,
-    TouchableOpacity, RefreshControl
+    TouchableOpacity, RefreshControl, Platform
 } from 'react-native';
 import Loader from '../../Components/Loader/Loader';
 import { CategoryService } from '../../Services/ProductService/CategoryService';
@@ -140,7 +140,7 @@ const ProductListScreen = (props) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.WHITE }}>
-            <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+            <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
             <View style={styles.headerstyle}>
                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
                     <Text style={{ fontSize: 22, color: COLOR.WHITE, fontFamily: FONT.FONT_FAMILY_BOLD }}>Our Products</Text>

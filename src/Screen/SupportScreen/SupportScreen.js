@@ -6,7 +6,8 @@ import {
     Image,
     Text,
     ScrollView,
-    StatusBar
+    StatusBar,
+    Platform
 } from 'react-native';
 import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
@@ -53,7 +54,7 @@ const SupportScreen = (props) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
-            <StatusBar backgroundColor={getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+            <StatusBar backgroundColor={getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
             <View style={styles(getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR).headerstyle}>
                 <Image source={{ uri: getBranch?.property?.mobilelogo ? getBranch?.property?.mobilelogo : TYPE.DefaultImage }}
                     style={{ tintColor: COLOR.WHITE, alignItems: KEY.CENTER, height: 90, width: 90, marginLeft: 10, marginTop: 0, borderRadius: 10, resizeMode: KEY.COVER }}

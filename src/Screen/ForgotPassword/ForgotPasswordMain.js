@@ -151,7 +151,7 @@ export default function ForgotPasswordMain(props) {
 
     return (
         <SafeAreaView style={styles().container}>
-            <StatusBar backgroundColor={getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
+            <StatusBar backgroundColor={getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
             <ScrollView Vertical={true} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                 <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR} style={styles().backgroundImage}>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 55 }}>
