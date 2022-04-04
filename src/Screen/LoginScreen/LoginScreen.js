@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
     View, Text, StyleSheet, ImageBackground, Image,
-    Dimensions, TextInput, TouchableOpacity, SafeAreaView, StatusBar, BackHandler, Keyboard
+    Dimensions, TextInput, TouchableOpacity, SafeAreaView, StatusBar, BackHandler, Keyboard, Platform
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -117,7 +117,7 @@ export default class LoginScreen extends Component {
         const { usererror, passworderror, loader, loading } = this.state;
         return (
             <SafeAreaView style={styles().container}>
-                <StatusBar backgroundColor={this.getBranch && this.getBranch.property.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
+                <StatusBar backgroundColor={this.getBranch && this.getBranch.property.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                     <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR} style={styles().backgroundImage}>
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 55 }}>

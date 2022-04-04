@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
     View, Text, StyleSheet, TouchableOpacity, ImageBackground, Dimensions,
-    TextInput, SafeAreaView, StatusBar, Keyboard, Image
+    TextInput, SafeAreaView, StatusBar, Keyboard, Image, Platform
 } from 'react-native';
 import RegisterService from '../../Services/RegisterService/RegisterService';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -144,7 +144,7 @@ class RegisterScreen extends Component {
         const { fullnameError, usernameError, mobilenumberError, passwordError, loader, loading } = this.state;
         return (
             <SafeAreaView style={styles().container}>
-                <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
+                <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
                 <ScrollView
                     Vertical={true}
                     showsVerticalScrollIndicator={false}

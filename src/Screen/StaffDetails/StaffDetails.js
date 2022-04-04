@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
     View, Text, StyleSheet, ScrollView, Image,
-    StatusBar, SafeAreaView, Dimensions
+    StatusBar, SafeAreaView, Dimensions, Platform
 } from 'react-native';
 import { Rating } from 'react-native-ratings';
 import HTML from 'react-native-render-html';
@@ -24,7 +24,7 @@ class StaffDetails extends Component {
         const { staffDetails } = this.state
         return (
             <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={KEY.DARK_CONTENT} />
+                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
                 <ScrollView showsVerticalScrollIndicator={false} >
                     <View style={{ marginBottom: 50 }} >
                         <View style={{ margin: 10, justifyContent: KEY.CENTER, alignItems: KEY.CENTER }} >

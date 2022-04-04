@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     View, StatusBar, SafeAreaView, Image, TouchableOpacity,
-    ImageBackground, Dimensions, StyleSheet, Text
+    ImageBackground, Dimensions, StyleSheet, Text, Platform
 } from 'react-native';
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
@@ -26,7 +26,7 @@ const StartupScreen = (props) => {
             <StatusBar hidden={false}
                 translucent={true}
                 backgroundColor={KEY.TRANSPARENT}
-                barStyle={KEY.LIGHT_CONTENT} />
+                barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
             <ImageBackground
                 source={IMAGE.STARTUP} resizeMode={KEY.COVER} style={styles.imageStyle} />
             <View style={{ alignItems: KEY.CENTER, marginTop: 30 }}>

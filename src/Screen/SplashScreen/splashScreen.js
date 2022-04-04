@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {
   StatusBar, View,
   SafeAreaView, Image,
-  ImageBackground, Dimensions
+  ImageBackground, Dimensions, Platform
 } from 'react-native';
 import { AUTHUSER, DefaultImage, SPLASHSCREENIAMGE, STARTUP } from '../../context/actions/type';
 import axiosConfig from '../../Helpers/axiosConfig';
@@ -49,7 +49,7 @@ function SplashScreen(props) {
 
   return (
     <SafeAreaView style={{ flex: 1 }} >
-      <StatusBar hidden={false} translucent={true} backgroundColor={KEY.TRANSPARENT} barStyle={KEY.LIGHT_CONTENT} />
+      <StatusBar hidden={false} translucent={true} backgroundColor={KEY.TRANSPARENT} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
       <ImageBackground
         source={{ uri: SPLASHSCREENIAMGE }} style={styles.imageStyle} >
         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: HEIGHT / 3 }}>
