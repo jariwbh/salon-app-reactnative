@@ -1,7 +1,7 @@
 # compiler: R8
 # compiler_version: 1.5.69
-# min_api: 16
-# pg_map_id: 39164bd
+# min_api: 21
+# pg_map_id: 5d0a729
 androidx.activity.Cancellable -> androidx.activity.a:
 androidx.activity.ComponentActivity -> androidx.activity.ComponentActivity:
     androidx.activity.OnBackPressedDispatcher mOnBackPressedDispatcher -> f
@@ -9718,11 +9718,8 @@ com.facebook.common.internal.CountingOutputStream -> c.a.d.d.c:
     long getCount() -> a
 com.facebook.common.internal.DoNotStrip -> c.a.d.d.d:
 com.facebook.common.internal.ImmutableList -> c.a.d.d.e:
-    com.facebook.common.internal.ImmutableList of(java.lang.Object[]) -> a
 com.facebook.common.internal.ImmutableMap -> c.a.d.d.f:
     com.facebook.common.internal.ImmutableMap copyOf(java.util.Map) -> a
-    java.util.Map of(java.lang.Object,java.lang.Object) -> a
-    java.util.Map of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object) -> a
 com.facebook.common.internal.Ints -> c.a.d.d.g:
     int max(int[]) -> a
 com.facebook.common.internal.Objects -> c.a.d.d.h:

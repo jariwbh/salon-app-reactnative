@@ -196,10 +196,6 @@
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\color-v23\\abc_tint_btn_checkable.xml"
     },
     {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable_abc_edit_text_material.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable\\abc_edit_text_material.xml"
-    },
-    {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\anim_catalyst_slide_down.xml.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\982a75866340437690941ac1e4db6ada\\jetified-react-native-0.63.4\\res\\anim\\catalyst_slide_down.xml"
     },
@@ -214,10 +210,6 @@
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi_node_modules_reactnativecalendars_src_img_up.png.flat",
         "source": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\generated\\res\\react\\release\\drawable-xhdpi\\node_modules_reactnativecalendars_src_img_up.png"
-    },
-    {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\anim_design_bottom_sheet_slide_out.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\863e0c3c6716935cd3657ad638fd992d\\material-1.1.0\\res\\anim\\design_bottom_sheet_slide_out.xml"
     },
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\anim_btn_radio_to_off_mtrl_ring_outer_path_animation.xml.flat",
@@ -400,12 +392,12 @@
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-mdpi-v4\\abc_btn_radio_to_on_mtrl_015.png"
     },
     {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4_abc_menu_hardkey_panel_mtrl_mult.9.png.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-mdpi-v4\\abc_menu_hardkey_panel_mtrl_mult.9.png"
-    },
-    {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4_abc_ic_star_black_16dp.png.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-xhdpi-v4\\abc_ic_star_black_16dp.png"
+    },
+    {
+        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4_abc_menu_hardkey_panel_mtrl_mult.9.png.flat",
+        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-mdpi-v4\\abc_menu_hardkey_panel_mtrl_mult.9.png"
     },
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi_node_modules_reactnativeratings_src_images_rocket.png.flat",
@@ -502,10 +494,6 @@
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-v23_mtrl_popupmenu_background_dark.xml.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\863e0c3c6716935cd3657ad638fd992d\\material-1.1.0\\res\\drawable-v23\\mtrl_popupmenu_background_dark.xml"
-    },
-    {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\layout_notification_action.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\639e914bfc1efa21e36199d3ff2c5eef\\core-1.1.0\\res\\layout\\notification_action.xml"
     },
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4_abc_list_pressed_holo_light.9.png.flat",
@@ -980,20 +968,12 @@
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-mdpi-v4\\abc_list_longpressed_holo.9.png"
     },
     {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable_abc_btn_colored_material.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable\\abc_btn_colored_material.xml"
-    },
-    {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\layout_abc_screen_simple.xml.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\layout\\abc_screen_simple.xml"
     },
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\layout_mtrl_picker_header_fullscreen.xml.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\863e0c3c6716935cd3657ad638fd992d\\material-1.1.0\\res\\layout\\mtrl_picker_header_fullscreen.xml"
-    },
-    {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\interpolator_mtrl_fast_out_linear_in.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\863e0c3c6716935cd3657ad638fd992d\\material-1.1.0\\res\\interpolator\\mtrl_fast_out_linear_in.xml"
     },
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\animator_mtrl_fab_hide_motion_spec.xml.flat",
@@ -1124,10 +1104,6 @@
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\anim\\abc_slide_in_top.xml"
     },
     {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\anim_mtrl_bottom_sheet_slide_out.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\863e0c3c6716935cd3657ad638fd992d\\material-1.1.0\\res\\anim\\mtrl_bottom_sheet_slide_out.xml"
-    },
-    {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4_abc_ic_star_black_16dp.png.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-hdpi-v4\\abc_ic_star_black_16dp.png"
     },
@@ -1194,10 +1170,6 @@
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\layout_select_dialog_singlechoice_material.xml.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\layout\\select_dialog_singlechoice_material.xml"
-    },
-    {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\interpolator_mtrl_linear_out_slow_in.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\863e0c3c6716935cd3657ad638fd992d\\material-1.1.0\\res\\interpolator\\mtrl_linear_out_slow_in.xml"
     },
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xxhdpi-v4_abc_scrubber_track_mtrl_alpha.9.png.flat",
@@ -1280,10 +1252,6 @@
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-xxhdpi-v4\\abc_ab_share_pack_mtrl_alpha.9.png"
     },
     {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\anim_fragment_fast_out_extra_slow_in.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\37aaca75d3d19faa6fb296103cea95d8\\fragment-1.2.1\\res\\anim\\fragment_fast_out_extra_slow_in.xml"
-    },
-    {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4_abc_btn_check_to_on_mtrl_000.png.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-hdpi-v4\\abc_btn_check_to_on_mtrl_000.png"
     },
@@ -1352,16 +1320,8 @@
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-xhdpi-v4\\abc_ic_star_half_black_48dp.png"
     },
     {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\color_abc_btn_colored_borderless_text_material.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\color\\abc_btn_colored_borderless_text_material.xml"
-    },
-    {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xxxhdpi-v4_abc_ic_star_half_black_36dp.png.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-xxxhdpi-v4\\abc_ic_star_half_black_36dp.png"
-    },
-    {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\layout_notification_template_icon_group.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\639e914bfc1efa21e36199d3ff2c5eef\\core-1.1.0\\res\\layout\\notification_template_icon_group.xml"
     },
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xxxhdpi-v4_abc_text_select_handle_right_mtrl_dark.png.flat",
@@ -1372,16 +1332,16 @@
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\863e0c3c6716935cd3657ad638fd992d\\material-1.1.0\\res\\layout\\test_design_checkbox.xml"
     },
     {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable_abc_btn_check_material.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable\\abc_btn_check_material.xml"
+        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4_abc_switch_track_mtrl_alpha.9.png.flat",
+        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-mdpi-v4\\abc_switch_track_mtrl_alpha.9.png"
     },
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4_abc_ab_share_pack_mtrl_alpha.9.png.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-mdpi-v4\\abc_ab_share_pack_mtrl_alpha.9.png"
     },
     {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4_abc_switch_track_mtrl_alpha.9.png.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-mdpi-v4\\abc_switch_track_mtrl_alpha.9.png"
+        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable_abc_btn_check_material.xml.flat",
+        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable\\abc_btn_check_material.xml"
     },
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\anim_rns_slide_in_from_left.xml.flat",
@@ -1466,10 +1426,6 @@
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\anim_abc_fade_out.xml.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\anim\\abc_fade_out.xml"
-    },
-    {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\interpolator_mtrl_fast_out_slow_in.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\863e0c3c6716935cd3657ad638fd992d\\material-1.1.0\\res\\interpolator\\mtrl_fast_out_slow_in.xml"
     },
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xxhdpi-v4_abc_text_select_handle_middle_mtrl_dark.png.flat",
@@ -1560,10 +1516,6 @@
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-mdpi-v4\\abc_cab_background_top_mtrl_alpha.9.png"
     },
     {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\layout-v16_notification_template_custom_big.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\639e914bfc1efa21e36199d3ff2c5eef\\core-1.1.0\\res\\layout-v16\\notification_template_custom_big.xml"
-    },
-    {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\color_switch_thumb_material_light.xml.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\color\\switch_thumb_material_light.xml"
     },
@@ -1606,10 +1558,6 @@
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4_abc_list_longpressed_holo.9.png.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-hdpi-v4\\abc_list_longpressed_holo.9.png"
-    },
-    {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\layout_notification_action_tombstone.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\639e914bfc1efa21e36199d3ff2c5eef\\core-1.1.0\\res\\layout\\notification_action_tombstone.xml"
     },
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable_ic_clear_black_24dp.xml.flat",
@@ -1980,10 +1928,6 @@
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\863e0c3c6716935cd3657ad638fd992d\\material-1.1.0\\res\\layout\\design_navigation_item_subheader.xml"
     },
     {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\anim_design_bottom_sheet_slide_in.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\863e0c3c6716935cd3657ad638fd992d\\material-1.1.0\\res\\anim\\design_bottom_sheet_slide_in.xml"
-    },
-    {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xxhdpi-v4_abc_btn_check_to_on_mtrl_015.png.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-xxhdpi-v4\\abc_btn_check_to_on_mtrl_015.png"
     },
@@ -2018,10 +1962,6 @@
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4_notify_panel_notification_icon_bg.png.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\639e914bfc1efa21e36199d3ff2c5eef\\core-1.1.0\\res\\drawable-hdpi-v4\\notify_panel_notification_icon_bg.png"
-    },
-    {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\anim_mtrl_bottom_sheet_slide_in.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\863e0c3c6716935cd3657ad638fd992d\\material-1.1.0\\res\\anim\\mtrl_bottom_sheet_slide_in.xml"
     },
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-ldrtl-hdpi-v17_abc_ic_menu_cut_mtrl_alpha.png.flat",
@@ -2128,10 +2068,6 @@
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-xhdpi-v4\\abc_menu_hardkey_panel_mtrl_mult.9.png"
     },
     {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable_design_password_eye.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\863e0c3c6716935cd3657ad638fd992d\\material-1.1.0\\res\\drawable\\design_password_eye.xml"
-    },
-    {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\color_design_box_stroke_color.xml.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\863e0c3c6716935cd3657ad638fd992d\\material-1.1.0\\res\\color\\design_box_stroke_color.xml"
     },
@@ -2220,20 +2156,16 @@
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\863e0c3c6716935cd3657ad638fd992d\\material-1.1.0\\res\\drawable\\ic_calendar_black_24dp.xml"
     },
     {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable_design_bottom_navigation_item_background.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\863e0c3c6716935cd3657ad638fd992d\\material-1.1.0\\res\\drawable\\design_bottom_navigation_item_background.xml"
-    },
-    {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\color-v23_abc_tint_default.xml.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\color-v23\\abc_tint_default.xml"
     },
     {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4_abc_btn_radio_to_on_mtrl_015.png.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-xhdpi-v4\\abc_btn_radio_to_on_mtrl_015.png"
-    },
-    {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi_src_assets_defaultlogo.png.flat",
         "source": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\generated\\res\\react\\release\\drawable-mdpi\\src_assets_defaultlogo.png"
+    },
+    {
+        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4_abc_btn_radio_to_on_mtrl_015.png.flat",
+        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-xhdpi-v4\\abc_btn_radio_to_on_mtrl_015.png"
     },
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xxxhdpi-v4_abc_tab_indicator_mtrl_alpha.9.png.flat",
@@ -2342,10 +2274,6 @@
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\color_abc_search_url_text.xml.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\color\\abc_search_url_text.xml"
-    },
-    {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable_abc_dialog_material_background.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable\\abc_dialog_material_background.xml"
     },
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xxhdpi-v4_abc_btn_radio_to_on_mtrl_000.png.flat",
@@ -2486,10 +2414,6 @@
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable_ic_mtrl_chip_checked_circle.xml.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\863e0c3c6716935cd3657ad638fd992d\\material-1.1.0\\res\\drawable\\ic_mtrl_chip_checked_circle.xml"
-    },
-    {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable_abc_list_divider_material.xml.flat",
-        "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable\\abc_list_divider_material.xml"
     },
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\layout_design_layout_tab_icon.xml.flat",
