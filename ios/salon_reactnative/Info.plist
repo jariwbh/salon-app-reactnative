@@ -41,26 +41,18 @@
 	<string/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>AntDesign.ttf</string>
-		<string>Entypo.ttf</string>
-		<string>EvilIcons.ttf</string>
-		<string>Feather.ttf</string>
-		<string>FontAwesome.ttf</string>
-		<string>FontAwesome5_Brands.ttf</string>
-		<string>FontAwesome5_Regular.ttf</string>
-		<string>FontAwesome5_Solid.ttf</string>
-		<string>Fontisto.ttf</string>
-		<string>Foundation.ttf</string>
-		<string>Ionicons.ttf</string>
-		<string>MaterialCommunityIcons.ttf</string>
-		<string>MaterialIcons.ttf</string>
-		<string>Octicons.ttf</string>
-		<string>SimpleLineIcons.ttf</string>
-		<string>Zocial.ttf</string>
+		<string>fonts/ITCAvantGardeStdBk.otf</string>
+		<string>fonts/ITCAvantGardeStdBold.otf</string>
+		<string>fonts/DancingScript-SemiBold.ttf</string>
+		<string>fonts/DancingScript-Regular.ttf</string>
+		<string>fonts/DancingScript-Bold.ttf</string>
+		<string>fonts/DancingScript-Medium.ttf</string>
+		<string>ITCAvantGardeStdBk.otf</string>
 		<string>ITCAvantGardeStdBk.ttf</string>
 		<string>ITCAvantGardeStdBkCn.ttf</string>
 		<string>ITCAvantGardeStdBkCnObl.ttf</string>
 		<string>ITCAvantGardeStdBkObl.ttf</string>
+		<string>ITCAvantGardeStdBold.otf</string>
 		<string>ITCAvantGardeStdBold.ttf</string>
 		<string>ITCAvantGardeStdBoldCn.ttf</string>
 		<string>ITCAvantGardeStdBoldCnObl.ttf</string>
@@ -77,6 +69,22 @@
 		<string>ITCAvantGardeStdXLtCn.ttf</string>
 		<string>ITCAvantGardeStdXLtCnObl.ttf</string>
 		<string>ITCAvantGardeStdXLtObl.ttf</string>
+		<string>AntDesign.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>Feather.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>Fontisto.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>Octicons.ttf</string>
+		<string>SimpleLineIcons.ttf</string>
+		<string>Zocial.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

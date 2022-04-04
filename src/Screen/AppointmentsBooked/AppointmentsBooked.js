@@ -303,35 +303,63 @@ export default class AppointmentsBooked extends Component {
                             ))}
                         </View>
                     </View>
-                    <View style={{ marginTop: 15, marginLeft: 20, marginRight: 20 }}>
-                        <View style={{ flexDirection: KEY.ROW }}>
-                            <Text style={{
-                                fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE,
-                                color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR
-                            }}>Country</Text>
-                            <Text style={{
-                                marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR,
-                                marginTop: 0, marginBottom: 10, fontFamily: FONT.FONT_FAMILY_REGULAR
-                            }}>{'*'}</Text>
-                        </View>
-                        <TextInput
-                            style={countryError == null ? styles().inputTextView : styles().inputTextViewError}
-                            type={KEY.CLEAR}
-                            returnKeyType={KEY.Done}
-                            placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                        />
-                        <Picker style={{ marginTop: -60, marginRight: 20 }}
-                            selectedValue={country}
-                            onValueChange={(itemValue, itemIndex) => this.setCountry(itemValue)}>
-                            {
-                                countryList && countryList.length > 0 ?
-                                    countryList.map((item) => (
-                                        <Picker.Item label={item.name} value={item.code} />
-                                    ))
-                                    : <Picker.Item label={'No data'} value={'No data'} />
-                            }
-                        </Picker>
-                    </View>
+                    {
+                        Platform.OS === 'android' ?
+                            <View style={{ marginTop: 15, marginLeft: 20, marginRight: 20 }}>
+                                <View style={{ flexDirection: KEY.ROW }}>
+                                    <Text style={{
+                                        fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE,
+                                        color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR
+                                    }}>Country</Text>
+                                    <Text style={{
+                                        marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR,
+                                        marginTop: 0, marginBottom: 10, fontFamily: FONT.FONT_FAMILY_REGULAR
+                                    }}>{'*'}</Text>
+                                </View>
+                                <TextInput
+                                    style={countryError == null ? styles().inputTextView : styles().inputTextViewError}
+                                    type={KEY.CLEAR}
+                                    returnKeyType={KEY.Done}
+                                    placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                />
+                                <Picker style={{ marginTop: -60, marginRight: 20 }}
+                                    selectedValue={country}
+                                    onValueChange={(itemValue, itemIndex) => this.setCountry(itemValue)}>
+                                    {
+                                        countryList && countryList.length > 0 ?
+                                            countryList.map((item) => (
+                                                <Picker.Item label={item.name} value={item.code} />
+                                            ))
+                                            : <Picker.Item label={'No data'} value={'No data'} />
+                                    }
+                                </Picker>
+                            </View>
+                            :
+                            <View style={{ marginTop: 15, marginLeft: 20, marginRight: 20 }}>
+                                <View style={{ flexDirection: KEY.ROW }}>
+                                    <Text style={{
+                                        fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE,
+                                        color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR
+                                    }}>Country</Text>
+                                    <Text style={{
+                                        marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR,
+                                        marginTop: 0, marginBottom: 10, fontFamily: FONT.FONT_FAMILY_REGULAR
+                                    }}>{'*'}</Text>
+                                </View>
+                                <Picker style={{ marginTop: -60, marginRight: 20 }}
+                                    selectedValue={country}
+                                    onValueChange={(itemValue, itemIndex) => this.setCountry(itemValue)}>
+                                    {
+                                        countryList && countryList.length > 0 ?
+                                            countryList.map((item) => (
+                                                <Picker.Item label={item.name} value={item.code} />
+                                            ))
+                                            : <Picker.Item label={'No data'} value={'No data'} />
+                                    }
+                                </Picker>
+                            </View>
+                    }
+
                     <View style={{ marginTop: 10, marginLeft: 20, marginRight: 20 }}>
                         <View style={{ flexDirection: KEY.ROW }}>
                             <Text style={{
