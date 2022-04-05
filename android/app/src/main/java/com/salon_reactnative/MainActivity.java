@@ -1,4 +1,4 @@
-package com.app.jeskir;
+package com.app.thejuicyeffect;
 
 import com.facebook.react.ReactActivity;
 
