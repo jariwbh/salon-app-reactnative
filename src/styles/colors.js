@@ -2,7 +2,8 @@
 export const DEFALUTCOLOR = '#3AB9AE';
 export const DEFAULTLIGHT = '#3AB9AE';
 export const BACKGROUNDCOLOR = '#ECF9F8';
-export const STATUSBARCOLOR = '#3AB9AE';
+export const STATUSBARCOLOR = '#77D4CC';
+export const HEADERCOLOR = "#77D4CC";
 
 //BASIC COLOR
 export const PRIMARY = '#1779ba';

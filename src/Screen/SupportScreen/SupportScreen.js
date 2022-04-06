@@ -30,7 +30,7 @@ const SupportScreen = (props) => {
     }, []);
 
     useEffect(() => {
-    }, [supportMobile, supportEmail])
+    }, [supportMobile, supportEmail, getBranch])
 
 
     //GET MEMBER DATA IN MOBILE LOCAL STORAGE
@@ -54,10 +54,10 @@ const SupportScreen = (props) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
-            <StatusBar backgroundColor={getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
-            <View style={styles(getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR).headerstyle}>
+            <StatusBar backgroundColor={COLOR.HEADERCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
+            <View style={styles(getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.HEADERCOLOR).headerstyle}>
                 <Image source={{ uri: getBranch?.property?.mobilelogo ? getBranch?.property?.mobilelogo : TYPE.DefaultImage }}
-                    style={{ tintColor: COLOR.WHITE, alignItems: KEY.CENTER, height: 90, width: 90, marginLeft: 10, marginTop: 0, borderRadius: 10, resizeMode: KEY.COVER }}
+                    style={{ alignItems: KEY.CENTER, height: 90, width: 90, marginLeft: 10, marginTop: 0, borderRadius: 10, resizeMode: KEY.COVER }}
                 />
                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -60 }}>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>

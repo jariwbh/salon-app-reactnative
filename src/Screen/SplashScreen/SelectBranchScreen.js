@@ -109,7 +109,7 @@ const SelectBranchScreen = (props) => {
             <View style={styles.headerstyle}>
                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -15 }}>
                     <Image source={{ uri: TYPE.DefaultImage }}
-                        style={{ tintColor: COLOR.WHITE, alignItems: KEY.CENTER, height: 120, width: 120, resizeMode: KEY.COVER }}
+                        style={{ alignItems: KEY.CENTER, height: 120, width: 120, resizeMode: KEY.COVER }}
                     />
                 </View>
             </View>

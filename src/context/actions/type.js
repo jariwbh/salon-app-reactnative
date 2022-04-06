@@ -46,4 +46,5 @@ export const SPLASHSCREENIAMGE = 'https://res.cloudinary.com/membroz/image/uploa
 //warring code this copy past in brach wise
 //"mobilelogo" : "https://res.cloudinary.com/membroz/image/upload/v1641900420/Membroz%20Mobile%20app%20/Group_79_u6uqor.png",
 //"appcolorcode" : "#FC7845",
+// "headercolorcode":"#77D4CC"
 //"authkey" : "6130a1b1bfd7602f90774da2"

@@ -144,14 +144,14 @@ class RegisterScreen extends Component {
         const { fullnameError, usernameError, mobilenumberError, passwordError, loader, loading } = this.state;
         return (
             <SafeAreaView style={styles().container}>
-                <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
+                <StatusBar backgroundColor={COLOR.HEADERCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
                 <ScrollView
                     Vertical={true}
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps={KEY.ALWAYS}
                 >
                     <ImageBackground source={IMAGE.BACKGROUND_IMAGE}
-                        tintColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR}
+                        tintColor={COLOR.HEADERCOLOR}
                         style={styles().backgroundImage}>
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
                             <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={this.getBranch?.property?.mobilelogo ? { uri: this.getBranch?.property?.mobilelogo } : { uri: TYPE.DefaultImage }} />
@@ -320,8 +320,7 @@ const styles = (colorcode) => StyleSheet.create({
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER,
         height: 160,
-        width: 220,
-        tintColor: COLOR.WHITE
+        width: 220
     }
 })
 

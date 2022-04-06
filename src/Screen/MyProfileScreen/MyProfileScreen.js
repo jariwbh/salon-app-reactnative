@@ -84,11 +84,11 @@ export default class MyProfileScreen extends Component {
     }
 
     onPressSignUp = () => {
-        this.props.navigation.navigate('RegisterScreen');
+        this.props.navigation.replace('AuthStackScreen');
     }
 
     onPressLogin = () => {
-        this.props.navigation.navigate('LoginScreen');
+        this.props.navigation.replace('AuthStackScreen');
     }
 
     authenticateUser = (user) => {
@@ -163,17 +163,22 @@ export default class MyProfileScreen extends Component {
                 </SafeAreaView>
                 :
                 <SafeAreaView style={styles().container}>
-                    <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={KEY.LIGHT_CONTENT} />
-                    <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR} style={styles().backgroundImage}>
+                    <StatusBar backgroundColor={COLOR.HEADERCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                    <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={COLOR.HEADERCOLOR} style={styles().backgroundImage}>
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
                             <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={this.getBranch?.property?.mobilelogo ? { uri: this.getBranch?.property?.mobilelogo } : { uri: TYPE.DefaultImage }} />
                         </View>
                     </ImageBackground>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: HEIGHT / 6 }}>
-                        <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).update_Btn} onPress={() => this.onPressSignUp()}>
+                        <TouchableOpacity
+                            style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).update_Btn}
+                            onPress={() => this.onPressSignUp()}>
                             <Text style={styles().update_text} >Sign Up</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).update_Btn} onPress={() => this.onPressLogin()}>
+                        <TouchableOpacity
+
+                            style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).update_Btn}
+                            onPress={() => this.onPressLogin()}>
                             <Text style={styles().update_text} >Sign In</Text>
                         </TouchableOpacity>
                     </View>
@@ -248,8 +253,7 @@ const styles = (colorcode) => StyleSheet.create({
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER,
         height: 160,
-        width: 220,
-        tintColor: COLOR.WHITE
+        width: 220
     },
     update_Btn: {
         flexDirection: KEY.ROW,
