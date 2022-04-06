@@ -14,6 +14,7 @@ import * as FONT from '../../styles/typography';
 import Toast from 'react-native-simple-toast';
 import { getBranchDetails } from '../../Services/LocalService/LocalService';
 import { DefaultImage } from '../../context/actions/type';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default function ForgotPasswordOTP(props) {
     const verifyOtpNumber = props.route.params.verifyOtpNumber;
@@ -25,6 +26,7 @@ export default function ForgotPasswordOTP(props) {
     const [getBranch, setgetBranch] = useState(null);
 
     useEffect(() => {
+        console.log(`verifyOtpNumber`, verifyOtpNumber);
     }, [loading, inputOtpNumber, inputOtpNumberError, getBranch])
 
     //clear Field up data
@@ -76,7 +78,10 @@ export default function ForgotPasswordOTP(props) {
             <StatusBar backgroundColor={getBranch?.property?.headercolorcode ? getBranch.property.headercolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
             <ScrollView Vertical={true} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS} >
                 <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={getBranch?.property?.headercolorcode ? getBranch.property.headercolorcode : COLOR.HEADERCOLOR} style={styles().backgroundImage}>
-                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 55 }}>
+                    <TouchableOpacity onPress={() => props.navigation.replace('LoginScreen')}>
+                        <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} style={{ marginTop: 35, marginLeft: 20 }} />
+                    </TouchableOpacity>
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 10 }}>
                         <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={getBranch?.property?.mobilelogo ? { uri: getBranch?.property?.mobilelogo } : { uri: TYPE.DefaultImage }} />
                     </View>
                 </ImageBackground>

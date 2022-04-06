@@ -17,6 +17,8 @@ import * as FONT from '../../styles/typography';
 import Toast from 'react-native-simple-toast';
 import { getBranchDetails } from '../../Services/LocalService/LocalService';
 import { DefaultImage } from '../../context/actions/type';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
@@ -47,7 +49,7 @@ export default class LoginScreen extends Component {
 
     setPassword(password) {
         if (!password || password.length <= 0) {
-            return this.setState({ passworderror: 'Password cannot be empty' });
+            return this.setState({ passworderror: 'Password cannot be empty', password: null });
         }
         return this.setState({ password: password, passworderror: null });
     }
@@ -120,7 +122,10 @@ export default class LoginScreen extends Component {
                 <StatusBar backgroundColor={this.getBranch && this.getBranch.property.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                     <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={this.getBranch?.property?.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.HEADERCOLOR} style={styles().backgroundImage}>
-                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 55 }}>
+                        <TouchableOpacity onPress={() => this.props.navigation.replace('TabNavigation')}>
+                            <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} style={{ marginTop: 35, marginLeft: 20 }} />
+                        </TouchableOpacity>
+                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 10 }}>
                             <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={this.getBranch?.property?.mobilelogo ? { uri: this.getBranch?.property?.mobilelogo } : { uri: TYPE.DefaultImage }} />
                         </View>
                     </ImageBackground>

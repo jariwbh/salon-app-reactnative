@@ -199,7 +199,7 @@ class HomeScreen extends Component {
                     />
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -60, marginRight: -10 }}>
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>
-                            <Text style={{ fontSize: 22, color: COLOR.WHITE, fontFamily: FONT.FONT_FAMILY_BOLD, width: WIDTH / 2, textAlign: KEY.CENTER, marginTop: -10 }}>{this.getBranch && this.getBranch.branchname}</Text>
+                            <Text style={{ fontSize: 18, color: COLOR.WHITE, fontFamily: FONT.FONT_FAMILY_BOLD, width: WIDTH / 2, textAlign: KEY.CENTER, marginTop: -10 }}>{this.getBranch && this.getBranch.branchname}</Text>
                         </View>
                     </View>
                 </View>

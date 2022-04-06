@@ -17,6 +17,7 @@ const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 import Toast from 'react-native-simple-toast';
 import { getBranchDetails } from '../../Services/LocalService/LocalService';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 class RegisterScreen extends Component {
     constructor(props) {
@@ -153,7 +154,10 @@ class RegisterScreen extends Component {
                     <ImageBackground source={IMAGE.BACKGROUND_IMAGE}
                         tintColor={COLOR.HEADERCOLOR}
                         style={styles().backgroundImage}>
-                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
+                        <TouchableOpacity onPress={() => this.props.navigation.goBack('LoginScreen')}>
+                            <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} style={{ marginTop: 35, marginLeft: 20 }} />
+                        </TouchableOpacity>
+                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 10 }}>
                             <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={this.getBranch?.property?.mobilelogo ? { uri: this.getBranch?.property?.mobilelogo } : { uri: TYPE.DefaultImage }} />
                         </View>
                     </ImageBackground>

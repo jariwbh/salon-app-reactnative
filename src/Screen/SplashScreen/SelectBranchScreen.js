@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     headerstyle: {
         backgroundColor: COLOR.STATUSBARCOLOR,
         width: WIDTH,
-        height: 90,
+        height: 100,
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
         marginBottom: 0
