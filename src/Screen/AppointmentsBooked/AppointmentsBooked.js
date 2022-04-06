@@ -62,7 +62,7 @@ export default class AppointmentsBooked extends Component {
     async componentDidMount() {
         const getBranch = await getBranchDetails();
         this.getBranch = getBranch;
-        this.setState({ loading: true });
+        this.setState({ loading: true, country: getBranch.property.country });
         this.getCountryList();
         this.getdata();
     }
