@@ -144,10 +144,6 @@
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\layout-watch-v20\\abc_alert_dialog_button_bar_material.xml"
     },
     {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi_src_assets_splashscreen1.png.flat",
-        "source": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\generated\\res\\react\\release\\drawable-mdpi\\src_assets_splashscreen1.png"
-    },
-    {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\color_mtrl_popupmenu_overlay_color.xml.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\863e0c3c6716935cd3657ad638fd992d\\material-1.1.0\\res\\color\\mtrl_popupmenu_overlay_color.xml"
     },
@@ -302,10 +298,6 @@
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\layout_redbox_item_title.xml.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\982a75866340437690941ac1e4db6ada\\jetified-react-native-0.63.4\\res\\layout\\redbox_item_title.xml"
-    },
-    {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi_src_assets_splashimage.png.flat",
-        "source": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\generated\\res\\react\\release\\drawable-mdpi\\src_assets_splashimage.png"
     },
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi-v4_abc_ic_star_half_black_16dp.png.flat",
@@ -1002,10 +994,6 @@
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\layout-land_mtrl_picker_header_dialog.xml.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\863e0c3c6716935cd3657ad638fd992d\\material-1.1.0\\res\\layout-land\\mtrl_picker_header_dialog.xml"
-    },
-    {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi_src_assets_logo.png.flat",
-        "source": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\generated\\res\\react\\release\\drawable-mdpi\\src_assets_logo.png"
     },
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\anim_rns_slide_out_to_left.xml.flat",
@@ -2160,10 +2148,6 @@
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\color-v23\\abc_tint_default.xml"
     },
     {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi_src_assets_defaultlogo.png.flat",
-        "source": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\generated\\res\\react\\release\\drawable-mdpi\\src_assets_defaultlogo.png"
-    },
-    {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4_abc_btn_radio_to_on_mtrl_015.png.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\1cb9b9ea592aa2ea85233be252327dcf\\appcompat-1.1.0\\res\\drawable-xhdpi-v4\\abc_btn_radio_to_on_mtrl_015.png"
     },
@@ -2186,10 +2170,6 @@
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\anim_fragment_close_enter.xml.flat",
         "source": "C:\\Users\\krtya.admin\\.gradle\\caches\\transforms-2\\files-2.1\\37aaca75d3d19faa6fb296103cea95d8\\fragment-1.2.1\\res\\anim\\fragment_close_enter.xml"
-    },
-    {
-        "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-mdpi_src_assets_logo2.png.flat",
-        "source": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\generated\\res\\react\\release\\drawable-mdpi\\src_assets_logo2.png"
     },
     {
         "merged": "D:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4_abc_ic_menu_share_mtrl_alpha.png.flat",

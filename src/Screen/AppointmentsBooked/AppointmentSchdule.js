@@ -163,7 +163,7 @@ export default class AppointmentSchdule extends Component {
                     <Text style={{ fontSize: FONT.FONT_SIZE_28, fontFamily: FONT.FONT_FAMILY_BOLD, color: COLOR.WHITE }}>{moment(item.date).format('DD')}</Text>
                     <Text style={{ fontSize: FONT.FONT_SIZE_16, fontFamily: FONT.FONT_FAMILY_BOLD, color: COLOR.WHITE }}>{moment(item.date).format('MMM')}</Text>
                 </View>
-                <View style={{ flexDirection: KEY.ROW, marginLeft: 5, padding: 5 }}>
+                <View style={{ flexDirection: KEY.ROW, marginLeft: 0, padding: 5 }}>
                     <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
                         <Text style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).rectangleSubText}>Start Time : {(item && item.starttime)}</Text>
                         <Text style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).rectangleSubText}>End Time : {(item && item.endtime)}</Text>
@@ -171,11 +171,11 @@ export default class AppointmentSchdule extends Component {
                     {
                         moment().format('YYYY-MM-DD') === this.currentDate ?
                             <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).book} onPress={() => this.onPressCall()} >
-                                <Text style={{ fontSize: 14, color: COLOR.WHITE, marginLeft: 10, marginRight: 10, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Call to Book</Text>
+                                <Text style={{ fontSize: 12, color: COLOR.WHITE, marginLeft: 10, marginRight: 10, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Call to Book</Text>
                             </TouchableOpacity>
                             :
                             <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).book} onPress={() => this.onPressToBookNow(item)} >
-                                <Text style={{ fontSize: 14, color: COLOR.WHITE, marginLeft: 15, marginRight: 15, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Select</Text>
+                                <Text style={{ fontSize: 12, color: COLOR.WHITE, marginLeft: 15, marginRight: 15, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Select</Text>
                             </TouchableOpacity>
                     }
                 </View>
@@ -187,8 +187,8 @@ export default class AppointmentSchdule extends Component {
         const { selectedDay, timeSlots, loading } = this.state;
         return (
             <SafeAreaView style={styles().container}>
-                <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
-                <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR).headerstyle}>
+                <StatusBar backgroundColor={this.getBranch?.property?.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
+                <View style={styles(this.getBranch?.property?.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.HEADERCOLOR).headerstyle}>
                     <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
                         <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.FLEX_START, alignItems: KEY.CENTER, marginLeft: 20 }}>
                             <TouchableOpacity onPress={() => this.props.navigation.goBack(null)}>

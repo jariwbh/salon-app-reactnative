@@ -1,4 +1,4 @@
-com.app.jeskir
+com.app.thejuicyeffect
 anim abc_fade_in
 anim abc_fade_out
 anim abc_grow_fade_in_from_bottom
@@ -1381,13 +1381,8 @@ drawable redbox_top_border_background
 drawable spinner_dropdown_background
 drawable src_assets_background
 drawable src_assets_consult_talk_icon
-drawable src_assets_defaultlogo
-drawable src_assets_logo
-drawable src_assets_logo2
 drawable src_assets_noimage
 drawable src_assets_record_icon_warning
-drawable src_assets_splashimage
-drawable src_assets_splashscreen1
 drawable src_assets_startup
 drawable test_custom_background
 drawable tooltip_frame_dark

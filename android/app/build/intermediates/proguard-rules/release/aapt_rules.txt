@@ -1,10 +1,10 @@
-# Referenced at D:\Harshad\salon-app-reactnative\android\app\build\intermediates\merged_manifests\release\arm64-v8a\AndroidManifest.xml:16
+# Referenced at D:\Harshad\salon-app-reactnative\android\app\build\intermediates\merged_manifests\release\AndroidManifest.xml:16
 -keep class androidx.core.app.CoreComponentFactory { <init>(); }
-# Referenced at D:\Harshad\salon-app-reactnative\android\app\build\intermediates\merged_manifests\release\arm64-v8a\AndroidManifest.xml:25
--keep class com.app.jeskir.MainActivity { <init>(); }
-# Referenced at D:\Harshad\salon-app-reactnative\android\app\build\intermediates\merged_manifests\release\arm64-v8a\AndroidManifest.xml:16
--keep class com.app.jeskir.MainApplication { <init>(); }
-# Referenced at D:\Harshad\salon-app-reactnative\android\app\build\intermediates\merged_manifests\release\arm64-v8a\AndroidManifest.xml:38
+# Referenced at D:\Harshad\salon-app-reactnative\android\app\build\intermediates\merged_manifests\release\AndroidManifest.xml:25
+-keep class com.app.thejuicyeffect.MainActivity { <init>(); }
+# Referenced at D:\Harshad\salon-app-reactnative\android\app\build\intermediates\merged_manifests\release\AndroidManifest.xml:16
+-keep class com.app.thejuicyeffect.MainApplication { <init>(); }
+# Referenced at D:\Harshad\salon-app-reactnative\android\app\build\intermediates\merged_manifests\release\AndroidManifest.xml:38
 -keep class com.facebook.react.devsupport.DevSettingsActivity { <init>(); }
 # Referenced at C:\Users\krtya.admin\.gradle\caches\transforms-2\files-2.1\1cb9b9ea592aa2ea85233be252327dcf\appcompat-1.1.0\res\layout-watch-v20\abc_alert_dialog_title_material.xml:53
 # Referenced at C:\Users\krtya.admin\.gradle\caches\transforms-2\files-2.1\863e0c3c6716935cd3657ad638fd992d\material-1.1.0\res\layout\mtrl_alert_dialog_title.xml:41

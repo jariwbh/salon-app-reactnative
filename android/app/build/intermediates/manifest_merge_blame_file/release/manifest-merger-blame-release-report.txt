@@ -1,7 +1,7 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="com.app.jeskir"
-4    android:versionCode="4194305"
+3    package="com.app.thejuicyeffect"
+4    android:versionCode="1"
 5    android:versionName="1.0" >
 6
 7    <uses-sdk
@@ -25,7 +25,7 @@
 15
 16    <application
 16-->D:\Harshad\salon-app-reactnative\android\app\src\main\AndroidManifest.xml:9:5-31:19
-17        android:name="com.app.jeskir.MainApplication"
+17        android:name="com.app.thejuicyeffect.MainApplication"
 17-->D:\Harshad\salon-app-reactnative\android\app\src\main\AndroidManifest.xml:10:7-38
 18        android:allowBackup="false"
 18-->D:\Harshad\salon-app-reactnative\android\app\src\main\AndroidManifest.xml:14:7-34
@@ -43,7 +43,7 @@
 24-->D:\Harshad\salon-app-reactnative\android\app\src\main\AndroidManifest.xml:16:7-42
 25        <activity
 25-->D:\Harshad\salon-app-reactnative\android\app\src\main\AndroidManifest.xml:18:7-29:18
-26            android:name="com.app.jeskir.MainActivity"
+26            android:name="com.app.thejuicyeffect.MainActivity"
 26-->D:\Harshad\salon-app-reactnative\android\app\src\main\AndroidManifest.xml:19:9-37
 27            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
 27-->D:\Harshad\salon-app-reactnative\android\app\src\main\AndroidManifest.xml:21:9-86

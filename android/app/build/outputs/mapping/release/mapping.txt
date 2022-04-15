@@ -1,7 +1,7 @@
 # compiler: R8
 # compiler_version: 1.5.69
 # min_api: 21
-# pg_map_id: 5d0a729
+# pg_map_id: 228f03f
 androidx.activity.Cancellable -> androidx.activity.a:
 androidx.activity.ComponentActivity -> androidx.activity.ComponentActivity:
     androidx.activity.OnBackPressedDispatcher mOnBackPressedDispatcher -> f
@@ -9320,13 +9320,13 @@ bolts.UnobservedErrorNotifier -> b.h:
     bolts.Task task -> a
     void setObserved() -> a
 bolts.UnobservedTaskException -> b.i:
-com.app.jeskir.MainActivity -> com.app.jeskir.MainActivity:
+com.app.thejuicyeffect.MainActivity -> com.app.thejuicyeffect.MainActivity:
     java.lang.String getMainComponentName() -> p
-com.app.jeskir.MainApplication -> com.app.jeskir.MainApplication:
+com.app.thejuicyeffect.MainApplication -> com.app.thejuicyeffect.MainApplication:
     com.facebook.react.ReactNativeHost mReactNativeHost -> b
     com.facebook.react.ReactNativeHost getReactNativeHost() -> a
     void initializeFlipper(android.content.Context,com.facebook.react.ReactInstanceManager) -> a
-com.app.jeskir.MainApplication$1 -> com.app.jeskir.MainApplication$a:
+com.app.thejuicyeffect.MainApplication$1 -> com.app.thejuicyeffect.MainApplication$a:
     java.lang.String getJSMainModuleName() -> e
     java.util.List getPackages() -> g
     boolean getUseDeveloperSupport() -> k

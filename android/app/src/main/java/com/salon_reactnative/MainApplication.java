@@ -1,4 +1,4 @@
-package com.app.jeskir;
+package com.app.thejuicyeffect;
 
 import android.app.Application;
 import android.content.Context;

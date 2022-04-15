@@ -55,7 +55,7 @@ INJECTED from D:\Harshad\salon-app-reactnative\android\app\src\main\AndroidManif
 INJECTED from D:\Harshad\salon-app-reactnative\android\app\src\main\AndroidManifest.xml:1:1-33:12
 INJECTED from D:\Harshad\salon-app-reactnative\android\app\src\main\AndroidManifest.xml:1:1-33:12
 	package
-		ADDED from D:\Harshad\salon-app-reactnative\android\app\src\main\AndroidManifest.xml:2:3-27
+		ADDED from D:\Harshad\salon-app-reactnative\android\app\src\main\AndroidManifest.xml:2:3-35
 		INJECTED from D:\Harshad\salon-app-reactnative\android\app\src\main\AndroidManifest.xml
 		INJECTED from D:\Harshad\salon-app-reactnative\android\app\src\main\AndroidManifest.xml
 	android:versionName
@@ -114,7 +114,7 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\kr
 		ADDED from D:\Harshad\salon-app-reactnative\android\app\src\main\AndroidManifest.xml:16:7-42
 	android:name
 		ADDED from D:\Harshad\salon-app-reactnative\android\app\src\main\AndroidManifest.xml:10:7-38
-activity#com.app.jeskir.MainActivity
+activity#com.app.thejuicyeffect.MainActivity
 ADDED from D:\Harshad\salon-app-reactnative\android\app\src\main\AndroidManifest.xml:18:7-29:18
 	android:screenOrientation
 		ADDED from D:\Harshad\salon-app-reactnative\android\app\src\main\AndroidManifest.xml:22:9-45
