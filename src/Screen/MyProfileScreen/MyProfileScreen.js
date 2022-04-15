@@ -75,7 +75,7 @@ export default class MyProfileScreen extends Component {
                         AsyncStorage.removeItem(KEY.AUTHUSERINFO);
                         AsyncStorage.removeItem(KEY.AUTHUSER);
                         Toast.show('Log Out Success', Toast.SHORT);
-                        this.props.navigation.replace('AuthStackScreen');
+                        this.props.navigation.replace('LoginScreen');
                     }
                 }
             ]
@@ -84,11 +84,11 @@ export default class MyProfileScreen extends Component {
     }
 
     onPressSignUp = () => {
-        this.props.navigation.replace('AuthStackScreen');
+        this.props.navigation.navigate('RegisterScreen');
     }
 
     onPressLogin = () => {
-        this.props.navigation.replace('AuthStackScreen');
+        this.props.navigation.navigate('LoginScreen');
     }
 
     authenticateUser = (user) => {
@@ -121,10 +121,10 @@ export default class MyProfileScreen extends Component {
             !showLogin
                 ?
                 <SafeAreaView style={styles().container}>
-                    <StatusBar backgroundColor={this.getBranch?.property?.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
-                    <View style={styles(this.getBranch?.property?.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.HEADERCOLOR).headerstyle}>
+                    <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
+                    <View style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR).headerstyle}>
                         <Image source={{ uri: this.getBranch?.property?.mobilelogo ? this.getBranch?.property?.mobilelogo : TYPE.DefaultImage }}
-                            style={{ alignItems: KEY.CENTER, height: 90, width: 90, marginLeft: 10, marginTop: 0, borderRadius: 10, resizeMode: KEY.COVER }}
+                            style={{ tintColor: COLOR.WHITE, alignItems: KEY.CENTER, height: 90, width: 90, marginLeft: 10, marginTop: 0, borderRadius: 10, resizeMode: KEY.COVER }}
                         />
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -60 }}>
                             <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>
@@ -163,22 +163,20 @@ export default class MyProfileScreen extends Component {
                 </SafeAreaView>
                 :
                 <SafeAreaView style={styles().container}>
-                    <StatusBar backgroundColor={COLOR.HEADERCOLOR} barStyle={KEY.LIGHT_CONTENT} />
-                    <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={COLOR.HEADERCOLOR} style={styles().backgroundImage}>
+                    <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
+                    <ImageBackground source={IMAGE.BACKGROUND_IMAGE}
+                        imageStyle={{ tintColor: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR }}
+                        tintColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR}
+                        style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).backgroundImage}>
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
                             <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={this.getBranch?.property?.mobilelogo ? { uri: this.getBranch?.property?.mobilelogo } : { uri: TYPE.DefaultImage }} />
                         </View>
                     </ImageBackground>
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: HEIGHT / 6 }}>
-                        <TouchableOpacity
-                            style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).update_Btn}
-                            onPress={() => this.onPressSignUp()}>
+                        <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).update_Btn} onPress={() => this.onPressSignUp()}>
                             <Text style={styles().update_text} >Sign Up</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
-
-                            style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).update_Btn}
-                            onPress={() => this.onPressLogin()}>
+                        <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).update_Btn} onPress={() => this.onPressLogin()}>
                             <Text style={styles().update_text} >Sign In</Text>
                         </TouchableOpacity>
                     </View>
@@ -248,12 +246,14 @@ const styles = (colorcode) => StyleSheet.create({
         marginTop: -20,
         width: WIDTH,
         height: HEIGHT / 3,
+        tintColor: colorcode
     },
     imageLogo: {
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER,
         height: 160,
-        width: 220
+        width: 220,
+        tintColor: COLOR.WHITE
     },
     update_Btn: {
         flexDirection: KEY.ROW,

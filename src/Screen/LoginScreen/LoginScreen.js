@@ -8,6 +8,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Loading from '../../Components/Loader/Loading';
 import Loader from '../../Components/Loader/Loader';
 import { LoginService } from "../../Services/LoginService/LoginService"
+const HEIGHT = Dimensions.get('window').height;
+const WIDTH = Dimensions.get('window').width;
 import axiosConfig from '../../Helpers/axiosConfig';
 import * as KEY from '../../context/actions/key';
 import * as TYPE from '../../context/actions/type';
@@ -17,10 +19,6 @@ import * as FONT from '../../styles/typography';
 import Toast from 'react-native-simple-toast';
 import { getBranchDetails } from '../../Services/LocalService/LocalService';
 import { DefaultImage } from '../../context/actions/type';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-
-const HEIGHT = Dimensions.get('window').height;
-const WIDTH = Dimensions.get('window').width;
 
 export default class LoginScreen extends Component {
     constructor(props) {
@@ -49,7 +47,7 @@ export default class LoginScreen extends Component {
 
     setPassword(password) {
         if (!password || password.length <= 0) {
-            return this.setState({ passworderror: 'Password cannot be empty', password: null });
+            return this.setState({ passworderror: 'Password cannot be empty' });
         }
         return this.setState({ password: password, passworderror: null });
     }
@@ -119,13 +117,17 @@ export default class LoginScreen extends Component {
         const { usererror, passworderror, loader, loading } = this.state;
         return (
             <SafeAreaView style={styles().container}>
-                <StatusBar backgroundColor={this.getBranch && this.getBranch.property.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
+                <StatusBar backgroundColor={this.getBranch && this.getBranch.property.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
-                    <ImageBackground source={IMAGE.BACKGROUND_IMAGE} tintColor={this.getBranch?.property?.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.HEADERCOLOR} style={styles().backgroundImage}>
+                    <ImageBackground source={IMAGE.BACKGROUND_IMAGE}
+                        imageStyle={{ tintColor: this.getBranch?.property?.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.HEADERCOLOR }}
+                        tintColor={this.getBranch?.property?.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.HEADERCOLOR}
+                        style={styles(this.getBranch?.property?.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.HEADERCOLOR).backgroundImage}>
                         <TouchableOpacity onPress={() => this.props.navigation.replace('TabNavigation')}>
                             <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} style={{ marginTop: 35, marginLeft: 20 }} />
                         </TouchableOpacity>
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>
+
                             <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={this.getBranch?.property?.mobilelogo ? { uri: this.getBranch?.property?.mobilelogo } : { uri: TYPE.DefaultImage }} />
                         </View>
                     </ImageBackground>
@@ -194,6 +196,7 @@ const styles = (colorcode) => StyleSheet.create({
         marginTop: -20,
         width: WIDTH,
         height: HEIGHT / 3,
+        tintColor: colorcode
     },
     hello: {
         marginTop: 10,
@@ -265,6 +268,7 @@ const styles = (colorcode) => StyleSheet.create({
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER,
         height: 160,
-        width: 220
+        width: 220,
+        tintColor: COLOR.WHITE
     }
 })

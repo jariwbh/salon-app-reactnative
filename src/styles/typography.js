@@ -1,8 +1,8 @@
 import { scaleFont } from './mixins';
 
 // FONT FAMILY
-export const FONT_FAMILY_REGULAR = 'DancingScript-Regular';
-export const FONT_FAMILY_BOLD = 'DancingScript-Bold';
+export const FONT_FAMILY_REGULAR = 'OpenSans-Regular';
+export const FONT_FAMILY_BOLD = 'OpenSans-Bold';
 export const FONT_FAMILY_SANS_SERIF = 'sans-serif';
 export const FONT_FAMILY_SANS_SERIF_LIGHT = 'sans-serif-light';
 export const FONT_FAMILY_SANS_SERIF_MEDIUM = 'sans-serif-medium';
