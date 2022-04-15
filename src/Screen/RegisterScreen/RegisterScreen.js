@@ -151,6 +151,7 @@ class RegisterScreen extends Component {
                     keyboardShouldPersistTaps={KEY.ALWAYS}
                 >
                     <ImageBackground source={IMAGE.BACKGROUND_IMAGE}
+                        imageStyle={{ tintColor: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR }}
                         tintColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR}
                         style={styles().backgroundImage}>
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 50 }}>
