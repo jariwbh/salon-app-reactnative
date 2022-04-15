@@ -157,7 +157,7 @@ class RegisterScreen extends Component {
                         <TouchableOpacity onPress={() => this.props.navigation.goBack('LoginScreen')}>
                             <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} style={{ marginTop: 35, marginLeft: 20 }} />
                         </TouchableOpacity>
-                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 10 }}>
+                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>
                             <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={this.getBranch?.property?.mobilelogo ? { uri: this.getBranch?.property?.mobilelogo } : { uri: TYPE.DefaultImage }} />
                         </View>
                     </ImageBackground>

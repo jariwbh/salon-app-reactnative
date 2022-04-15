@@ -159,7 +159,7 @@ export default function ForgotPasswordMain(props) {
                     <TouchableOpacity onPress={() => props.navigation.replace('LoginScreen')}>
                         <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} style={{ marginTop: 35, marginLeft: 20 }} />
                     </TouchableOpacity>
-                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 10 }}>
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>
                         <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={getBranch?.property?.mobilelogo ? { uri: getBranch?.property?.mobilelogo } : { uri: TYPE.DefaultImage }} />
                     </View>
                 </ImageBackground>
