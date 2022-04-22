@@ -74,6 +74,7 @@ import * as TYPE from '../context/actions/type';
 import * as COLOR from '../styles/colors';
 import * as IMAGE from '../styles/image';
 import { getBranchDetails } from '../Services/LocalService/LocalService';
+import ClassScheduleScreen from '../Screen/ClassSchedule/ClassScheduleScreen';
 
 const ProfileStack = createStackNavigator();
 function ProfileStackScreen({ navigation }) {
@@ -206,6 +207,20 @@ function SupportStackScreen({ navigation }) {
     );
 }
 
+const ClassScheduleStack = createStackNavigator();
+function ClassStackScreen({ navigation }) {
+    return (
+        <ClassScheduleStack.Navigator initialRouteName="ClassScheduleScreen" headerMode='none' >
+            <ClassScheduleStack.Screen name="ClassScheduleScreen" options={{
+                title: '',
+                headerShown: false
+            }}
+                component={ClassScheduleScreen} />
+        </ClassScheduleStack.Navigator>
+    );
+}
+
+
 const Tab = createBottomTabNavigator();
 function TabNavigation() {
     const [myCartVisible, setMyCartVisible] = useState(false);
@@ -281,6 +296,14 @@ function TabNavigation() {
                                 color={color}
                             />
                         );
+                    } else if (route.name === 'Class Schedule') {
+                        return (
+                            <Entypo
+                                name={focused ? 'spotify' : 'spotify'}
+                                size={20}
+                                color={color}
+                            />
+                        );
                     }
                 },
             })}
@@ -289,13 +312,14 @@ function TabNavigation() {
                     backgroundColor: COLOR.WHITE,
                     borderTopRightRadius: 21,
                     borderTopLeftRadius: 21,
-                    position: 'absolute',
+                    position: 'absolute'
                 },
+                labelStyle: { fontSize: 14 },
                 activeTintColor: getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR,
-                inactiveTintColor: COLOR.DEFALUTCOLOR,
+                inactiveTintColor: COLOR.GRAY_DARK,
                 keyboardHidesTabBar: true,
                 backBehavior: "initialRoute",
-                showLabel: false
+                showLabel: true
             }}
         >
             <Tab.Screen name="Home" component={HomeStackScreen} />
@@ -303,8 +327,14 @@ function TabNavigation() {
                 myCartVisible &&
                 <Tab.Screen name="Book" component={BookHistoryStackScreen} />
             }
-
-            <Tab.Screen name="Package" component={PackageStackScreen} />
+            {
+                myCartVisible &&
+                <Tab.Screen name="Class Schedule" component={ClassStackScreen} />
+            }
+            {
+                myCartVisible === false &&
+                <Tab.Screen name="Package" component={PackageStackScreen} />
+            }
             {/* <Tab.Screen name="Product" component={ProductStackScreen} /> */}
             <Tab.Screen name="Support" component={SupportStackScreen} />
             <Tab.Screen name="Profile" component={ProfileStackScreen} />
