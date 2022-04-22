@@ -7,7 +7,9 @@ import {
     Text,
     ScrollView,
     StatusBar,
-    Platform
+    Platform,
+    TouchableOpacity,
+    Linking
 } from 'react-native';
 import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
@@ -52,6 +54,15 @@ const SupportScreen = (props) => {
         // }
     }
 
+    //GET location
+    const location = () => {
+        const url = Platform.select({
+            ios: `maps:0,0?q=${getBranch && getBranch.property.address}`,
+            android: `geo:0,0?q=${getBranch && getBranch.property.address}`,
+        })
+        Linking.openURL(url);
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar backgroundColor={COLOR.HEADERCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
@@ -76,7 +87,9 @@ const SupportScreen = (props) => {
                     </View>
                 </View>
                 <View style={styles().addressView}>
-                    <Ionicons name='location-sharp' color={getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR} size={24} />
+                    <TouchableOpacity onPress={() => location()}>
+                        <Ionicons name='location-sharp' color={getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR} size={24} />
+                    </TouchableOpacity>
                     <Text style={{ color: getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontSize: FONT.FONT_SIZE_18, fontFamily: FONT.FONT_FAMILY_REGULAR }}>{getBranch && getBranch.property.country}</Text>
                     <Text style={{ color: COLOR.BLACK, fontSize: FONT.FONT_SIZE_16, width: WIDTH / 2, textAlign: KEY.CENTER, fontFamily: FONT.FONT_FAMILY_REGULAR }}>{getBranch && getBranch.property.address}</Text>
                 </View>

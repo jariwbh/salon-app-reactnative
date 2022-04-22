@@ -38,10 +38,12 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>fonts/ITCAvantGardeStdBk.otf</string>
+		<string>fonts/OpenSans-Regular.ttf</string>
+		<string>fonts/OpenSans-Bold.ttf</string>
 		<string>fonts/ITCAvantGardeStdBold.otf</string>
 		<string>fonts/DancingScript-SemiBold.ttf</string>
 		<string>fonts/DancingScript-Regular.ttf</string>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
     View, Text, TextInput, FlatList, StatusBar, StyleSheet, RefreshControl,
-    TouchableOpacity, Image, Dimensions, SafeAreaView, Keyboard, ScrollView, Platform
+    TouchableOpacity, Image, Dimensions, SafeAreaView, Keyboard, ScrollView, Platform,
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -24,6 +24,7 @@ export default class AppointmentScreen extends Component {
         super(props);
         this.getBranch = null;
         this.CategoryID = this.props.route.params.item._id;
+        this.categoryDetails = this.props.route.params.item;
         this.searchserviceList = [];
         this.state = {
             AppointmentService: [],
@@ -116,6 +117,7 @@ export default class AppointmentScreen extends Component {
                             </View>
                         </View>
                     </View>
+                    <Text style={{ fontSize: 22, color: COLOR.WHITE, fontFamily: FONT.FONT_FAMILY_BOLD, textAlign: KEY.CENTER }}>({this.categoryDetails && this.categoryDetails.property && this.categoryDetails.property.name})</Text>
                 </View>
                 <ScrollView
                     refreshControl={<RefreshControl refreshing={refreshing} title="Pull to refresh"
@@ -221,7 +223,7 @@ const styles = (colorcode) => StyleSheet.create({
     headerstyle: {
         backgroundColor: colorcode,
         width: WIDTH,
-        height: 90,
+        height: 100,
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
         marginBottom: 20

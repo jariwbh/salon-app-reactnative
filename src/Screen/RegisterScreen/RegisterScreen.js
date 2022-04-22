@@ -17,7 +17,6 @@ const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 import Toast from 'react-native-simple-toast';
 import { getBranchDetails } from '../../Services/LocalService/LocalService';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
 class RegisterScreen extends Component {
     constructor(props) {
@@ -145,19 +144,21 @@ class RegisterScreen extends Component {
         const { fullnameError, usernameError, mobilenumberError, passwordError, loader, loading } = this.state;
         return (
             <SafeAreaView style={styles().container}>
-                <StatusBar backgroundColor={COLOR.HEADERCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
+                <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
                 <ScrollView
                     Vertical={true}
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps={KEY.ALWAYS}
                 >
                     <ImageBackground source={IMAGE.BACKGROUND_IMAGE}
-                        tintColor={COLOR.HEADERCOLOR}
-                        style={styles().backgroundImage}>
+                        imageStyle={{ tintColor: this.getBranch?.property?.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.HEADERCOLOR }}
+                        tintColor={this.getBranch?.property?.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.HEADERCOLOR}
+                        style={styles(this.getBranch?.property?.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.HEADERCOLOR).backgroundImage}>
                         <TouchableOpacity onPress={() => this.props.navigation.goBack('LoginScreen')}>
                             <AntDesign name='arrowleft' color={COLOR.WHITE} size={24} style={{ marginTop: 35, marginLeft: 20 }} />
                         </TouchableOpacity>
-                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 10 }}>
+                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 0 }}>
+
                             <Image style={styles().imageLogo} resizeMode={KEY.COVER} source={this.getBranch?.property?.mobilelogo ? { uri: this.getBranch?.property?.mobilelogo } : { uri: TYPE.DefaultImage }} />
                         </View>
                     </ImageBackground>
@@ -253,6 +254,7 @@ const styles = (colorcode) => StyleSheet.create({
         marginTop: -20,
         width: WIDTH,
         height: HEIGHT / 3,
+        color: colorcode
     },
     inputview: {
         flexDirection: KEY.ROW,
@@ -324,7 +326,8 @@ const styles = (colorcode) => StyleSheet.create({
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER,
         height: 160,
-        width: 220
+        width: 220,
+        tintColor: COLOR.WHITE
     }
 })
 
