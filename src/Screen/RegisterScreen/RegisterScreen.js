@@ -16,6 +16,7 @@ import * as FONT from '../../styles/typography';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 import Toast from 'react-native-simple-toast';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import { getBranchDetails } from '../../Services/LocalService/LocalService';
 
 class RegisterScreen extends Component {
@@ -144,7 +145,7 @@ class RegisterScreen extends Component {
         const { fullnameError, usernameError, mobilenumberError, passwordError, loader, loading } = this.state;
         return (
             <SafeAreaView style={styles().container}>
-                <StatusBar backgroundColor={this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
+                <StatusBar backgroundColor={this.getBranch?.property?.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.HEADERCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
                 <ScrollView
                     Vertical={true}
                     showsVerticalScrollIndicator={false}
@@ -327,7 +328,7 @@ const styles = (colorcode) => StyleSheet.create({
         alignItems: KEY.CENTER,
         height: 160,
         width: 220,
-        tintColor: COLOR.WHITE
+        //tintColor: COLOR.WHITE
     }
 })
 

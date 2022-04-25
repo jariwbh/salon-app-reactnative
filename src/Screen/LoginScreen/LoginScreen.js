@@ -4,6 +4,7 @@ import {
     Dimensions, TextInput, TouchableOpacity, SafeAreaView, StatusBar, BackHandler, Keyboard, Platform
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-community/async-storage';
 import Loading from '../../Components/Loader/Loading';
 import Loader from '../../Components/Loader/Loader';
@@ -117,7 +118,7 @@ export default class LoginScreen extends Component {
         const { usererror, passworderror, loader, loading } = this.state;
         return (
             <SafeAreaView style={styles().container}>
-                <StatusBar backgroundColor={this.getBranch && this.getBranch.property.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
+                <StatusBar backgroundColor={this.getBranch && this.getBranch.property.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.HEADERCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                     <ImageBackground source={IMAGE.BACKGROUND_IMAGE}
                         imageStyle={{ tintColor: this.getBranch?.property?.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.HEADERCOLOR }}
@@ -269,6 +270,6 @@ const styles = (colorcode) => StyleSheet.create({
         alignItems: KEY.CENTER,
         height: 160,
         width: 220,
-        tintColor: COLOR.WHITE
+        //tintColor: COLOR.WHITE
     }
 })

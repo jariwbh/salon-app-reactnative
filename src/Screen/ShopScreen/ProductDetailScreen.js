@@ -69,7 +69,7 @@ const ProductDetailScreen = (props) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.WHITE }}>
-            <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
+            <StatusBar backgroundColor={COLOR.HEADERCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
             <View style={styles.headerstyle}>
                 <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
                     <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.FLEX_START, alignItems: KEY.CENTER, marginLeft: 20 }}>
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
         alignItems: KEY.CENTER
     },
     headerstyle: {
-        backgroundColor: COLOR.STATUSBARCOLOR,
+        backgroundColor: COLOR.HEADERCOLOR,
         width: WIDTH,
         height: 90,
         borderBottomLeftRadius: 30,

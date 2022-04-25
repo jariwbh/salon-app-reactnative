@@ -16,6 +16,7 @@ import * as FONT from '../../styles/typography';
 import Toast from 'react-native-simple-toast';
 import { getBranchDetails } from '../../Services/LocalService/LocalService';
 import { DefaultImage } from '../../context/actions/type';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default function ForgotPassword(props) {
     const userName = props.route.params.userValue;
@@ -107,7 +108,7 @@ export default function ForgotPassword(props) {
 
     return (
         <SafeAreaView style={styles().container}>
-            <StatusBar backgroundColor={getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
+            <StatusBar backgroundColor={getBranch?.property?.headercolorcode ? getBranch.property.headercolorcode : COLOR.HEADERCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
             <ScrollView Vertical={true} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                 <ImageBackground source={IMAGE.BACKGROUND_IMAGE}
                     imageStyle={{ tintColor: getBranch?.property?.headercolorcode ? getBranch.property.headercolorcode : COLOR.HEADERCOLOR }}
@@ -275,6 +276,6 @@ const styles = (colorcode) => StyleSheet.create({
         alignItems: KEY.CENTER,
         height: 160,
         width: 220,
-        tintColor: COLOR.WHITE
+        //tintColor: COLOR.WHITE
     }
 })

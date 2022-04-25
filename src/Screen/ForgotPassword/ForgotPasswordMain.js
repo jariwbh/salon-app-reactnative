@@ -15,6 +15,7 @@ import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import * as FONT from '../../styles/typography';
 import Toast from 'react-native-simple-toast';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import { getBranchDetails } from '../../Services/LocalService/LocalService';
 
 export default function ForgotPasswordMain(props) {
@@ -74,10 +75,10 @@ export default function ForgotPasswordMain(props) {
                     "username": username
                 }
             }
-
             const CheckUserResponse = await CheckUser(body);
             if (Object.keys(CheckUserResponse.data).length !== 0 && CheckUserResponse.data != null && CheckUserResponse.data != 'undefind' && CheckUserResponse.status == 200) {
                 const verifyOtpNumber = Math.floor(1000 + Math.random() * 9000);
+                console.log(`verifyOtpNumber`, verifyOtpNumber);
                 setverifyOtpNumber(verifyOtpNumber);
                 setUserInfo(CheckUserResponse.data);
                 onPressSubmit(CheckUserResponse.data.property, verifyOtpNumber);
@@ -152,7 +153,7 @@ export default function ForgotPasswordMain(props) {
 
     return (
         <SafeAreaView style={styles().container}>
-            <StatusBar backgroundColor={getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
+            <StatusBar backgroundColor={getBranch?.property?.headercolorcode ? getBranch.property.headercolorcode : COLOR.HEADERCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
             <ScrollView Vertical={true} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                 <ImageBackground source={IMAGE.BACKGROUND_IMAGE}
                     imageStyle={{ tintColor: getBranch?.property?.headercolorcode ? getBranch.property.headercolorcode : COLOR.HEADERCOLOR }}
@@ -289,6 +290,6 @@ const styles = (colorcode) => StyleSheet.create({
         alignItems: KEY.CENTER,
         height: 160,
         width: 220,
-        tintColor: COLOR.WHITE
+        //tintColor: COLOR.WHITE
     }
 })

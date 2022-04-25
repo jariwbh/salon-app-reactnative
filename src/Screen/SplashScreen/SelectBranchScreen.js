@@ -105,7 +105,7 @@ const SelectBranchScreen = (props) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
-            <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
+            <StatusBar backgroundColor={COLOR.HEADERCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
             <View style={styles.headerstyle}>
                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -15 }}>
                     <Image source={{ uri: TYPE.DefaultImage }}
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
         alignItems: KEY.CENTER
     },
     headerstyle: {
-        backgroundColor: COLOR.STATUSBARCOLOR,
+        backgroundColor: COLOR.HEADERCOLOR,
         width: WIDTH,
         height: 100,
         borderBottomLeftRadius: 30,

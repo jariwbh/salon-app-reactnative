@@ -87,12 +87,14 @@ class UpdateProfile extends Component {
         // }
         return this.setState({ mobilenumber: mobilenumber, mobilenumberError: null })
     }
+
     setCountry(country) {
         if (!country || country.length <= 0) {
             return this.setState({ countryError: 'country cannot be empty', country: null });
         }
         return this.setState({ country: country, countryError: null })
     }
+
     setwhatsappnumber(whatsappnumber) {
         if (!whatsappnumber || whatsappnumber.length <= 0) {
             return this.setState({ whatsappnumberError: 'Whatapp Number cannot be empty', whatsappnumber: null });
@@ -112,7 +114,6 @@ class UpdateProfile extends Component {
             this.setFullName(fullname)
             this.setUserName(username)
             this.setMobileNumber(mobilenumber)
-            this.setCountry(country);
             this.setwhatsappnumber(whatsappnumber);
             return;
         }
@@ -120,17 +121,23 @@ class UpdateProfile extends Component {
         this.companyData.property.fullname = fullname;
         this.companyData.property.primaryemail = username;
         this.companyData.property.mobile = mobilenumber;
-        this.companyData.property.whatsappnumber.number = whatsappnumber;
-
+        this.companyData.property.whatsappnumber = {
+            number: whatsappnumber,
+            internationalNumber: whatsappnumber,
+            nationalNumber: '0' + whatsappnumber,
+            e164Number: whatsappnumber,
+            countryCode: "",
+            dialCode: ""
+        };
+        this.companyData.property.country = country;
         const body = {
             _id: _id,
             property: this.companyData.property
-            //, country: country, whatsappnumber: whatsappnumber
         }
-        this.setState({ loading: true })
+        this.setState({ loading: true });
         try {
             await UpdateUserService(body).then(response => {
-                if (response != null) {
+                if (response.data != null && response.data != 'undefind' && response.status == 200) {
                     this.authenticateUser(response.data)
                     Toast.show('Your Profile Update', Toast.SHORT);
                     this.props.navigation.replace('MyProfile');
@@ -146,7 +153,7 @@ class UpdateProfile extends Component {
     async componentDidMount() {
         const getBranch = await getBranchDetails();
         this.getBranch = getBranch;
-        this.wait(1000).then(() => this.setState({ loader: false }));
+        this.setState({ loader: false, country: getBranch.property.country });
         this.getCountryList();
     }
 
@@ -166,7 +173,7 @@ class UpdateProfile extends Component {
             loading, fullnameError, usernameError, mobilenumberError, countryList, countryError, country, whatsappnumber, whatsappnumberError, } = this.state;
         return (
             <SafeAreaView style={styles().container}>
-                <StatusBar backgroundColor={this.getBranch?.property?.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
+                <StatusBar backgroundColor={this.getBranch?.property?.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.HEADERCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
                 <View style={styles(this.getBranch?.property?.headercolorcode ? this.getBranch.property.headercolorcode : COLOR.HEADERCOLOR).headerstyle}>
                     <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 30 }}>
                         <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginLeft: 20 }}>
@@ -259,7 +266,6 @@ class UpdateProfile extends Component {
                                             }}>{'*'}</Text>
                                         </View>
                                         <View style={styles().inputView} >
-
                                             <TextInput
                                                 style={mobilenumberError == null ? styles().TextInput : styles().TextInputError}
                                                 defaultValue={mobilenumber}
@@ -280,13 +286,8 @@ class UpdateProfile extends Component {
                                                 fontSize: 16, marginBottom: 10, textTransform: KEY.CAPITALIZE, marginLeft: 20,
                                                 color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR
                                             }}>Whatsaap Number</Text>
-                                            {/* <Text style={{
-                                                marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR,
-                                                marginTop: 0, marginBottom: 10, fontFamily: FONT.FONT_FAMILY_REGULAR
-                                            }}>{'*'}</Text> */}
                                         </View>
                                         <View style={styles().inputView} >
-
                                             <TextInput
                                                 style={whatsappnumberError == null ? styles().TextInput : styles().TextInputError}
                                                 defaultValue={whatsappnumber}
@@ -301,9 +302,6 @@ class UpdateProfile extends Component {
                                             />
                                         </View>
                                     </View>
-
-
-
                                     {
                                         Platform.OS === 'android' ?
                                             <View style={{ marginLeft: 25, marginRight: 25 }}>
@@ -312,10 +310,6 @@ class UpdateProfile extends Component {
                                                         fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE, marginLeft: 20,
                                                         color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR
                                                     }}>Country</Text>
-                                                    {/* <Text style={{
-                                                        marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR,
-                                                        marginTop: 0, marginBottom: 10, fontFamily: FONT.FONT_FAMILY_REGULAR
-                                                    }}>{'*'}</Text> */}
                                                 </View>
                                                 <TextInput
                                                     style={countryError == null ? styles().inputTextView : styles().inputTextViewError}
@@ -342,10 +336,6 @@ class UpdateProfile extends Component {
                                                         fontSize: 16, marginBottom: 3, textTransform: KEY.CAPITALIZE, marginLeft: 20,
                                                         color: COLOR.BLACK, fontFamily: FONT.FONT_FAMILY_REGULAR
                                                     }}>Country</Text>
-                                                    {/* <Text style={{
-                                                        marginLeft: 5, fontSize: 16, color: COLOR.ERRORCOLOR,
-                                                        marginTop: 0, marginBottom: 10, fontFamily: FONT.FONT_FAMILY_REGULAR
-                                                    }}>{'*'}</Text> */}
                                                 </View>
                                                 <Picker style={{ marginTop: -60, marginRight: 20 }}
                                                     selectedValue={country}
@@ -370,7 +360,7 @@ class UpdateProfile extends Component {
                         </ScrollView>
                     </>}
                 {loader == true ? <Loader /> : null}
-            </SafeAreaView >
+            </SafeAreaView>
         );
     }
 }

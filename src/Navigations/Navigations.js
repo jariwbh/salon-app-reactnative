@@ -91,6 +91,13 @@ function ProfileStackScreen({ navigation }) {
                 headerShown: false
             }}
                 component={UpdateProfileScreen} />
+
+            <ProfileStack.Screen name="AuthStackScreen" options={{
+                title: '',
+                headerShown: false
+            }}
+                component={AuthStackScreen} />
+
         </ProfileStack.Navigator>
     );
 }
@@ -219,7 +226,6 @@ function ClassStackScreen({ navigation }) {
         </ClassScheduleStack.Navigator>
     );
 }
-
 
 const Tab = createBottomTabNavigator();
 function TabNavigation() {
@@ -374,6 +380,38 @@ function AuthStackScreen({ navigation }) {
     );
 }
 
+const AuthStackReg = createStackNavigator();
+function AuthStackScreenReg({ navigation }) {
+    return (
+        <AuthStackReg.Navigator initialRouteName="RegisterScreen" headerMode='none'>
+            <AuthStackReg.Screen name="LoginScreen" options={{
+                title: '',
+                headerShown: false
+            }} component={LoginScreen} />
+
+            <AuthStackReg.Screen name="ForgotPassword" options={{
+                title: '',
+                headerShown: false
+            }} component={ForgotPassword} />
+
+            <AuthStackReg.Screen name="ForgotPasswordMain" options={{
+                title: '',
+                headerShown: false
+            }} component={ForgotPasswordMain} />
+
+            <AuthStackReg.Screen name="ForgotPasswordOTP" options={{
+                title: '',
+                headerShown: false
+            }} component={ForgotPasswordOTP} />
+
+            <AuthStackReg.Screen name="RegisterScreen" options={{
+                title: '',
+                headerShown: false
+            }} component={RegisterScreen} />
+        </AuthStackReg.Navigator>
+    );
+}
+
 const SplashStack = createStackNavigator();
 function SplashStackScreen({ navigation }) {
     return (
@@ -401,7 +439,6 @@ function SplashStackScreen({ navigation }) {
     );
 }
 
-
 const Stack = createStackNavigator();
 export default NavigationsApp = () => {
     return (
@@ -409,6 +446,7 @@ export default NavigationsApp = () => {
             <Stack.Navigator headerMode='none' initialRouteName='splashScreen'>
                 <Stack.Screen name="splashScreen" component={SplashStackScreen} options={{ headerShown: false }} />
                 <Stack.Screen name='AuthStackScreen' component={AuthStackScreen} />
+                <Stack.Screen name='AuthStackScreenReg' component={AuthStackScreenReg} />
                 <Stack.Screen name="TabNavigation" component={TabNavigation} />
             </Stack.Navigator>
         </NavigationContainer>

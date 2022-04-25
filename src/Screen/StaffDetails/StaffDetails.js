@@ -24,7 +24,7 @@ class StaffDetails extends Component {
         const { staffDetails } = this.state
         return (
             <SafeAreaView style={styles.container}>
-                <StatusBar backgroundColor={COLOR.STATUSBARCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
+                <StatusBar backgroundColor={COLOR.HEADERCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
                 <ScrollView showsVerticalScrollIndicator={false} >
                     <View style={{ marginBottom: 50 }} >
                         <View style={{ margin: 10, justifyContent: KEY.CENTER, alignItems: KEY.CENTER }} >

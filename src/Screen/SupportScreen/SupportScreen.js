@@ -66,7 +66,7 @@ const SupportScreen = (props) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar backgroundColor={COLOR.HEADERCOLOR} barStyle={Platform.OS === 'ios' ? KEY.DARK_CONTENT : KEY.LIGHT_CONTENT} />
-            <View style={styles(getBranch?.property?.appcolorcode ? getBranch.property.appcolorcode : COLOR.HEADERCOLOR).headerstyle}>
+            <View style={styles(getBranch?.property?.headercolorcode ? getBranch.property.headercolorcode : COLOR.HEADERCOLOR).headerstyle}>
                 <Image source={{ uri: getBranch?.property?.mobilelogo ? getBranch?.property?.mobilelogo : TYPE.DefaultImage }}
                     style={{ alignItems: KEY.CENTER, height: 90, width: 90, marginLeft: 10, marginTop: 0, borderRadius: 10, resizeMode: KEY.COVER }}
                 />
