@@ -78,7 +78,6 @@ export default function ForgotPasswordMain(props) {
             const CheckUserResponse = await CheckUser(body);
             if (Object.keys(CheckUserResponse.data).length !== 0 && CheckUserResponse.data != null && CheckUserResponse.data != 'undefind' && CheckUserResponse.status == 200) {
                 const verifyOtpNumber = Math.floor(1000 + Math.random() * 9000);
-                console.log(`verifyOtpNumber`, verifyOtpNumber);
                 setverifyOtpNumber(verifyOtpNumber);
                 setUserInfo(CheckUserResponse.data);
                 onPressSubmit(CheckUserResponse.data.property, verifyOtpNumber);
