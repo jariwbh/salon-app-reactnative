@@ -166,10 +166,14 @@ export default class ClassScheduleScreen extends Component {
                         <Text style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).rectangleSubText}>End Time : {(item && item.timeslot && item.timeslot.endtime)}</Text>
                     </View>
                     {
-                        item.bookavailabe &&
-                        <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).book} onPress={() => this.onPressToBookNow(item)} >
-                            <Text style={{ fontSize: 12, color: COLOR.WHITE, marginLeft: 15, marginRight: 15, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Book Now</Text>
-                        </TouchableOpacity>
+                        item.bookavailabe ?
+                            <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).book} onPress={() => this.onPressToBookNow(item)} >
+                                <Text style={{ fontSize: 12, color: COLOR.WHITE, marginLeft: 15, marginRight: 15, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Book Now</Text>
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).book} >
+                                <Text style={{ fontSize: 12, color: COLOR.WHITE, marginLeft: 15, marginRight: 15, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Booked</Text>
+                            </TouchableOpacity>
                     }
                 </View>
             </View>
@@ -321,7 +325,7 @@ const styles = (colorcode) => StyleSheet.create({
         justifyContent: KEY.CENTER,
         //margin: 15,
         marginTop: 20,
-        marginLeft: 20
+        marginLeft: 0 //20
     },
     snackbar: {
         flex: 1,

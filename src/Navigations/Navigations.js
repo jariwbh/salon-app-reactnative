@@ -302,7 +302,7 @@ function TabNavigation() {
                                 color={color}
                             />
                         );
-                    } else if (route.name === 'Class Schedule') {
+                    } else if (route.name === 'Classes') {
                         return (
                             <Entypo
                                 name={focused ? 'spotify' : 'spotify'}
@@ -335,7 +335,7 @@ function TabNavigation() {
             }
             {
                 myCartVisible &&
-                <Tab.Screen name="Class Schedule" component={ClassStackScreen} />
+                <Tab.Screen name="Classes" component={ClassStackScreen} />
             }
             {
                 myCartVisible === false &&
