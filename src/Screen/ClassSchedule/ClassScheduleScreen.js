@@ -3,7 +3,7 @@ import {
     View, Text, ScrollView, StyleSheet, Dimensions, StatusBar,
     TouchableOpacity, Image, SafeAreaView, FlatList, Linking, Platform
 } from 'react-native';
-import { ClassService, GroupclasseService } from '../../Services/ClassService/ClassService';
+import { ClassService, getAllClassService, GroupclasseService } from '../../Services/ClassService/ClassService';
 import { getBranchDetails } from '../../Services/LocalService/LocalService';
 import getCurrency from '../../Services/getCurrencyService/getCurrency';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -26,12 +26,18 @@ export default class ClassScheduleScreen extends Component {
         this.getBranch = null;
         this.currentDate = null;
         this.memberID = null;
+        this.startDate = moment().clone().startOf('month').format('YYYY-MM-DD');
+        this.endDate = moment().clone().endOf('month').format('YYYY-MM-DD');
+        this.today = moment().format('YYYY-MM-DD');
+        this.currentMonth = moment().clone().startOf('month').format('M');
         this.state = {
             classTimeSlots: [],
+            classList: [],
             loading: true,
             currencySymbol: null,
             selectedDay: null,
-            currentDay: null
+            currentDay: null,
+            renderList: {}
         };
         this.onChangeMonth = this.onChangeMonth.bind(this);
         this._unsubscribeSiFocus = this.props.navigation.addListener('focus', (e) => {
@@ -87,6 +93,45 @@ export default class ClassScheduleScreen extends Component {
         this.onPressSelectedDay({ dateString: moment().format('YYYY-MM-DD') });
     }
 
+    //GET ALL MONTH WISE CLASS LIST
+    async getAllClassMonthWise(date) {
+        try {
+            const response = await getAllClassService(date);
+            if (response.data != null && response.data != 'undefind' && response.status === 200) {
+                this.setState({ classList: response.data });
+                await this.renderCalendar();
+            }
+        } catch (error) {
+            console.log(`error`, error);
+        }
+
+    }
+
+    //calculate calender date and post data to calender compoment  
+    async renderCalendar() {
+        let combineArray = [];
+        await this.state.classList.forEach(element => {
+            if (element && element.appointmentdate) {
+                combineArray.push(moment(element.appointmentdate).format('YYYY-MM-DD'))
+                this.dateConversion(moment(element.appointmentdate).format('YYYY-MM-DD'), COLOR.DEFALUTCOLOR)
+            }
+        });
+        this.setState({ loading: false });
+    }
+
+    //date convert to object of list 
+    async dateConversion(date, color) {
+        if (!this.state.renderList[date]) {
+            this.state.renderList[date] = {};
+        }
+        this.state.renderList[date] = {
+            customStyles: {
+                container: { backgroundColor: color },
+                text: { color: COLOR.BLACK }
+            }
+        };
+    }
+
     //GET LOGIN USER LOCAL STORAGE FETCH DATA
     getDefaultUser = async () => {
         try {
@@ -96,6 +141,11 @@ export default class ClassScheduleScreen extends Component {
                 this.memberID = userData._id
                 const responseCurrency = getCurrency(userData.branchid.currency);
                 this.setState({ currencySymbol: responseCurrency });
+                let data = {
+                    id: userData._id,
+                    datRange: { gte: moment(this.startDate).format(), lte: this.endDate }
+                }
+                await this.getAllClassMonthWise(data);
             } else {
                 var getUser = await AsyncStorage.getItem(TYPE.DEFAULTUSER);
                 var userData = JSON.parse(getUser);
@@ -182,12 +232,27 @@ export default class ClassScheduleScreen extends Component {
 
     //CHANGE MONTH TO CALL FUNATION
     async onChangeMonth(val) {
-        if (Number(moment().format('M')) == val.month && Number(moment().format('YYYY')) === val.year) {
-            this.onPressSelectedDay({ dateString: moment(this.currentDate).format('YYYY-MM-DD') });
-        } else {
-            this.onPressSelectedDay({ dateString: moment().format('YYYY-MM-DD') });
+        try {
+            this.currentDate = null;
+            this.setState({ loading: true, classTimeSlots: [] });
+            this.startDate = moment().year(val.year).month(val.month - 1, 'months').startOf('month').format('YYYY-MM-DD');
+            if (this.currentMonth == val.month && moment().format('YYYY') == val.year) {
+                this.endDate = moment().year(val.year).month(val.month - 1, 'months').endOf('month').format('YYYY-MM-DD');
+            }
+            let data = {
+                id: this.memberID,
+                datRange: { gte: this.startDate, lte: moment(this.endDate, "YYYY-MM-DD").add(1, 'days') }
+            }
+            await this.getAllClassMonthWise(data);
+            await this.renderCalendar();
+            if (moment(val.dateString).format('YYYY-MM-DD') === this.today) {
+                this.onPressSelectedDay({ dateString: moment().format('YYYY-MM-DD') });
+            }
+            this.setState({ loading: false });
+        } catch (error) {
+
+            this.setState({ loading: false });
         }
-        this.setState({ loading: false });
     }
 
     render() {
@@ -222,29 +287,40 @@ export default class ClassScheduleScreen extends Component {
                                 todayTextColor: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR,
                             }}
                             style={{ backgroundColor: COLOR.BACKGROUNDCOLOR }}
-                            markedDates={selectedDay}
+                            markedDates={this.state.renderList}
                             onDayPress={(day) => this.onPressSelectedDay(day)}
                             onMonthChange={(month) => this.onChangeMonth(month)}
                             markingType={'custom'}
                             hideExtraDays={true}
                         />
-                        <Text style={{ marginTop: 10, textAlign: KEY.CENTER, fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontFamily: FONT.FONT_FAMILY_BOLD }}>Available Class Schedule on {moment(this.currentDate).format('DD MMMM YYYY')}</Text>
-                        <FlatList
-                            data={classTimeSlots}
-                            showsVerticalScrollIndicator={false}
-                            renderItem={this.renderclassTimeSlots}
-                            keyExtractor={(item) => item.starttime}
-                            contentContainerStyle={{ paddingBottom: 80, alignSelf: KEY.CENTER }}
-                            ListFooterComponent={() => (
-                                classTimeSlots && classTimeSlots.length > 0 ?
-                                    <></>
-                                    :
-                                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                                        <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 30 }} resizeMode={KEY.CONTAIN} />
-                                        <Text style={{ fontSize: 16, color: COLOR.TAUPE_GRAY, marginTop: 10, fontFamily: FONT.FONT_FAMILY_REGULAR }}>No Class Schedule available</Text>
-                                    </View>
-                            )}
-                        />
+                        {(this.state.classList && this.state.classList.length > 0) ?
+                            <View>
+                                {this.currentDate &&
+                                    <Text style={{ marginTop: 10, textAlign: KEY.CENTER, fontSize: 16, color: this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR, fontFamily: FONT.FONT_FAMILY_BOLD }}>Available Class Schedule on {moment(this.currentDate).format('DD MMMM YYYY')}</Text>
+                                }
+                                <FlatList
+                                    data={classTimeSlots}
+                                    showsVerticalScrollIndicator={false}
+                                    renderItem={this.renderclassTimeSlots}
+                                    keyExtractor={(item) => item.starttime}
+                                    contentContainerStyle={{ paddingBottom: 80, alignSelf: KEY.CENTER }}
+                                    ListFooterComponent={() => (
+                                        classTimeSlots && classTimeSlots.length > 0 ?
+                                            <></>
+                                            :
+                                            <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                                                <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 30 }} resizeMode={KEY.CONTAIN} />
+                                                <Text style={{ fontSize: 16, color: COLOR.TAUPE_GRAY, marginTop: 10, fontFamily: FONT.FONT_FAMILY_REGULAR }}>No Class Schedule available</Text>
+                                            </View>
+                                    )}
+                                />
+                            </View>
+                            :
+                            <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                                <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 30 }} resizeMode={KEY.CONTAIN} />
+                                <Text style={{ fontSize: 16, color: COLOR.TAUPE_GRAY, marginTop: 10, fontFamily: FONT.FONT_FAMILY_REGULAR }}>No record found</Text>
+                            </View>
+                        }
                     </View>
                 </ScrollView>
                 {loading ? <Loader /> : null}
