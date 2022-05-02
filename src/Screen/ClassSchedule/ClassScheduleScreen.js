@@ -221,7 +221,7 @@ export default class ClassScheduleScreen extends Component {
                                 <Text style={{ fontSize: 12, color: COLOR.WHITE, marginLeft: 15, marginRight: 15, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Book Now</Text>
                             </TouchableOpacity>
                             :
-                            <TouchableOpacity style={styles(this.getBranch?.property?.appcolorcode ? this.getBranch.property.appcolorcode : COLOR.DEFALUTCOLOR).book} >
+                            <TouchableOpacity style={styles(COLOR.KELY_GREEN).book} >
                                 <Text style={{ fontSize: 12, color: COLOR.WHITE, marginLeft: 15, marginRight: 15, fontFamily: FONT.FONT_FAMILY_REGULAR }}>Booked</Text>
                             </TouchableOpacity>
                     }
