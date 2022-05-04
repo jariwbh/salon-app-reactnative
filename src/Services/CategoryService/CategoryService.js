@@ -9,8 +9,18 @@ const CategoryService = (id) => {
             "criteria": "eq",
             "datatype": "ObjectId"
         },
-        // { "searchfield": "branchid", "searchvalue": id, "criteria": "eq", "datatype": "ObjectId" },
-        { "searchfield": "status", "searchvalue": "active", "criteria": "eq", "datatype": "text" }
+        {
+            "searchfield": "_id",
+            "searchvalue": "6272627a0db07055ec1cfe1a",
+            "criteria": "ne",
+            "datatype": "ObjectId"
+        },
+        {
+            "searchfield": "status",
+            "searchvalue": "active",
+            "criteria": "eq",
+            "datatype": "text"
+        }
         ], "formname": "treatment"
     }
     return Axios.post('formdatas/filter', body)
@@ -24,6 +34,12 @@ const AppointmentListService = (id) => {
             "searchvalue": "active",
             "criteria": "eq",
             "datatype": "text"
+        },
+        {
+            "searchfield": "category",
+            "searchvalue": "6272627a0db07055ec1cfe1a",
+            "criteria": "ne",
+            "datatype": "ObjectId"
         },
             // { "searchfield": "branchid", "searchvalue": id, "criteria": "eq", "datatype": "ObjectId" }
         ], "size": 5

@@ -1,0 +1,4 @@
+#Wed May 04 18:23:22 IST 2022
+base.0=D\:\\Harshad\\salon-app-reactnative\\android\\app\\build\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
